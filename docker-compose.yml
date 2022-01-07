@@ -1,0 +1,31 @@
+version: "3"
+services:
+  db:
+    container_name: "tipxmr-db"
+    hostname: postgres
+    image: postgres:latest
+    command: postgres -c stats_temp_directory=/tmp
+    restart: unless-stopped
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=tipxmr
+      - POSTGRES_USER=tipxmr
+      - POSTGRES_PASSWORD=tipxmr
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: "tipxmr-pgadmin"
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    ports:
+      - 5555:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tipxmr.live
+      PGADMIN_DEFAULT_PASSWORD: tipxmr
+    restart: unless-stopped
+    logging:
+      driver: none

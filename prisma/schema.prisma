@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  streamer                   String    @id @db.VarChar(12)
+  createdAt                  DateTime  @default(now()) @db.Timestamp(6)
+  isOnline                   Boolean   @db.Boolean @default(false)
+  status                     Statuses?
+  streamer_accountTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Animation {
+  id                           Int       @id @default(autoincrement())
+  streamer                     String?   @db.VarChar(12)
+  size                         Int?
+  color                        String?   @db.VarChar(10)
+  streamer_animationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Category {
+  id                          Int         @id @default(autoincrement())
+  streamer                    String?     @db.VarChar(12)
+  name                        Categories?
+  streamer_categoryTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stream                      Stream[]
+}
+
+model Donation {
+  id                          Int       @id @default(autoincrement())
+  streamer                    String?   @db.VarChar(12)
+  amount                      Float
+  message                     String?   @db.VarChar(256)
+  display_time_seconds        Int?
+  subaddress                  String?   @db.VarChar(95)
+  confirmations               Int?
+  giphy_url                   String?   @db.VarChar(100)
+  donor                       String?   @db.VarChar(24)
+  timestamp                   DateTime? @db.Timestamp(6)
+  streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Donation_settings {
+  streamer                             String   @id @db.VarChar(12)
+  second_price                         Int?
+  char_price                           Float?
+  char_limit                           Int?
+  min_amount                           Int?
+  gifs_min_amount                      Float?
+  goal                                 Float?
+  goal_progress                        Float?   @db.Real
+  goal_reached                         Boolean?
+  streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Invoice {
+  id                         Int            @id @default(autoincrement())
+  streamer                   String?        @db.VarChar(12)
+  start_date                 DateTime?      @db.Timestamp(6)
+  end_date                   DateTime?      @db.Timestamp(6)
+  plan_type                  Plan_types?
+  paid_status                Paid_statuses?
+  subaddress                 String?        @db.VarChar(95)
+  streamer_invoiceTostreamer Streamer?      @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Stream {
+  streamer                  String     @id @db.VarChar(12)
+  url                       String?    @db.VarChar(100)
+  platform                  Platforms?
+  language                  Languages?
+  category                  Int?
+  category_categoryTostream Category?  @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_streamTostreamer Streamer   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Streamer {
+  id                String             @id @db.VarChar(12)
+  name              String             @unique @db.VarChar(20)
+  alias             String             @unique @db.VarChar(24)
+  socket            String?            @unique @db.VarChar(20)
+  account           Account?
+  animation         Animation[]
+  category          Category[]
+  donation          Donation[]
+  donation_settings Donation_settings?
+  invoice           Invoice[]
+  stream            Stream?
+  wallet            Wallet?
+}
+
+model Wallet {
+  streamer                  String   @id @db.VarChar(12)
+  restore_height            Int?
+  last_sync_height          Int?
+  streamer_streamerTowallet Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum Categories {
+  Gaming
+  Learning
+  Talk
+  Erotics
+}
+
+enum Languages {
+  English
+  German
+  French
+  Italian
+}
+
+enum Paid_statuses {
+  paid
+  unpaid
+  canceled
+}
+
+enum Plan_types {
+  basic
+  premium
+}
+
+enum Platforms {
+  YouTube
+  Twitch
+  Chaturbate
+  Selfhosted
+}
+
+enum Statuses {
+  active
+  closed
+}
