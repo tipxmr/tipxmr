@@ -7,7 +7,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "type": "module",
   "prisma": {
     "seed": "node --loader ts-node/esm --experimental-specifier-resolution=node prisma/seed.ts"
   },
