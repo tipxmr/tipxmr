@@ -26,7 +26,7 @@ const streamerGetHandler = (req: NextApiRequest, res: NextApiResponse) => {
   prisma?.streamer
     .findUnique({
       where: {
-        id,
+        id: String(id),
       },
     })
     .then((streamers) => {
