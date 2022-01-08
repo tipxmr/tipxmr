@@ -1,6 +1,5 @@
 import { testStreamers, testAccounts } from "../src/data/intialTables";
-import pkg from "@prisma/client";
-const { PrismaClient } = pkg;
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
