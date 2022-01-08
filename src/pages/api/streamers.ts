@@ -11,7 +11,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   } else if (req.method === "PUT") {
     streamerPutHandler(req, res);
   } else {
-    res.status(404).end();
+    res.status(405).end(`Method ${req.method} Not Allowed`)
   }
 }
 
