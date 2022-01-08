@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Streamer } from "../data/types";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:3001/api/streamer");
+  const res = await fetch("http://localhost:3000/api/streamer");
   const streamers: Streamer[] = await res.json();
   return { props: {streamers} };
 };
