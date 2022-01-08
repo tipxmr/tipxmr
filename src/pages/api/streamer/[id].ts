@@ -1,24 +1,40 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../lib/prisma";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "GET") {
-    streamerGetHandler(req, res);
-  } else if (req.method === "POST") {
-    streamerPostHandler(req, res);
-  } else if (req.method === "DELETE") {
-    streamerDeleteHandler(req, res);
-  } else if (req.method === "PUT") {
-    streamerPutHandler(req, res);
-  } else {
-    res.status(404).end();
+  switch (req.method) {
+    case "GET":
+      streamerGetHandler(req, res);
+      break;
+    case "POST":
+      streamerPostHandler(req, res);
+      break;
+    case "PUT":
+      streamerPutHandler(req, res);
+      break;
+    case "DELETE":
+      streamerDeleteHandler(req, res);
+      break;
+    default:
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
 
 const streamerGetHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  prisma?.streamer.findMany({}).then((streamers) => {
-    res.status(200).json(streamers);
-  });
+  const { id } = req.query;
+  prisma?.streamer
+    .findUnique({
+      where: {
+        id: String(id),
+      },
+    })
+    .then((streamers) => {
+      res.status(200).json(streamers);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
 };
 
 const streamerPostHandler = (req: NextApiRequest, res: NextApiResponse) => {

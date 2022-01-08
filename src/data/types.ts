@@ -12,6 +12,12 @@ export type Account = {
   status: "active" | "inactive";
 }
 
+export type Wallet = {
+  streamer: string;
+  restoreHeight: number;
+  lastSyncHeight: number;
+}
+
 /* export type Streamer = {
   _id: string;
   animationSettings: {

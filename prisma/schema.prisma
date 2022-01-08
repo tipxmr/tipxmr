@@ -10,7 +10,7 @@ datasource db {
 model Account {
   streamer                   String    @id @db.VarChar(12)
   createdAt                  DateTime  @default(now()) @db.Timestamp(6)
-  isOnline                   Boolean   @db.Boolean @default(false)
+  isOnline                   Boolean   @default(false) @db.Boolean
   status                     Statuses?
   streamer_accountTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -36,10 +36,10 @@ model Donation {
   streamer                    String?   @db.VarChar(12)
   amount                      Float
   message                     String?   @db.VarChar(256)
-  display_time_seconds        Int?
+  displayTimeSeconds          Int?
   subaddress                  String?   @db.VarChar(95)
   confirmations               Int?
-  giphy_url                   String?   @db.VarChar(100)
+  giphyUrl                    String?   @db.VarChar(100)
   donor                       String?   @db.VarChar(24)
   timestamp                   DateTime? @db.Timestamp(6)
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -47,24 +47,24 @@ model Donation {
 
 model Donation_settings {
   streamer                             String   @id @db.VarChar(12)
-  second_price                         Int?
-  char_price                           Float?
-  char_limit                           Int?
-  min_amount                           Int?
-  gifs_min_amount                      Float?
+  secondPrice                          Int?
+  charPrice                            Float?
+  charLimit                            Int?
+  minAmount                            Int?
+  gifsMinAmount                        Float?
   goal                                 Float?
-  goal_progress                        Float?   @db.Real
-  goal_reached                         Boolean?
+  goalProgress                         Float?   @db.Real
+  goalReached                          Boolean?
   streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Invoice {
   id                         Int            @id @default(autoincrement())
   streamer                   String?        @db.VarChar(12)
-  start_date                 DateTime?      @db.Timestamp(6)
-  end_date                   DateTime?      @db.Timestamp(6)
-  plan_type                  Plan_types?
-  paid_status                Paid_statuses?
+  startDate                  DateTime?      @db.Timestamp(6)
+  endDate                    DateTime?      @db.Timestamp(6)
+  planType                   Plan_types?
+  paidStatus                 Paid_statuses?
   subaddress                 String?        @db.VarChar(95)
   streamer_invoiceTostreamer Streamer?      @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -80,24 +80,24 @@ model Stream {
 }
 
 model Streamer {
-  id                String             @id @db.VarChar(12)
-  name              String             @unique @db.VarChar(20)
-  alias             String             @unique @db.VarChar(24)
-  socket            String?            @unique @db.VarChar(20)
-  account           Account?
-  animation         Animation[]
-  category          Category[]
-  donation          Donation[]
-  donation_settings Donation_settings?
-  invoice           Invoice[]
-  stream            Stream?
-  wallet            Wallet?
+  id               String             @id @db.VarChar(12)
+  name             String             @unique @db.VarChar(20)
+  alias            String             @unique @db.VarChar(24)
+  socket           String?            @unique @db.VarChar(20)
+  account          Account?
+  animation        Animation[]
+  category         Category[]
+  donation         Donation[]
+  donationSettings Donation_settings?
+  invoice          Invoice[]
+  stream           Stream?
+  wallet           Wallet?
 }
 
 model Wallet {
   streamer                  String   @id @db.VarChar(12)
-  restore_height            Int?
-  last_sync_height          Int?
+  restoreHeight             Int?
+  lastSyncHeight            Int?
   streamer_streamerTowallet Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
