@@ -1,16 +1,24 @@
-import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import Head from "next/head";
 import { Streamer } from "../data/types";
+import prisma from "../lib/prisma";
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:3000/api/streamer");
-  const streamers: Streamer[] = await res.json();
-  return { props: {streamers} };
+type Props = {
+  streamers: Streamer[];
 };
 
-const Home: NextPage = ({
-  streamers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const streamers = await prisma.streamer.findMany({});
+  return { props: { streamers } };
+};
+
+type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const Home: NextPage<ServerSideProps> = ({ streamers }) => {
   return (
     <div>
       <Head>
@@ -20,7 +28,7 @@ const Home: NextPage = ({
       </Head>
       <main>
         <ul>
-          {streamers.map((streamer: Streamer) => (
+          {streamers.map((streamer) => (
             <li key={streamer.id}>{streamer.name}</li>
           ))}
         </ul>
