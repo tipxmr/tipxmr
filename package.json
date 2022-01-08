@@ -17,6 +17,11 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@emotion/cache": "^11.7.1",
+    "@emotion/react": "^11.7.1",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.7",
     "@prisma/client": "^3.7.0",
     "monero-javascript": "^0.5.11",

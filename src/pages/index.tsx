@@ -1,3 +1,8 @@
+import Container from "@mui/material/Container";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -20,20 +25,20 @@ type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<ServerSideProps> = ({ streamers }) => {
   return (
-    <div>
+    <Container>
       <Head>
         <title>TipXMR</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <ul>
-          {streamers.map((streamer) => (
-            <li key={streamer.id}>{streamer.name}</li>
-          ))}
-        </ul>
-      </main>
-    </div>
+      <List>
+        {streamers.map((streamer) => (
+          <ListItem key={streamer.id} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={streamer.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Container>
   );
 };
 
