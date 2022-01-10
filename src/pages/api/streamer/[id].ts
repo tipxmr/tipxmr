@@ -1,7 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import {
+  createStreamer,
+  getStreamer,
+  removeStreamer,
+  updateStreamer,
+} from "../../../lib/streamers";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
       streamerGetHandler(req, res);
@@ -19,67 +24,48 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}
+};
 
-const streamerGetHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const streamerGetHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   const { id } = req.query;
-  prisma?.streamer
-    .findUnique({
-      where: {
-        id: String(id),
-      },
-    })
-    .then((streamers) => {
-      res.status(200).json(streamers);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+  const result = await getStreamer(String(id));
+
+  res.json(result);
 };
 
-const streamerPostHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  const { id, name, alias, socket } = req.body;
-  prisma?.streamer
-    .create({
-      data: {
-        id,
-        name,
-        alias,
-        socket: socket || "",
-      },
-    })
-    .then((streamer) => {
-      res.status(200).json(streamer);
-    });
+const streamerPostHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const { id } = req.query;
+  const { name, alias, socket } = req.body;
+  const result = await createStreamer(String(id), { name, alias, socket });
+
+  res.json(result);
 };
 
-const streamerDeleteHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.body;
-  prisma?.streamer
-    .delete({
-      where: {
-        id,
-      },
-    })
-    .then((streamer) => {
-      res.status(200).json(streamer);
-    });
+const streamerDeleteHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const { id } = req.query;
+  const result = await removeStreamer(String(id));
+
+  res.json(result);
 };
 
-const streamerPutHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  const { id, name, alias, socket } = req.body;
-  prisma?.streamer
-    .update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        alias,
-        socket: socket || "",
-      },
-    })
-    .then((streamer) => {
-      res.status(200).json(streamer);
-    });
+const streamerPutHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const { id } = req.query;
+  const { name, alias, socket } = req.body;
+  const result = await updateStreamer(String(id), { name, alias, socket });
+
+  res.json(result);
 };
+
+export default handler;
