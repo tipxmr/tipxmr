@@ -11,7 +11,7 @@ import type {
 import Head from "next/head";
 import useSWR from "swr";
 import { Streamer } from "../data/types";
-import {getStreamers} from "../lib/streamers";
+import { getStreamers } from "../lib/streamers";
 
 type Props = {
   streamers: Streamer[];
@@ -24,7 +24,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const fetcher = (...args: unknown[]) => fetch(...args).then(res => res.json())
+const fetcher = (...args: unknown[]) =>
+  fetch(...args).then((res) => res.json());
 
 const Home: NextPage<ServerSideProps> = ({ streamers }) => {
   const { data, error } = useSWR("/api/streamers", fetcher);
@@ -37,6 +38,7 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
       <Head>
         <title>TipXMR</title>
       </Head>
+
       <List>
         {streamers.map((streamer) => (
           <ListItem key={streamer.id} disablePadding>
