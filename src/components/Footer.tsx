@@ -1,10 +1,11 @@
 import useSWR from "swr";
 import StarIcon from "@mui/icons-material/Star";
+import { Box } from "@mui/material";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 interface IFooter {
-  backgroundColor: string;
+  backgroundColor?: string;
 }
 
 const Footer = ({ backgroundColor }: IFooter) => {
@@ -12,15 +13,15 @@ const Footer = ({ backgroundColor }: IFooter) => {
     "https://api.github.com/repos/tipxmr/tipxmr",
     fetcher
   );
-  if (error) return "An error has occurred.";
-  if (!data) return "Loading...";
+  if (error) return <div>An error has occurred.</div>;
+  if (!data) return <div>Loading...</div>;
   return (
-    <div>
+    <Box sx={{backgroundColor, flex: '1', overflow: 'auto'}}>
       <span>
-        <StarIcon></StarIcon>
+        <StarIcon />
         {data.stargazers_count}
       </span>
-    </div>
+    </Box>
   );
 };
 
