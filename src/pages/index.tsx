@@ -1,8 +1,5 @@
+import { Grid, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -12,6 +9,7 @@ import Head from "next/head";
 import useSWR from "swr";
 import { Streamer } from "../data/types";
 import { getStreamers } from "../lib/streamers";
+import HorizontalCenter from "~/components/helper/HorizontalCenter"
 
 type Props = {
   streamers: Streamer[];
@@ -35,21 +33,35 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
 
   return (
     <Container>
-      <Head>
-        <title>TipXMR</title>
-      </Head>
+      <Head><title>TipXMR</title></Head>
+      <Grid container alignItems="center">
+        <Grid item xs={6}>
+          {/* <img src={landingIcon} alt="Logo" /> */}
+          <HorizontalCenter>
+            <img src="https://via.placeholder.com/150" alt="Landing" />
+          </HorizontalCenter>
+        </Grid>
+        <Grid item xs={6} sx={{ margin: "auto" }}>
+          <Typography variant="h1" align="center">
+            Monero Donations in your livestream
+          </Typography>
+        </Grid>
+        <Grid item>
 
-      <List>
-        {streamers.map((streamer) => (
-          <ListItem key={streamer.id} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={streamer.name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+          {/* Example for using data from swr */}
+          <List>
+            {streamers.map((streamer) => (
+              <ListItem key={streamer.id} disablePadding>
+                <ListItemButton>
+                  <ListItemText primary={streamer.name} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
+      </Grid>
     </Container>
-  );
+  )
 };
 
 export default Home;
