@@ -1,18 +1,12 @@
-import { Button } from "@mui/material";
+import { Card } from "@mui/material";
 
-interface IIsOnlineBadge {
-    isOnline: boolean;
+const InfoCard = ({ title, btnText, infos, children }: any) => {
+
+    return (
+        <Card>
+            {children}
+        </Card>
+    );
 }
 
-const IsOnlineBadge = ({ isOnline }: IIsOnlineBadge) => {
-    return (
-        <Button
-            variant={isOnline ? "contained" : "outlined"}
-            color={isOnline ? "success" : "error"}
-        >
-            {isOnline ? "online" : "offline"}
-        </Button>
-    );
-};
-
-export default IsOnlineBadge;
+export default InfoCard
