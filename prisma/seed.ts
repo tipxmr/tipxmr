@@ -1,4 +1,4 @@
-import { testStreamers, testAccounts } from "../src/data/intialTables";
+import { testStreamers } from "../src/data/intialTables";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -19,19 +19,6 @@ async function seedStreamers() {
         name: streamer.name,
         alias: streamer.alias,
         socket: streamer.socket || null,
-      },
-    });
-  });
-  return Promise.all(promises);
-}
-
-async function seedAccounts() {
-  const promises = testAccounts.map(async (account) => {
-    return prisma.account.upsert({
-      where: { streamer: truncateHashedSeed(account.streamer) },
-      update: {},
-      create: {
-        streamer: truncateHashedSeed(account.streamer),
         isOnline: false,
         createdAt: new Date(),
         status: "active",
@@ -43,7 +30,6 @@ async function seedAccounts() {
 
 const seed = async () => {
   await seedStreamers();
-  await seedAccounts();
 };
 
 // Main function

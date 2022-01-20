@@ -1,4 +1,4 @@
-import { Streamer, Account } from "./types";
+import { Streamer } from "./types";
 
 // Streamer Table
 
@@ -6,49 +6,34 @@ const alexStreamer: Streamer = {
   id: "f4d63073a23a9bdf441dc2d2a0d00643a766a37d9ce549739a95536876bdffa2",
   alias: "AlexAnarcho",
   name: "alexanarcho",
-  socket: null
+  socket: null,
+  createdAt: new Date(),
+  isOnline: false,
+  status: "active"
 };
 
 const grischaStreamer: Streamer = {
   id: "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399",
   alias: "hundehausen",
   name: "hundehausen",
-  socket: null
+  socket: null,
+  createdAt: new Date(),
+  isOnline: false,
+  status: "active"
 };
 
 const pronasStreamer: Streamer = {
   id: "",
   alias: "Pronas",
   name: "pronas",
-  socket: null
+  socket: null,
+  createdAt: new Date(),
+  isOnline: false,
+  status: "active"
 };
 
 export const testStreamers = [alexStreamer, grischaStreamer, pronasStreamer];
 
-// Account Table
-
-const  alexAccount: Account = {
-  streamer: alexStreamer.id,
-  createdAt: new Date(),
-  isOnline: false,
-  status: "active"
-}
-
-const  grischaAccount: Account = {
-  streamer: grischaStreamer.id,
-  createdAt: new Date(),
-  isOnline: false,
-  status: "active"
-}
-
-const  pronasAccount: Account = {
-  streamer: pronasStreamer.id,
-  createdAt: new Date(),
-  isOnline: false,
-  status: "active"
-}
-
-export const testAccounts = [alexAccount, grischaAccount, pronasAccount];
 
 /* const alex: Streamer = {
   id: "f4d63073a23a9bdf441dc2d2a0d00643a766a37d9ce549739a95536876bdffa2",
