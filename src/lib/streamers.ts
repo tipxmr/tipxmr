@@ -1,5 +1,5 @@
+import { Streamer } from "@prisma/client";
 import prisma from "./prisma";
-import { Streamer } from "../data/types";
 
 export const getStreamers = () => prisma.streamer.findMany({});
 

@@ -123,7 +123,8 @@ model Streamer {
   name             String             @unique @db.VarChar(20)
   alias            String             @unique @db.VarChar(24)
   socket           String?            @unique @db.VarChar(20)
-  createdAt        DateTime           @default(now()) @db.Timestamp(6)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now()) @updatedAt
   isOnline         Boolean            @default(false) @db.Boolean
   status           Statuses?
   animation        Animation[]

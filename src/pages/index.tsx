@@ -3,6 +3,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { Streamer } from "@prisma/client";
 import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -10,16 +11,23 @@ import type {
 } from "next";
 import Head from "next/head";
 import useSWR from "swr";
-import { Streamer } from "../data/types";
 import { getStreamers } from "../lib/streamers";
 
 type Props = {
-  streamers: Streamer[];
+  streamers: Partial<Streamer>[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const streamers = await getStreamers();
-  return { props: { streamers } };
+  const serialized = streamers.map(({createdAt, updatedAt, ...streamer}) => {
+    return {
+      ...streamer,
+      createdAt: createdAt.toJSON(),
+      updatedAt: updatedAt.toJSON()
+    }
+  })
+
+  return { props: { streamers: serialized } };
 };
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
