@@ -47,14 +47,13 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
   console.log({ streamers });
 
   return (
-    <Container disableGutters maxWidth={false}>
+    <Box sx={{display: 'flex', flexDirection:'column', minHeight: '100vh'}}>
       <Head>
         <title>TipXMR</title>
       </Head>
-      <Box sx={{height: '100vh', display: 'flex', flexDirection: 'column'}}>
-        <Grid container alignItems="center">
+      <Box>
+        <Grid container justifyContent="center" alignItems="center" spacing={4}>
           <Grid item xs={6}>
-            {/* <img src={landingIcon} alt="Logo" /> */}
             <HorizontalCenter>
               <img src="https://via.placeholder.com/150" alt="Landing" />
             </HorizontalCenter>
@@ -66,23 +65,23 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
             </Typography>
           </Grid>
 
-          <Grid item>
+          <Grid item xs={6}>
             {/* Example for using data from swr */}
             <List>
               {streamers.map((streamer) => (
-                <ListItem key={streamer.id} disablePadding>
+                <ListItem key={streamer.id} alignItems="center">
                   <StreamerCard streamer={streamer}>Test</StreamerCard>
                 </ListItem>
               ))}
             </List>
           </Grid>
 
-          <Grid item>
+          <Grid item xs={3}>
             <InfoCard>Online</InfoCard>
-            <IsOnlineBadge isOnline>Online</IsOnlineBadge>
+            <IsOnlineBadge isOnline />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={3}>
             <LanguageSelector
               language={language}
               handleChange={setLanguage}
@@ -90,8 +89,7 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
           </Grid>
         </Grid>
       </Box>
-      <Footer backgroundColor="red"></Footer>
-    </Container>
+    </Box>
   );
 };
 

@@ -16,7 +16,7 @@ const Footer = ({ backgroundColor }: IFooter) => {
   if (error) return <div>An error has occurred.</div>;
   if (!data) return <div>Loading...</div>;
   return (
-    <Box sx={{backgroundColor, flex: '1', overflow: 'auto'}}>
+    <Box sx={{ backgroundColor, flex: '1', overflow: 'auto' }}>
       <span>
         <StarIcon />
         {data.stargazers_count}
