@@ -1,22 +1,52 @@
-import { Card, CardContent, CardHeader, Typography, Avatar } from "@mui/material"
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Chip,
+  Typography,
+} from "@mui/material";
+import { Streamer } from "@prisma/client";
 
-function StreamerCard({ streamer }: any) {
+function StreamerCard({ streamer }: { streamer: Streamer }) {
+  const { alias, name, status, isOnline } = streamer;
 
-    const { name, avatar } = streamer
+  return (
+    <Card>
+      <CardHeader
+        title={
+          <Typography sx={{ fontSize: 14 }} color="text.secondary">
+            {alias}
+          </Typography>
+        }
+        action={
+          isOnline || Math.random() > 0.5 ? (
+            <Chip label="Online" color="success" />
+          ) : (
+            <Chip label="Offline" color="error" />
+          )
+        }
+      />
+      <CardMedia
+        component="img"
+        image="https://via.placeholder.com/350x200"
+      />
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {name}
+        </Typography>
 
-    return (
-        <Card>
-            <CardHeader title={name}>
-                <Avatar>AA</Avatar>
-            </CardHeader>
-            <CardContent>
-                {/* <Typography variant='h2' align="center">
-                    {name}
-                </Typography>
- */}
-            </CardContent>
-        </Card>
-    )
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {status ?? "I ❤️ TipXMR"}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">watch now</Button>
+      </CardActions>
+    </Card>
+  );
 }
 
-export default StreamerCard
+export default StreamerCard;
