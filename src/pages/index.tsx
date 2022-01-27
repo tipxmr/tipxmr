@@ -1,9 +1,5 @@
 import {
   Grid,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Typography,
   Box,
 } from "@mui/material";
@@ -23,7 +19,6 @@ import IsOnlineBadge from "~/components/IsOnlineBadge";
 import LanguageSelector from "~/components/LanguageSelector";
 import StreamerCard from "~/components/StreamerCard";
 import { useState } from "react";
-import Footer from "~/components/Footer";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 

@@ -1,17 +1,16 @@
+import React from "react";
+import { Box, Typography, Container, Link } from "@mui/material";
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Provider } from "react-redux";
 import { SessionProvider } from "next-auth/react";
-
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import createEmotionCache from "../styles/createEmotionCache";
+
 import theme from "../styles/theme";
 import store from "../store";
-
-import * as React from "react";
-import { Box, Typography, Container, Link } from "@mui/material";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -24,8 +23,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        TipXMR
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
