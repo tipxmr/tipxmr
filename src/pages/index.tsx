@@ -25,8 +25,18 @@ import StreamerCard from "~/components/StreamerCard";
 import { useState } from "react";
 import Footer from "~/components/Footer";
 
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+type SerializedStreamer = Modify<
+  Streamer,
+  {
+    createdAt: string;
+    updatedAt: string;
+  }
+>;
+
 type Props = {
-  streamers: Streamer[];
+  streamers: SerializedStreamer[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
@@ -44,12 +54,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const fetcher = (...args: unknown[]) =>
-  fetch(...args).then((res) => res.json());
+async function fetchJson<T = any>(
+  input: RequestInfo,
+  init?: RequestInit
+): Promise<T> {
+  const response = await fetch(input, init);
+  return response.json();
+}
 
 const Home: NextPage<ServerSideProps> = ({ streamers }) => {
-  const { data, error } = useSWR("/api/streamers", fetcher);
-  const [language, setLanguage] = useState("English");
+  const { data, error } = useSWR<Streamer[]>("/api/streamers", fetchJson);
+  const [language, setLanguage] = useState("English")
 
   console.log({ data });
   console.log({ streamers });
