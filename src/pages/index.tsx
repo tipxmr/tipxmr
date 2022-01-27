@@ -1,5 +1,7 @@
 import { Grid, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
+
+import { Streamer } from "@prisma/client";
 import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -7,7 +9,6 @@ import type {
 } from "next";
 import Head from "next/head";
 import useSWR from "swr";
-import { Streamer } from "../data/types";
 import { getStreamers } from "../lib/streamers";
 import HorizontalCenter from "~/components/helper/HorizontalCenter"
 import InfoCard from "~/components/InfoCard"

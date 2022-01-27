@@ -1,6 +1,6 @@
+import { Wallet } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
-import { Wallet } from "../../data/types";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
@@ -12,13 +12,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-const walletGetHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const walletGetHandler = (req: NextApiRequest, res: NextApiResponse<Wallet | null>) => {
   const { id } = req.query;
   if (id) {
-    prisma?.wallet
+    prisma.wallet
       .findUnique({
         where: {
-          streamer: id.slice(0, 11),
+          streamer: String(id).slice(0, 11),
         },
       })
       .then((wallet) => {
@@ -30,7 +30,7 @@ const walletGetHandler = (req: NextApiRequest, res: NextApiResponse) => {
 const walletPutHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const { wallet } = req.body;
   if (wallet) {
-    prisma?.wallet
+    prisma.wallet
       .update({
         where: {
           streamer: wallet.id,
