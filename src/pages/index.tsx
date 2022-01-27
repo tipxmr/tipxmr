@@ -5,7 +5,7 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
-  Box
+  Box,
 } from "@mui/material";
 import Container from "@mui/material/Container";
 import type {
@@ -31,7 +31,15 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const streamers = await getStreamers();
-  return { props: { streamers } };
+  const serialized = streamers.map(({ createdAt, updatedAt, ...streamer }) => {
+    return {
+      ...streamer,
+      createdAt: createdAt.toJSON(),
+      updatedAt: updatedAt.toJSON(),
+    };
+  });
+
+  return { props: { streamers: serialized } };
 };
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
@@ -47,12 +55,13 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
   console.log({ streamers });
 
   return (
-    <Box sx={{display: 'flex', flexDirection:'column', minHeight: '100vh'}}>
+    <>
       <Head>
         <title>TipXMR</title>
       </Head>
-      <Box>
-        <Grid container justifyContent="center" alignItems="center" spacing={4}>
+
+      <Container sx={{ py: 8 }}>
+        <Grid container spacing={4}>
           <Grid item xs={6}>
             <HorizontalCenter>
               <img src="https://via.placeholder.com/150" alt="Landing" />
@@ -63,17 +72,6 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
             <Typography variant="h1" align="center">
               Monero Donations in your livestream
             </Typography>
-          </Grid>
-
-          <Grid item xs={6}>
-            {/* Example for using data from swr */}
-            <List>
-              {streamers.map((streamer) => (
-                <ListItem key={streamer.id} alignItems="center">
-                  <StreamerCard streamer={streamer}>Test</StreamerCard>
-                </ListItem>
-              ))}
-            </List>
           </Grid>
 
           <Grid item xs={3}>
@@ -88,8 +86,20 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
             ></LanguageSelector>
           </Grid>
         </Grid>
-      </Box>
-    </Box>
+
+        <Box sx={{
+          mt: 8
+        }} />
+
+        <Grid container spacing={4}>
+          {streamers.map((streamer) => (
+            <Grid item key={streamer.id} xs={12} sm={6} md={4}>
+              <StreamerCard streamer={streamer} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </>
   );
 };
 
