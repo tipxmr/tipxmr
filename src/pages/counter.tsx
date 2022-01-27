@@ -9,8 +9,8 @@ import {
   incrementByAmount,
   incrementIfOdd,
   selectCount,
-} from "../features/counter";
-import { AppDispatch } from "../store";
+} from "~/features/counter";
+import { AppDispatch } from "~/store";
 
 const Counter: NextPage = () => {
   const [amount, setAmount] = useState(1);

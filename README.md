@@ -1,5 +1,16 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+1. npm install
+2. npx prisma generate
+3. npm run migrate -- dev
+4. npm run seed
+5. npm run dev
+
+### Redux
+
+UseSelector to get stuff (read)
+UseDispatch for actions (update)
+
 ## Getting Started
 
 First, run the development server:
