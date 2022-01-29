@@ -25,6 +25,7 @@ ForStreamer.args = {
 
 export const ForViewer = Template.bind({});
 ForViewer.args = {
+    title: "For Streamers",
     chipText: "Blog",
     chipRef: "https://duckduckgo.com",
     linkText: "Sign me up, Jimmy",
