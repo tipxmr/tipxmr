@@ -13,26 +13,22 @@ const Template: ComponentStory<typeof InfoCard> = (args) => (
 
 export const ForStreamer = Template.bind({});
 ForStreamer.args = {
-    data: {
-        title: "For Streamers",
-        chipText: "Welcome",
-        chipRef: "https://duckduckgo.com",
-        linkText: "Sign me up, Jimmy",
-        heading: "Here is a heading",
-        linkRef: "https://duckduckgo.com",
-        text: "Lorem ipsum text here ",
-    }
+    title: "For Streamers",
+    chipText: "Welcome",
+    chipRef: "https://duckduckgo.com",
+    linkText: "Sign me up, Jimmy",
+    heading: "Here is a heading",
+    linkRef: "https://duckduckgo.com",
+    text: "Lorem ipsum text here ",
 };
 
 export const ForViewer = Template.bind({});
 ForViewer.args = {
-    data: {
-        title: "For Streamers",
-        chipText: "Blog",
-        chipRef: "https://duckduckgo.com",
-        linkText: "Sign me up, Jimmy",
-        heading: "Here is a heading",
-        linkRef: "https://duckduckgo.com",
-        text: "Lorem ipsum text here ",
-    }
+    title: "For Streamers",
+    chipText: "Blog",
+    chipRef: "https://duckduckgo.com",
+    linkText: "Sign me up, Jimmy",
+    heading: "Here is a heading",
+    linkRef: "https://duckduckgo.com",
+    text: "Lorem ipsum text here ",
 };

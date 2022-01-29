@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info"
 
-interface IData {
+interface IProps {
     title: string,
     chipText: string,
     chipRef: string,
@@ -24,12 +24,7 @@ interface IData {
     linkRef: string
 }
 
-interface IProps {
-    data: IData
-}
-
-function InfoCard({ data }: IProps) {
-    const { title, chipText, chipRef, heading, text, linkText, linkRef } = data
+function InfoCard({ title, chipText, chipRef, heading, text, linkText, linkRef }: IProps) {
 
     return (
         <Card>
