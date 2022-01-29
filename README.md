@@ -48,7 +48,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ### Alex
 
-- Header
-- Navigation
-- Sing up
-- Sign in Page
+- [x] Header
+- [ ] Navigation
+  - [ ] Sidebar when click in the navigation
+- [ ] sign up Page
+- [ ] Sign in Page
+
+### Grischi
+
+### Jonas
