@@ -25,7 +25,6 @@ interface IProps {
 }
 
 function InfoCard({ title, chipText, chipRef, heading, text, linkText, linkRef }: IProps) {
-
     return (
         <Card>
 
