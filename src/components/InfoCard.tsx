@@ -22,13 +22,13 @@ interface IData {
     text: string,
     linkText: string,
     linkRef: string
-
 }
+
 interface IProps {
     data: IData
 }
 
-function StreamerCard({ data }: IProps) {
+function InfoCard({ data }: IProps) {
     const { title, chipText, chipRef, heading, text, linkText, linkRef } = data
 
     return (
@@ -42,7 +42,7 @@ function StreamerCard({ data }: IProps) {
                     </Typography>
                 }
                 action={
-                    <Chip label={chipText} component="a" href="{chipRef}" clickable color="info" />
+                    <Chip label={chipText} component="a" href={chipRef} clickable color="info" />
                 }
                 disableTypography
             />
@@ -76,4 +76,4 @@ function StreamerCard({ data }: IProps) {
     );
 }
 
-export default StreamerCard;
+export default InfoCard;
