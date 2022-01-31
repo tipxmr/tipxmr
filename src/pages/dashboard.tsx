@@ -1,15 +1,18 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import type { NextPage } from "next";
-import { useSession, signIn, signOut } from "next-auth/react";
+import useUser from "~/lib/useUser"
+/* import { useSession, signIn, signOut } from "next-auth/react"; */
 import Head from "next/head";
 
 const hash = "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399".slice(0, 11)
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
+  /* const { data: session } = useSession(); */
+  const { user: session } = useUser()
 
-  console.log({ session });
+
+  console.log(session);
 
   return (
     <Container>

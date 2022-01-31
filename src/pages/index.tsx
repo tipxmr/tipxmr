@@ -50,16 +50,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-async function fetchJson<T = any>(
-  input: RequestInfo,
-  init?: RequestInit
-): Promise<T> {
-  const response = await fetch(input, init);
-  return response.json();
-}
-
 const Home: NextPage<ServerSideProps> = ({ streamers }) => {
-  const { data, error } = useSWR<Streamer[]>("/api/streamers", fetchJson);
+  const { data, error } = useSWR<Streamer[]>("/api/streamers");
   const [language, setLanguage] = useState("English")
 
   console.log({ data });

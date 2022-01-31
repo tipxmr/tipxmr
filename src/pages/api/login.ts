@@ -1,31 +1,28 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../lib/prisma";
+import type { User } from "~/pages/apiuser";
+import prisma from "~/lib/prisma"
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    loginPostHandler(req, res);
-  } else {
-    res.status(404).end();
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "lib/session";
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default withIronSessionApiRoute(loginRoute, sessionOptions);
+
+async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
+  const id = req.body.hash as string;
+
+  try {
+    const streamer = await prisma.streamer.findUnique({
+      where: { id },
+      rejectOnNotFound: true
+    });
+
+
+    const user = { ...streamer, isLoggedIn: true } as User;
+
+    req.session.user = user;
+    await req.session.save();
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
   }
 }
-
-export const loginPostHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  const { hashedSeed } = req.body;
-  prisma?.streamer
-    .findUnique({
-      where: {
-        id: hashedSeed.slice(0, 11),
-      },
-      include: {
-        account: true,
-        wallet: true,
-      },
-    })
-    .then((streamer) => {
-      if (streamer) {
-        res.status(200).json(streamer);
-      } else {
-        res.status(401).end();
-      }
-    });
-};

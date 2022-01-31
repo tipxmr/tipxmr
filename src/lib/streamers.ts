@@ -4,6 +4,7 @@ import prisma from "./prisma";
 export const getStreamers = () => prisma.streamer.findMany({});
 
 export const getStreamer = (id: Streamer["id"]) => {
+  // TODO manual error handeling
   return prisma.streamer.findUnique({
     where: {
       id,
