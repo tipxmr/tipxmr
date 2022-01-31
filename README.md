@@ -57,3 +57,28 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ### Grischi
 
 ### Jonas
+
+### Funktionsbloecke (Milestones)
+
+- Login (DB + Frontend)
+  - DB look up on Truncated hash
+    - return streamer Object
+    - jwt? + refresh token
+  - Next steps:
+    - Invalid tokens behavior
+    - Iron-session
+- Wallet Sync
+- logic for workflow
+  - request subaddress
+  - generate sub address
+  - subaddress to donator
+  - msg to streamer
+  - display the animation
+- UI elements
+  - Dashboard
+  - Donation Mask
+- Security concers
+  - protection against bots
+    - PoW?
+  - one step of removal for requesting subaddress
+- Animation
