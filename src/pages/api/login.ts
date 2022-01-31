@@ -1,4 +1,4 @@
-import type { User } from "~/pages/apiuser";
+import type { User } from "~/pages/api/user";
 import prisma from "~/lib/prisma"
 
 import { withIronSessionApiRoute } from "iron-session/next";
@@ -15,7 +15,6 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       where: { id },
       rejectOnNotFound: true
     });
-
 
     const user = { ...streamer, isLoggedIn: true } as User;
 
