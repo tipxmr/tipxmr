@@ -42,3 +42,7 @@ postgresql
 
 # logs
 .log/**
+
+# monero daemon
+monero/bitmonero/stagenet/*
+
