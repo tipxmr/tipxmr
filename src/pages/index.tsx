@@ -1,8 +1,4 @@
-import {
-  Grid,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Grid, Typography, Box, Button } from "@mui/material";
 import Container from "@mui/material/Container";
 
 import { Streamer } from "@prisma/client";
@@ -12,14 +8,14 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
-import useSWR from "swr";
 import { getStreamers } from "../lib/streamers";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
 import InfoCard from "~/components/InfoCard";
 import IsOnlineBadge from "~/components/IsOnlineBadge";
 import LanguageSelector from "~/components/LanguageSelector";
-import StreamerCard from "~/components/StreamerCard";
 import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
@@ -50,12 +46,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home: NextPage<ServerSideProps> = ({ streamers }) => {
-  const { data, error } = useSWR<Streamer[]>("/api/streamers");
-  const [language, setLanguage] = useState("English")
-
-  console.log({ data });
-  console.log({ streamers });
+const Home: NextPage<ServerSideProps> = () => {
+  const [language, setLanguage] = useState("English");
 
   return (
     <>
@@ -67,7 +59,12 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
         <Grid container spacing={4}>
           <Grid item xs={6}>
             <HorizontalCenter>
-              <img src="https://via.placeholder.com/150" alt="Landing" />
+              <Image
+                alt="Landing"
+                src="https://via.placeholder.com/150"
+                width={150}
+                height={150}
+              />
             </HorizontalCenter>
           </Grid>
 
@@ -83,24 +80,25 @@ const Home: NextPage<ServerSideProps> = ({ streamers }) => {
           </Grid>
 
           <Grid item xs={3}>
-            <LanguageSelector
-              language={language}
-              handleChange={setLanguage}
-            ></LanguageSelector>
+            <LanguageSelector language={language} handleChange={setLanguage} />
           </Grid>
         </Grid>
 
-        <Box sx={{
-          mt: 8
-        }} />
+        <Box
+          sx={{
+            mt: 8,
+          }}
+        />
 
-        <Grid container spacing={4}>
-          {streamers.map((streamer) => (
-            <Grid item key={streamer.id} xs={12} sm={6} md={4}>
-              <StreamerCard streamer={streamer} />
-            </Grid>
-          ))}
-        </Grid>
+        <Link href={`/overview`} passHref>
+          <Button component="a">See who&apos;s streaming</Button>
+        </Link>
+
+        <Box />
+
+        <Link href={`/donate`} passHref>
+          <Button component="a">Want to donate? Follow me</Button>
+        </Link>
       </Container>
     </>
   );
