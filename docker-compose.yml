@@ -29,3 +29,19 @@ services:
     restart: unless-stopped
     logging:
       driver: none
+
+  monero-node:
+    container_name: "monero-node"
+    build:
+      context: ./monero
+    command: --non-interactive --config-file /home/monero/.bitmonero/stagenet.conf
+    ports:
+      - "38080:38080"
+      - "38081:38081"
+    volumes:
+      - ./monero/bitmonero:/home/monero/.bitmonero
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
