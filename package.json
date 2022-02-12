@@ -11,7 +11,8 @@
     "generate": "prisma generate",
     "seed": "prisma db seed",
     "studio": "prisma studio",
-    "migrate": "prisma migrate"
+    "migrate": "prisma migrate",
+    "postinstall": "cp node_modules/monero-javascript/dist/* public/"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
