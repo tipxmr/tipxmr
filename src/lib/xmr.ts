@@ -51,3 +51,15 @@ export const createOutputReceivedListener = (
       onOutputReceived(output);
     }
   })() as MoneroWalletListener;
+
+export const createMoneroTransactionUri = ({
+  address,
+  amount,
+  description,
+}: {
+  address: string;
+  amount: number;
+  description: string;
+}) => {
+  return `monero:${address}?tx_amount=${amount}&tx_description=${description}`;
+};
