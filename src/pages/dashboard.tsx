@@ -1,9 +1,11 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import type { NextPage } from "next";
-import useUser from "~/lib/useUser";
 import Head from "next/head";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
+import useUser from "~/lib/useUser";
 import { User } from "./api/user";
 
 const hash =
@@ -11,6 +13,44 @@ const hash =
     0,
     11
   );
+
+function useSocket() {
+  useEffect(() => {
+    const socket = io("http://localhost:3000/streamer", {
+      path: "/ws",
+    });
+
+    socket.on("connect_error", (reason) => {
+      console.error(reason.message);
+    });
+
+    socket.on("connect", () => {
+      console.log("connected");
+      socket.emit("streamer:online", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      socket.emit("streamer:offline");
+    });
+
+    return () => {
+      console.log("disconnect");
+      socket.emit("streamer:offline");
+      socket.disconnect();
+    };
+  }, []);
+
+  return;
+}
+
+const Unauthenticated = () => {
+  return <h1>Unauthenticated</h1>;
+};
+
+const Authenticated = () => {
+  useSocket();
+  return <h1>Authenticated</h1>;
+};
 
 const Home: NextPage = () => {
   const { user: session, mutateUser } = useUser();
@@ -55,6 +95,8 @@ const Home: NextPage = () => {
 
       <Typography variant="h4">Session</Typography>
       <pre>{JSON.stringify(session, null, 2)}</pre>
+
+      <div>{session?.isLoggedIn ? <Authenticated /> : <Unauthenticated />}</div>
     </Container>
   );
 };
