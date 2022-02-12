@@ -22,7 +22,7 @@ function StreamerCard({ streamer }: { streamer: Streamer }) {
           </Typography>
         }
         action={
-          isOnline || Math.random() > 0.5 ? (
+          isOnline ? (
             <Chip label="Online" color="success" />
           ) : (
             <Chip label="Offline" color="error" />
