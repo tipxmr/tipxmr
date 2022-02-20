@@ -10,8 +10,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { getMnemonicHash } from "~/lib/xmr"
 
-function Copyright(props: any) {
+function Copyright(props: any): JSX.Element {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             <Link color="inherit" href="https://www.tipxmr.live/">
@@ -29,9 +30,11 @@ export default function SignIn() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        const seed = data.get('seed')
+        const hashedSeed = getMnemonicHash(seed)
         // eslint-disable-next-line no-console
         console.log({
-            seed: data.get('seed'),
+            hashedSeed,
         });
     };
 

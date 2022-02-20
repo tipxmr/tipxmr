@@ -1,3 +1,5 @@
+import sha256 from "crypto-js/sha256";
+import Hex from "crypto-js/enc-hex";
 import type {
   BalancesChangedListener,
   MoneroWallet,
@@ -18,6 +20,8 @@ export function open(mnemonic: string) {
     rejectUnauthorized: false, // e.g. local development
   });
 }
+
+export const getMnemonicHash = (seed: FormDataEntryValue | null) => Hex.stringify(sha256(seed));
 
 export const createSyncProgressListener = (
   onSyncProgress: SyncProgressListener
