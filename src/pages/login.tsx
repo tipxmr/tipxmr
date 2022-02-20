@@ -12,18 +12,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { getMnemonicHash } from "~/lib/xmr"
 
-function Copyright(props: any): JSX.Element {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            <Link color="inherit" href="https://www.tipxmr.live/">
-                TipXMR.live
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 
 export default function SignIn() {
 
@@ -76,21 +64,15 @@ export default function SignIn() {
                     >
                         Sign In
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
+                    <Grid container justifyContent="center">
                         <Grid item>
                             <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                                I want to sign up!
                             </Link>
                         </Grid>
                     </Grid>
                 </Box>
 
-                <Copyright sx={{ mt: 8, mb: 4 }} />
             </Box>
         </Container>
     );

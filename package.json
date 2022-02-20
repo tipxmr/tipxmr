@@ -27,6 +27,7 @@
     "@mui/material": "^5.2.7",
     "@prisma/client": "^3.7.0",
     "@reduxjs/toolkit": "^1.7.1",
+    "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
     "iron-session": "^6.0.5",
     "jotai": "^1.5.3",
