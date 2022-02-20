@@ -1,6 +1,29 @@
 #+TITLE: TipXMR.live
 
 [[src/img/logo.png]]
+* Installation
+- You must have [[https://docs.docker.com/get-started/][docker and docker-compose installed and ready to go]]
+- Execute the following command to install the project modules and setup the database
+#+begin_src bash
+git clone https://github.com/tipxmr/tipxmr.git
+cd tipxmr
+sh setup.sh
+#+end_src
+
+
+* Starting the TipXMR project for development
+- To start the TipXMR, please run thru the Installation first.
+- Start the docker service on your computer (linux: ~sudo systemctl start docker~)
+- From the project root, start the database container with ~docker-compose up~
+
+
+** Development
+- ~npm run dev~ : bring up the tipxmr webapp (~localhost:3000~)
+
+- ~npm run storybook~ : bring up storybook for components
+
+
+- ⚠️ As the project develops, the database models change. Therefore, sometimes it may be necessary to ~migrate~ the changes (~npm run migrate -- dev~)
 
 * TipXMR - The Livestream Tipping Service for OBS
 
@@ -14,6 +37,8 @@
 We want to provide an open source, non-custodial service for streamers all around the world to accept [[https://www.getmonero.org][XMR]] in their live streams and display some information about the donor.
 
 This will allow for a censorship resistant income source, independent of the big players like Twitch, YouTube, PornHub 🙊 and the like.
+
+In the end, TipXMR will be an open source techstack for hosters to provide an OBS-driven donation faucet to streamers.
 
 ** How it works
 
@@ -51,23 +76,6 @@ Once logged in the streamer is presented a dashboard, which offers stats, settin
 The tipping process is very easy for anybody familiar with a mobile wallet. Monero and cryptocurrencies as a means for payment is still very niche. So we expect in the early days to be used mostly in the Monero community, where usage is not an issue. Nevertheless, we hope that TipXMR can expand the use-case and educate more people on how to use it.
 
 _Note_: Donors are always anonymous. They do not require an account to tip. This may lead to abusive messages, which could cause trouble for the streamer on a platform like Twitch. Therefore we plan to have an option to approve messages before they are displayed in the stream.
-
-** Installation
-If you want to try out TipXMR on your own machine, use TipDocker and follow the instructions [[https://github.com/hundehausen/tipdocker][here]].
-
-** Who we are
-
-We are Monero enthusiasts and hold the ethos dear. Hundehausen and AlexAnarcho are hosts of the german-speaking [[https://moneromumble.de/][MoneroMumble Podcast]] since early 2018. mghny has professional experience in the field of software development and architecture.
-
-*** [[https://github.com/hundehausen][Hundehausen]]
-has contributed many times to the Monero community, most recently with an infographic about the workings of a Monero wallet. Grischa also wrote his bachelor thesis on the thought of "Monero as a currency for the masses" (thesis in German).
-
-*** [[https://github.com/AlexAnarcho][AlexAnarcho]]
-has been involved in the early days of the [[https://www.monerooutreach.org/][Monero Outreach]] and is a well-known outspoken advocate for Monero in the German community.
-
-*** [[https://github.com/mghny][mghny]]
-who chooses to remain pseudonymous - has been a professional software-engineer for 5 years and has been coding for 8 years. They have been involved with TipXMR.live since the very beginning and keeps an eye on architecture, code and many more technical aspects. It cannot be overstated how beneficial an experienced engineer is in a project like ours, since it reduces complexity and makes the code easily reusable by other developers.
-
 
 ** License
 
