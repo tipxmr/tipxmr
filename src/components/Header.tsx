@@ -10,6 +10,7 @@ import { Drawer } from "~/components"
 const pages = [
   { page: "Overview", href: "/overview" },
   { page: "Login", href: "/login" },
+  { page: "Donate", href: "/donate" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
