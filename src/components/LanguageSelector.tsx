@@ -1,3 +1,4 @@
+import { FC } from "react"
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 interface ILanguageSelector {
@@ -5,10 +6,10 @@ interface ILanguageSelector {
     handleChange: any;
 }
 
-const LanguageSelector = ({
+const LanguageSelector: FC<ILanguageSelector> = ({
     language: string,
     handleChange,
-}: ILanguageSelector) => {
+}) => {
     const languages = [
         "Dutch",
         "English",

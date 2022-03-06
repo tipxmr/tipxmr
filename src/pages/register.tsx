@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useState, useEffect } from "react"
-import Register from "~/components/Register"
+import { Register } from "~/components"
 import { createWallet } from "~/lib/xmr"
 
 const Home: NextPage = () => {

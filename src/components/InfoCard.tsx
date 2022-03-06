@@ -1,6 +1,13 @@
+import { FC } from "react"
 import { Card } from "@mui/material";
 
-const InfoCard = ({ title, btnText, infos, children }: any) => {
+interface IInfoCard {
+    title: string,
+    btnText: string,
+    infos: any,
+    children: any
+}
+const InfoCard: FC<IInfoCard> = ({ title, btnText, infos, children }) => {
 
     return (
         <Card>

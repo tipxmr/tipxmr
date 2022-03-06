@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC, FormEvent } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -12,7 +12,7 @@ import Container from '@mui/material/Container';
 import TipxmrLogo from "~/img/logo.png"
 
 interface ILogin {
-    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+    handleSubmit: (event: FormEvent<HTMLFormElement>) => void
 }
 
 const Login: FC<ILogin> = ({ handleSubmit }) => {

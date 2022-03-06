@@ -10,9 +10,7 @@ import type {
 import Head from "next/head";
 import { getStreamers } from "../lib/streamers";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
-import InfoCard from "~/components/InfoCard";
-import IsOnlineBadge from "~/components/IsOnlineBadge";
-import LanguageSelector from "~/components/LanguageSelector";
+import { InfoCard, IsOnlineBadge, LanguageSelector } from "~/components";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";

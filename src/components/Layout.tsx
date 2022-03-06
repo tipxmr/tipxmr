@@ -1,9 +1,14 @@
+import { ReactNode, FC } from "react"
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Container } from "@mui/material";
 import Footer from "./Footer";
 import Header from "./Header";
 
-function Layout({ children }: { children: React.ReactNode }) {
+interface ILayout {
+  children: ReactNode
+}
+
+const Layout: FC<ILayout> = ({ children }) => {
   return (
     <Box
       sx={{

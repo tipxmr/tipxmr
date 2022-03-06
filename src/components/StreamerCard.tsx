@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Streamer } from "@prisma/client";
 
-function StreamerCard({ streamer }: { streamer: Streamer }) {
+const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
   const { alias, name, status, isOnline } = streamer;
 
   return (

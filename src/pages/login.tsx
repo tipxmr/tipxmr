@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Login from "~/components/Login"
+import { Login } from "~/components"
 import { getMnemonicHash } from "~/lib/xmr"
 
 const LoginPage: NextPage = () => {
