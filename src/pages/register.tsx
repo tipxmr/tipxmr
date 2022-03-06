@@ -1,10 +1,20 @@
 import { NextPage } from "next";
+import { useState } from "react"
 import Register from "~/components/Register"
 
 const Home: NextPage = () => {
-    return (
+    const [seedLang, setSeedLang] = useState("English")
+    const [seedPhrase, setSeedPhrase] = useState("")
+    const handleSubmit = () => { }
 
-        <Register />
+    return (
+        <Register
+            seedLang={seedLang}
+            setSeedLang={setSeedLang}
+            handleSubmit={handleSubmit}
+            seedPhrase={seedPhrase}
+            setSeedPhrase={setSeedPhrase}
+        />
     )
 }
 
