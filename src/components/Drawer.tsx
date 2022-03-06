@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRouter } from "next/router"
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,8 +15,16 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
 const drawerWidth = 240;
+const pages = [
+  { page: "Wallet", href: "/wallet" },
+  { page: "Dashboard", href: "/dashboard" },
+  { page: "Settings", href: "/settings" },
+  { page: "History", href: "/history" },
+  { page: "Profile", href: "/profile" },
+];
 
 export default function PermanentDrawerLeft() {
+  const router = useRouter()
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -34,12 +43,12 @@ export default function PermanentDrawerLeft() {
         <Toolbar />
         <Divider />
         <List>
-          {['Wallet', 'Settings', 'Charts', 'History'].map((text, index) => (
-            <ListItem button key={text}>
+          {pages.map((page, index) => (
+            <ListItem button key={page.page} onClick={() => { router.push(page.href) }}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={page.page} />
             </ListItem>
           ))}
         </List>

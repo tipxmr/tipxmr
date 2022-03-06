@@ -6,10 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import useUser from "~/lib/useUser"
 import { Drawer } from "~/components"
+import fetchJson from "~/lib/fetchJson";
+import { User } from "~/pages/api/user";
 
 const pages = [
   { page: "Overview", href: "/overview" },
-  { page: "Login", href: "/login" },
+  { page: "Dashboard", href: "/dashboard" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -36,6 +38,12 @@ const ResponsiveAppBar: FC = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  async function signOut() {
+    const user = await fetchJson<User>("/api/logout", { method: "POST" });
+    mutateUser(user, false);
+  }
+
 
   return (
     <Fragment>
@@ -108,39 +116,39 @@ const ResponsiveAppBar: FC = () => {
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Ködi" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+            {session?.isLoggedIn ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Ködi" src="/static/images/avatar/2.jpg" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <MenuItem key="logout" onClick={() => signOut()}>
+                    <Typography textAlign="center">logout</Typography>
                   </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+
+                </Menu>
+              </Box>
+            ) : ""}
           </Toolbar>
         </Container>
       </AppBar>
-      {session?.isLoggedIn ? <Drawer /> : ""}
     </Fragment>
   );
 };

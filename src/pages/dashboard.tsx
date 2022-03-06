@@ -1,13 +1,14 @@
-import { Drawer } from "~/components";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
+import { Drawer, IsOnlineBadge } from "~/components";
+import { Container, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
+import { TipxmrWallet } from "~/components"
+import { useEffect, Fragment } from "react";
 import { io } from "socket.io-client";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 import { User } from "./api/user";
+import { useRouter } from "next/router";
 
 const hash =
   "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399".slice(
@@ -45,39 +46,16 @@ function useSocket() {
 }
 
 
-const Authenticated = () => {
-  useSocket();
-  return <h1>Authenticated</h1>;
-};
-
 const Home: NextPage = () => {
   const { user: session, mutateUser } = useUser();
+  const router = useRouter()
 
-  async function signOut() {
-    const user = await fetchJson<User>("/api/logout", { method: "POST" });
-    mutateUser(user, false);
-  }
-
-  async function signIn() {
-    const body = {
-      hash,
-    };
-
-    try {
-      const user = await fetchJson<User>("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      mutateUser(user);
-    } catch (reason) {
-      if (reason instanceof FetchError) {
-        console.error(reason);
-      } else {
-        console.error("An unexpected error happened:", reason);
-      }
+  useEffect(() => {
+    // Redirect to login if the user is not logged in
+    if (session && !session.isLoggedIn) {
+      router.push('/login')
     }
-  }
+  }, [session])
 
   return (
     <Container>
@@ -85,18 +63,19 @@ const Home: NextPage = () => {
         <title>Dashboard</title>
       </Head>
 
-      {session?.isLoggedIn ? <Drawer /> : ""}
 
-      {session?.isLoggedIn ? (
-        <button onClick={() => signOut()}>Logout</button>
-      ) : (
-        <button onClick={() => signIn()}>Login</button>
-      )}
 
-      <Typography variant="h4">Session</Typography>
-      <pre>{JSON.stringify(session, null, 2)}</pre>
+      {session ? (
 
-      <div>{session?.isLoggedIn ? <Authenticated /> : ""}</div>
+        <Fragment>
+          <Typography variant="h4">Welcome, {session.alias}</Typography>
+          <Typography variant="h5">Your ID: {session.id}</Typography>
+          <IsOnlineBadge isOnline={session?.isOnline} />
+          <pre>{JSON.stringify(session, null, 2)}</pre>
+        </Fragment>
+      )
+        : ""
+      }
     </Container>
   );
 };
