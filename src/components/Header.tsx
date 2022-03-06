@@ -12,6 +12,8 @@ import { User } from "~/pages/api/user";
 const pages = [
   { page: "Overview", href: "/overview" },
   { page: "Dashboard", href: "/dashboard" },
+  { page: "Login", href: "/login" },
+  { page: "Donate", href: "/donate" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
