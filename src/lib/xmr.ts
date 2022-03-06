@@ -9,15 +9,30 @@ import type {
 
 import { createWalletFull, MoneroWalletListener } from "monero-javascript";
 
+const stagenetNode = {
+  networkType: "stagenet",
+  password: "pass123",
+  serverUri: "http://localhost:38081",
+  serverUsername: "superuser",
+  serverPassword: "abctesting123",
+  rejectUnauthorized: false, // e.g. local development
+}
+export async function createWallet(lang = "English") {
+  const walletFull = await createWalletFull({
+    // mnemonic omitted, will generate random wallet
+    language: lang,
+    ...stagenetNode
+  });
+  return walletFull;
+}
+
+export async function getMnemonic(walletFull: any) {
+  return await walletFull.getMnemonic()();
+}
 export function open(mnemonic: string) {
   return createWalletFull({
     mnemonic,
-    networkType: "stagenet",
-    password: "pass123",
-    serverUri: "http://localhost:38081",
-    serverUsername: "superuser",
-    serverPassword: "abctesting123",
-    rejectUnauthorized: false, // e.g. local development
+    ...stagenetNode
   });
 }
 
