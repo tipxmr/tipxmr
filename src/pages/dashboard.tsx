@@ -1,3 +1,4 @@
+import { Drawer } from "~/components";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import type { NextPage } from "next";
@@ -83,6 +84,8 @@ const Home: NextPage = () => {
       <Head>
         <title>Dashboard</title>
       </Head>
+
+      {session?.isLoggedIn ? <Drawer /> : ""}
 
       {session?.isLoggedIn ? (
         <button onClick={() => signOut()}>Logout</button>
