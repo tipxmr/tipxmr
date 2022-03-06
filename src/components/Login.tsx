@@ -27,9 +27,6 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
                 }}
             >
                 <Paper elevation={2} sx={{ p: 4 }}>
-                    {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                    <LockOutlinedIcon />
-                </Avatar> */}
                     <Box sx={{ justifyContent: "center", display: 'flex' }}>
                         <img src={TipxmrLogo} width="200" />
                     </Box>

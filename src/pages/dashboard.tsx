@@ -43,9 +43,6 @@ function useSocket() {
   return;
 }
 
-const Unauthenticated = () => {
-  return <h1>Unauthenticated</h1>;
-};
 
 const Authenticated = () => {
   useSocket();
@@ -96,7 +93,7 @@ const Home: NextPage = () => {
       <Typography variant="h4">Session</Typography>
       <pre>{JSON.stringify(session, null, 2)}</pre>
 
-      <div>{session?.isLoggedIn ? <Authenticated /> : <Unauthenticated />}</div>
+      <div>{session?.isLoggedIn ? <Authenticated /> : ""}</div>
     </Container>
   );
 };
