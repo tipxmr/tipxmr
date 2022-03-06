@@ -1,4 +1,5 @@
 import { FC, FormEvent } from 'react';
+import Image from 'next/image';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -28,7 +29,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
             >
                 <Paper elevation={2} sx={{ p: 4 }}>
                     <Box sx={{ justifyContent: "center", display: 'flex' }}>
-                        <img src={TipxmrLogo} width="200" />
+                        <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
                     </Box>
                     <Typography component="h1" variant="h5" align="center" mt={2}>
                         Login
