@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { Login } from "~/components"
 import { getMnemonicHash } from "~/lib/xmr"
 import useUser from "~/lib/useUser"
-import { useEffect } from "react";
+import { useEffect, FormEvent } from "react";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import { useRouter } from "next/router"
 import { User } from "./api/user";
@@ -18,7 +18,7 @@ const LoginPage: NextPage = () => {
     }, [session])
 
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
