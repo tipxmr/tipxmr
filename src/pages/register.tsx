@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai"
-import { useState, useEffect } from "react"
+import { useState, useEffect, FormEvent } from "react"
 import { Register } from "~/components"
-import { createWallet, getMnemonic } from "~/lib/xmr"
+import { createWallet, getMnemonicHash } from "~/lib/xmr"
 import { walletAtom } from "~/store"
 
 const Home: NextPage = () => {
@@ -10,11 +10,23 @@ const Home: NextPage = () => {
     const [newWallet, setNewWallet] = useAtom(walletAtom)
     const [seedPhrase, setSeedPhrase] = useState("")
 
-    const handleSubmit = () => { }
-    // TODO generate a seed with the provided seed language
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const data = new FormData(event.currentTarget);
+        const understood = data.get('understood')
+        if (!understood) {
+            alert("Sorry, you must agree to proceed")
+            return
+        }
+
+        // TODO create a new streamer in the tipxmr db with this
+        const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11)
+
+        // TODO navigate the streamer to the login
+    }
+
 
     useEffect(() => {
-
         const walletCreator = async (seedLang: string) => {
             const seed = await createWallet(seedLang)
             setSeedPhrase(seed)
