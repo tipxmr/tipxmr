@@ -102,7 +102,7 @@ const Register: FC<IRegister> = ({ seedLang, setSeedLang, seedPhrase, setSeedPhr
                                             <AccountBalanceWalletIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="These words hold your money!" secondary="It is your ultimate backup to your XMR Wallet" />
+                                    <ListItemText primary="These words hold your money!" secondary="It is the ultimate backup to your sweet Moneroj" />
                                 </ListItem>
                             </List>
                         </Grid>
