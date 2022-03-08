@@ -57,15 +57,12 @@ const Home: NextPage = () => {
     }
   }, [session])
 
-  return (
-    <Container>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
-
-
-
-      {session ? (
+  if (session && session.isLoggedIn) {
+    return (
+      <Container>
+        <Head>
+          <title>Dashboard</title>
+        </Head>
 
         <Fragment>
           <Typography variant="h4">Welcome, {session.alias}</Typography>
@@ -73,11 +70,10 @@ const Home: NextPage = () => {
           <IsOnlineBadge isOnline={session?.isOnline} />
           <pre>{JSON.stringify(session, null, 2)}</pre>
         </Fragment>
-      )
-        : ""
-      }
-    </Container>
-  );
+      </Container>
+    );
+  }
+  return <Typography variant="h2">Please log in</Typography>
 };
 
 export default Home;
