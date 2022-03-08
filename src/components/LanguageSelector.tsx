@@ -65,6 +65,7 @@ const LanguageSelector: FC<ILanguageSelector> = ({
                 defaultValue='English'
                 label="Language"
                 onChange={handleChange}
+                sx={{ minWidth: "200px" }}
             >
                 {languageItems}
             </Select>
