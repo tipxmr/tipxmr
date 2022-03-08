@@ -47,7 +47,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
                             autoFocus
                         />
                         <FormControlLabel
-                            control={<Checkbox value="understood" color="primary" />}
+                            control={<Checkbox required value="understood" color="primary" />}
                             label="I understand that I am responsible for my own security and TipXMR has no liability"
                         />
                         <FormControlLabel
@@ -65,7 +65,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
                         </Button>
                         <Grid container justifyContent="right">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/register" variant="body2">
                                     Don't have an account yet?
                                 </Link>
                             </Grid>

@@ -20,8 +20,18 @@ const LoginPage: NextPage = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         const data = new FormData(event.currentTarget);
         const seed = data.get('seed')
+        const understood = data.get('understood')
+        if (!understood) {
+            alert("Sorry, you must agree to proceed")
+            return
+        }
+
+        // TODO handle the "remembered status"
+        const remember = data.get('remember')
+
         const truncatedHashedSeed = getMnemonicHash(seed).slice(0, 11)
         const body = {
             hash: truncatedHashedSeed,
