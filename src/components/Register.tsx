@@ -1,4 +1,5 @@
 import { FC, FormEvent, Dispatch, SetStateAction } from 'react';
+import Image from 'next/image'
 import { Container, Box, Paper, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, FormGroup, FormControlLabel, Checkbox, Button } from "@mui/material"
 import TipxmrLogo from "~/img/logo.png"
 import ImageIcon from '@mui/icons-material/Image';
@@ -32,22 +33,24 @@ const Register: FC<IRegister> = ({ seedLang, setSeedLang, seedPhrase, setSeedPhr
                     sx={boxStyles}
                 >
                     <Box sx={{ justifyContent: "center", display: 'flex' }}>
-                        <img src={TipxmrLogo} width="200" />
+                        <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
                     </Box>
                     <Typography component="h1" variant="h5" align="center" mt={2}>
                         Register
                     </Typography>
                     <Box mt={2} sx={boxStyles}>
                         <LanguageSelector language={seedLang} handleChange={setSeedLang} />
-                        {seedPhrase ?
+                        {seedPhrase
+                            ?
                             <Paper elevation={3} sx={{ mt: 3, p: 2, backgroundColor: "primary" }} >
                                 <Typography component="h2" variant="overline" align="center">{seedPhrase}</Typography>
                             </Paper>
-
-                            : <LoadingButton loading variant="contained" color="primary" sx={{ mt: 2 }}>Testing</LoadingButton>
+                            :
+                            <LoadingButton loading variant="contained" color="primary" sx={{ mt: 2 }}>Testing</LoadingButton>
                         }
                     </Box>
-                    {seedPhrase ?
+                    {seedPhrase
+                        ?
                         <List sx={{ width: '100%', mt: 4, bgcolor: 'background.paper' }}>
                             <ListItem>
                                 <ListItemAvatar>
@@ -82,7 +85,8 @@ const Register: FC<IRegister> = ({ seedLang, setSeedLang, seedPhrase, setSeedPhr
                             <FormControlLabel control={<Checkbox defaultChecked />} label="I understand that I am responsible for my own security. TipXMR is not liable." />
                             <Button variant="contained" color="primary" onClick={() => handleSubmit}>Create wallet and continue</Button>
                         </FormGroup>
-                        : ""}
+                        :
+                        ""}
                 </Box>
             </Paper>
         </Container>

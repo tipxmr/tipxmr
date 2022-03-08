@@ -17,27 +17,42 @@ const stagenetNode = {
   serverPassword: "abctesting123",
   rejectUnauthorized: false, // e.g. local development
 }
-export async function createWallet(lang = "English") {
+
+// --- Helper
+export const getMnemonicHash = (seed: FormDataEntryValue | null) => Hex.stringify(sha256(seed));
+
+
+// --- Wallet stuff
+export const createWallet = async (lang = "English") => {
   const walletFull = await createWalletFull({
-    // mnemonic omitted, will generate random wallet
+    // mnemonic omitted => generate random wallet
     language: lang,
     ...stagenetNode
   });
-  return walletFull;
+  return walletFull.getMnemonic()
 }
 
-export async function getMnemonic(walletFull: any) {
-  return await walletFull.getMnemonic()();
-}
-export function open(mnemonic: string) {
+export const open = (mnemonic: string) => {
   return createWalletFull({
     mnemonic,
     ...stagenetNode
   });
 }
 
-export const getMnemonicHash = (seed: FormDataEntryValue | null) => Hex.stringify(sha256(seed));
+export const createMoneroTransactionUri = ({
+  address,
+  amount,
+  description,
+}: {
+  address: string;
+  amount: number;
+  description: string;
+}) => {
+  return `monero:${address}?tx_amount=${amount}&tx_description=${description}`;
+};
 
+
+// --- Listeners
 export const createSyncProgressListener = (
   onSyncProgress: SyncProgressListener
 ) =>
@@ -71,14 +86,3 @@ export const createOutputReceivedListener = (
     }
   })() as MoneroWalletListener;
 
-export const createMoneroTransactionUri = ({
-  address,
-  amount,
-  description,
-}: {
-  address: string;
-  amount: number;
-  description: string;
-}) => {
-  return `monero:${address}?tx_amount=${amount}&tx_description=${description}`;
-};
