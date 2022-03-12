@@ -1,6 +1,6 @@
 import { Streamer } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getStreamers, createStreamer } from "../../../lib/streamers";
+import { getStreamers, createStreamer } from "~/lib/streamers";
 
 type ResponseData = Streamer[] | { error: string };
 
@@ -14,7 +14,7 @@ async function handler(
     streamerPostHandler(req, res);
   } else {
     res.setHeader("Allow", ["GET, POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.status(405).end(`Method ${req.method} not Allowed`);
   }
 }
 

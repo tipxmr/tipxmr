@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { MouseEvent } from 'react';
 import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -55,13 +55,13 @@ const rows = [
     ),
 ];
 
-function preventDefault(event: React.MouseEvent) {
+function preventDefault(event: MouseEvent) {
     event.preventDefault();
 }
 
 export default function Orders() {
     return (
-        <React.Fragment>
+        <>
             <Title>Recent Orders</Title>
             <Table size="small">
                 <TableHead>
@@ -88,6 +88,6 @@ export default function Orders() {
             <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
                 See more orders
             </Link>
-        </React.Fragment>
+        </>
     );
 }

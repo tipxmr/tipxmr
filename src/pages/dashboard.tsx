@@ -1,14 +1,12 @@
-import { Drawer, IsOnlineBadge } from "~/components";
-import { Container, Typography } from "@mui/material";
-import type { NextPage } from "next";
-import Head from "next/head";
-import { TipxmrWallet } from "~/components"
-import { useEffect, Fragment } from "react";
 import { io } from "socket.io-client";
-import fetchJson, { FetchError } from "~/lib/fetchJson";
-import useUser from "~/lib/useUser";
-import { User } from "./api/user";
+import { IsOnlineBadge } from "~/components";
+import { useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
+import Container from "@mui/material/Container";
+import Head from "next/head";
+import type { NextPage } from "next";
+import Typography from "@mui/material/Typography";
+import useUser from "~/lib/useUser";
 
 const hash =
   "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399".slice(
@@ -55,7 +53,7 @@ const Home: NextPage = () => {
     if (session && !session.isLoggedIn) {
       router.push('/login')
     }
-  }, [session])
+  }, [session, router])
 
   if (session && session.isLoggedIn) {
     return (
