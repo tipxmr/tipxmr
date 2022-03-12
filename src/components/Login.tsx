@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import Link from "next/link";
 import Grid from '@mui/material/Grid';
 import Paper from "@mui/material/Paper"
 import Box from '@mui/material/Box';
@@ -65,7 +65,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
                         </Button>
                         <Grid container justifyContent="right">
                             <Grid item>
-                                <Link href="/register" variant="body2">
+                                <Link href="/register">
                                     Don't have an account yet?
                                 </Link>
                             </Grid>

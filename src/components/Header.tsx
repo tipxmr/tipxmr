@@ -4,8 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu"
 import Logo from "../img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import useUser from "~/lib/useUser"
-import { Drawer } from "~/components"
+import useUser from "~/lib/useUser";
 import fetchJson from "~/lib/fetchJson";
 import { User } from "~/pages/api/user";
 
@@ -13,6 +12,7 @@ const pages = [
   { page: "Overview", href: "/overview" },
   { page: "Dashboard", href: "/dashboard" },
   { page: "Login", href: "/login" },
+  { page: "Register", href: "/register" },
   { page: "Donate", href: "/donate" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -49,7 +49,7 @@ const ResponsiveAppBar: FC = () => {
 
   return (
     <Fragment>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box display="flex" alignItems="center">
@@ -118,7 +118,7 @@ const ResponsiveAppBar: FC = () => {
               ))}
             </Box>
 
-            {session?.isLoggedIn ? (
+            {session?.isLoggedIn && (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -147,7 +147,7 @@ const ResponsiveAppBar: FC = () => {
 
                 </Menu>
               </Box>
-            ) : ""}
+            )}
           </Toolbar>
         </Container>
       </AppBar>
