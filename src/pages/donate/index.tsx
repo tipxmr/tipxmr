@@ -12,7 +12,7 @@ import Link from "next/link";
 import useSWR from "swr";
 
 const Donate: NextPage = () => {
-  const { data: streamers = [] } = useSWR<Streamer[]>("/api/streamers");
+  const { data: streamers = [] } = useSWR<Streamer[]>("/api/streamer");
 
   return (
     <Container>
