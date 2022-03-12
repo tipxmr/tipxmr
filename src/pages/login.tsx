@@ -1,11 +1,11 @@
-import { NextPage } from "next";
-import { Login } from "~/components"
 import { getMnemonicHash } from "~/lib/xmr"
-import useUser from "~/lib/useUser"
+import { Login } from "~/components"
+import { NextPage } from "next";
 import { useEffect, FormEvent } from "react";
-import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { useRouter } from "next/router"
 import { User } from "./api/user";
+import { useRouter } from "next/router"
+import fetchJson, { FetchError } from "~/lib/fetchJson";
+import useUser from "~/lib/useUser"
 
 const LoginPage: NextPage = () => {
     const { user: session, mutateUser } = useUser()
@@ -15,8 +15,7 @@ const LoginPage: NextPage = () => {
         if (session && session.isLoggedIn) {
             router.push('/dashboard')
         }
-    }, [session])
-
+    }, [session, router])
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -55,8 +54,6 @@ const LoginPage: NextPage = () => {
 
 
     };
-
-
 
     return (
         <Login handleSubmit={handleSubmit} />
