@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
+import { FormControl, MenuItem, TextField } from "@mui/material";
 
 interface ILanguageSelector {
     language: string;
