@@ -22,8 +22,9 @@ const LoginPage: NextPage = () => {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        const seed = data.get('seed')
-        const understood = data.get('understood')
+        let seed = data.get('seed') as string;
+        seed = seed.trim();
+        const understood = data.get('understood');
         if (!understood) {
             alert("Sorry, you must agree to proceed")
             return

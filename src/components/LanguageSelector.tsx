@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
 
 interface ILanguageSelector {
     language: string;
@@ -58,17 +58,15 @@ const LanguageSelector: FC<ILanguageSelector> = ({
 
     return (
         <FormControl>
-            <InputLabel id="seed-language">Seed Language</InputLabel>
-            <Select
-                labelId="seed-language"
-                id="seed-language-select"
-                defaultValue='English'
-                label="Language"
-                onChange={handleChange}
-                sx={{ minWidth: "200px" }}
-            >
+            <TextField
+            id="seed-language-select"
+            select
+            defaultValue={"English"}
+            label="Seed Language"
+            onChange={handleChange}
+            helperText="Please select your seed language">
                 {languageItems}
-            </Select>
+            </TextField>
         </FormControl>
     );
 };

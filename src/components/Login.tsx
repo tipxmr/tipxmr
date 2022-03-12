@@ -47,11 +47,11 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
                             autoFocus
                         />
                         <FormControlLabel
-                            control={<Checkbox required value="understood" color="primary" />}
+                            control={<Checkbox required name="understood" color="primary" />}
                             label="I understand that I am responsible for my own security and TipXMR has no liability"
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="secondary" />}
+                            control={<Checkbox name="remember" color="primary" />}
                             label="Remember me"
                         />
                         <Button
