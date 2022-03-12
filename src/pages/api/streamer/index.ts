@@ -1,6 +1,6 @@
 import { Streamer } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getStreamers, createStreamer } from "../../lib/streamers";
+import { getStreamers, createStreamer } from "../../../lib/streamers";
 
 type ResponseData = Streamer[] | { error: string };
 
