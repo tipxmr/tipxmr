@@ -1,11 +1,11 @@
 // TODO: 
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
 import { balanceAtom, mnemonicAtom, progressAtom, syncHeightAtom, isSyncRunningAtom, walletAtom, openWalletAtom } from "~/store"
 import { MoneroWalletFull } from "monero-javascript";
 import { TipxmrWallet } from "~/components"
 import { NextPage } from "next";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import {
   createBalancesChangedListener,
   createOutputReceivedListener,
@@ -107,11 +107,11 @@ const WalletPage: NextPage = () => {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <TipxmrWallet balance={balance} isSynced={isSyncing} height={syncHeight}></TipxmrWallet>
       <Typography>Progress: {progress}%</Typography>
       {isDone ? <Transaction wallet={myWallet} /> : null}
-    </Fragment >
+    </>
   );
 };
 
