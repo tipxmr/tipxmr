@@ -96,7 +96,7 @@ const DonateTo: NextPage = () => {
   return (
     <Container>
       <Grid>
-        <Typography>Donate to {streamer?.name}</Typography>
+        <Typography>Donate to {streamer?.alias}</Typography>
 
         <Typography>Send XMR 0.13 (€4.50) to the following address:</Typography>
 

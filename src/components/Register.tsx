@@ -43,18 +43,18 @@ const Register: FC<IRegister> = ({ seedLang, setSeedLang, seedPhrase, setSeedPhr
                             <Box sx={{ display: "flex", justifyContent: "space-around", flexDirection: "row" }}>
                                 <Tooltip placement="top" title="This name will not be visible to your audience">
                                     <TextField
-                                        name="username"
+                                        name="name"
                                         required
-                                        id="username"
+                                        id="name"
                                         label="Username"
                                         autoFocus
                                     />
                                 </Tooltip>
                                 <Tooltip placement="top" title="This is the name your audience will see">
                                     <TextField
-                                        name="displayname"
+                                        name="alias"
                                         required
-                                        id="displayname"
+                                        id="alias"
                                         label="Displayname"
                                         autoFocus
                                     />
@@ -109,10 +109,10 @@ const Register: FC<IRegister> = ({ seedLang, setSeedLang, seedPhrase, setSeedPhr
                     </Grid>
 
                     <Grid item xs={12} my={2}>
-                        <FormControlLabel control={<Checkbox required value="understood" />} label={<Typography variant="subtitle2">I understand that I am responsible for my own security. TipXMR is not liable.</Typography>} />
+                        <FormControlLabel control={<Checkbox required name="understood" />} label={<Typography variant="subtitle2">I understand that I am responsible for my own security. TipXMR is not liable.</Typography>} />
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" onClick={() => handleSubmit}>Create wallet and continue</Button>
+                        <Button variant="contained" color="primary" type='submit'>Create wallet and continue</Button>
                     </Grid>
                 </Box>
             </Paper>

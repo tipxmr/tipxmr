@@ -34,9 +34,13 @@ const streamerPostHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { id, name, alias, socket } = req.body;
-  const result = await createStreamer(String(id), { name, alias, socket });
-  res.status(200).json(result);
+  const { id, name, alias, socket = "" } = JSON.parse(req.body);
+  try {
+    const result = await createStreamer(String(id), { name, alias, socket });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: `failed to create streamer, ${error}` });
+  }
 };
 
 export default handler;
