@@ -27,8 +27,8 @@ async function toQrCode(data: string) {
 
 const DonateTo: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const { data, error } = useSWR<Streamer>(`/api/streamer/${id}`);
+  const { name } = router.query;
+  const { data, error } = useSWR<Streamer>(`/api/streamer/name/${name}`);
   const [code, setCode] = useState<string>();
 
   const streamer = data;
@@ -43,7 +43,7 @@ const DonateTo: NextPage = () => {
     description: "donation",
   });
 
-  console.log({ data, error, id });
+  console.log({ data, error, name });
 
   if (isError) {
     console.error(error);

@@ -23,7 +23,7 @@ const Donate: NextPage = () => {
               <CardHeader title={streamer.name} />
               <CardActions>
                 <Link
-                  href={`/donate/${encodeURIComponent(streamer.id)}`}
+                  href={`/donate/${encodeURIComponent(streamer.name)}`}
                   passHref
                 >
                   <Button size="small" component="a">
