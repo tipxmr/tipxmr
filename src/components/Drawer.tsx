@@ -1,12 +1,13 @@
-import { useRouter } from "next/router"
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
+import { useRouter } from "next/router";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import Link from "next/link";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MailIcon from "@mui/icons-material/Mail";
 
 const drawerWidth = 240;
 const pages = [
@@ -18,18 +19,18 @@ const pages = [
 ];
 
 export default function PermanentDrawerLeft() {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Drawer
       sx={{
         width: drawerWidth,
         alignSelf: "strech",
         flexShrink: 0,
-        '& .MuiDrawer-paper': {
+        "& .MuiDrawer-paper": {
           width: drawerWidth,
           position: "relative",
           top: "inherit",
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
         },
       }}
       variant="permanent"
@@ -39,12 +40,14 @@ export default function PermanentDrawerLeft() {
       <Divider />
       <List>
         {pages.map((page, index) => (
-          <ListItem button key={page.page} onClick={() => { router.push(page.href) }}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={page.page} />
-          </ListItem>
+          <Link href={page.href} key={index} passHref>
+            <ListItem button key={page.page}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={page.page} />
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
