@@ -8,11 +8,8 @@ interface INumberInput {
 
 const NumberInput: FC<INumberInput> = ({ label, unit }) => {
     const [amount, setAmount] = useState(0)
-    const handleChangeAmount = (e) => {
-        const isNum = typeof e.target.value === "number"
-        console.log(isNum)
-        if (isNum) {
-
+    const handleChangeAmount = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        if (typeof e.target.value === "number") {
             setAmount(e.target.value)
         }
     }
