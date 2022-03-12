@@ -1,51 +1,68 @@
-import { FC, MouseEvent, useState } from "react";
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu"
+import { FC, MouseEvent, useEffect, useState } from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import useUser from "~/lib/useUser";
 import fetchJson from "~/lib/fetchJson";
 import { User } from "~/pages/api/user";
+import useUser from "~/lib/useUser";
 
-const pages = [
+let pages = [
   { page: "Overview", href: "/overview" },
   { page: "Dashboard", href: "/dashboard" },
-  { page: "Login", href: "/login" },
-  { page: "Register", href: "/register" },
   { page: "Donate", href: "/donate" },
 ];
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar: FC = () => {
-  const { user: session, mutateUser } = useUser()
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(
-    null
-  );
+  const { user: session, mutateUser } = useUser();
+
+  useEffect(() => {
+    if (!session?.isLoggedIn) {
+      pages.push({ page: "Register", href: "/register" });
+      pages.push({ page: "Login", href: "/login" });
+    } else {
+      pages = pages.filter((page) => page.page !== "Register");
+      pages = pages.filter((page) => page.page !== "Login");
+    }
+  }, [session]);
+
+  const [anchorElNav, setAnchorElNav] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(false);
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+    setAnchorElNav(!!event.currentTarget);
   };
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchorElUser(!!event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorElNav(false);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchorElUser(false);
   };
 
   async function signOut() {
     const user = await fetchJson<User>("/api/logout", { method: "POST" });
     mutateUser(user, false);
   }
-
 
   return (
     <>
@@ -79,7 +96,6 @@ const ResponsiveAppBar: FC = () => {
               </IconButton>
               <Menu
                 id="menu-appbar"
-                anchorEl={anchorElNav}
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "left",
@@ -128,7 +144,6 @@ const ResponsiveAppBar: FC = () => {
                 <Menu
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
-                  anchorEl={anchorElUser}
                   anchorOrigin={{
                     vertical: "top",
                     horizontal: "right",
@@ -144,7 +159,6 @@ const ResponsiveAppBar: FC = () => {
                   <MenuItem key="logout" onClick={() => signOut()}>
                     <Typography textAlign="center">logout</Typography>
                   </MenuItem>
-
                 </Menu>
               </Box>
             )}

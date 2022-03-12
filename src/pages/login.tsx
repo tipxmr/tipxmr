@@ -3,8 +3,8 @@ import { Login } from "~/components"
 import { NextPage } from "next";
 import { useEffect, FormEvent } from "react";
 import { User } from "./api/user";
-import { useRouter } from "next/router"
 import fetchJson, { FetchError } from "~/lib/fetchJson";
+import { useRouter } from "next/router"
 import useUser from "~/lib/useUser"
 
 const LoginPage: NextPage = () => {

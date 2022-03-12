@@ -4,9 +4,19 @@ import { useState, useEffect, FormEvent } from "react";
 import { Register } from "~/components";
 import { createWallet, getMnemonicHash } from "~/lib/xmr";
 import { walletAtom } from "~/store";
-import useSWR from "swr";
+import { useRouter } from "next/router";
+import useUser from "~/lib/useUser";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const { user: session, mutateUser } = useUser();
+
+  useEffect(() => {
+    if (session && session.isLoggedIn) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
+
   const [seedLang, setSeedLang] = useState("English");
   const [newWallet, setNewWallet] = useAtom(walletAtom);
   const [seedPhrase, setSeedPhrase] = useState("");
@@ -24,7 +34,7 @@ const Home: NextPage = () => {
 
     // TODO create a new streamer in the tipxmr db with this
     const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
-    
+
     const res = await fetch(`/api/streamer`, {
       method: "POST",
       body: JSON.stringify({
