@@ -1,14 +1,15 @@
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FC } from "react"
+import { FormControl, MenuItem, TextField } from "@mui/material";
 
 interface ILanguageSelector {
     language: string;
     handleChange: any;
 }
 
-const LanguageSelector = ({
+const LanguageSelector: FC<ILanguageSelector> = ({
     language: string,
     handleChange,
-}: ILanguageSelector) => {
+}) => {
     const languages = [
         "Dutch",
         "English",
@@ -57,16 +58,15 @@ const LanguageSelector = ({
 
     return (
         <FormControl>
-            <InputLabel id="seed-language">Seed Language</InputLabel>
-            <Select
-                labelId="seed-language"
-                id="seed-language-select"
-                defaultValue='English'
-                label="Language"
-                onChange={handleChange}
-            >
+            <TextField
+            id="seed-language-select"
+            select
+            defaultValue={"English"}
+            label="Seed Language"
+            onChange={handleChange}
+            helperText="Please select your seed language">
                 {languageItems}
-            </Select>
+            </TextField>
         </FormControl>
     );
 };

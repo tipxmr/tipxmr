@@ -51,3 +51,11 @@ export const updateStreamer = (
     data,
   });
 };
+
+export const getStreamerByName = (name: Streamer["name"]) => {
+  return prisma.streamer.findUnique({
+    where: {
+      name,
+    },
+  });
+};

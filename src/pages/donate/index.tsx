@@ -12,7 +12,7 @@ import Link from "next/link";
 import useSWR from "swr";
 
 const Donate: NextPage = () => {
-  const { data: streamers = [] } = useSWR<Streamer[]>("/api/streamers");
+  const { data: streamers = [] } = useSWR<Streamer[]>("/api/streamer");
 
   return (
     <Container>
@@ -23,7 +23,7 @@ const Donate: NextPage = () => {
               <CardHeader title={streamer.name} />
               <CardActions>
                 <Link
-                  href={`/donate/${encodeURIComponent(streamer.id)}`}
+                  href={`/donate/${encodeURIComponent(streamer.name)}`}
                   passHref
                 >
                   <Button size="small" component="a">

@@ -1,9 +1,11 @@
 // TODO: 
-import { Typography } from "@mui/material";
-import { atom, useAtom } from "jotai";
+import Typography from "@mui/material/Typography";
+import { useAtom } from "jotai";
+import { balanceAtom, mnemonicAtom, progressAtom, syncHeightAtom, isSyncRunningAtom, walletAtom, openWalletAtom } from "~/store"
 import { MoneroWalletFull } from "monero-javascript";
+import { TipxmrWallet } from "~/components"
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   createBalancesChangedListener,
   createOutputReceivedListener,
@@ -53,25 +55,12 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
   return null;
 };
 
-const mnemonicAtom = atom("")
-const progressAtom = atom(0);
-const syncHeightAtom = atom(0);
-const isSyncRunningAtom = atom(false);
-const walletAtom = atom<MoneroWalletFull | undefined>(undefined);
-
-const openWalletAtom = atom(async (get) => {
-  const mnemonic = get(mnemonicAtom)
-
-  if (mnemonic) {
-    return open(mnemonic);
-  }
-  
-  return undefined;
-})
-
 const WalletPage: NextPage = () => {
   const [progress, setProgress] = useAtom(progressAtom);
   const [myWallet, setMyWallet] = useAtom(walletAtom);
+  const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom)
+  const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom)
+  const [balance, setBalance] = useAtom(balanceAtom)
 
   // const [progress, setProgress] = useState(0);
   // const [xmrWallet, setXmrWallet] = useState<MoneroWalletFull>();
@@ -89,6 +78,7 @@ const WalletPage: NextPage = () => {
       ) => {
         const percentage = Math.floor(percentDone * 100);
         setProgress(percentage);
+        setSyncHeight(height)
       }
     );
 
@@ -118,7 +108,7 @@ const WalletPage: NextPage = () => {
 
   return (
     <>
-      <h2>Wallet</h2>
+      <TipxmrWallet balance={balance} isSynced={isSyncing} height={syncHeight}></TipxmrWallet>
       <Typography>Progress: {progress}%</Typography>
       {isDone ? <Transaction wallet={myWallet} /> : null}
     </>

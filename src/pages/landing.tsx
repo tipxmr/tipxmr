@@ -1,16 +1,16 @@
 /* import landingIcon from "../images/landing-screen.svg"; */
 
 import { Typography, Grid } from "@mui/material";
-import { HorizontalCentering } from '../components/helper'
+import { HorizontalCenter } from '~/components'
 
 const Landing = () => {
   return (
     <Grid container alignItems="center">
       <Grid item xs={6}>
         {/* <img src={landingIcon} alt="Logo" /> */}
-        <HorizontalCentering>
+        <HorizontalCenter>
           <img src="https://via.placeholder.com/150" alt="Landing" />
-        </HorizontalCentering>
+        </HorizontalCenter>
       </Grid>
       <Grid item xs={6} sx={{ margin: "auto" }}>
         <Typography variant="h1" align="center">
