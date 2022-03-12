@@ -1,4 +1,4 @@
-import { Fragment, FC, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useState } from "react";
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu"
 import Logo from "../img/logo.png";
@@ -48,7 +48,7 @@ const ResponsiveAppBar: FC = () => {
 
 
   return (
-    <Fragment>
+    <>
       <AppBar position="static" elevation={0}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -151,7 +151,7 @@ const ResponsiveAppBar: FC = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </Fragment>
+    </>
   );
 };
 export default ResponsiveAppBar;
