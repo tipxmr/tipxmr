@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import { useState, FC, ChangeEvent } from 'react';
 import { Box, OutlinedInput, InputAdornment } from '@mui/material';
 
 interface INumberInput {
@@ -8,7 +8,7 @@ interface INumberInput {
 
 const NumberInput: FC<INumberInput> = ({ label, unit }) => {
     const [amount, setAmount] = useState(0)
-    const handleChangeAmount = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const handleChangeAmount = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         if (typeof e.target.value === "number") {
             setAmount(e.target.value)
         }
