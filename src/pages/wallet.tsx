@@ -1,9 +1,17 @@
-// TODO: 
+// TODO:
 import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
-import { balanceAtom, mnemonicAtom, progressAtom, syncHeightAtom, isSyncRunningAtom, walletAtom, openWalletAtom } from "~/store"
+import {
+  balanceAtom,
+  mnemonicAtom,
+  progressAtom,
+  syncHeightAtom,
+  isSyncRunningAtom,
+  walletAtom,
+  openWalletAtom,
+} from "~/store";
 import { MoneroWalletFull } from "monero-javascript";
-import { TipxmrWallet } from "~/components"
+import { TipxmrWallet } from "~/components";
 import { NextPage } from "next";
 import { useEffect } from "react";
 import {
@@ -12,6 +20,8 @@ import {
   createSyncProgressListener,
   open,
 } from "~/lib/xmr";
+import { useRouter } from "next/router";
+import useUser from "~/lib/useUser";
 
 const MNEMONIC =
   "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
@@ -56,11 +66,20 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
 };
 
 const WalletPage: NextPage = () => {
+  const { user: session, mutateUser } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    // Redirect to login if the user is not logged in
+    if (session && !session.isLoggedIn) {
+      router.push("/login");
+    }
+  }, [session, router]);
+
   const [progress, setProgress] = useAtom(progressAtom);
   const [myWallet, setMyWallet] = useAtom(walletAtom);
-  const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom)
-  const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom)
-  const [balance, setBalance] = useAtom(balanceAtom)
+  const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom);
+  const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom);
+  const [balance, setBalance] = useAtom(balanceAtom);
 
   // const [progress, setProgress] = useState(0);
   // const [xmrWallet, setXmrWallet] = useState<MoneroWalletFull>();
@@ -78,7 +97,7 @@ const WalletPage: NextPage = () => {
       ) => {
         const percentage = Math.floor(percentDone * 100);
         setProgress(percentage);
-        setSyncHeight(height)
+        setSyncHeight(height);
       }
     );
 
@@ -106,13 +125,23 @@ const WalletPage: NextPage = () => {
     };
   }, []);
 
-  return (
-    <>
-      <TipxmrWallet balance={balance} isSynced={isSyncing} height={syncHeight}></TipxmrWallet>
-      <Typography>Progress: {progress}%</Typography>
-      {isDone ? <Transaction wallet={myWallet} /> : null}
-    </>
-  );
+  if (!session?.isLoggedIn) {
+    return <Typography variant="h2">Please log in</Typography>;
+  }
+
+  if (session && session.isLoggedIn) {
+    return (
+      <>
+        <TipxmrWallet
+          balance={balance}
+          isSynced={isSyncing}
+          height={syncHeight}
+        ></TipxmrWallet>
+        <Typography>Progress: {progress}%</Typography>
+        {isDone ? <Transaction wallet={myWallet} /> : null}
+      </>
+    );
+  }
 };
 
 export default WalletPage;

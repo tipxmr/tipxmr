@@ -20,11 +20,7 @@ import fetchJson from "~/lib/fetchJson";
 import { User } from "~/pages/api/user";
 import useUser from "~/lib/useUser";
 
-let pages = [
-  { page: "Overview", href: "/overview" },
-  { page: "Dashboard", href: "/dashboard" },
-  { page: "Donate", href: "/donate" },
-];
+let pages: { page: string; href: string }[];
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -33,11 +29,19 @@ const ResponsiveAppBar: FC = () => {
 
   useEffect(() => {
     if (!session?.isLoggedIn) {
-      pages.push({ page: "Register", href: "/register" });
-      pages.push({ page: "Login", href: "/login" });
+      pages = [
+        { page: "Overview", href: "/overview" },
+        { page: "Dashboard", href: "/dashboard" },
+        { page: "Donate", href: "/donate" },
+        { page: "Register", href: "/register" },
+        { page: "Login", href: "/login" },
+      ];
     } else {
-      pages = pages.filter((page) => page.page !== "Register");
-      pages = pages.filter((page) => page.page !== "Login");
+      pages = [
+        { page: "Overview", href: "/overview" },
+        { page: "Dashboard", href: "/dashboard" },
+        { page: "Donate", href: "/donate" },
+      ];
     }
   }, [session]);
 
@@ -111,7 +115,7 @@ const ResponsiveAppBar: FC = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map(({ page, href }) => (
+                {pages?.map(({ page, href }) => (
                   <Link href={href} passHref key={page}>
                     <MenuItem key={page}>
                       <Typography textAlign="center">{page}</Typography>
@@ -122,7 +126,7 @@ const ResponsiveAppBar: FC = () => {
             </Box>
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map(({ page, href }) => (
+              {pages?.map(({ page, href }) => (
                 <Link href={href} passHref key={page}>
                   <Button
                     key={page}
