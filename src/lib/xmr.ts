@@ -16,28 +16,28 @@ const stagenetNode = {
   serverUsername: "superuser",
   serverPassword: "abctesting123",
   rejectUnauthorized: false, // e.g. local development
-}
+};
 
 // --- Helper
-export const getMnemonicHash = (seed: FormDataEntryValue | null) => Hex.stringify(sha256(seed));
-
+export const getMnemonicHash = (seed: FormDataEntryValue | null) =>
+  Hex.stringify(sha256(seed));
 
 // --- Wallet stuff
 export const createWallet = async (lang = "English") => {
   const walletFull = await createWalletFull({
     // mnemonic omitted => generate random wallet
     language: lang,
-    ...stagenetNode
+    ...stagenetNode,
   });
-  return walletFull.getMnemonic()
-}
+  return walletFull.getMnemonic();
+};
 
 export const open = (mnemonic: string) => {
   return createWalletFull({
     mnemonic,
-    ...stagenetNode
+    ...stagenetNode,
   });
-}
+};
 
 export const createMoneroTransactionUri = ({
   address,
@@ -50,7 +50,6 @@ export const createMoneroTransactionUri = ({
 }) => {
   return `monero:${address}?tx_amount=${amount}&tx_description=${description}`;
 };
-
 
 // --- Listeners
 export const createSyncProgressListener = (
@@ -85,4 +84,3 @@ export const createOutputReceivedListener = (
       onOutputReceived(output);
     }
   })() as MoneroWalletListener;
-

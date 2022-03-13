@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC } from "react";
 import { Box, Typography, Container } from "@mui/material";
 import Copyright from "./Copyright";
 
@@ -24,6 +24,6 @@ const Footer: FC = () => {
       </Container>
     </Box>
   );
-}
+};
 
 export default Footer;

@@ -12,7 +12,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-const walletGetHandler = (req: NextApiRequest, res: NextApiResponse<Wallet | null>) => {
+const walletGetHandler = (
+  req: NextApiRequest,
+  res: NextApiResponse<Wallet | null>
+) => {
   const { id } = req.query;
   if (id) {
     prisma.wallet

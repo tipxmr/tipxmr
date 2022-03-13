@@ -10,7 +10,7 @@ const alexStreamer: Streamer = {
   createdAt: new Date(),
   updatedAt: new Date(),
   isOnline: false,
-  status: "active"
+  status: "active",
 };
 
 const grischaStreamer: Streamer = {
@@ -21,7 +21,7 @@ const grischaStreamer: Streamer = {
   createdAt: new Date(),
   updatedAt: new Date(),
   isOnline: false,
-  status: "active"
+  status: "active",
 };
 
 const pronasStreamer: Streamer = {
@@ -32,7 +32,7 @@ const pronasStreamer: Streamer = {
   createdAt: new Date(),
   updatedAt: new Date(),
   isOnline: false,
-  status: "active"
+  status: "active",
 };
 
 export const testStreamers = [alexStreamer, grischaStreamer, pronasStreamer];

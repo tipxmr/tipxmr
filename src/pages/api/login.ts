@@ -1,5 +1,5 @@
 import type { User } from "~/pages/api/user";
-import prisma from "~/lib/prisma"
+import prisma from "~/lib/prisma";
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
@@ -13,7 +13,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const streamer = await prisma.streamer.findUnique({
       where: { id },
-      rejectOnNotFound: true
+      rejectOnNotFound: true,
     });
 
     const user = { ...streamer, isLoggedIn: true } as User;

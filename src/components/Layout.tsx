@@ -21,7 +21,7 @@ const Layout: FC<ILayout> = ({ children }) => {
       <CssBaseline />
       <Header />
 
-      <Box sx={{display: "flex", flexDirection: "row", flexGrow: 1}}>
+      <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
         {session?.isLoggedIn && <Drawer />}
         <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
           {children}

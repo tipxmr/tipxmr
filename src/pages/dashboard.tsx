@@ -43,17 +43,16 @@ function useSocket() {
   return;
 }
 
-
 const Home: NextPage = () => {
   const { user: session, mutateUser } = useUser();
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     // Redirect to login if the user is not logged in
     if (session && !session.isLoggedIn) {
-      router.push('/login')
+      router.push("/login");
     }
-  }, [session, router])
+  }, [session, router]);
 
   if (session && session.isLoggedIn) {
     return (
@@ -71,7 +70,7 @@ const Home: NextPage = () => {
       </Container>
     );
   }
-  return <Typography variant="h2">Please log in</Typography>
+  return <Typography variant="h2">Please log in</Typography>;
 };
 
 export default Home;
