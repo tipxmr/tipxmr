@@ -43,12 +43,12 @@ const Home: NextPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: truncatedHashedSeed, name: name, alias: alias, socket: ""
+          id: truncatedHashedSeed,
+          name: name,
+          alias: alias,
+          socket: "",
         }),
       });
-
-
-
     } catch (reason) {
       if (reason instanceof FetchError) {
         console.error(reason);
@@ -57,12 +57,12 @@ const Home: NextPage = () => {
       }
     }
     /*
-   *    const res = await fetchJson(`/api/streamer`, {
-   *      method: "POST",
-   *      body: JSON.stringify({
-  *      }),
-   *    });
-    */
+     *    const res = await fetchJson(`/api/streamer`, {
+     *      method: "POST",
+     *      body: JSON.stringify({
+     *      }),
+     *    });
+     */
     // TODO navigate the streamer to the login
   };
 
