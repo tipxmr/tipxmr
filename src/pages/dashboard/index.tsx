@@ -1,7 +1,6 @@
 import { io } from "socket.io-client";
 import { IsOnlineBadge } from "~/components";
 import { useEffect, Fragment } from "react";
-import { useRouter } from "next/router";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import type { NextPage } from "next";
@@ -44,15 +43,7 @@ function useSocket() {
 }
 
 const Home: NextPage = () => {
-  const { user: session, mutateUser } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Redirect to login if the user is not logged in
-    if (session && !session.isLoggedIn) {
-      router.push("/login");
-    }
-  }, [session, router]);
+  const { user: session } = useUser({ redirectTo: "/login" });
 
   if (session && session.isLoggedIn) {
     return (
@@ -64,7 +55,7 @@ const Home: NextPage = () => {
         <Fragment>
           <Typography variant="h4">Welcome, {session.alias}</Typography>
           <Typography variant="h5">Your ID: {session.id}</Typography>
-          <IsOnlineBadge isOnline={session?.isOnline} />
+          <IsOnlineBadge isOnline={!!session?.isOnline} />
           <pre>{JSON.stringify(session, null, 2)}</pre>
         </Fragment>
       </Container>

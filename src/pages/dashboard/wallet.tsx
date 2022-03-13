@@ -20,7 +20,6 @@ import {
   createSyncProgressListener,
   open,
 } from "~/lib/xmr";
-import { useRouter } from "next/router";
 import useUser from "~/lib/useUser";
 
 const MNEMONIC =
@@ -66,14 +65,7 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
 };
 
 const WalletPage: NextPage = () => {
-  const { user: session, mutateUser } = useUser();
-  const router = useRouter();
-  useEffect(() => {
-    // Redirect to login if the user is not logged in
-    if (session && !session.isLoggedIn) {
-      router.push("/login");
-    }
-  }, [session, router]);
+  const { user: session } = useUser({ redirectTo: "/login" });
 
   const [progress, setProgress] = useAtom(progressAtom);
   const [myWallet, setMyWallet] = useAtom(walletAtom);
