@@ -9,4 +9,3 @@ function setupSocket(io: Server) {
 }
 
 export default setupSocket;
-

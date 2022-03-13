@@ -1,13 +1,12 @@
-import React from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
+import { SWRConfig } from "swr";
 import createEmotionCache from "../styles/createEmotionCache";
-import Layout from "../components/Layout";
-import { SWRConfig } from "swr"
-import fetchJson from "~/lib/fetchJson"
+import Layout from "~/components/Layout";
+import fetchJson from "~/lib/fetchJson";
 
 import theme from "../styles/theme";
 import store from "../store";
@@ -16,35 +15,38 @@ import store from "../store";
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
-    emotionCache?: EmotionCache;
+  emotionCache?: EmotionCache;
 }
 
-
 function MyApp({
-    Component,
-    emotionCache = clientSideEmotionCache,
-    pageProps: { session, ...pageProps },
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps: { session, ...pageProps },
 }: MyAppProps) {
-    return (
-        <SWRConfig
-            value={{ fetcher: fetchJson, onError: (err) => { console.error(err) } }}
-        >
-            <CacheProvider value={emotionCache}>
-                <Head>
-                    <meta name="viewport" content="initial-scale=1, width=device-width" />
-                </Head>
+  return (
+    <SWRConfig
+      value={{
+        fetcher: fetchJson,
+        onError: (err) => {
+          console.error(err);
+        },
+      }}
+    >
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
 
-                <Provider store={store}>
-                    <ThemeProvider theme={theme}>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </ThemeProvider>
-                </Provider>
-
-            </CacheProvider>
-        </SWRConfig>
-    );
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </Provider>
+      </CacheProvider>
+    </SWRConfig>
+  );
 }
 
 export default MyApp;

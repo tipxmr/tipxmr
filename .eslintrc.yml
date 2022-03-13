@@ -4,7 +4,7 @@ env:
 extends:
   - next/core-web-vitals
   - plugin:react/recommended
-  - airbnb
+  - plugin:react/jsx-runtime
   - prettier
 parser: '@typescript-eslint/parser'
 parserOptions:

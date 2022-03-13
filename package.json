@@ -6,13 +6,15 @@
     "build": "next build",
     "start": "NODE_ENV=production ts-node src/server.ts",
     "lint": "next lint",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "generate": "prisma generate",
     "seed": "prisma db seed",
     "studio": "prisma studio",
     "migrate": "prisma migrate",
-    "postinstall": "cp node_modules/monero-javascript/dist/* public/"
+    "postinstall": "cp node_modules/monero-javascript/dist/* public/",
+    "prepare": "husky install"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -68,6 +70,7 @@
     "eslint-plugin-storybook": "^0.5.5",
     "prisma": "^3.7.0",
     "ts-node": "^10.4.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "husky": "^7.0.0"
   }
 }

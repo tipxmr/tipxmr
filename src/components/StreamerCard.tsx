@@ -29,10 +29,7 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
           )
         }
       />
-      <CardMedia
-        component="img"
-        image="https://via.placeholder.com/350x200"
-      />
+      <CardMedia component="img" image="https://via.placeholder.com/350x200" />
       <CardContent>
         <Typography variant="h5" component="div">
           {name}
@@ -47,6 +44,6 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default StreamerCard;

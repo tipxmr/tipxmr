@@ -3,7 +3,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export type User = Partial<Streamer> & { isLoggedIn: boolean }
+export type User = Partial<Streamer> & { isLoggedIn: boolean };
 
 export default withIronSessionApiRoute(userRoute, sessionOptions);
 
