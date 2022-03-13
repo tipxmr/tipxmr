@@ -20,26 +20,33 @@ import fetchJson from "~/lib/fetchJson";
 import { User } from "~/pages/api/user";
 import useUser from "~/lib/useUser";
 
-let pages = [
+let default_pages = [
   { page: "Overview", href: "/overview" },
-  { page: "Dashboard", href: "/dashboard" },
   { page: "Donate", href: "/donate" },
 ];
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+let logged_out_pages = [
+  ...default_pages,
+  { page: "Register", href: "/register" },
+  { page: "Login", href: "/login" },
+]
+
+let logged_in_pages = [
+  ...default_pages,
+  { page: "Dashboard", href: "/dashboard" },
+]
 
 const ResponsiveAppBar: FC = () => {
   const { user: session, mutateUser } = useUser();
+  const [menuItems, setMenuItems] = useState(logged_out_pages)
 
   useEffect(() => {
     if (!session?.isLoggedIn) {
-      pages.push({ page: "Register", href: "/register" });
-      pages.push({ page: "Login", href: "/login" });
+      setMenuItems(logged_out_pages)
     } else {
-      pages = pages.filter((page) => page.page !== "Register");
-      pages = pages.filter((page) => page.page !== "Login");
+      setMenuItems(logged_in_pages)
     }
-  }, [session]);
+  }, [session, setMenuItems]);
 
   const [anchorElNav, setAnchorElNav] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(false);
@@ -111,7 +118,7 @@ const ResponsiveAppBar: FC = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map(({ page, href }) => (
+                {menuItems.map(({ page, href }) => (
                   <Link href={href} passHref key={page}>
                     <MenuItem key={page}>
                       <Typography textAlign="center">{page}</Typography>
@@ -122,7 +129,7 @@ const ResponsiveAppBar: FC = () => {
             </Box>
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map(({ page, href }) => (
+              {menuItems.map(({ page, href }) => (
                 <Link href={href} passHref key={page}>
                   <Button
                     key={page}
