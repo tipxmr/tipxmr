@@ -9,8 +9,8 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import TipxmrLogo from "~/img/logo.png";
+import Container from "@mui/material/Container"
+import TipxmrLogo from "~/img/logo.png"
 
 interface ILogin {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
