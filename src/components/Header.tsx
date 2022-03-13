@@ -20,31 +20,32 @@ import fetchJson from "~/lib/fetchJson";
 import { User } from "~/pages/api/user";
 import useUser from "~/lib/useUser";
 
-let default_pages = [
+type pages = { page: string; href: string }[];
+let default_pages: pages = [
   { page: "Overview", href: "/overview" },
   { page: "Donate", href: "/donate" },
 ];
 
-let logged_out_pages = [
+let logged_out_pages: pages = [
   ...default_pages,
   { page: "Register", href: "/register" },
   { page: "Login", href: "/login" },
-]
+];
 
-let logged_in_pages = [
+let logged_in_pages: pages = [
   ...default_pages,
   { page: "Dashboard", href: "/dashboard" },
-]
+];
 
 const ResponsiveAppBar: FC = () => {
   const { user: session, mutateUser } = useUser();
-  const [menuItems, setMenuItems] = useState(logged_out_pages)
+  const [menuItems, setMenuItems] = useState(logged_out_pages);
 
   useEffect(() => {
     if (!session?.isLoggedIn) {
-      setMenuItems(logged_out_pages)
+      setMenuItems(logged_out_pages);
     } else {
-      setMenuItems(logged_in_pages)
+      setMenuItems(logged_in_pages);
     }
   }, [session, setMenuItems]);
 
