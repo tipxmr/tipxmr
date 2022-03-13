@@ -10,7 +10,10 @@ import { Streamer } from "@prisma/client";
 import { User } from "./api/user";
 
 const Home: NextPage = () => {
-  const { mutateUser } = useUser({ redirectTo: "/dashboard", redirectIfFound: true });
+  const { mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   const [seedLang, setSeedLang] = useState("English");
   const [newWallet, setNewWallet] = useAtom(walletAtom);
@@ -40,8 +43,6 @@ const Home: NextPage = () => {
           name: name,
           alias: alias,
         }),
-
-
       });
 
       // TODO streamer already exists handling
@@ -66,7 +67,6 @@ const Home: NextPage = () => {
           }
         }
       }
-
     } catch (reason) {
       if (reason instanceof FetchError) {
         console.error(reason);

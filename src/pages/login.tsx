@@ -7,7 +7,10 @@ import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
 const LoginPage: NextPage = () => {
-  const { mutateUser } = useUser({ redirectTo: "/dashboard", redirectIfFound: true });
+  const { mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
