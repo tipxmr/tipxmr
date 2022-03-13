@@ -2,7 +2,6 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import { sessionOptions } from "~/lib/session";
 
-
 async function secretRoute(request: NextApiRequest, response: NextApiResponse) {
   const user = request.session.user;
 

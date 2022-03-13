@@ -2,8 +2,7 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { sessionOptions } from "~/lib/session";
-import { getSettings } from "~/lib/streamerSettings"
-
+import { getSettings } from "~/lib/streamerSettings";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -14,10 +13,12 @@ const handler: NextApiHandler = async (req, res) => {
       res.setHeader("Allow", ["GET"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+};
 
-}
-
-async function getStreamerSettings(request: NextApiRequest, response: NextApiResponse) {
+async function getStreamerSettings(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
   const user = request.session.user;
 
   if (!user || user.isLoggedIn === false) {
