@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import { IsOnlineBadge } from "~/components";
-import { useEffect, Fragment } from "react";
+import { useEffect } from "react";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import type { NextPage } from "next";
@@ -52,12 +52,11 @@ const Home: NextPage = () => {
           <title>Dashboard</title>
         </Head>
 
-        <Fragment>
+        <>
           <Typography variant="h4">Welcome, {session.alias}</Typography>
           <Typography variant="h5">Your ID: {session.id}</Typography>
           <IsOnlineBadge isOnline={!!session?.isOnline} />
-          <pre>{JSON.stringify(session, null, 2)}</pre>
-        </Fragment>
+        </>
       </Container>
     );
   }
