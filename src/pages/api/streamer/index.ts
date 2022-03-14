@@ -1,7 +1,9 @@
-import { Streamer } from "@prisma/client";
+import { Streamer, Statuses, Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getStreamers, createStreamer } from "~/lib/streamers";
+import { getStreamers, createStreamer } from "~/lib/streamer";
+import { createAccount } from "~/lib/account";
 
+const { PrismaClientKnownRequestError } = Prisma;
 type ResponseData = Streamer[] | { error: string };
 
 async function handler(
@@ -36,10 +38,19 @@ const streamerPostHandler = async (
 ) => {
   const { id, name, alias, socket = null } = req.body;
   try {
-    const result = await createStreamer(String(id), { name, alias, socket });
+    const streamer = await createStreamer(String(id), { name, alias, socket });
+    const account = await createAccount(streamer.id, {
+      createdAt: new Date(),
+      isOnline: false,
+      status: Statuses.active,
+    });
+    const result = { streamer: streamer, account: account };
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: `failed to create streamer, ${error}` });
+    if (error instanceof PrismaClientKnownRequestError) {
+      const { message } = error;
+      res.status(500).json({ error: `failed to create streamer, ${message}` });
+    }
   }
 };
 

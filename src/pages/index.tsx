@@ -1,6 +1,5 @@
 import { Grid, Typography, Box, Button } from "@mui/material";
 import Container from "@mui/material/Container";
-
 import { Streamer } from "@prisma/client";
 import type {
   GetServerSideProps,
@@ -8,7 +7,7 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
-import { getStreamers } from "../lib/streamers";
+import { getStreamers } from "~/lib/streamer";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
 import { InfoCard, IsOnlineBadge, LanguageSelector } from "~/components";
 import { useState } from "react";
