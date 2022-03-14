@@ -44,7 +44,7 @@ const streamerPostHandler = async (
         status: Statuses.active,
       },
     });
-    const result = {...streamer, ...account};
+    const result = { ...streamer, ...account };
     res.status(200).json(result);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
