@@ -6,6 +6,8 @@ import { createWallet, getMnemonicHash } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 import { useRouter } from "next/router";
 import useUser from "~/lib/useUser";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
+import { Streamer } from "@prisma/client";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -35,15 +37,30 @@ const Home: NextPage = () => {
     // TODO create a new streamer in the tipxmr db with this
     const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
 
-    const res = await fetch(`/api/streamer`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: truncatedHashedSeed,
-        name: name,
-        alias: alias,
-      }),
-    });
-
+    try {
+      const streamer = await fetchJson<Streamer>("/api/streamer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: truncatedHashedSeed,
+          name: name,
+          alias: alias,
+        }),
+      });
+    } catch (reason) {
+      if (reason instanceof FetchError) {
+        console.error(reason);
+      } else {
+        console.error("An unexpected error happened:", reason);
+      }
+    }
+    /*
+     *    const res = await fetchJson(`/api/streamer`, {
+     *      method: "POST",
+     *      body: JSON.stringify({
+     *      }),
+     *    });
+     */
     // TODO navigate the streamer to the login
   };
 
