@@ -66,30 +66,22 @@ const Register: FC<IRegister> = ({
                   flexDirection: "row",
                 }}
               >
-                <Tooltip
-                  placement="top"
-                  title="This name will not be visible to your audience"
-                >
-                  <TextField
-                    name="name"
-                    required
-                    id="name"
-                    label="Username"
-                    autoFocus
-                  />
-                </Tooltip>
-                <Tooltip
-                  placement="top"
-                  title="This is the name your audience will see"
-                >
-                  <TextField
-                    name="alias"
-                    required
-                    id="alias"
-                    label="Displayname"
-                    autoFocus
-                  />
-                </Tooltip>
+                <TextField
+                  id="name"
+                  name="name"
+                  required
+                  helperText="This name will not be visible to your audience"
+                  label="Username"
+                  autoFocus
+                />
+                <TextField
+                  id="alias"
+                  name="alias"
+                  required
+                  helperText="This is the name your audience will see"
+                  label="Displayname"
+                  autoFocus
+                />
               </Box>
             </Grid>
             <Grid item xs={12} sm={12} mt={3}>
@@ -100,7 +92,7 @@ const Register: FC<IRegister> = ({
                 />
               </Box>
               {seedPhrase ? (
-                <Tooltip title="This is your XMR seed" placement="top">
+                <Tooltip title="This is your XMR seed" placement="bottom">
                   <Paper
                     elevation={3}
                     sx={{ mt: 3, p: 2, backgroundColor: "primary" }}

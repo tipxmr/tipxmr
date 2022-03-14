@@ -2,20 +2,18 @@ import { NextPage } from "next";
 import { useAtom } from "jotai";
 import { useState, useEffect, FormEvent } from "react";
 import { Register } from "~/components";
-import { createWallet, getMnemonicHash } from "~/lib/xmr";
+import { createWallet, getMnemonicHash, open } from "~/lib/xmr";
 import { walletAtom } from "~/store";
-import { useRouter } from "next/router";
 import useUser from "~/lib/useUser";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
+import { Streamer } from "@prisma/client";
+import { User } from "./api/user";
 
 const Home: NextPage = () => {
-  const router = useRouter();
-  const { user: session, mutateUser } = useUser();
-
-  useEffect(() => {
-    if (session && session.isLoggedIn) {
-      router.push("/dashboard");
-    }
-  }, [session, router]);
+  const { mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   const [seedLang, setSeedLang] = useState("English");
   const [newWallet, setNewWallet] = useAtom(walletAtom);
@@ -28,6 +26,7 @@ const Home: NextPage = () => {
     const alias = data.get("alias") as string;
     const understood = data.get("understood");
     if (!understood) {
+      // TODO validate this on the field
       alert("Sorry, you must agree to proceed");
       return;
     }
@@ -35,15 +34,53 @@ const Home: NextPage = () => {
     // TODO create a new streamer in the tipxmr db with this
     const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
 
-    const res = await fetch(`/api/streamer`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: truncatedHashedSeed,
-        name: name,
-        alias: alias,
-      }),
-    });
+    try {
+      const streamer = await fetchJson<Streamer>("/api/streamer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: truncatedHashedSeed,
+          name: name,
+          alias: alias,
+        }),
+      });
 
+      // TODO streamer already exists handling
+
+      if (streamer) {
+        const body = {
+          hash: truncatedHashedSeed,
+        };
+
+        try {
+          const user = await fetchJson<User>("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+          mutateUser(user);
+        } catch (reason) {
+          if (reason instanceof FetchError) {
+            console.error(reason);
+          } else {
+            console.error("An unexpected error happened:", reason);
+          }
+        }
+      }
+    } catch (reason) {
+      if (reason instanceof FetchError) {
+        console.error(reason);
+      } else {
+        console.error("An unexpected error happened:", reason);
+      }
+    }
+    /*
+     *    const res = await fetchJson(`/api/streamer`, {
+     *      method: "POST",
+     *      body: JSON.stringify({
+     *      }),
+     *    });
+     */
     // TODO navigate the streamer to the login
   };
 

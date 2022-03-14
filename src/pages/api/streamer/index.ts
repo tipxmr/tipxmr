@@ -34,7 +34,7 @@ const streamerPostHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { id, name, alias, socket = "" } = JSON.parse(req.body);
+  const { id, name, alias, socket = null } = req.body;
   try {
     const result = await createStreamer(String(id), { name, alias, socket });
     res.status(200).json(result);

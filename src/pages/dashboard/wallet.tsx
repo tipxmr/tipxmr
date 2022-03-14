@@ -20,6 +20,7 @@ import {
   createSyncProgressListener,
   open,
 } from "~/lib/xmr";
+import useUser from "~/lib/useUser";
 
 const MNEMONIC =
   "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
@@ -64,6 +65,8 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
 };
 
 const WalletPage: NextPage = () => {
+  const { user: session } = useUser({ redirectTo: "/login" });
+
   const [progress, setProgress] = useAtom(progressAtom);
   const [myWallet, setMyWallet] = useAtom(walletAtom);
   const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom);
@@ -114,17 +117,23 @@ const WalletPage: NextPage = () => {
     };
   }, []);
 
-  return (
-    <>
-      <TipxmrWallet
-        balance={balance}
-        isSynced={isSyncing}
-        height={syncHeight}
-      ></TipxmrWallet>
-      <Typography>Progress: {progress}%</Typography>
-      {isDone ? <Transaction wallet={myWallet} /> : null}
-    </>
-  );
+  if (!session?.isLoggedIn) {
+    return <Typography variant="h2">Please log in</Typography>;
+  }
+
+  if (session && session.isLoggedIn) {
+    return (
+      <>
+        <TipxmrWallet
+          balance={balance}
+          isSynced={isSyncing}
+          height={syncHeight}
+        ></TipxmrWallet>
+        <Typography>Progress: {progress}%</Typography>
+        {isDone ? <Transaction wallet={myWallet} /> : null}
+      </>
+    );
+  }
 };
 
 export default WalletPage;
