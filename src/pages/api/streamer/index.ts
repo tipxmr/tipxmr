@@ -1,10 +1,10 @@
-import { PrismaClient, Streamer, Statuses, Prisma } from "@prisma/client";
+import { Streamer, Statuses, Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getStreamers, createStreamer } from "~/lib/streamer";
 import { createAccount } from "~/lib/account";
 
+const { PrismaClientKnownRequestError } = Prisma;
 type ResponseData = Streamer[] | { error: string };
-const prisma = new PrismaClient();
 
 async function handler(
   req: NextApiRequest,
@@ -47,7 +47,7 @@ const streamerPostHandler = async (
     const result = { streamer: streamer, account: account };
     res.status(200).json(result);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
       res.status(500).json({ error: `failed to create streamer, ${message}` });
     }
