@@ -35,7 +35,7 @@ const streamerPostHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { id, name, alias, socket } = req.body;
+  const { id, name, alias, socket = null } = req.body;
   try {
     const streamer = await createStreamer(String(id), { name, alias, socket });
     const account = await prisma.account.create({

@@ -1,21 +1,16 @@
 import { getMnemonicHash } from "~/lib/xmr";
 import { Login } from "~/components";
 import { NextPage } from "next";
-import { useEffect, FormEvent } from "react";
+import { FormEvent } from "react";
 import { User } from "./api/user";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { useRouter } from "next/router";
 import useUser from "~/lib/useUser";
 
 const LoginPage: NextPage = () => {
-  const { user: session, mutateUser } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session && session.isLoggedIn) {
-      router.push("/dashboard");
-    }
-  }, [session, router]);
+  const { mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

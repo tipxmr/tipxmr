@@ -11,11 +11,11 @@ import MailIcon from "@mui/icons-material/Mail";
 
 const drawerWidth = 240;
 const pages = [
-  { page: "Wallet", href: "/wallet" },
+  { page: "Wallet", href: "/dashboard/wallet" },
   { page: "Dashboard", href: "/dashboard" },
-  { page: "Settings", href: "/settings" },
-  { page: "History", href: "/history" },
-  { page: "Profile", href: "/profile" },
+  { page: "Settings", href: "/dashboard/settings" },
+  { page: "History", href: "/dashboard/history" },
+  { page: "Profile", href: "/dashboard/profile" },
 ];
 
 export default function PermanentDrawerLeft() {
