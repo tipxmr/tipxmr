@@ -1,8 +1,9 @@
-import { Typography } from "@mui/material";
+import { Typography, Input, Button } from "@mui/material";
 import { Account, Donation_settings, Wallet } from "@prisma/client";
 import { NextPage } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import useSWR from "swr";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
 const Settings: NextPage = () => {
@@ -14,6 +15,37 @@ const Settings: NextPage = () => {
 
   const { data, error } = useSWR("/api/streamer/settings");
   if (error) return <>"Sorry there was an error"</>;
+
+
+  const handleSubmit = async () => {
+    // TODO this works, but needs to be cleaned up and transformed to form
+    const body = {
+      charPrice: 12,
+      charLimit: 9001,
+      secondPrice: 420
+
+    }
+
+
+    try {
+      const result = await fetchJson("/api/streamer/settings/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      console.log(result)
+
+
+    } catch (reason) {
+      if (reason instanceof FetchError) {
+        console.error(reason);
+      } else {
+        console.error("An unexpected error happened:", reason);
+      }
+    }
+
+  }
 
   useEffect(() => {
     setAccount(data?.account);
@@ -48,6 +80,8 @@ const Settings: NextPage = () => {
           <Typography component="li">
             Char Price: {donationSettings.charPrice} XMR
           </Typography>
+          <Input placeholder="Char Price" />
+          <Button onClick={handleSubmit}>Submit</Button>
           <Typography component="li">
             Char Limit: {donationSettings.charLimit}
           </Typography>
