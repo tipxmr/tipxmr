@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
+    "@mermaid-js/mermaid-cli": "^8.14.0",
     "@storybook/addon-actions": "^6.4.9",
     "@storybook/addon-essentials": "^6.4.9",
     "@storybook/addon-links": "^6.4.9",
@@ -68,9 +69,10 @@
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.5",
+    "husky": "^7.0.0",
     "prisma": "^3.7.0",
+    "prisma-erd-generator": "^0.10.1",
     "ts-node": "^10.4.0",
-    "typescript": "4.5.4",
-    "husky": "^7.0.0"
+    "typescript": "4.5.4"
   }
 }
