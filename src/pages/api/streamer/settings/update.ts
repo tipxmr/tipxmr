@@ -29,10 +29,9 @@ async function updateStreamerSettings(
   }
 
   try {
+    const { body } = request;
 
-    const { body } = request
-
-    const result = await updateDonationSettings(String(user.id), body)
+    const result = await updateDonationSettings(String(user.id), body);
 
     response.status(200).json({ result });
   } catch (error) {
@@ -44,7 +43,6 @@ async function updateStreamerSettings(
     }
     console.error(error);
   }
-
 }
 
 export default withIronSessionApiRoute(handler, sessionOptions);

@@ -39,12 +39,12 @@ export const getDonationSettings = (
 export const updateDonationSettings = (
   streamer: Donation_settings["streamer"],
   data: {
-    charPrice?: Donation_settings["charPrice"]
-    charLimit?: Donation_settings["charLimit"]
-    goal?: Donation_settings["goal"]
-    minAmount?: Donation_settings["minAmount"]
-    secondPrice?: Donation_settings["secondPrice"]
-    gifsMinAmount?: Donation_settings["gifsMinAmount"]
+    charPrice?: Donation_settings["charPrice"];
+    charLimit?: Donation_settings["charLimit"];
+    goal?: Donation_settings["goal"];
+    minAmount?: Donation_settings["minAmount"];
+    secondPrice?: Donation_settings["secondPrice"];
+    gifsMinAmount?: Donation_settings["gifsMinAmount"];
   }
 ) => {
   return prisma?.donation_settings.update({

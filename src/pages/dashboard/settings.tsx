@@ -16,16 +16,13 @@ const Settings: NextPage = () => {
   const { data, error } = useSWR("/api/streamer/settings");
   if (error) return <>"Sorry there was an error"</>;
 
-
   const handleSubmit = async () => {
     // TODO this works, but needs to be cleaned up and transformed to form
     const body = {
       charPrice: 12,
       charLimit: 9001,
-      secondPrice: 420
-
-    }
-
+      secondPrice: 420,
+    };
 
     try {
       const result = await fetchJson("/api/streamer/settings/update", {
@@ -34,9 +31,7 @@ const Settings: NextPage = () => {
         body: JSON.stringify(body),
       });
 
-      console.log(result)
-
-
+      console.log(result);
     } catch (reason) {
       if (reason instanceof FetchError) {
         console.error(reason);
@@ -44,8 +39,7 @@ const Settings: NextPage = () => {
         console.error("An unexpected error happened:", reason);
       }
     }
-
-  }
+  };
 
   useEffect(() => {
     setAccount(data?.account);
