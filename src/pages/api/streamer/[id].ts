@@ -4,7 +4,7 @@ import {
   getStreamer,
   removeStreamer,
   updateStreamer,
-} from "~/lib/streamer";
+} from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {

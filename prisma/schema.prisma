@@ -47,14 +47,14 @@ model Donation {
 
 model Donation_settings {
   streamer                             String   @id @db.VarChar(12)
-  secondPrice                          Int?
-  charPrice                            Float?
-  charLimit                            Int?
-  minAmount                            Int?
-  gifsMinAmount                        Float?
-  goal                                 Float?
-  goalProgress                         Float?   @db.Real
-  goalReached                          Boolean?
+  secondPrice                          Int?     @default(0)
+  charPrice                            Float?   @default(0)
+  charLimit                            Int?     @default(140)
+  minAmount                            Int?     @default(0)
+  gifsMinAmount                        Float?   @default(0)
+  goal                                 Float?   @default(0)
+  goalProgress                         Float?   @db.Real @default(0)
+  goalReached                          Boolean? @default(false)
   streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -84,7 +84,6 @@ model Streamer {
   name             String             @unique @db.VarChar(20)
   alias            String             @unique @db.VarChar(24)
   socket           String?            @unique @db.VarChar(20)
-  createdAt        DateTime           @default(now())
   updatedAt        DateTime           @default(now()) @updatedAt
   isOnline         Boolean            @default(false) @db.Boolean
   status           Statuses?
@@ -100,8 +99,8 @@ model Streamer {
 
 model Wallet {
   streamer                  String   @id @db.VarChar(12)
-  restoreHeight             Int?
-  lastSyncHeight            Int?
+  restoreHeight             Int?     @default(0)
+  lastSyncHeight            Int?     @default(0)
   streamer_streamerTowallet Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

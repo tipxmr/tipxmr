@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { getStreamerByName } from "~/lib/streamer";
+import { getStreamerByName } from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {

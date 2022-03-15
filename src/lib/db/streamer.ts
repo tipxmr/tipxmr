@@ -1,5 +1,5 @@
 import { Streamer } from "@prisma/client";
-import prisma from "./prisma";
+import prisma from "../prisma";
 
 export const getStreamers = () => prisma.streamer.findMany({});
 
@@ -28,10 +28,14 @@ export const createStreamer = (
     socket?: Streamer["socket"];
   }
 ) => {
+  // TODO implement current blockheight - 10 here as the default restoreHeight for the wallet
   return prisma?.streamer.create({
     data: {
       id,
       ...data,
+      Account: { create: {} },
+      wallet: { create: {} },
+      donationSettings: { create: {} },
     },
   });
 };

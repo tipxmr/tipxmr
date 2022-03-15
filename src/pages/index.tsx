@@ -7,7 +7,7 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
-import { getStreamers } from "~/lib/streamer";
+import { getStreamers } from "~/lib/db/streamer";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
 import { InfoCard, IsOnlineBadge, LanguageSelector } from "~/components";
 import { useState } from "react";

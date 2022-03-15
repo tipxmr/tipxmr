@@ -35,9 +35,8 @@ const Home: NextPage = () => {
     const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
 
     try {
-      const { streamer, account } = await fetchJson<{
+      const { streamer } = await fetchJson<{
         streamer: Streamer;
-        account: Account;
       }>("/api/streamer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
