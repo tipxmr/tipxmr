@@ -14,8 +14,7 @@ const Settings: NextPage = () => {
   const [wallet, setWallet] = useState<Wallet>();
   const [donationSettings, setDonationSettings] = useState<Donation_settings>();
 
-
-  const { data, error } = useSWR(`/api/donation-settings/${user?.name}`)
+  const { data, error } = useSWR(`/api/donation-settings/${user?.name}`);
 
   const handleSubmit = async () => {
     // TODO this works, but needs to be cleaned up and transformed to form
@@ -60,9 +59,11 @@ const Settings: NextPage = () => {
           </Typography>
           {donationSettings && (
             <>
-              <SettingsForm donationSettings={donationSettings} handleSubmit={handleSubmit} />
+              <SettingsForm
+                donationSettings={donationSettings}
+                handleSubmit={handleSubmit}
+              />
             </>
-
           )}
         </Paper>
       </Container>

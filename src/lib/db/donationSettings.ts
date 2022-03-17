@@ -5,9 +5,7 @@ import prisma from "../prisma";
 // therefore, can we really find the steamer by ID?
 // maybe.
 
-export const getDonationSettings = async (
-  name: Streamer["name"]
-) => {
+export const getDonationSettings = async (name: Streamer["name"]) => {
   // TODO manual error handeling
 
   const streamer = await prisma.streamer.findUnique({
@@ -21,9 +19,9 @@ export const getDonationSettings = async (
         streamer: streamer.id,
       },
     });
-    return donationSettings
+    return donationSettings;
   }
-  return undefined
+  return undefined;
 };
 
 export const updateDonationSettings = (

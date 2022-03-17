@@ -17,7 +17,7 @@ const getStreamerDonationSettings = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
-  const { name } = request.query
+  const { name } = request.query;
 
   try {
     const donationSettings = await getDonationSettings(String(name));
@@ -26,8 +26,7 @@ const getStreamerDonationSettings = async (
       response.status(200).json({ donationSettings });
     }
 
-    throw new Error("This user does not exist")
-
+    throw new Error("This user does not exist");
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
@@ -37,7 +36,6 @@ const getStreamerDonationSettings = async (
     }
     console.error(error);
   }
-
 };
 
 export default handler;

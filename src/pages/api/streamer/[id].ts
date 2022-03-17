@@ -7,7 +7,7 @@ import {
 } from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.query)
+  console.log(req.query);
   switch (req.method) {
     case "GET":
       streamerGetHandler(req, res);
