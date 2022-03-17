@@ -19,7 +19,6 @@ type Modify<T, R> = Omit<T, keyof R> & R;
 type SerializedStreamer = Modify<
   Streamer,
   {
-    createdAt: string;
     updatedAt: string;
   }
 >;
@@ -30,10 +29,9 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const streamers = await getStreamers();
-  const serialized = streamers.map(({ createdAt, updatedAt, ...streamer }) => {
+  const serialized = streamers.map(({ updatedAt, ...streamer }) => {
     return {
       ...streamer,
-      createdAt: createdAt.toJSON(),
       updatedAt: updatedAt.toJSON(),
     };
   });
