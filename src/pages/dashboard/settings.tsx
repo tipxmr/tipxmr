@@ -14,8 +14,8 @@ const Settings: NextPage = () => {
   const [wallet, setWallet] = useState<Wallet>();
   const [donationSettings, setDonationSettings] = useState<Donation_settings>();
 
-  const { data, error } = useSWR("/api/streamer/settings");
-  if (error) return <>"Sorry there was an error"</>;
+
+  const { data, error } = useSWR(`/api/donation-settings/${user?.name}`)
 
   const handleSubmit = async () => {
     // TODO this works, but needs to be cleaned up and transformed to form
@@ -59,7 +59,10 @@ const Settings: NextPage = () => {
             Your Settings
           </Typography>
           {donationSettings && (
-            <SettingsForm donationSettings={donationSettings} />
+            <>
+              <SettingsForm donationSettings={donationSettings} handleSubmit={handleSubmit} />
+            </>
+
           )}
         </Paper>
       </Container>

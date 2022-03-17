@@ -22,7 +22,6 @@ export const createAccount = (
   streamer: Account["streamer"],
   data: {
     createdAt: Account["createdAt"];
-    isOnline: Account["isOnline"];
     status: Statuses;
   }
 ) => {
@@ -38,7 +37,6 @@ export const updateAccount = (
   streamer: Account["streamer"],
   data: {
     createdAt?: Account["createdAt"];
-    isOnline?: Account["isOnline"];
     status?: Statuses;
   }
 ) => {
