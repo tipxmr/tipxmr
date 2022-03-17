@@ -50,4 +50,4 @@ async function getStreamerSettings(
   response.json({ secret: "you're looking good today" });
 }
 
-export default withIronSessionApiRoute(getStreamerSettings, sessionOptions);
+export default withIronSessionApiRoute(handler, sessionOptions);
