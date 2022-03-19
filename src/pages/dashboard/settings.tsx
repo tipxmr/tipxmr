@@ -1,7 +1,8 @@
 import { Typography, Input, Button, Container, Paper } from "@mui/material";
 import { Account, Donation_settings, Wallet } from "@prisma/client";
+import { assoc } from "ramda";
 import { NextPage } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import useSWR from "swr";
 import { SettingsForm } from "~/components";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
@@ -12,24 +13,48 @@ const Settings: NextPage = () => {
 
   const [account, setAccount] = useState<Account>();
   const [wallet, setWallet] = useState<Wallet>();
-  const [donationSettings, setDonationSettings] = useState<Donation_settings>();
 
-  const { data, error } = useSWR(`/api/donation-settings/${user?.name}`);
+  console.log(`Username ${user?.name}`);
 
-  const handleSubmit = async () => {
-    // TODO this works, but needs to be cleaned up and transformed to form
+  const useDonationSettings = (name) => {
+    return useSWR(() => (name ? `/api/donation-settings/${name}` : null));
+  };
+
+  const { data: donationSettings } = useDonationSettings(user?.name);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!user) return;
+
+    const data = new FormData(event.currentTarget);
+    // TODO do we need to validate?
+
+    let updateData = {};
+
+    for (const pair of data.entries()) {
+      // this
+      if (pair.at(1) === "") {
+        continue;
+      }
+
+      updateData = assoc(pair[0], Number(pair[1]), updateData);
+    }
     const body = {
-      charPrice: 12,
-      charLimit: 9001,
-      secondPrice: 420,
+      streamer: user.id,
+      ...updateData,
     };
 
+    console.log(`API Body `, body);
+
     try {
-      const result = await fetchJson("/api/streamer/settings/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const result = await fetchJson(
+        `/api/donation-settings/update/${user?.id}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
 
       console.log(result);
     } catch (reason) {
@@ -40,13 +65,13 @@ const Settings: NextPage = () => {
       }
     }
   };
-
-  useEffect(() => {
-    setAccount(data?.account);
-    setWallet(data?.wallet);
-    setDonationSettings(data?.donationSettings);
-  }, [data, setAccount, setWallet, setDonationSettings]);
-
+  /*
+   *   useEffect(() => {
+   *     setAccount(data?.account);
+   *     setWallet(data?.wallet);
+   *     setDonationSettings(data?.donationSettings);
+   *   }, [data, setAccount, setWallet, setDonationSettings]);
+   *  */
   return (
     <>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>

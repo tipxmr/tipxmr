@@ -13,6 +13,7 @@ import { InfoCard, IsOnlineBadge, LanguageSelector } from "~/components";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import useUser from "~/lib/useUser";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
@@ -42,6 +43,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<ServerSideProps> = () => {
+  const { user } = useUser({ redirectTo: "/dashboard", redirectIfFound: true });
   const [language, setLanguage] = useState("English");
 
   return (

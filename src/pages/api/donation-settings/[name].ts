@@ -19,6 +19,8 @@ const getStreamerDonationSettings = async (
 ) => {
   const { name } = request.query;
 
+  if (!name) throw new Error("Provide a streamer name");
+
   try {
     const donationSettings = await getDonationSettings(String(name));
 

@@ -4,14 +4,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Donation_settings } from "@prisma/client";
-import {
-  secondPrice,
-  charPrice,
-  charLimit,
-  minAmount,
-  gifsMinAmount,
-  goal,
-} from "~/lib/atoms";
 
 interface ISettingsForm {
   donationSettings: IDonationSettings;
@@ -27,13 +19,18 @@ interface IDonationSettings {
   goal: Donation_settings["goal"];
 }
 
-const SettingsForm: FC<ISettingsForm> = ({ handleSubmit }) => {
+const SettingsForm: FC<ISettingsForm> = ({
+  donationSettings,
+  handleSubmit,
+}) => {
+  const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
+    donationSettings;
   return (
     <>
       <Typography variant="h6" gutterBottom>
         Donation Settings
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container component="form" onSubmit={handleSubmit} spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
             id="secondPrice"
@@ -76,7 +73,6 @@ const SettingsForm: FC<ISettingsForm> = ({ handleSubmit }) => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="gifsMinAmount"
             name="gifsMinAmount"
             label="Minimum XMR amount for sending GIFs"
@@ -97,7 +93,7 @@ const SettingsForm: FC<ISettingsForm> = ({ handleSubmit }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Button fullWidth onClick={handleSubmit}>
+          <Button fullWidth type="submit" color="primary">
             Save settings
           </Button>
         </Grid>
