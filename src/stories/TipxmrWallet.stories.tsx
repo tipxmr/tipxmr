@@ -21,4 +21,6 @@ NotSynced.args = {
   balance: 1000,
   height: 2131222,
   isSynced: false,
+  percentDone: 78,
+  endHeight: 2131242,
 };

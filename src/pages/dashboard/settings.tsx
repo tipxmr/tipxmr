@@ -1,4 +1,11 @@
-import { Typography, Input, Button, Container, Paper } from "@mui/material";
+import {
+  Typography,
+  Input,
+  Button,
+  Container,
+  Paper,
+  Grid,
+} from "@mui/material";
 import { Account, Donation_settings, Streamer, Wallet } from "@prisma/client";
 import { assoc } from "ramda";
 import { NextPage } from "next";
@@ -21,7 +28,6 @@ const useWalletSettings = (id: Streamer["id"]) => {
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
   console.log(`Username ${user?.name}`);
-
   const { data: donationSettings } = useDonationSettings(user?.name);
   const { data: walletSettings } = useWalletSettings(user?.id);
 
@@ -70,42 +76,32 @@ const Settings: NextPage = () => {
       }
     }
   };
-  /*
-   *   useEffect(() => {
-   *     setAccount(data?.account);
-   *     setWallet(data?.wallet);
-   *     setDonationSettings(data?.donationSettings);
-   *   }, [data, setAccount, setWallet, setDonationSettings]);
-   *  */
+
   return (
-    <>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-        >
-          <Typography component="h1" variant="h4" align="center">
-            Your Settings
-          </Typography>
-          {donationSettings && (
-            <>
-              <DonationSettingsForm
-                donationSettings={donationSettings}
-                handleSubmit={handleSubmit}
-              />
-            </>
-          )}
-          {walletSettings && (
-            <>
-              <WalletSettingsForm
-                walletSettings={walletSettings}
-                handleSubmit={handleSubmit}
-              />
-            </>
-          )}
-        </Paper>
-      </Container>
-    </>
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={3}
+    >
+      {donationSettings && (
+        <Grid item xs={12}>
+          <DonationSettingsForm
+            donationSettings={donationSettings}
+            handleSubmit={handleSubmit}
+          />
+        </Grid>
+      )}
+      {walletSettings && (
+        <Grid item xs={12}>
+          <WalletSettingsForm
+            walletSettings={walletSettings}
+            handleSubmit={handleSubmit}
+          />
+        </Grid>
+      )}
+    </Grid>
   );
 };
 

@@ -1,9 +1,11 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Wallet } from "@prisma/client";
+import Chip from "@mui/material/Chip";
+import { Paper } from "@mui/material";
 
 interface ISettingsForm {
   walletSettings: IWalletSettings;
@@ -19,14 +21,34 @@ const WalletSettingsForm: FC<ISettingsForm> = ({
   walletSettings,
   handleSubmit,
 }) => {
-  const { restoreHeight } = walletSettings;
+  console.log(walletSettings.wallet);
+  const { restoreHeight: test } = walletSettings;
+  console.log(test);
+  const [restoreHeight, setRestoreHeight] = useState<Wallet["restoreHeight"]>();
+
+  useEffect(() => {
+    const { restoreHeight } = walletSettings;
+    setRestoreHeight(restoreHeight);
+  }, [walletSettings, restoreHeight, setRestoreHeight]);
+
+  console.log("restoreHeight ", restoreHeight);
   return (
-    <>
-      <Typography variant="h6" gutterBottom>
-        Donation Settings
+    <Paper elevation={2} sx={{ p: 4 }}>
+      <Typography component="h2" variant="h4" align="center" gutterBottom>
+        Wallet Settings
       </Typography>
-      <Grid container component="form" onSubmit={handleSubmit} spacing={3}>
-        <Grid item xs={12}>
+      <Grid
+        container
+        component="form"
+        onSubmit={handleSubmit}
+        spacing={3}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs={2} align="center">
+          <Chip label={`${String(walletSettings.restoreHeight)} blocks`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="restoreHeight"
             name="restoreHeight"
@@ -42,7 +64,7 @@ const WalletSettingsForm: FC<ISettingsForm> = ({
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Paper>
   );
 };
 export default WalletSettingsForm;

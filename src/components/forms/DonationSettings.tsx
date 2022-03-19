@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Donation_settings } from "@prisma/client";
+import { Chip, Paper } from "@mui/material";
 
 interface ISettingsForm {
   donationSettings: IDonationSettings;
@@ -26,12 +27,22 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
   const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
     donationSettings;
   return (
-    <>
-      <Typography variant="h6" gutterBottom>
+    <Paper elevation={2} sx={{ p: 4 }}>
+      <Typography component="h2" variant="h4" align="center" gutterBottom>
         Donation Settings
       </Typography>
-      <Grid container component="form" onSubmit={handleSubmit} spacing={3}>
-        <Grid item xs={12}>
+      <Grid
+        container
+        component="form"
+        onSubmit={handleSubmit}
+        spacing={3}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs={2} align="center">
+          <Chip label={`${secondPrice} XMR`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="secondPrice"
             name="secondPrice"
@@ -41,7 +52,11 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
+
+        <Grid item xs={2} align="center">
+          <Chip label={`${charPrice} XMR`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="charPrice"
             name="charPrice"
@@ -51,7 +66,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={2} align="center">
+          <Chip label={`${charLimit} characters max`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="charLimit"
             name="charLimit"
@@ -61,7 +79,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={2} align="center">
+          <Chip label={`${minAmount} XMR`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="minAmount"
             name="minAmount"
@@ -71,7 +92,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={2} align="center">
+          <Chip label={`${gifsMinAmount} XMR`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="gifsMinAmount"
             name="gifsMinAmount"
@@ -81,7 +105,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={2} align="center">
+          <Chip label={`${goal} XMR`} />
+        </Grid>
+        <Grid item xs={10}>
           <TextField
             id="goal"
             name="goal"
@@ -98,7 +125,7 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Paper>
   );
 };
 export default DonationSettingsForm;

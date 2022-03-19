@@ -128,8 +128,8 @@ const WalletPage: NextPage = () => {
           balance={balance}
           isSynced={isSyncing}
           height={syncHeight}
+          percentDone={progress}
         ></TipxmrWallet>
-        <Typography>Progress: {progress}%</Typography>
         {isDone ? <Transaction wallet={myWallet} /> : null}
       </>
     );

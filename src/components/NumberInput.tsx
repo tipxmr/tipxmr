@@ -2,18 +2,16 @@ import { useState, FC, ChangeEvent } from "react";
 import { Box, OutlinedInput, InputAdornment } from "@mui/material";
 
 interface INumberInput {
-  label: string;
-  unit: string;
+  label?: string;
+  unit?: string;
 }
 
-const NumberInput: FC<INumberInput> = ({ label, unit }) => {
+const NumberInput: FC<INumberInput> = ({ label, unit = "XMR" }) => {
   const [amount, setAmount] = useState(0);
   const handleChangeAmount = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    if (typeof e.target.value === "number") {
-      setAmount(e.target.value);
-    }
+    setAmount(Number(e.target.value));
   };
   return (
     <Box
@@ -27,7 +25,7 @@ const NumberInput: FC<INumberInput> = ({ label, unit }) => {
         label={label}
         value={amount}
         onChange={handleChangeAmount}
-        endAdornment={<InputAdornment position="end">XMR</InputAdornment>}
+        endAdornment={<InputAdornment position="end">{unit}</InputAdornment>}
         name="numberformat"
         id="numberformat-input"
         inputProps={{
