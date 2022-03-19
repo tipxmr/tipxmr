@@ -1,11 +1,13 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "~/lib/session";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { getDonationSettings } from "~/lib/db/donationSettings";
+import { getWallet } from "~/lib/db/wallet";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
-      getStreamerDonationSettings(req, res);
+      getWalletInfo(req, res);
       break;
     default:
       res.setHeader("Allow", ["GET"]);
@@ -13,19 +15,28 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
-const getStreamerDonationSettings = async (
+const getWalletInfo = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
-  const { name } = request.query;
+  const user = request.session.user;
+  if (!user || user.isLoggedIn === false) {
+    response.status(401).json({
+      message: "Not Authorized",
+    });
+    return;
+  }
 
-  if (!name) throw new Error("Provide a streamer name");
+  const { id } = request.query;
+
+  if (!id) throw new Error("Provide a streamer id");
 
   try {
-    const donationSettings = await getDonationSettings(String(name));
+    const walletSettings = await getWallet(String(id));
+    console.log("Got wallet settings", walletSettings);
 
-    if (donationSettings) {
-      response.status(200).json({ donationSettings });
+    if (walletSettings) {
+      response.status(200).json({ walletSettings });
       return;
     }
 
@@ -41,4 +52,4 @@ const getStreamerDonationSettings = async (
   }
 };
 
-export default handler;
+export default withIronSessionApiRoute(handler, sessionOptions);

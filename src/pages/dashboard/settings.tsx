@@ -1,26 +1,31 @@
 import { Typography, Input, Button, Container, Paper } from "@mui/material";
-import { Account, Donation_settings, Wallet } from "@prisma/client";
+import { Account, Donation_settings, Streamer, Wallet } from "@prisma/client";
 import { assoc } from "ramda";
 import { NextPage } from "next";
 import { useState, useEffect, FormEvent } from "react";
 import useSWR from "swr";
-import { SettingsForm } from "~/components";
+import { DonationSettingsForm } from "~/components";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
+import WalletSettingsForm from "~/components/forms/WalletSettings";
+
+const useDonationSettings = (name: Streamer["name"]) => {
+  return useSWR(() => (name ? `/api/donation-settings/${name}` : null));
+};
+
+const useWalletSettings = (id: Streamer["id"]) => {
+  console.log("Requesting wallet settings for ", id);
+  return useSWR(() => (id ? `/api/wallet/settings/${id}` : null));
+};
 
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
-
-  const [account, setAccount] = useState<Account>();
-  const [wallet, setWallet] = useState<Wallet>();
-
   console.log(`Username ${user?.name}`);
 
-  const useDonationSettings = (name) => {
-    return useSWR(() => (name ? `/api/donation-settings/${name}` : null));
-  };
-
   const { data: donationSettings } = useDonationSettings(user?.name);
+  const { data: walletSettings } = useWalletSettings(user?.id);
+
+  console.log("Wallet settings", walletSettings);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,8 +89,16 @@ const Settings: NextPage = () => {
           </Typography>
           {donationSettings && (
             <>
-              <SettingsForm
+              <DonationSettingsForm
                 donationSettings={donationSettings}
+                handleSubmit={handleSubmit}
+              />
+            </>
+          )}
+          {walletSettings && (
+            <>
+              <WalletSettingsForm
+                walletSettings={walletSettings}
                 handleSubmit={handleSubmit}
               />
             </>

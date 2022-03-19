@@ -19,19 +19,21 @@ interface IDonationSettings {
   goal: Donation_settings["goal"];
 }
 
-const SettingsForm: FC<ISettingsForm> = ({
+const DonationSettingsForm: FC<ISettingsForm> = ({
   donationSettings,
   handleSubmit,
 }) => {
   const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
     donationSettings;
+
+  console.log("secondPrice", secondPrice);
   return (
     <>
       <Typography variant="h6" gutterBottom>
         Donation Settings
       </Typography>
       <Grid container component="form" onSubmit={handleSubmit} spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             id="secondPrice"
             name="secondPrice"
@@ -41,7 +43,7 @@ const SettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             id="charPrice"
             name="charPrice"
@@ -71,7 +73,7 @@ const SettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             id="gifsMinAmount"
             name="gifsMinAmount"
@@ -81,7 +83,7 @@ const SettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             id="goal"
             name="goal"
@@ -101,4 +103,4 @@ const SettingsForm: FC<ISettingsForm> = ({
     </>
   );
 };
-export default SettingsForm;
+export default DonationSettingsForm;

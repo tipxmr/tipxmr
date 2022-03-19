@@ -14,4 +14,5 @@ export { default as DonationMask } from "./DonationMask";
 export { default as Chart } from "./Chart";
 export { default as Transactions } from "./Transactions";
 export { default as Drawer } from "./Drawer";
-export { default as SettingsForm } from "./SettingsForm";
+export { default as DonationSettingsForm } from "./forms/DonationSettings";
+export { default as WalletSettings } from "./forms/WalletSettings";
