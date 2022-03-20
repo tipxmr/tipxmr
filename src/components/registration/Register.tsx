@@ -5,25 +5,23 @@ import {
   TextField,
   Box,
   Grid,
-  Paper,
   Typography,
   List,
   ListItem,
   ListItemText,
   ListItemAvatar,
   Avatar,
-  FormGroup,
   FormControlLabel,
   Checkbox,
   Button,
-  Tooltip,
 } from "@mui/material";
 import TipxmrLogo from "~/img/logo.png";
 import CreateIcon from "@mui/icons-material/Create";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import LanguageSelector from "~/components/LanguageSelector";
+import { LanguageSelector, PaperWrapper } from "~/components";
 import { LoadingButton } from "@mui/lab";
+import SeedOutput from "../SeedOutput";
 
 interface IRegister {
   seedLang: string;
@@ -49,7 +47,7 @@ const Register: FC<IRegister> = ({
   // TODO implement the color scheme here on the avatars. Also DRY
   return (
     <Container maxWidth="md">
-      <Paper elevation={2} sx={{ p: 4 }}>
+      <PaperWrapper>
         <Box sx={boxStyles} component="form" onSubmit={handleSubmit}>
           <Box sx={{ justifyContent: "center", display: "flex" }}>
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
@@ -92,21 +90,7 @@ const Register: FC<IRegister> = ({
                 />
               </Box>
               {seedPhrase ? (
-                <Tooltip title="This is your XMR seed" placement="bottom">
-                  <Paper
-                    elevation={3}
-                    sx={{ mt: 3, p: 2, backgroundColor: "primary" }}
-                  >
-                    <Typography
-                      component="div"
-                      variant="overline"
-                      sx={{ fontSize: "1.1rem" }}
-                      align="center"
-                    >
-                      {seedPhrase}
-                    </Typography>
-                  </Paper>
-                </Tooltip>
+                <SeedOutput seedPhrase={seedPhrase} />
               ) : (
                 <LoadingButton
                   loading
@@ -174,7 +158,7 @@ const Register: FC<IRegister> = ({
             </Button>
           </Grid>
         </Box>
-      </Paper>
+      </PaperWrapper>
     </Container>
   );
 };

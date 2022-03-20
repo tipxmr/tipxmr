@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Typography from "@mui/material/Typography";
-import Title from "~/components/Title";
-import { Box, Chip, Grid, LinearProgress, Paper } from "@mui/material";
+import { PaperWrapper } from "~/components";
+import { Box, Chip, Grid, LinearProgress } from "@mui/material";
 import WithdrawDialog from "./WithdrawDialog";
 
 interface ITipxmrWallet {
@@ -21,8 +21,13 @@ const TipxmrWallet: FC<ITipxmrWallet> = ({
   startHeight,
   endHeight,
 }) => {
+  // TODO handle the withdraw to address from db
+  const handleWithdraw = () => console.log("Here should be a wallet call");
+  const address =
+    "53N5yFyay3uXvLepuRT8SG2KLijz1vHTnQ71y1CCBjxw3vEZysjmAMq3FjM3EFwXEUawDbrQAEmJgEnGVBiDP3HXFXVmxcS";
+
   return (
-    <Paper elevation={3} sx={{ p: 4 }}>
+    <PaperWrapper title="My wallet">
       <Grid
         container
         direction="row"
@@ -30,9 +35,6 @@ const TipxmrWallet: FC<ITipxmrWallet> = ({
         alignItems="center"
         spacing={3}
       >
-        <Grid item xs={12}>
-          <Title>My Wallet</Title>
-        </Grid>
         <Grid item xs={12}>
           <Typography component="p" variant="h4">
             Balance: {balance} XMR
@@ -54,10 +56,10 @@ const TipxmrWallet: FC<ITipxmrWallet> = ({
           <LinearProgress variant="determinate" value={percentDone} />
         </Grid>
         <Grid item xs={12}>
-          <WithdrawDialog />
+          <WithdrawDialog address={address} handleWithdraw={handleWithdraw} />
         </Grid>
       </Grid>
-    </Paper>
+    </PaperWrapper>
   );
 };
 export default TipxmrWallet;

@@ -11,6 +11,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import TipxmrLogo from "~/img/logo.png";
+import PaperWrapper from "./PaperWrapper";
+import SeedInput from "./SeedInput";
 
 interface ILogin {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -27,7 +29,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
           alignItems: "center",
         }}
       >
-        <Paper elevation={2} sx={{ p: 4 }}>
+        <PaperWrapper>
           <Box sx={{ justifyContent: "center", display: "flex" }}>
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
           </Box>
@@ -40,17 +42,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
             noValidate
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="seed"
-              label="XMR seed"
-              name="seed"
-              rows={4}
-              multiline
-              autoFocus
-            />
+            <SeedInput />
             <FormControlLabel
               control={<Checkbox required name="understood" color="primary" />}
               label="I understand that I am responsible for my own security and TipXMR has no liability"
@@ -74,7 +66,7 @@ const Login: FC<ILogin> = ({ handleSubmit }) => {
               </Grid>
             </Grid>
           </Box>
-        </Paper>
+        </PaperWrapper>
       </Box>
     </Container>
   );

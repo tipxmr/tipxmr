@@ -1,10 +1,10 @@
 import { FC } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Donation_settings } from "@prisma/client";
-import { Chip, Paper } from "@mui/material";
+import { Chip } from "@mui/material";
+import { PaperWrapper } from "~/components";
 
 interface ISettingsForm {
   donationSettings: IDonationSettings;
@@ -27,10 +27,7 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
   const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
     donationSettings;
   return (
-    <Paper elevation={2} sx={{ p: 4 }}>
-      <Typography component="h2" variant="h4" align="center" gutterBottom>
-        Donation Settings
-      </Typography>
+    <PaperWrapper title="Donation Settings">
       <Grid
         container
         component="form"
@@ -39,7 +36,7 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Chip label={`${secondPrice} XMR`} />
         </Grid>
         <Grid item xs={10}>
@@ -47,13 +44,13 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             id="secondPrice"
             name="secondPrice"
             label="XMR price per second of showtime"
-            placeholder={secondPrice}
+            placeholder={String(secondPrice)}
             fullWidth
             variant="standard"
           />
         </Grid>
 
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Chip label={`${charPrice} XMR`} />
         </Grid>
         <Grid item xs={10}>
@@ -61,12 +58,12 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             id="charPrice"
             name="charPrice"
             label="XMR price per character"
-            placeholder={charPrice}
+            placeholder={String(charPrice)}
             fullWidth
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Chip label={`${charLimit} characters max`} />
         </Grid>
         <Grid item xs={10}>
@@ -74,12 +71,12 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             id="charLimit"
             name="charLimit"
             label="The maximum amount of characters per message"
-            placeholder={charLimit}
+            placeholder={String(charLimit)}
             fullWidth
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Chip label={`${minAmount} XMR`} />
         </Grid>
         <Grid item xs={10}>
@@ -87,12 +84,12 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             id="minAmount"
             name="minAmount"
             label="Minimum XMR amount for donation"
-            placeholder={minAmount}
+            placeholder={String(minAmount)}
             fullWidth
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Chip label={`${gifsMinAmount} XMR`} />
         </Grid>
         <Grid item xs={10}>
@@ -100,12 +97,12 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             id="gifsMinAmount"
             name="gifsMinAmount"
             label="Minimum XMR amount for sending GIFs"
-            placeholder={gifsMinAmount}
+            placeholder={String(gifsMinAmount)}
             fullWidth
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2} align="center">
+        <Grid item xs={2}>
           <Chip label={`${goal} XMR`} />
         </Grid>
         <Grid item xs={10}>
@@ -113,7 +110,7 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             id="goal"
             name="goal"
             label="Funding goal"
-            placeholder={goal}
+            placeholder={String(goal)}
             fullWidth
             variant="standard"
           />
@@ -125,7 +122,7 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
           </Button>
         </Grid>
       </Grid>
-    </Paper>
+    </PaperWrapper>
   );
 };
 export default DonationSettingsForm;

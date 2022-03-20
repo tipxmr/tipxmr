@@ -6,11 +6,11 @@ import { createWallet, getMnemonicHash, open } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 import useUser from "~/lib/useUser";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { Account, Streamer } from "@prisma/client";
+import { Streamer } from "@prisma/client";
 import { User } from "./api/user";
 
 const Home: NextPage = () => {
-  const { mutateUser } = useUser({
+  const { user, mutateUser } = useUser({
     redirectTo: "/dashboard",
     redirectIfFound: true,
   });
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
     try {
       const { streamer } = await fetchJson<{
         streamer: Streamer;
-      }>("/api/streamer", {
+      }>(`/api/streamer/${truncatedHashedSeed}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
