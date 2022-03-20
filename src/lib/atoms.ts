@@ -1,4 +1,4 @@
-import { atom, useAtom } from "jotai";
+import { atom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
 
 const mnemonicAtom = atom("");
@@ -16,3 +16,6 @@ const openWalletAtom = atom(async (get) => {
 
   return undefined;
 });
+
+export const seedLangAtom = atom<String>("English");
+export const seedPhraseAtom = atom<String>("");

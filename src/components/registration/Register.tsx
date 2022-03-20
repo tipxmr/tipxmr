@@ -1,4 +1,4 @@
-import { FC, FormEvent, Dispatch, SetStateAction } from "react";
+import { FC, FormEvent, Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 import {
   Container,
@@ -14,14 +14,17 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  Stepper,
+  StepLabel,
+  Step,
 } from "@mui/material";
 import TipxmrLogo from "~/img/logo.png";
-import CreateIcon from "@mui/icons-material/Create";
-import LockIcon from "@mui/icons-material/Lock";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { LanguageSelector, PaperWrapper } from "~/components";
 import { LoadingButton } from "@mui/lab";
 import SeedOutput from "../SeedOutput";
+import Success from "./Success";
+import Creation from "./Creation";
+import RegistrationInfo from "./RegistrationInfo";
 
 interface IRegister {
   seedLang: string;
@@ -29,6 +32,20 @@ interface IRegister {
   seedPhrase: string;
   setSeedPhrase: Dispatch<SetStateAction<string>>;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
+const steps = ["This is TipXMR", "Account creation", "Success"];
+
+function getStepContent(step: number, seedLang?: string) {
+  switch (step) {
+    case 0:
+      return <RegistrationInfo />;
+    case 1:
+      return <Creation />;
+    case 2:
+      return <Success />;
+    default:
+      throw new Error("Unknown step");
+  }
 }
 
 const Register: FC<IRegister> = ({
@@ -38,6 +55,16 @@ const Register: FC<IRegister> = ({
   setSeedPhrase,
   handleSubmit,
 }) => {
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    setActiveStep(activeStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
+
   const boxStyles = {
     /* marginTop: 8, */
     display: "flex",
@@ -48,6 +75,34 @@ const Register: FC<IRegister> = ({
   return (
     <Container maxWidth="md">
       <PaperWrapper>
+        <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === steps.length ? (
+          <Success />
+        ) : (
+          <>
+            {getStepContent(activeStep)}
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              {activeStep !== 0 && (
+                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                  Back
+                </Button>
+              )}
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                sx={{ mt: 3, ml: 1 }}
+              >
+                {activeStep === steps.length - 1 ? "Place order" : "Next"}
+              </Button>
+            </Box>
+          </>
+        )}
         <Box sx={boxStyles} component="form" onSubmit={handleSubmit}>
           <Box sx={{ justifyContent: "center", display: "flex" }}>
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
@@ -55,91 +110,6 @@ const Register: FC<IRegister> = ({
           <Typography component="h1" variant="h5" align="center" mt={2}>
             Register
           </Typography>
-          <Grid container spacing={2} mt={3}>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  flexDirection: "row",
-                }}
-              >
-                <TextField
-                  id="name"
-                  name="name"
-                  required
-                  helperText="This name will not be visible to your audience"
-                  label="Username"
-                  autoFocus
-                />
-                <TextField
-                  id="alias"
-                  name="alias"
-                  required
-                  helperText="This is the name your audience will see"
-                  label="Displayname"
-                  autoFocus
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={12} mt={3}>
-              <Box sx={boxStyles}>
-                <LanguageSelector
-                  language={seedLang}
-                  handleChange={setSeedLang}
-                />
-              </Box>
-              {seedPhrase ? (
-                <SeedOutput seedPhrase={seedPhrase} />
-              ) : (
-                <LoadingButton
-                  loading
-                  variant="contained"
-                  color="primary"
-                  sx={{ mt: 2 }}
-                >
-                  Testing
-                </LoadingButton>
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <List sx={{ width: "100%", mt: 4, bgcolor: "background.paper" }}>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: "#ffee58" }}>
-                      <CreateIcon color="success" />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Note down your seed phrase"
-                    secondary="You need to to sign into TipXMR"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: "#8bc34a" }}>
-                      <LockIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Keep your seed secure"
-                    secondary="Don't lose it or show it to anybody. It is best kept offline."
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: "#8bc34a" }}>
-                      <AccountBalanceWalletIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="These words hold your money!"
-                    secondary="It is the ultimate backup to your sweet Moneroj"
-                  />
-                </ListItem>
-              </List>
-            </Grid>
-          </Grid>
 
           <Grid item xs={12} my={2}>
             <FormControlLabel

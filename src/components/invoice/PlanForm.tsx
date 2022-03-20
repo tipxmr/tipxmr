@@ -82,7 +82,7 @@ const PlanForm: FC<IPlanForm> = ({}) => {
                     <Typography
                       component="li"
                       variant="subtitle1"
-                      align="center"
+                      align="left"
                       key={line}
                     >
                       {line}

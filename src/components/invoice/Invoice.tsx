@@ -45,6 +45,7 @@ const Invoice: FC<IInvoice> = ({}) => {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
   return (
     <PaperWrapper title="Tipxmr Registration">
       <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
