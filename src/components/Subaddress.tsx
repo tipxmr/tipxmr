@@ -1,31 +1,33 @@
-import { Paper, Typography } from "@mui/material";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { FC } from "react";
+import { Chip, Snackbar } from "@mui/material";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import { FC, useState } from "react";
 
 interface ISubaddress {
   address: string;
 }
 
 const Subaddress: FC<ISubaddress> = ({ address }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+    navigator.clipboard.writeText(String(address));
+  };
+
   return (
-    <Paper
-      elevation={2}
-      sx={{
-        p: 2,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "start",
-      }}
-    >
-      <AccountBalanceWalletIcon
-        fontSize="large"
-        color="success"
-        sx={{ mr: 3 }}
+    <>
+      <Chip
+        icon={<ReceiptIcon color="primary" />}
+        label={address}
+        onClick={handleClick}
       />
-      <Typography component="p" variant="h6">
-        {address}
-      </Typography>
-    </Paper>
+      <Snackbar
+        open={open}
+        onClose={() => setOpen(false)}
+        autoHideDuration={3000}
+        message="Copied XMR address to clipboard"
+      />
+    </>
   );
 };
 

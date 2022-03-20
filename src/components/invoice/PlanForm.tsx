@@ -1,67 +1,108 @@
 import { FC } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import StarIcon from "@mui/icons-material/Star";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Container,
+} from "@mui/material";
 
 interface IPlanForm {}
 const PlanForm: FC<IPlanForm> = ({}) => {
+  const tiers = [
+    {
+      title: "Free",
+      price: "0",
+      description: [
+        "Try out Tipxmr for free",
+        "Ready in minutes",
+        "Use the basic features",
+      ],
+      buttonText: "Sign up for free",
+      buttonVariant: "outlined",
+    },
+    {
+      title: "Pro",
+      subheader: "Support us",
+      price: "15",
+      description: [
+        "Access to all features",
+        "Fund future development",
+        "Become a TipXMR Pro",
+      ],
+      buttonText: "Get started",
+      buttonVariant: "contained",
+    },
+  ];
+
   return (
-    <>
-      <Typography variant="h6" gutterBottom>
-        Payment method
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardName"
-            label="Name on card"
-            fullWidth
-            autoComplete="cc-name"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardNumber"
-            label="Card number"
-            fullWidth
-            autoComplete="cc-number"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="expDate"
-            label="Expiry date"
-            fullWidth
-            autoComplete="cc-exp"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-            autoComplete="cc-csc"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
-        </Grid>
+    <Container maxWidth="md" component="main">
+      <Grid container spacing={5} alignItems="flex-end" justifyContent="center">
+        {tiers.map((tier) => (
+          <Grid item key={tier.title} xs={12} md={4}>
+            <Card>
+              <CardHeader
+                title={tier.title}
+                subheader={tier.subheader}
+                titleTypographyProps={{ align: "center" }}
+                action={tier.title === "Pro" ? <StarIcon /> : null}
+                subheaderTypographyProps={{
+                  align: "center",
+                }}
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "light"
+                      ? theme.palette.grey[200]
+                      : theme.palette.grey[700],
+                }}
+              />
+              <CardContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "baseline",
+                    mb: 2,
+                  }}
+                >
+                  <Typography component="h2" variant="h3" color="text.primary">
+                    ${tier.price}
+                  </Typography>
+                  <Typography variant="h6" color="text.secondary">
+                    /mo
+                  </Typography>
+                </Box>
+                <ul>
+                  {tier.description.map((line) => (
+                    <Typography
+                      component="li"
+                      variant="subtitle1"
+                      align="center"
+                      key={line}
+                    >
+                      {line}
+                    </Typography>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardActions>
+                <Button
+                  fullWidth
+                  variant={tier.buttonVariant as "outlined" | "contained"}
+                >
+                  {tier.buttonText}
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
-    </>
+    </Container>
   );
 };
 export default PlanForm;

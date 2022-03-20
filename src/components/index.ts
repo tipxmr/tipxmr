@@ -15,6 +15,8 @@ export { default as LanguageSelector } from "./LanguageSelector";
 export { default as Subaddress } from "./Subaddress";
 export { default as SeedInput } from "./SeedInput";
 export { default as SeedOutput } from "./SeedOutput";
+export { default as HeroUnit } from "./HeroUnit";
+export { default as StreamerChip } from "./StreamerChip";
 
 // --- components
 export { default as Login } from "./Login";

@@ -9,7 +9,12 @@ import type {
 import Head from "next/head";
 import { getStreamers } from "~/lib/db/streamer";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
-import { InfoCard, IsOnlineBadge, LanguageSelector } from "~/components";
+import {
+  HeroUnit,
+  InfoCard,
+  IsOnlineBadge,
+  LanguageSelector,
+} from "~/components";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -66,9 +71,10 @@ const Home: NextPage<ServerSideProps> = () => {
           </Grid>
 
           <Grid item xs={6} sx={{ margin: "auto" }}>
-            <Typography variant="h1" align="center">
-              Monero Donations in your livestream
-            </Typography>
+            <HeroUnit
+              title="TipXMR"
+              text="Monetize your streams with Monero!"
+            />
           </Grid>
 
           <Grid item xs={3}>

@@ -6,7 +6,7 @@ import useSWR from "swr";
 import StreamerCard from "~/components/StreamerCard";
 
 const Home: NextPage = () => {
-  const { data, error } = useSWR<Streamer[]>("/api/streamer");
+  const { data, error } = useSWR<Streamer[]>("/api/streamer/all");
   const streamers = data ?? [];
 
   return (
