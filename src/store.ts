@@ -1,7 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { atom } from "jotai";
+import { MoneroWalletFull } from "monero-javascript";
 
 import counter from "./features/counter";
+import { createWallet } from "./lib/xmr";
 
 export function makeStore() {
   return configureStore({
@@ -43,3 +45,29 @@ export const openWalletAtom = atom(async (get) => {
 
   return undefined;
 });
+export const seedLangAtom = atom("English");
+
+export const seedAtom = atom("");
+export const seedPhraseAtom = atom("");
+// export const seedPhraseAtom = atom(
+//   async (get) => { },
+//   async (get, set) => {
+//     const seedLang = get(seedLangAtom);
+//     const seedPhrase = await createWallet(seedLang);
+//     set(seedPhraseAtom, seedPhrase);
+//   }
+// );
+
+export const generatedSeedPhraseAtom = atom(async (get) => {
+  const seedLang = get(seedLangAtom);
+  const seedPhrase = await createWallet(seedLang);
+  console.log("Atom | seedphrase: ", seedPhrase);
+
+  if (seedLang) return seedLang;
+  return undefined;
+});
+// export const seedPhraseAtom: any = atom((get) => get(seedPhrase),
+//   (get, set, newPhrase) => {
+//     console.log("new Phrase: ", newPhrase)
+//     set(seedPhrase, newPhrase)
+//   });

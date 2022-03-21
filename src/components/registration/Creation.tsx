@@ -2,7 +2,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-import { seedLangAtom, seedPhraseAtom } from "~/lib/atoms";
+import { seedLangAtom, seedPhraseAtom } from "~/store";
 import { useAtom } from "jotai";
 import { LoadingButton } from "@mui/lab";
 import {

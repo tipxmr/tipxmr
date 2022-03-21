@@ -1,8 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { Streamer } from "@prisma/client";
 import { FC } from "react";
-import { Subaddress, StreamerChip } from "~/components";
-import PaperWrapper from "../PaperWrapper";
+import { PaperWrapper, Subaddress, StreamerChip } from "~/components";
 import Image from "next/image";
 
 interface IDonationMask {

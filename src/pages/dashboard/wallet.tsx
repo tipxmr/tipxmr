@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import {
   balanceAtom,
   mnemonicAtom,
+  syncEndHeightAtom,
   progressAtom,
   syncHeightAtom,
   isSyncRunningAtom,
@@ -69,12 +70,10 @@ const WalletPage: NextPage = () => {
 
   const [progress, setProgress] = useAtom(progressAtom);
   const [myWallet, setMyWallet] = useAtom(walletAtom);
-  const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom);
+  const [isSyncing] = useAtom(isSyncRunningAtom);
   const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom);
+  const [syncEndHeight] = useAtom(syncEndHeightAtom);
   const [balance, setBalance] = useAtom(balanceAtom);
-
-  // const [progress, setProgress] = useState(0);
-  // const [xmrWallet, setXmrWallet] = useState<MoneroWalletFull>();
 
   const isDone = progress === 100;
 
@@ -117,32 +116,20 @@ const WalletPage: NextPage = () => {
     };
   }, []);
 
-  if (!session?.isLoggedIn) {
-    return <Typography variant="h2">Please log in</Typography>;
-  }
-
-  if (session && session.isLoggedIn) {
-    return (
-      <>
+  return (
+    <>
+      {session && session.isLoggedIn && (
         <TipxmrWallet
           balance={balance}
-          isSynced={isSyncing}
+          isSynced={isDone && !isSyncing}
           height={syncHeight}
           percentDone={progress}
+          endHeight={syncEndHeight}
         ></TipxmrWallet>
-        {isDone ? <Transaction wallet={myWallet} /> : null}
-      </>
-    );
-  }
+      )}
+      {isDone ? <Transaction wallet={myWallet} /> : null}
+    </>
+  );
 };
 
 export default WalletPage;
-
-// const walletAtom = atom(
-//   (get) => {
-//     return null;
-//   },
-//   (get, set, update) => {
-//     return null
-//   }
-// )
