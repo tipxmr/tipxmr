@@ -1,13 +1,14 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai";
-import { useEffect, FormEvent } from "react";
+import { FormEvent } from "react";
 import { Register } from "~/components";
-import { createWallet, getMnemonicHash, open } from "~/lib/xmr";
-import { seedLangAtom, seedPhraseAtom, walletAtom } from "~/store";
+import { truncatedHashedSeedAtom } from "~/store";
 import useUser from "~/lib/useUser";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import { Streamer } from "@prisma/client";
 import { User } from "./api/user";
+import { ErrorBoundary } from "react-error-boundary";
+import { LoadingButton } from "@mui/lab";
 
 const Home: NextPage = () => {
   const { user, mutateUser } = useUser({
@@ -15,10 +16,7 @@ const Home: NextPage = () => {
     redirectIfFound: true,
   });
 
-  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
-  const [newWallet, setNewWallet] = useAtom(walletAtom);
-  const [seedPhrase, setSeedPhrase] = useAtom(seedPhraseAtom);
-
+  const [truncatedHashedSeed] = useAtom(truncatedHashedSeedAtom);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -30,9 +28,6 @@ const Home: NextPage = () => {
       alert("Sorry, you must agree to proceed");
       return;
     }
-
-    // TODO create a new streamer in the tipxmr db with this
-    const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
 
     try {
       const { streamer } = await fetchJson<{
@@ -86,24 +81,34 @@ const Home: NextPage = () => {
     // TODO navigate the streamer to the login
   };
 
-  useEffect(() => {
-    const walletCreator = async (seedLang: string) => {
-      try {
-        console.log({ seedLang });
-        const seed = await createWallet(seedLang);
-        console.log({ seed });
-        setSeedPhrase(seed);
-      } catch (e) {
-        console.error({ e });
-      }
-    };
-    walletCreator(seedLang);
-  }, [seedLang]);
-
+  /* useEffect(() => {
+   *   const walletCreator = async (seedLang: string) => {
+   *     try {
+   *       console.log({ seedLang });
+   *       const seed = await createWallet(seedLang);
+   *       console.log({ seed });
+   *       setSeedPhrase(seed);
+   *     } catch (e) {
+   *       console.error({ e });
+   *     }
+   *   };
+   *   walletCreator(seedLang);
+   * }, [seedLang]);
+   */
   // TODO when the seed language changes, a new seed should be generated
   // TODO prepare the handeling for submit (ie. open the wallet with the seed, create a new streamer entry in the db, log the streamer in)
-
   return <Register handleSubmit={handleSubmit} />;
 };
 
-export default Home;
+const Wrapper: NextPage = () => {
+  return (
+    <ErrorBoundary
+      FallbackComponent={({ error }) => <div>{error.message}</div>}
+      onError={console.log}
+    >
+      <Home />
+    </ErrorBoundary>
+  );
+};
+
+export default Wrapper;

@@ -3,7 +3,7 @@ import { atom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
 
 import counter from "./features/counter";
-import { createWallet } from "./lib/xmr";
+import { createWallet, getMnemonicHash } from "./lib/xmr";
 
 export function makeStore() {
   return configureStore({
@@ -57,14 +57,18 @@ export const seedPhraseAtom = atom("");
 //     set(seedPhraseAtom, seedPhrase);
 //   }
 // );
-
+export const truncatedHashedSeedAtom = atom(async (get) => {
+  const seedPhrase = get(generatedSeedPhraseAtom);
+  const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
+  console.log({ truncatedHashedSeed });
+  return truncatedHashedSeed;
+});
 export const generatedSeedPhraseAtom = atom(async (get) => {
   const seedLang = get(seedLangAtom);
   const seedPhrase = await createWallet(seedLang);
   console.log("Atom | seedphrase: ", seedPhrase);
 
-  if (seedLang) return seedLang;
-  return undefined;
+  return seedPhrase;
 });
 // export const seedPhraseAtom: any = atom((get) => get(seedPhrase),
 //   (get, set, newPhrase) => {

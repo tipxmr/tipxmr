@@ -2,7 +2,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-import { seedLangAtom, seedPhraseAtom } from "~/store";
+import { generatedSeedPhraseAtom, seedLangAtom, seedPhraseAtom } from "~/store";
 import { useAtom } from "jotai";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -15,14 +15,22 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import { FC } from "react";
+//@ts-ignore
+import { FC, Suspense, useTransition } from "react";
 import { LanguageSelector, SeedOutput } from "~/components";
 
 interface ICreation {}
 
 const Creation: FC<ICreation> = ({}) => {
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
-  const [seedPhrase, setSeedPhrase] = useAtom(seedPhraseAtom);
+  const [isPending, startTransition] = useTransition();
+  const handleSetSeedLang = (language) => {
+    startTransition(() => {
+      // Transition: Show the results
+      setSeedLang(language);
+    });
+  };
+  const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
   console.log({ seedPhrase });
   const boxStyles = {
     /* marginTop: 8, */
@@ -62,12 +70,10 @@ const Creation: FC<ICreation> = ({}) => {
         <Box sx={boxStyles}>
           <LanguageSelector
             language={String(seedLang)}
-            onChange={setSeedLang}
+            onChange={handleSetSeedLang}
           />
         </Box>
-        {seedPhrase ? (
-          <SeedOutput seedPhrase={seedPhrase} />
-        ) : (
+        {isPending ? (
           <LoadingButton
             loading
             variant="contained"
@@ -76,6 +82,8 @@ const Creation: FC<ICreation> = ({}) => {
           >
             Testing
           </LoadingButton>
+        ) : (
+          <SeedOutput seedPhrase={seedPhrase} />
         )}
       </Grid>
       <Grid item xs={12}>
