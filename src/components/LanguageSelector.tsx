@@ -1,52 +1,52 @@
-import { FC } from "react";
+import { ChangeEvent, FC, useCallback } from "react";
 import { FormControl, MenuItem, TextField } from "@mui/material";
 
 interface ILanguageSelector {
   language: string;
-  handleChange: any;
+  onChange: (language: string) => void;
 }
+const languages = [
+  "Dutch",
+  "English",
+  "Esperanto",
+  "French",
+  "German",
+  "Italian",
+  "Japanese",
+  "Portuguese",
+  "Russian",
+  "Spanish",
+];
 
-const LanguageSelector: FC<ILanguageSelector> = ({
-  language: string,
-  handleChange,
-}) => {
-  const languages = [
-    "Dutch",
-    "English",
-    "Esperanto",
-    "French",
-    "German",
-    "Italian",
-    "Japanese",
-    "Portuguese",
-    "Russian",
-    "Spanish",
-  ];
+const convertFlag = (language: string) => {
+  switch (language) {
+    case "German":
+      return "🇩🇪";
+    case "French":
+      return "🇲🇫";
+    case "Esperanto":
+      return "🏴‍☠️";
+    case "Spanish":
+      return "🇪🇦";
+    case "Russian":
+      return "🇷🇺";
+    case "Italian":
+      return "🇮🇹";
+    case "Japanese":
+      return "🇯🇵";
+    case "Portuguese":
+      return "🇵🇹";
+    case "Dutch":
+      return "🇳🇱";
+    default:
+      return "🇬🇧";
+  }
+};
 
-  const convertFlag = (language: string) => {
-    switch (language) {
-      case "German":
-        return "🇩🇪";
-      case "French":
-        return "🇲🇫";
-      case "Esperanto":
-        return "🏴‍☠️";
-      case "Spanish":
-        return "🇪🇦";
-      case "Russian":
-        return "🇷🇺";
-      case "Italian":
-        return "🇮🇹";
-      case "Japanese":
-        return "🇯🇵";
-      case "Portuguese":
-        return "🇵🇹";
-      case "Dutch":
-        return "🇳🇱";
-      default:
-        return "🇬🇧";
-    }
-  };
+const LanguageSelector: FC<ILanguageSelector> = ({ language, onChange }) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  }, []);
 
   const languageItems = languages.map((language) => {
     return (

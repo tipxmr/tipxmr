@@ -27,10 +27,6 @@ import Creation from "./Creation";
 import RegistrationInfo from "./RegistrationInfo";
 
 interface IRegister {
-  seedLang: string;
-  setSeedLang: Dispatch<SetStateAction<string>>;
-  seedPhrase: string;
-  setSeedPhrase: Dispatch<SetStateAction<string>>;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 const steps = ["This is TipXMR", "Account creation", "Success"];
@@ -48,13 +44,7 @@ function getStepContent(step: number, seedLang?: string) {
   }
 }
 
-const Register: FC<IRegister> = ({
-  seedLang,
-  setSeedLang,
-  seedPhrase,
-  setSeedPhrase,
-  handleSubmit,
-}) => {
+const Register: FC<IRegister> = ({ handleSubmit }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {

@@ -83,7 +83,7 @@ const Home: NextPage<ServerSideProps> = () => {
           </Grid>
 
           <Grid item xs={3}>
-            <LanguageSelector language={language} handleChange={setLanguage} />
+            <LanguageSelector language={language} onChange={setLanguage} />
           </Grid>
         </Grid>
 

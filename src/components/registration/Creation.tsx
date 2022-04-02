@@ -23,6 +23,7 @@ interface ICreation {}
 const Creation: FC<ICreation> = ({}) => {
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [seedPhrase, setSeedPhrase] = useAtom(seedPhraseAtom);
+  console.log({ seedPhrase });
   const boxStyles = {
     /* marginTop: 8, */
     display: "flex",
@@ -61,7 +62,7 @@ const Creation: FC<ICreation> = ({}) => {
         <Box sx={boxStyles}>
           <LanguageSelector
             language={String(seedLang)}
-            handleChange={setSeedLang}
+            onChange={setSeedLang}
           />
         </Box>
         {seedPhrase ? (

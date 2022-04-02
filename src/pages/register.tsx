@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai";
-import { useState, useEffect, FormEvent } from "react";
+import { useEffect, FormEvent } from "react";
 import { Register } from "~/components";
 import { createWallet, getMnemonicHash, open } from "~/lib/xmr";
-import { walletAtom } from "~/store";
+import { seedLangAtom, seedPhraseAtom, walletAtom } from "~/store";
 import useUser from "~/lib/useUser";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import { Streamer } from "@prisma/client";
@@ -15,9 +15,9 @@ const Home: NextPage = () => {
     redirectIfFound: true,
   });
 
-  const [seedLang, setSeedLang] = useState("English");
+  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [newWallet, setNewWallet] = useAtom(walletAtom);
-  const [seedPhrase, setSeedPhrase] = useState("");
+  const [seedPhrase, setSeedPhrase] = useAtom(seedPhraseAtom);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -88,8 +88,14 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const walletCreator = async (seedLang: string) => {
-      const seed = await createWallet(seedLang);
-      setSeedPhrase(seed);
+      try {
+        console.log({ seedLang });
+        const seed = await createWallet(seedLang);
+        console.log({ seed });
+        setSeedPhrase(seed);
+      } catch (e) {
+        console.error({ e });
+      }
     };
     walletCreator(seedLang);
   }, [seedLang]);
@@ -97,15 +103,7 @@ const Home: NextPage = () => {
   // TODO when the seed language changes, a new seed should be generated
   // TODO prepare the handeling for submit (ie. open the wallet with the seed, create a new streamer entry in the db, log the streamer in)
 
-  return (
-    <Register
-      seedLang={seedLang}
-      setSeedLang={setSeedLang}
-      handleSubmit={handleSubmit}
-      seedPhrase={seedPhrase}
-      setSeedPhrase={setSeedPhrase}
-    />
-  );
+  return <Register handleSubmit={handleSubmit} />;
 };
 
 export default Home;
