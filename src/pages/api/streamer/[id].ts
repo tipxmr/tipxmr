@@ -43,6 +43,7 @@ const streamerPostHandler = async (
 ) => {
   const { id } = req.query;
   const { name, alias, socket } = req.body;
+  console.log({ id, name, alias, socket });
   const result = await createStreamer(String(id), { name, alias, socket });
 
   res.json(result);

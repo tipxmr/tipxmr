@@ -75,3 +75,6 @@ export const generatedSeedPhraseAtom = atom(async (get) => {
 //     console.log("new Phrase: ", newPhrase)
 //     set(seedPhrase, newPhrase)
 //   });
+
+export const userNameAtom = atom("");
+export const displayNameAtom = atom("");

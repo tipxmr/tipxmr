@@ -8,71 +8,43 @@ import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
   Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
   Grid,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   TextField,
+  Typography,
 } from "@mui/material";
 //@ts-ignore
-import { FC, Suspense, useTransition } from "react";
+import { FC, useTransition } from "react";
 import { LanguageSelector, SeedOutput } from "~/components";
+import Title from "../Title";
 
-interface ICreation {}
+interface IWalletCreation {}
 
-const Creation: FC<ICreation> = ({}) => {
+const WalletCreation: FC<IWalletCreation> = ({}) => {
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [isPending, startTransition] = useTransition();
   const handleSetSeedLang = (language) => {
     startTransition(() => {
-      // Transition: Show the results
       setSeedLang(language);
     });
   };
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
   console.log({ seedPhrase });
   const boxStyles = {
-    /* marginTop: 8, */
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   };
   return (
     <Grid container spacing={2} mt={3}>
-      <Grid item xs={12}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            flexDirection: "row",
-          }}
-        >
-          <TextField
-            id="name"
-            name="name"
-            required
-            helperText="This name will not be visible to your audience"
-            label="Username"
-            autoFocus
-          />
-          <TextField
-            id="alias"
-            name="alias"
-            required
-            helperText="This is the name your audience will see"
-            label="Displayname"
-            autoFocus
-          />
-        </Box>
-      </Grid>
       <Grid item xs={12} sm={12} mt={3}>
-        <Box sx={boxStyles}>
-          <LanguageSelector
-            language={String(seedLang)}
-            onChange={handleSetSeedLang}
-          />
-        </Box>
+        <Title>You XMR wallet seedphrase</Title>
         {isPending ? (
           <LoadingButton
             loading
@@ -85,6 +57,12 @@ const Creation: FC<ICreation> = ({}) => {
         ) : (
           <SeedOutput seedPhrase={seedPhrase} />
         )}
+        <Box sx={{ ...boxStyles, mt: 5 }}>
+          <LanguageSelector
+            language={String(seedLang)}
+            onChange={handleSetSeedLang}
+          />
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <List sx={{ width: "100%", mt: 4, bgcolor: "background.paper" }}>
@@ -127,4 +105,4 @@ const Creation: FC<ICreation> = ({}) => {
   );
 };
 
-export default Creation;
+export default WalletCreation;

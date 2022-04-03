@@ -2,7 +2,11 @@ import { NextPage } from "next";
 import { useAtom } from "jotai";
 import { FormEvent } from "react";
 import { Register } from "~/components";
-import { truncatedHashedSeedAtom } from "~/store";
+import {
+  displayNameAtom,
+  truncatedHashedSeedAtom,
+  userNameAtom,
+} from "~/store";
 import useUser from "~/lib/useUser";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import { Streamer } from "@prisma/client";
@@ -16,12 +20,17 @@ const Home: NextPage = () => {
     redirectIfFound: true,
   });
 
+  const [userName] = useAtom(userNameAtom);
+  const [displayName] = useAtom(displayNameAtom);
   const [truncatedHashedSeed] = useAtom(truncatedHashedSeedAtom);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const name = data.get("name") as string;
-    const alias = data.get("alias") as string;
+    /* const name = data.get("name") as string;
+     * const alias = data.get("alias") as string; */
+    const name = userName;
+    const alias = displayName;
+
     const understood = data.get("understood");
     if (!understood) {
       // TODO validate this on the field
@@ -29,6 +38,7 @@ const Home: NextPage = () => {
       return;
     }
 
+    console.log({ data, name, alias, truncatedHashedSeed });
     try {
       const { streamer } = await fetchJson<{
         streamer: Streamer;
