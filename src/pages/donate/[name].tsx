@@ -1,23 +1,12 @@
-import LoadingButton from "@mui/lab/LoadingButton";
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Divider,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
+import { CircularProgress } from "@mui/material";
 import { Streamer } from "@prisma/client";
 import { NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import QrCode from "qrcode";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import useSWR from "swr";
-import { DonationMask, StreamerChip, Subaddress } from "~/components";
+import { DonationMask } from "~/components";
 
 import { createMoneroTransactionUri } from "~/lib/xmr";
 
