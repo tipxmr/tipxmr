@@ -3,6 +3,7 @@ import Hex from "crypto-js/enc-hex";
 import type {
   BalancesChangedListener,
   MoneroWallet,
+  MoneroWalletFull,
   OutputReceivedListener,
   SyncProgressListener,
 } from "monero-javascript";
@@ -37,6 +38,19 @@ export const open = (mnemonic: string) => {
     mnemonic,
     ...stagenetNode,
   });
+};
+
+export const generateSubaddress = async ({
+  accountIndex,
+  label,
+  wallet,
+}: {
+  accountIndex: number;
+  label: string;
+  wallet: MoneroWalletFull;
+}) => {
+  const address = await wallet.createSubaddress(accountIndex, label);
+  return address;
 };
 
 export const createMoneroTransactionUri = ({

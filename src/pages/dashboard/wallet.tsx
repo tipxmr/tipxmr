@@ -1,5 +1,3 @@
-// TODO:
-import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
 import {
   balanceAtom,
@@ -10,22 +8,26 @@ import {
   isSyncRunningAtom,
   walletAtom,
   openWalletAtom,
+  generatedSeedPhraseAtom,
 } from "~/store";
-import { MoneroWalletFull } from "monero-javascript";
-import { TipxmrWallet } from "~/components";
+import { MoneroSubaddress, MoneroWalletFull } from "monero-javascript";
+import { Subaddress, TipxmrWallet } from "~/components";
 import { NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   createBalancesChangedListener,
   createOutputReceivedListener,
   createSyncProgressListener,
+  generateSubaddress,
   open,
 } from "~/lib/xmr";
 import useUser from "~/lib/useUser";
+import { Button } from "@mui/material";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
 
-const MNEMONIC =
-  "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
-
+/* const MNEMONIC =
+ *   "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
+ *  */
 const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
   useEffect(() => {
     (async () => {
@@ -44,8 +46,6 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
 
       const subaddress = await wallet.createSubaddress(0, "foobar");
       const address = await subaddress.getAddress();
-
-      console.log({ subaddress: address });
     })();
 
     (async () => {
@@ -66,59 +66,53 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
 };
 
 const WalletPage: NextPage = () => {
-  const { user: session } = useUser({ redirectTo: "/login" });
+  const { user } = useUser({ redirectTo: "/login" });
 
-  const [progress, setProgress] = useAtom(progressAtom);
-  const [myWallet, setMyWallet] = useAtom(walletAtom);
+  const [progress] = useAtom(progressAtom);
+  const [myWallet] = useAtom(walletAtom);
   const [isSyncing] = useAtom(isSyncRunningAtom);
-  const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom);
+  const [syncHeight] = useAtom(syncHeightAtom);
   const [syncEndHeight] = useAtom(syncEndHeightAtom);
-  const [balance, setBalance] = useAtom(balanceAtom);
+  const [balance] = useAtom(balanceAtom);
+  const [currentAddress, setCurrentAddress] = useState<
+    MoneroSubaddress | string
+  >("");
 
   const isDone = progress === 100;
 
-  useEffect(() => {
-    const listener = createSyncProgressListener(
-      (
-        height: number,
-        startHeight: number,
-        endHeight: number,
-        percentDone: number,
-        message: string
-      ) => {
-        const percentage = Math.floor(percentDone * 100);
-        setProgress(percentage);
-        setSyncHeight(height);
-      }
-    );
+  const generateAddress = async () => {
+    if (myWallet) {
+      const addr = await myWallet.createSubaddress(0, "test");
+      const subaddress = await addr.getAddress();
 
-    async function foobar() {
-      const wallet = await open(MNEMONIC);
-      // setXmrWallet(wallet);
-      setMyWallet(wallet);
-      const primaryAddress = await wallet.getPrimaryAddress();
+      setCurrentAddress(subaddress);
 
-      await wallet.addListener(listener);
-      await wallet.setSyncHeight(995039);
-      await wallet.startSyncing();
-
-      console.log({ primaryAddress });
-
-      return () => {
-        wallet.stopSyncing();
+      const body = {
+        streamer: user?.id,
+        data: { subaddress },
       };
+
+      try {
+        const result = await fetchJson(`/api/donate/${user?.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        console.log(result);
+      } catch (reason) {
+        if (reason instanceof FetchError) {
+          console.error(reason);
+        } else {
+          console.error("An unexpected error happened:", reason);
+        }
+      }
     }
-
-    const unsubscribe = foobar();
-
-    return () => {
-      // unsubscribe();
-    };
-  }, []);
+  };
 
   return (
     <>
-      {session && session.isLoggedIn && (
+      {user && user.isLoggedIn && (
         <TipxmrWallet
           balance={balance}
           isSynced={isDone && !isSyncing}
@@ -128,6 +122,16 @@ const WalletPage: NextPage = () => {
         ></TipxmrWallet>
       )}
       {isDone ? <Transaction wallet={myWallet} /> : null}
+
+      <Button
+        disabled={!myWallet && !isSyncing}
+        variant="contained"
+        color="primary"
+        onClick={generateAddress}
+      >
+        Generate new Subaddress
+      </Button>
+      {currentAddress && <Subaddress address={String(currentAddress)} />}
     </>
   );
 };

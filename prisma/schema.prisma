@@ -32,15 +32,16 @@ model Category {
 
 model Donation {
   id                          Int       @id @default(autoincrement())
+  isPaid                      Boolean     @default(false) @db.Boolean
   streamer                    String?   @db.VarChar(12)
-  amount                      Float
-  message                     String?   @db.VarChar(256)
-  displayTimeSeconds          Int?
+  amount                      Float     @default(0)
+  message                     String?   @db.VarChar(256) @default("")
+  displayTimeSeconds          Int?      @default(0)
   subaddress                  String?   @db.VarChar(95)
-  confirmations               Int?
-  giphyUrl                    String?   @db.VarChar(100)
-  donor                       String?   @db.VarChar(24)
-  timestamp                   DateTime? @db.Timestamp(6)
+  confirmations               Int?      @default(0)
+  giphyUrl                    String?   @db.VarChar(100) @default("")
+  donor                       String?   @db.VarChar(24) @default("")
+  timestamp                   DateTime? @db.Timestamp(6) @default(now())
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
