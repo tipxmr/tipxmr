@@ -1,12 +1,11 @@
-import { CircularProgress } from "@mui/material";
-import { Streamer } from "@prisma/client";
+import { CircularProgress, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import QrCode from "qrcode";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import useSWR from "swr";
 import { DonationMask } from "~/components";
+import useStreamerByName from "~/hooks/useStreamerByName";
 
 import { createMoneroTransactionUri } from "~/lib/xmr";
 
@@ -17,13 +16,9 @@ async function toQrCode(data: string) {
 const DonateTo: NextPage = () => {
   const router = useRouter();
   const { name } = router.query;
-  const { data: streamer, error } = useSWR<Streamer>(
-    `/api/streamer/name/${name}`
-  );
-  const [code, setCode] = useState<string>();
+  const { status, data: streamer, error } = useStreamerByName(name);
 
-  const isLoading = !error && !streamer;
-  const isError = error;
+  const [code, setCode] = useState<string>();
 
   const transactionAddress =
     "46BeWrHpwXmHDpDEUmZBWZfoQpdc6HaERCNmx1pEYL2rAcuwufPN9rXHHtyUA4QVy66qeFQkn6sfK8aHYjA3jk3o1Bv16em";
@@ -32,22 +27,6 @@ const DonateTo: NextPage = () => {
     amount: 239.39014,
     description: "donation",
   });
-
-  if (isError) {
-    console.error(error);
-  }
-
-  useEffect(() => {
-    if (isError) {
-      router.push("/donate");
-    }
-  }, [isError, router]);
-
-  useEffect(() => {
-    if (!isLoading && !streamer) {
-      router.push("/donate");
-    }
-  }, [isLoading, streamer, router]);
 
   useEffect(() => {
     if (!streamer) {
@@ -77,7 +56,13 @@ const DonateTo: NextPage = () => {
     }
   }, [transactionUri, streamer]);
 
-  if (isLoading) {
+  if (status === "error" && error instanceof Error) {
+    console.error({ error });
+    router.push("/donate");
+    return <Typography variant="body1">There was an error</Typography>;
+  }
+
+  if (status === "loading") {
     return <CircularProgress />;
   }
 

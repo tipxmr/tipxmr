@@ -10,9 +10,12 @@ import fetchJson from "~/lib/fetchJson";
 
 import theme from "../styles/theme";
 import store from "../store";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
+const queryClient = new QueryClient();
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -36,13 +39,15 @@ function MyApp({
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-
         <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Component {...pageProps} />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Layout>
+            </ThemeProvider>
+          </QueryClientProvider>
         </Provider>
       </CacheProvider>
     </SWRConfig>

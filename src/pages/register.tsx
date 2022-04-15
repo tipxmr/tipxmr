@@ -91,22 +91,6 @@ const Home: NextPage = () => {
     // TODO navigate the streamer to the login
   };
 
-  /* useEffect(() => {
-   *   const walletCreator = async (seedLang: string) => {
-   *     try {
-   *       console.log({ seedLang });
-   *       const seed = await createWallet(seedLang);
-   *       console.log({ seed });
-   *       setSeedPhrase(seed);
-   *     } catch (e) {
-   *       console.error({ e });
-   *     }
-   *   };
-   *   walletCreator(seedLang);
-   * }, [seedLang]);
-   */
-  // TODO when the seed language changes, a new seed should be generated
-  // TODO prepare the handeling for submit (ie. open the wallet with the seed, create a new streamer entry in the db, log the streamer in)
   return <Register handleSubmit={handleSubmit} />;
 };
 

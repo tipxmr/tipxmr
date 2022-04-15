@@ -20,7 +20,6 @@ export { default as StreamerChip } from "./StreamerChip";
 
 // --- components
 export { default as Login } from "./Login";
-export { default as Chart } from "./Chart";
 export { default as Transactions } from "./Transactions";
 
 // --- forms

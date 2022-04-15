@@ -1,36 +1,37 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { getWallet } from "~/lib/db/wallet";
+import { updateWalletSettings } from "~/lib/db/wallet";
 import { withSessionRoute } from "~/lib/withSession";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
-    case "GET":
-      getWalletInfo(req, res);
+    case "POST":
+      handlePost(req, res);
       break;
     default:
-      res.setHeader("Allow", ["GET"]);
+      res.setHeader("Allow", ["POST"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
 
-const getWalletInfo = async (
-  request: NextApiRequest,
-  response: NextApiResponse
-) => {
-  const { id } = request.query;
+async function handlePost(request: NextApiRequest, response: NextApiResponse) {
+  const user = request.session.user;
 
-  if (!id) throw new Error("Provide a streamer id");
+  if (!user || user.isLoggedIn === false) {
+    response.status(401).json({
+      message: "Not Authorized",
+    });
+    return;
+  }
 
   try {
-    const walletSettings = await getWallet(String(id));
-    console.log("Got wallet settings", walletSettings);
+    const { body } = request;
 
-    if (walletSettings) {
-      response.status(200).json({ data: walletSettings });
-    }
+    const { data } = body?.walletSettings;
 
-    throw new Error("This user does not exist");
+    const result = await updateWalletSettings(String(user.id), data);
+
+    response.status(200).json({ result });
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
@@ -40,6 +41,6 @@ const getWalletInfo = async (
     }
     console.error(error);
   }
-};
+}
 
 export default withSessionRoute(handler);

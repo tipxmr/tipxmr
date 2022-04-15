@@ -35,8 +35,6 @@ export const updateDonationSettings = (
     gifsMinAmount?: Donation_settings["gifsMinAmount"];
   }
 ) => {
-  console.log(`DB Streamer: ${streamer}`);
-  console.log(`DB Data: ${data}`);
   return prisma?.donation_settings.update({
     where: {
       streamer,

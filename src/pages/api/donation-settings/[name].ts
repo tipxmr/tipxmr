@@ -25,7 +25,7 @@ const getStreamerDonationSettings = async (
     const donationSettings = await getDonationSettings(String(name));
 
     if (donationSettings) {
-      response.status(200).json({ donationSettings });
+      response.status(200).json({ data: donationSettings });
       return;
     }
 

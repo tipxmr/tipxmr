@@ -34,12 +34,13 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
         onSubmit={handleSubmit}
         spacing={3}
         justifyContent="center"
+        direction="row"
         alignItems="center"
       >
-        <Grid item xs={2}>
-          <Chip label={`${secondPrice} XMR`} />
+        <Grid item xs={5}>
+          <Chip label={`${secondPrice} XMR`} sx={{ display: "flex" }} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="secondPrice"
             name="secondPrice"
@@ -50,10 +51,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
           />
         </Grid>
 
-        <Grid item xs={2}>
-          <Chip label={`${charPrice} XMR`} />
+        <Grid item xs={5}>
+          <Chip label={`${charPrice} XMR`} sx={{ display: "flex" }} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="charPrice"
             name="charPrice"
@@ -63,10 +64,13 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2}>
-          <Chip label={`${charLimit} characters max`} />
+        <Grid item xs={5}>
+          <Chip
+            label={`${charLimit} characters max`}
+            sx={{ display: "flex" }}
+          />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="charLimit"
             name="charLimit"
@@ -76,10 +80,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2}>
-          <Chip label={`${minAmount} XMR`} />
+        <Grid item xs={5}>
+          <Chip label={`${minAmount} XMR`} sx={{ display: "flex" }} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="minAmount"
             name="minAmount"
@@ -89,10 +93,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2}>
-          <Chip label={`${gifsMinAmount} XMR`} />
+        <Grid item xs={5}>
+          <Chip label={`${gifsMinAmount} XMR`} sx={{ display: "flex" }} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="gifsMinAmount"
             name="gifsMinAmount"
@@ -102,10 +106,10 @@ const DonationSettingsForm: FC<ISettingsForm> = ({
             variant="standard"
           />
         </Grid>
-        <Grid item xs={2}>
-          <Chip label={`${goal} XMR`} />
+        <Grid item xs={5}>
+          <Chip label={`${goal} XMR`} sx={{ display: "flex" }} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="goal"
             name="goal"

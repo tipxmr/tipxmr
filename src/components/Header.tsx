@@ -17,8 +17,8 @@ import Logo from "../img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import fetchJson from "~/lib/fetchJson";
-import { User } from "~/pages/api/user";
 import useUser from "~/lib/useUser";
+import { User } from "~/lib/config";
 
 type pages = { page: string; href: string }[];
 let default_pages: pages = [

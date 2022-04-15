@@ -49,32 +49,15 @@ export const seedLangAtom = atom("English");
 
 export const seedAtom = atom("");
 export const seedPhraseAtom = atom("");
-// export const seedPhraseAtom = atom(
-//   async (get) => { },
-//   async (get, set) => {
-//     const seedLang = get(seedLangAtom);
-//     const seedPhrase = await createWallet(seedLang);
-//     set(seedPhraseAtom, seedPhrase);
-//   }
-// );
 export const truncatedHashedSeedAtom = atom(async (get) => {
   const seedPhrase = get(generatedSeedPhraseAtom);
   const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
-  console.log({ truncatedHashedSeed });
   return truncatedHashedSeed;
 });
 export const generatedSeedPhraseAtom = atom(async (get) => {
   const seedLang = get(seedLangAtom);
   const seedPhrase = await createWallet(seedLang);
-  console.log("Atom | seedphrase: ", seedPhrase);
-
   return seedPhrase;
 });
-// export const seedPhraseAtom: any = atom((get) => get(seedPhrase),
-//   (get, set, newPhrase) => {
-//     console.log("new Phrase: ", newPhrase)
-//     set(seedPhrase, newPhrase)
-//   });
-
 export const userNameAtom = atom("");
 export const displayNameAtom = atom("");

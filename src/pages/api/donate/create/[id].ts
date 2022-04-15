@@ -1,8 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "~/lib/session";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { createBlankDonation } from "~/lib/db/donation";
+import { withSessionRoute } from "~/lib/withSession";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -55,4 +54,4 @@ const handlePost = async (
   }
 };
 
-export default withIronSessionApiRoute(handler, sessionOptions);
+export default withSessionRoute(handler);

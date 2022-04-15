@@ -1,9 +1,7 @@
-// TODO this should probably be its own folder under api
-import { Streamer, Prisma } from "@prisma/client";
+import { Streamer } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getStreamers, createStreamer } from "~/lib/db/streamer";
+import { getStreamers } from "~/lib/db/streamer";
 
-const { PrismaClientKnownRequestError } = Prisma;
 type ResponseData = Streamer[] | { error: string };
 
 async function handler(
@@ -12,10 +10,8 @@ async function handler(
 ) {
   if (req.method === "GET") {
     streamerGetHandler(req, res);
-  } else if (req.method === "POST") {
-    streamerPostHandler(req, res);
   } else {
-    res.setHeader("Allow", ["GET, POST"]);
+    res.setHeader("Allow", ["GET"]);
     res.status(405).end(`Method ${req.method} not Allowed`);
   }
 }
@@ -26,27 +22,9 @@ const streamerGetHandler = async (
 ) => {
   try {
     const streamers = await getStreamers();
-    res.status(200).json(streamers);
+    res.status(200).json({ data: streamers });
   } catch (reason) {
     res.status(500).json({ error: "failed to load data" });
-  }
-};
-
-const streamerPostHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const { id, name, alias, socket = null } = req.body;
-  try {
-    const streamer = await createStreamer(String(id), { name, alias, socket });
-    const result = { streamer: streamer };
-    res.status(200).json(result);
-  } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      const { message } = error;
-      res.status(500).json({ error: `failed to create streamer, ${message}` });
-    }
-    console.error(error);
   }
 };
 

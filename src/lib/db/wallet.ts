@@ -11,3 +11,20 @@ export const getWallet = async (streamer: Wallet["streamer"]) => {
     },
   });
 };
+
+export const updateWalletSettings = (
+  streamer: Wallet["streamer"],
+  data: {
+    lastSyncHeight?: Wallet["lastSyncHeight"];
+    restoreHeight?: Wallet["restoreHeight"];
+  }
+) => {
+  console.log(`DB Streamer: ${streamer}`);
+  console.log(`DB Data: `, data);
+  return prisma?.wallet.update({
+    where: {
+      streamer,
+    },
+    data,
+  });
+};

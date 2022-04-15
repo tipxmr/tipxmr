@@ -1,31 +1,108 @@
 import { Grid } from "@mui/material";
-import { Streamer } from "@prisma/client";
 import { assoc } from "ramda";
 import { NextPage } from "next";
 import { FormEvent } from "react";
-import useSWR from "swr";
 import { DonationSettingsForm } from "~/components";
-import fetchJson, { FetchError } from "~/lib/fetchJson";
+import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 import { WalletSettingsForm } from "~/components";
-
-type donationSettingsType = Streamer["name"] | undefined;
-const useDonationSettings = (name: donationSettingsType) => {
-  return useSWR(() => (name ? `/api/donation-settings/${name}` : null));
-};
-
-type walletSettingsType = Streamer["id"] | undefined;
-const useWalletSettings = (id: walletSettingsType) => {
-  console.log("Requesting wallet settings for ", id);
-  return useSWR(() => (id ? `/api/wallet/settings/${id}` : null));
-};
+import useDonationSettings from "~/hooks/useDonationSettings";
+import useWalletSettings from "~/hooks/useWalletSettings";
+import { useMutation, useQueryClient } from "react-query";
+import { Donation_settings, Wallet } from "@prisma/client";
 
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
   const { data: donationSettings } = useDonationSettings(user?.name);
   const { data: walletSettings } = useWalletSettings(user?.id);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const queryClient = useQueryClient();
+
+  const addDonationSettings = useMutation(
+    (donationSettings) => {
+      const body = { donationSettings };
+      return fetchJson(`/api/donation-settings/update/${user?.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    },
+    {
+      onMutate: async (settings: Donation_settings) => {
+        await queryClient.cancelQueries(["streamer", user?.name]);
+        const previousSettings = queryClient.getQueryData<Donation_settings>([
+          "streamer",
+          user?.name,
+        ]);
+
+        console.log({ settings });
+
+        if (previousSettings) {
+          queryClient.setQueryData<Donation_settings>(
+            ["streamer", user?.name],
+            { ...previousSettings }
+          );
+        }
+
+        return { previousSettings };
+      },
+      onError: (err, variables, context) => {
+        if (context?.previousSettings) {
+          queryClient.setQueryData<Donation_settings>(
+            ["streamer", user?.name],
+            context.previousSettings
+          );
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["streamer", user?.name]);
+      },
+    }
+  );
+  const addWalletSettings = useMutation(
+    (walletSettings) => {
+      const body = { walletSettings };
+      return fetchJson(`/api/wallet/settings/update/${user?.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    },
+    {
+      onMutate: async (settings: Wallet) => {
+        await queryClient.cancelQueries(["streamer", user?.id]);
+        const previousSettings = queryClient.getQueryData<Wallet>([
+          "streamer",
+          user?.id,
+        ]);
+
+        console.log({ settings });
+
+        if (previousSettings) {
+          queryClient.setQueryData<Wallet>(["streamer", user?.id], {
+            ...previousSettings,
+          });
+        }
+
+        return { previousSettings };
+      },
+      onError: (err, variables, context) => {
+        if (context?.previousSettings) {
+          queryClient.setQueryData<Wallet>(
+            ["streamer", user?.id],
+            context.previousSettings
+          );
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["streamer", user?.id]);
+      },
+    }
+  );
+
+  const handleWalletSettingsSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     if (!user) return;
 
@@ -44,35 +121,47 @@ const Settings: NextPage = () => {
     }
     const body = {
       streamer: user.id,
-      ...updateData,
+      data: {
+        ...updateData,
+      },
     };
 
-    console.log(`API Body `, body);
+    addWalletSettings.mutate(body);
+  };
 
-    try {
-      const result = await fetchJson(
-        `/api/donation-settings/update/${user?.id}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
+  const handleDonationSettingsSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    if (!user) return;
 
-      console.log(result);
-    } catch (reason) {
-      if (reason instanceof FetchError) {
-        console.error(reason);
-      } else {
-        console.error("An unexpected error happened:", reason);
+    const data = new FormData(event.currentTarget);
+    // TODO do we need to validate?
+
+    let updateData = {};
+
+    for (const pair of data.entries()) {
+      // this
+      if (pair.at(1) === "") {
+        continue;
       }
+
+      updateData = assoc(pair[0], Number(pair[1]), updateData);
     }
+    const body = {
+      streamer: user.id,
+      data: {
+        ...updateData,
+      },
+    };
+
+    addDonationSettings.mutate(body);
   };
 
   return (
     <Grid
       container
-      direction="column"
+      direction="row"
       justifyContent="center"
       alignItems="center"
       spacing={3}
@@ -81,7 +170,7 @@ const Settings: NextPage = () => {
         <Grid item xs={12}>
           <DonationSettingsForm
             donationSettings={donationSettings}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleDonationSettingsSubmit}
           />
         </Grid>
       )}
@@ -89,7 +178,7 @@ const Settings: NextPage = () => {
         <Grid item xs={12}>
           <WalletSettingsForm
             walletSettings={walletSettings}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleWalletSettingsSubmit}
           />
         </Grid>
       )}

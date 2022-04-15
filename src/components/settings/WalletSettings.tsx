@@ -20,8 +20,6 @@ const WalletSettingsForm: FC<ISettingsForm> = ({
   walletSettings,
   handleSubmit,
 }) => {
-  const { restoreHeight: test } = walletSettings;
-  console.log(test);
   const [restoreHeight, setRestoreHeight] = useState<Wallet["restoreHeight"]>();
 
   useEffect(() => {
@@ -37,12 +35,16 @@ const WalletSettingsForm: FC<ISettingsForm> = ({
         onSubmit={handleSubmit}
         spacing={3}
         justifyContent="center"
+        direction="row"
         alignItems="center"
       >
-        <Grid item xs={2}>
-          <Chip label={`${String(walletSettings.restoreHeight)} blocks`} />
+        <Grid item xs={5}>
+          <Chip
+            label={`${String(walletSettings.restoreHeight)} blocks`}
+            sx={{ display: "flex" }}
+          />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <TextField
             id="restoreHeight"
             name="restoreHeight"

@@ -1,8 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { updateDonationSettings } from "~/lib/db/donationSettings";
-import { sessionOptions } from "~/lib/session";
+import { withSessionRoute } from "~/lib/withSession";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -31,7 +30,10 @@ async function updateStreamerSettings(
   try {
     const { body } = request;
 
-    const result = await updateDonationSettings(String(user.id), body);
+    const { data } = body?.donationSettings;
+    console.log("Data to db is: ", data);
+
+    const result = await updateDonationSettings(String(user.id), data);
 
     response.status(200).json({ result });
   } catch (error) {
@@ -45,4 +47,4 @@ async function updateStreamerSettings(
   }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions);
+export default withSessionRoute(handler);
