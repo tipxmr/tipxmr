@@ -9,6 +9,7 @@ import {
   walletAtom,
   openWalletAtom,
   generatedSeedPhraseAtom,
+  syncStartHeightAtom,
 } from "~/store";
 import { MoneroSubaddress, MoneroWalletFull } from "monero-javascript";
 import { Subaddress, TipxmrWallet } from "~/components";
@@ -25,9 +26,6 @@ import useUser from "~/lib/useUser";
 import { Button } from "@mui/material";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 
-/* const MNEMONIC =
- *   "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
- *  */
 const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
   useEffect(() => {
     (async () => {
@@ -42,10 +40,10 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
         }
       });
 
-      await wallet.addListener(listener);
+      await wallet?.addListener(listener);
 
-      const subaddress = await wallet.createSubaddress(0, "foobar");
-      const address = await subaddress.getAddress();
+      const subaddress = wallet?.createSubaddress(0, "foobar");
+      const address = await subaddress?.getAddress();
     })();
 
     (async () => {
@@ -58,7 +56,7 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
         }
       );
 
-      await wallet.addListener(listener);
+      await wallet?.addListener(listener);
     })();
   }, [wallet]);
 
@@ -73,6 +71,7 @@ const WalletPage: NextPage = () => {
   const [isSyncing] = useAtom(isSyncRunningAtom);
   const [syncHeight] = useAtom(syncHeightAtom);
   const [syncEndHeight] = useAtom(syncEndHeightAtom);
+  const [syncStartHeight] = useAtom(syncStartHeightAtom);
   const [balance] = useAtom(balanceAtom);
   const [currentAddress, setCurrentAddress] = useState<
     MoneroSubaddress | string
@@ -84,9 +83,12 @@ const WalletPage: NextPage = () => {
     if (myWallet) {
       const addr = await myWallet.createSubaddress(0, "test");
       const subaddress = await addr.getAddress();
+      let txs = await myWallet.getTxs();
+      console.log({ txs });
 
       setCurrentAddress(subaddress);
 
+      console.log({ myWallet });
       const body = {
         streamer: user?.id,
         data: { subaddress },
@@ -114,6 +116,7 @@ const WalletPage: NextPage = () => {
     <>
       {user && user.isLoggedIn && (
         <TipxmrWallet
+          startHeight={syncStartHeight}
           balance={balance}
           isSynced={isDone && !isSyncing}
           height={syncHeight}

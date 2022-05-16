@@ -30,6 +30,7 @@ let logged_out_pages: pages = [
   ...default_pages,
   { page: "Register", href: "/register" },
   { page: "Login", href: "/login" },
+  { page: "Simple Wallet", href: "/simplewallet" },
 ];
 
 let logged_in_pages: pages = [

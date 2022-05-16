@@ -71,24 +71,19 @@ const Home: NextPage = () => {
       }
     );
 
-    async function foobar() {
-      const wallet = await open(seedPhrase);
-      // setXmrWallet(wallet);
-      setMyWallet(wallet);
-      const primaryAddress = await wallet.getPrimaryAddress();
+    async function initializeWallet() {
+      if (!myWallet) return;
 
-      await wallet.addListener(listener);
-      await wallet.setSyncHeight(1063600);
-      await wallet.startSyncing();
-
-      console.log({ primaryAddress });
+      await myWallet.addListener(listener);
+      await myWallet.setSyncHeight(1063600);
+      await myWallet.startSyncing();
 
       return () => {
-        wallet.stopSyncing();
+        myWallet.stopSyncing();
       };
     }
 
-    const unsubscribe = foobar();
+    const unsubscribe = initializeWallet();
 
     return () => {
       // unsubscribe();

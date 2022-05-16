@@ -1,8 +1,8 @@
-import { FC } from "react";
-import Typography from "@mui/material/Typography";
-import { PaperWrapper } from "~/components";
-import { Box, Chip, Grid, LinearProgress } from "@mui/material";
+import { FC, useState } from "react";
+import { Grid, Snackbar } from "@mui/material";
 import WithdrawDialog from "./WithdrawDialog";
+import SyncProgress from "./SyncProgress";
+import WalletBalance from "./BalanceChip";
 
 interface ITipxmrWallet {
   balance: number;
@@ -22,44 +22,37 @@ const TipxmrWallet: FC<ITipxmrWallet> = ({
   endHeight,
 }) => {
   // TODO handle the withdraw to address from db
-  const handleWithdraw = () => console.log("Here should be a wallet call");
-  const address =
-    "53N5yFyay3uXvLepuRT8SG2KLijz1vHTnQ71y1CCBjxw3vEZysjmAMq3FjM3EFwXEUawDbrQAEmJgEnGVBiDP3HXFXVmxcS";
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <PaperWrapper title="My wallet">
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item xs={12}>
-          <Typography component="p" variant="h4">
-            Balance: {balance} XMR
-          </Typography>
-        </Grid>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={10}></Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{ display: "flex", mb: 2 }}
-            justifyContent="space-evenly"
-            alignItems="center"
-          >
-            <Typography align="right">
-              {height}/{endHeight}
-            </Typography>
-            <Chip label={`${percentDone}%`} />
-          </Box>
-          <LinearProgress variant="determinate" value={percentDone} />
-        </Grid>
-        <Grid item xs={12}>
-          <WithdrawDialog address={address} handleWithdraw={handleWithdraw} />
-        </Grid>
+    <Grid
+      sx={{ width: "80%", border: "1px dashed lightgrey" }}
+      container
+      spacing={3}
+    >
+      <Grid item xs={3}>
+        <WalletBalance />
       </Grid>
-    </PaperWrapper>
+
+      <Grid item xs={5}>
+        <SyncProgress />
+      </Grid>
+      <Grid item xs={3} justifySelf="center">
+        <WithdrawDialog handleWithdraw={handleClick} address="fixme" />
+        <Snackbar
+          open={open}
+          onClose={handleClose}
+          message="👷 Still under development"
+        />
+      </Grid>
+    </Grid>
   );
 };
 export default TipxmrWallet;

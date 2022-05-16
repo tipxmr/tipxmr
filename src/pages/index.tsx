@@ -1,4 +1,4 @@
-import { Grid, Typography, Box, Button } from "@mui/material";
+import { Grid, Box, Button } from "@mui/material";
 import Container from "@mui/material/Container";
 import { Streamer } from "@prisma/client";
 import type {
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<ServerSideProps> = () => {
-  const { user } = useUser({ redirectTo: "/dashboard", redirectIfFound: true });
+  useUser({ redirectTo: "/dashboard", redirectIfFound: true });
   const [language, setLanguage] = useState("English");
 
   return (
@@ -78,7 +78,7 @@ const Home: NextPage<ServerSideProps> = () => {
           </Grid>
 
           <Grid item xs={3}>
-            <InfoCard>Online</InfoCard>
+            <InfoCard bodyText="Online" />
             <IsOnlineBadge isOnline />
           </Grid>
 

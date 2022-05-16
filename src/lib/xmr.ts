@@ -33,7 +33,7 @@ export const createWallet = async (lang = "English") => {
   return walletFull.getMnemonic();
 };
 
-export const open = (mnemonic: string) => {
+export const open = async (mnemonic: string) => {
   return createWalletFull({
     mnemonic,
     ...stagenetNode,

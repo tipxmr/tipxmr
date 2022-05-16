@@ -9,38 +9,9 @@ interface IWithdrawDialog {
 }
 const WithdrawDialog: FC<IWithdrawDialog> = ({ address, handleWithdraw }) => {
   return (
-    <Paper elevation={3} sx={{ p: 4 }}>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item>
-          <Typography component="h3" variant="h4">
-            Withdraw from wallet
-          </Typography>
-        </Grid>
-
-        <Grid item>
-          <NumberInput label="Withdraw amount" />
-        </Grid>
-        <Grid item>
-          <Typography component="p" variant="body1" align="center">
-            Recipient address:
-          </Typography>
-          <Typography component="p" variant="caption" align="center">
-            {address}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" onClick={handleWithdraw}>
-            Withdraw
-          </Button>
-        </Grid>
-      </Grid>
-    </Paper>
+    <Button variant="contained" onClick={handleWithdraw}>
+      Withdraw everything
+    </Button>
   );
 };
 

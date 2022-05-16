@@ -11,7 +11,7 @@ const PaperWrapper: FC<IPaperWrapper> = (props) => {
   const { title, children } = props;
 
   return (
-    <Paper elevation={3} sx={{ p: 4 }}>
+    <Paper elevation={3} sx={{ p: 2 }}>
       {title && <Title>{title}</Title>}
       {children}
     </Paper>

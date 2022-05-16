@@ -31,7 +31,7 @@ const RegistrationInfo: FC<IRegistrationInfo> = ({}) => {
   return (
     <>
       {infos.map(({ title, subtitle, bodyText, link, btnText }) => (
-        <Box sx={{ m: 2 }}>
+        <Box sx={{ m: 2 }} key={title}>
           <InfoCard
             title={title}
             subtitle={subtitle}
