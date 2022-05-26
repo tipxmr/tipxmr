@@ -1,7 +1,7 @@
 import { List, ListItemText, Typography } from "@mui/material";
 import { NextPage } from "next";
 import useUser from "~/lib/useUser";
-import { IsOnlineBadge, isOnlineBadge } from "~/components";
+import { IsOnlineBadge } from "~/components";
 
 const Profile: NextPage = () => {
   // TODO create a profile with some of the stats from the db
@@ -9,6 +9,7 @@ const Profile: NextPage = () => {
   // username and display name
   // status
   const { user } = useUser({ redirectTo: "/login" });
+  if (user == null || user == undefined) return <></>;
   return (
     <>
       <Typography component="h1" variant="h2">
