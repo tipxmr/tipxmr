@@ -88,16 +88,3 @@ _Note_: Donors are always anonymous. They do not require an account to tip. This
 ** License
 
  ⚖️[[AGPL-3.0 License][AGPL-3.0 License]]
-* Implementing React Query
-** What state lives where?
-| Entity             | lives on | hook(s)       | done |
-|--------------------+----------+---------------+------|
-| Streamer           | Server   | useStreamers, |      |
-| Donation_settings  | Server   |               |      |
-| Account            | Server   |               |      |
-| Donation           | Server   |               |      |
-| Wallet_settings    | Server   |               |      |
-| Invoice            | Server   |               |      |
-| Animation_settings | Server   |               |      |
-| Category           | Server   |               |      |
-| Wallet Listeners   | Client   |               |      |
