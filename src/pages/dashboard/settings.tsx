@@ -9,7 +9,7 @@ import { WalletSettingsForm } from "~/components";
 import useDonationSettings from "~/hooks/useDonationSettings";
 import useWalletSettings from "~/hooks/useWalletSettings";
 import { useMutation, useQueryClient } from "react-query";
-import { Donation_settings, Wallet } from "@prisma/client";
+import { DonationSettings, Wallet } from "@prisma/client";
 
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
@@ -28,9 +28,9 @@ const Settings: NextPage = () => {
       });
     },
     {
-      onMutate: async (settings: Donation_settings) => {
+      onMutate: async (settings: DonationSettings) => {
         await queryClient.cancelQueries(["streamer", user?.name]);
-        const previousSettings = queryClient.getQueryData<Donation_settings>([
+        const previousSettings = queryClient.getQueryData<DonationSettings>([
           "streamer",
           user?.name,
         ]);
@@ -38,17 +38,16 @@ const Settings: NextPage = () => {
         console.log({ settings });
 
         if (previousSettings) {
-          queryClient.setQueryData<Donation_settings>(
-            ["streamer", user?.name],
-            { ...previousSettings }
-          );
+          queryClient.setQueryData<DonationSettings>(["streamer", user?.name], {
+            ...previousSettings,
+          });
         }
 
         return { previousSettings };
       },
       onError: (err, variables, context) => {
         if (context?.previousSettings) {
-          queryClient.setQueryData<Donation_settings>(
+          queryClient.setQueryData<DonationSettings>(
             ["streamer", user?.name],
             context.previousSettings
           );

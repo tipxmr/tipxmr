@@ -2,7 +2,7 @@ import { FC } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Donation_settings } from "@prisma/client";
+import { DonationSettings } from "@prisma/client";
 import { Chip } from "@mui/material";
 import { PaperWrapper } from "~/components";
 
@@ -12,12 +12,12 @@ interface ISettingsForm {
 }
 
 interface IDonationSettings {
-  secondPrice: Donation_settings["secondPrice"];
-  charPrice: Donation_settings["charPrice"];
-  charLimit: Donation_settings["charLimit"];
-  minAmount: Donation_settings["minAmount"];
-  gifsMinAmount: Donation_settings["gifsMinAmount"];
-  goal: Donation_settings["goal"];
+  secondPrice: DonationSettings["secondPrice"];
+  charPrice: DonationSettings["charPrice"];
+  charLimit: DonationSettings["charLimit"];
+  minAmount: DonationSettings["minAmount"];
+  gifsMinAmount: DonationSettings["gifsMinAmount"];
+  goal: DonationSettings["goal"];
 }
 
 const DonationSettingsForm: FC<ISettingsForm> = ({

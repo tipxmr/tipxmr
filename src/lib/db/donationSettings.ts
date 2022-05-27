@@ -1,4 +1,4 @@
-import { Donation_settings, Streamer } from "@prisma/client";
+import { DonationSettings, Streamer } from "@prisma/client";
 import prisma from "../prisma";
 
 // TODO this is a public data point from every streamer
@@ -25,14 +25,14 @@ export const getDonationSettings = async (name: Streamer["name"]) => {
 };
 
 export const updateDonationSettings = (
-  streamer: Donation_settings["streamer"],
+  streamer: DonationSettings["streamer"],
   data: {
-    charPrice?: Donation_settings["charPrice"];
-    charLimit?: Donation_settings["charLimit"];
-    goal?: Donation_settings["goal"];
-    minAmount?: Donation_settings["minAmount"];
-    secondPrice?: Donation_settings["secondPrice"];
-    gifsMinAmount?: Donation_settings["gifsMinAmount"];
+    charPrice?: DonationSettings["charPrice"];
+    charLimit?: DonationSettings["charLimit"];
+    goal?: DonationSettings["goal"];
+    minAmount?: DonationSettings["minAmount"];
+    secondPrice?: DonationSettings["secondPrice"];
+    gifsMinAmount?: DonationSettings["gifsMinAmount"];
   }
 ) => {
   return prisma?.donation_settings.update({

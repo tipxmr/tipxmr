@@ -45,7 +45,7 @@ model Donation {
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model Donation_settings {
+model DonationSettings {
   streamer                             String   @id @db.VarChar(12)
   secondPrice                          Int?     @default(0)
   charPrice                            Float?   @default(0)
@@ -63,8 +63,8 @@ model Invoice {
   streamer                   String?        @db.VarChar(12)
   startDate                  DateTime?      @db.Timestamp(6)
   endDate                    DateTime?      @db.Timestamp(6)
-  planType                   Plan_types?
-  paidStatus                 Paid_statuses?
+  planType                   PlanTypes?
+  paidStatus                 PaidStatuses?
   subaddress                 String?        @db.VarChar(95)
   streamer_invoiceTostreamer Streamer?      @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -118,13 +118,13 @@ enum Languages {
   Italian
 }
 
-enum Paid_statuses {
+enum PaidStatuses {
   paid
   unpaid
   canceled
 }
 
-enum Plan_types {
+enum PlanTypes {
   basic
   premium
 }
