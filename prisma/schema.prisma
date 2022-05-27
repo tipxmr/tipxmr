@@ -90,7 +90,7 @@ model Streamer {
   animation        Animation[]
   category         Category[]
   donation         Donation[]
-  donationSettings Donation_settings?
+  donationSettings DonationSettings?
   invoice          Invoice[]
   stream           Stream?
   wallet           Wallet?
