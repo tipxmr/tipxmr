@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai";
 import { FormEvent } from "react";
-import { Register } from "~/components";
+import Register from "~/components/RegisterStepper";
 import {
   displayNameAtom,
   truncatedHashedSeedAtom,
@@ -10,12 +10,11 @@ import {
 import useUser from "~/lib/useUser";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import { Streamer } from "@prisma/client";
-import { User } from "./api/user";
+import { User } from "~/lib/config";
 import { ErrorBoundary } from "react-error-boundary";
-import { LoadingButton } from "@mui/lab";
 
 const Home: NextPage = () => {
-  const { user, mutateUser } = useUser({
+  const { mutateUser } = useUser({
     redirectTo: "/dashboard",
     redirectIfFound: true,
   });

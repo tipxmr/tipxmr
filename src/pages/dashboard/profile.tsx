@@ -1,7 +1,7 @@
 import { List, ListItemText, Typography } from "@mui/material";
 import { NextPage } from "next";
 import useUser from "~/lib/useUser";
-import { IsOnlineBadge, isOnlineBadge } from "~/components";
+import IsOnlineBadge from "~/components/IsOnlineBadge";
 
 const Profile: NextPage = () => {
   // TODO create a profile with some of the stats from the db
@@ -18,36 +18,38 @@ const Profile: NextPage = () => {
         <ListItemText
           primary={
             <Typography variant="subtitle1">
-              Your unique Tipxmr ID: {user.id}
+              Your unique Tipxmr ID: {user?.id}
             </Typography>
           }
         />
         <ListItemText
           primary={
-            <Typography variant="body1">Username: {user.name}</Typography>
+            <Typography variant="body1">Username: {user?.name}</Typography>
           }
         />
         <ListItemText
-          primary={<Typography variant="body1">Alias: {user.alias}</Typography>}
-        />
-        <ListItemText
           primary={
-            <Typography variant="body1">
-              Account created at: {user.createdAt}
-            </Typography>
+            <Typography variant="body1">Alias: {user?.alias}</Typography>
           }
         />
         <ListItemText
           primary={
             <Typography variant="body1">
-              Last account update at: {user.updatedAt}
+              Account created at: {user?.createdAt}
             </Typography>
           }
         />
         <ListItemText
           primary={
             <Typography variant="body1">
-              Current wallet status: <IsOnlineBadge isOnline={user.isOnline} />
+              Last account update at: {user?.updatedAt}
+            </Typography>
+          }
+        />
+        <ListItemText
+          primary={
+            <Typography variant="body1">
+              Current wallet status: <IsOnlineBadge isOnline={user?.isOnline} />
             </Typography>
           }
         />
@@ -55,14 +57,14 @@ const Profile: NextPage = () => {
           primary={
             <Typography variant="body1">
               Current logged-in status:{" "}
-              <IsOnlineBadge isOnline={user.isLoggedIn} />
+              <IsOnlineBadge isOnline={user?.isLoggedIn} />
             </Typography>
           }
         />
         <ListItemText
           primary={
             <Typography variant="body1">
-              Current Socket Connection: {user.socket}
+              Current Socket Connection: {user?.socket}
             </Typography>
           }
         />

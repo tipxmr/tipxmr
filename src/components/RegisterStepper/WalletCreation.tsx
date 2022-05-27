@@ -2,26 +2,22 @@ import CreateIcon from "@mui/icons-material/Create";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-import { generatedSeedPhraseAtom, seedLangAtom, seedPhraseAtom } from "~/store";
+import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 import { useAtom } from "jotai";
 import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
   Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  TextField,
-  Typography,
 } from "@mui/material";
 //@ts-ignore
 import { FC, useTransition } from "react";
-import { LanguageSelector, SeedOutput } from "~/components";
+import LanguageSelector from "~/components/LanguageSelector";
+import SeedOutput from "~/components/SeedOutput";
 import Title from "../Title";
 
 interface IWalletCreation {}
@@ -35,7 +31,6 @@ const WalletCreation: FC<IWalletCreation> = ({}) => {
     });
   };
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
-  console.log({ seedPhrase });
   const boxStyles = {
     display: "flex",
     flexDirection: "column",

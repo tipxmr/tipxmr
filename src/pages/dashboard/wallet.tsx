@@ -1,25 +1,20 @@
 import { useAtom } from "jotai";
 import {
   balanceAtom,
-  mnemonicAtom,
   syncEndHeightAtom,
   progressAtom,
   syncHeightAtom,
   isSyncRunningAtom,
   walletAtom,
-  openWalletAtom,
-  generatedSeedPhraseAtom,
 } from "~/store";
 import { MoneroSubaddress, MoneroWalletFull } from "monero-javascript";
-import { Subaddress, TipxmrWallet } from "~/components";
+import Subaddress from "~/components/Subaddress";
+import TipxmrWallet from "~/components/wallet";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import {
   createBalancesChangedListener,
   createOutputReceivedListener,
-  createSyncProgressListener,
-  generateSubaddress,
-  open,
 } from "~/lib/xmr";
 import useUser from "~/lib/useUser";
 import { Button } from "@mui/material";

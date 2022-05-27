@@ -1,7 +1,10 @@
 import { Grid, Typography } from "@mui/material";
 import { Streamer } from "@prisma/client";
 import { FC } from "react";
-import { PaperWrapper, Subaddress, StreamerChip } from "~/components";
+import StreamerChip from "~/components/StreamerChip";
+import Subaddress from "~/components/Subaddress";
+import PaperWrapper from "~/components/PaperWrapper";
+
 import Image from "next/image";
 
 interface IDonationMask {
@@ -9,6 +12,7 @@ interface IDonationMask {
   txAddress: string;
   code: any;
 }
+
 const DonationMask: FC<IDonationMask> = ({ streamer, txAddress, code }) => {
   return (
     <PaperWrapper>

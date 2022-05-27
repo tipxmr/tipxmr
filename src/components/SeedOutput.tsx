@@ -1,6 +1,7 @@
-import { Tooltip, Typography } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 import { FC } from "react";
-import { PaperWrapper } from "~/components";
+import PaperWrapper from "~/components/PaperWrapper";
 
 interface ISeedOutput {
   seedPhrase: string;

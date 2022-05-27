@@ -1,4 +1,4 @@
-import { NumberInput } from "~/components";
+import NumberInput from "~/components/NumberInput";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

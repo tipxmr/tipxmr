@@ -1,4 +1,4 @@
-import { StreamerChip } from "~/components";
+import StreamerChip from "~/components/StreamerChip";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

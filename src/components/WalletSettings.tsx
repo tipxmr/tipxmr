@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Wallet } from "@prisma/client";
 import Chip from "@mui/material/Chip";
-import { PaperWrapper } from "~/components";
+import PaperWrapper from "~/components/PaperWrapper";
 
 interface ISettingsForm {
   walletSettings: IWalletSettings;

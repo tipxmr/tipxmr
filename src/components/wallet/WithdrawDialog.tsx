@@ -2,7 +2,7 @@ import { Button, Grid } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
-import { NumberInput } from "~/components";
+import NumberInput from "~/components/NumberInput";
 interface IWithdrawDialog {
   address: string;
   handleWithdraw: () => void;

@@ -1,4 +1,4 @@
-import { SeedOutput } from "~/components";
+import SeedOutput from "~/components/SeedOutput";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

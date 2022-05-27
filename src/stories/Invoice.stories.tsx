@@ -1,4 +1,4 @@
-import { Invoice } from "~/components";
+import Invoice from "~/components/Invoice";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

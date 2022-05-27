@@ -13,7 +13,7 @@ import {
   Step,
 } from "@mui/material";
 import TipxmrLogo from "~/img/logo.png";
-import { PaperWrapper } from "~/components";
+import PaperWrapper from "~/components/PaperWrapper";
 import Success from "./Success";
 import WalletCreation from "./WalletCreation";
 import AccountCreation from "./AccountCreation";

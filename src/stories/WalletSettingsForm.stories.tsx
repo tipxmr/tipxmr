@@ -1,4 +1,4 @@
-import { WalletSettingsForm } from "~/components";
+import WalletSettingsForm from "~/components/WalletSettings";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

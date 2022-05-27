@@ -3,8 +3,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { DonationSettings } from "@prisma/client";
-import { Chip } from "@mui/material";
-import { PaperWrapper } from "~/components";
+import Chip from "@mui/material/Chip";
+import PaperWrapper from "~/components/PaperWrapper";
 
 interface ISettingsForm {
   donationSettings: IDonationSettings;

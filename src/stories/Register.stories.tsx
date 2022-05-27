@@ -1,4 +1,4 @@
-import { Register } from "~/components";
+import Register from "~/components/RegisterStepper";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

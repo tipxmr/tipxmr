@@ -1,5 +1,5 @@
 import { getMnemonicHash } from "~/lib/xmr";
-import { Login } from "~/components";
+import Login from "~/components/Login";
 import { NextPage } from "next";
 import { FormEvent } from "react";
 import fetchJson, { FetchError } from "~/lib/fetchJson";

@@ -1,4 +1,4 @@
-import { TipxmrWallet } from "~/components";
+import TipxmrWallet from "~/components/wallet/TipxmrWallet";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

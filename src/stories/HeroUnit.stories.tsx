@@ -1,4 +1,4 @@
-import { HeroUnit } from "~/components";
+import HeroUnit from "~/components/HeroUnit";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import QrCode from "qrcode";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { DonationMask } from "~/components";
+import DonationMask from "~/components/Donation";
 import useStreamerByName from "~/hooks/useStreamerByName";
 
 import { createMoneroTransactionUri } from "~/lib/xmr";

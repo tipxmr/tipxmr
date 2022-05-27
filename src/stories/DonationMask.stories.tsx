@@ -1,4 +1,4 @@
-import { DonationMask } from "~/components";
+import DonationMask from "~/components/Donation";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

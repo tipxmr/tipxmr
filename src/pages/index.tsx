@@ -1,4 +1,6 @@
-import { Grid, Typography, Box, Button } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { Streamer } from "@prisma/client";
 import type {
@@ -9,13 +11,13 @@ import type {
 import Head from "next/head";
 import { getStreamers } from "~/lib/db/streamer";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
-import {
-  HeroUnit,
-  InfoCard,
-  IsOnlineBadge,
-  LanguageSelector,
-} from "~/components";
+import InfoCard from "~/components/InfoCard";
+import IsOnlineBadge from "~/components/IsOnlineBadge";
+import LanguageSelector from "~/components/LanguageSelector";
+import HeroUnit from "~/components/HeroUnit";
+
 import { useState } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 import useUser from "~/lib/useUser";
@@ -48,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<ServerSideProps> = () => {
-  const { user } = useUser({ redirectTo: "/dashboard", redirectIfFound: true });
+  useUser({ redirectTo: "/dashboard", redirectIfFound: true });
   const [language, setLanguage] = useState("English");
 
   return (
@@ -78,7 +80,7 @@ const Home: NextPage<ServerSideProps> = () => {
           </Grid>
 
           <Grid item xs={3}>
-            <InfoCard>Online</InfoCard>
+            <InfoCard bodyText="Online" />
             <IsOnlineBadge isOnline />
           </Grid>
 
