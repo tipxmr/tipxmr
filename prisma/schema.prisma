@@ -10,7 +10,7 @@ datasource db {
 model Account {
   streamer                   String    @id @db.VarChar(12)
   createdAt                  DateTime  @default(now()) @db.Timestamp(6)
-  status                     Statuses?
+  status                     Status?
   streamer_accountTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -25,7 +25,7 @@ model Animation {
 model Category {
   id                          Int         @id @default(autoincrement())
   streamer                    String?     @db.VarChar(12)
-  name                        Categories?
+  name                        StreamCategory?
   streamer_categoryTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stream                      Stream[]
 }
@@ -45,7 +45,7 @@ model Donation {
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model DonationSettings {
+model DonationSetting {
   streamer                             String   @id @db.VarChar(12)
   secondPrice                          Int?     @default(0)
   charPrice                            Float?   @default(0)
@@ -63,8 +63,8 @@ model Invoice {
   streamer                   String?        @db.VarChar(12)
   startDate                  DateTime?      @db.Timestamp(6)
   endDate                    DateTime?      @db.Timestamp(6)
-  planType                   PlanTypes?
-  paidStatus                 PaidStatuses?
+  planType                   PlanType?
+  paidStatus                 PaidStatus?
   subaddress                 String?        @db.VarChar(95)
   streamer_invoiceTostreamer Streamer?      @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -72,8 +72,8 @@ model Invoice {
 model Stream {
   streamer                  String     @id @db.VarChar(12)
   url                       String?    @db.VarChar(100)
-  platform                  Platforms?
-  language                  Languages?
+  platform                  Platform?
+  language                  Language?
   category                  Int?
   category_categoryTostream Category?  @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   streamer_streamTostreamer Streamer   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -86,11 +86,11 @@ model Streamer {
   socket           String?            @unique @db.VarChar(20)
   updatedAt        DateTime           @default(now()) @updatedAt
   isOnline         Boolean            @default(false) @db.Boolean
-  status           Statuses?
+  status           Status?
   animation        Animation[]
   category         Category[]
   donation         Donation[]
-  donationSettings DonationSettings?
+  donationSetting DonationSetting?
   invoice          Invoice[]
   stream           Stream?
   wallet           Wallet?
@@ -104,39 +104,39 @@ model Wallet {
   streamer_streamerTowallet Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-enum Categories {
-  Gaming
-  Learning
-  Talk
-  Erotics
+enum StreamCategory {
+  gaming
+  learning
+  talk
+  erotics
 }
 
-enum Languages {
-  English
-  German
-  French
-  Italian
+enum Language {
+  english
+  german
+  french
+  italian
 }
 
-enum PaidStatuses {
+enum PaidStatus {
   paid
   unpaid
   canceled
 }
 
-enum PlanTypes {
+enum PlanType {
   basic
   premium
 }
 
-enum Platforms {
-  YouTube
-  Twitch
-  Chaturbate
-  Selfhosted
+enum Platform {
+  youtube
+  twitch
+  chaturbate
+  selfhosted
 }
 
-enum Statuses {
+enum Status {
   active
   closed
 }
