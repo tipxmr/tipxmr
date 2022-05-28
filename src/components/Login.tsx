@@ -1,12 +1,10 @@
 import { FC, FormEvent } from "react";
 import Image from "next/image";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -14,11 +12,11 @@ import TipxmrLogo from "~/img/logo.png";
 import PaperWrapper from "./PaperWrapper";
 import SeedInput from "./SeedInput";
 
-interface ILogin {
+interface LoginProps {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-const Login: FC<ILogin> = ({ handleSubmit }) => {
+const Login: FC<LoginProps> = ({ handleSubmit }) => {
   return (
     <Container maxWidth="md">
       <Box

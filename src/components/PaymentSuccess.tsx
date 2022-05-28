@@ -2,12 +2,12 @@ import { Grid, Paper, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { FC } from "react";
 
-interface IPaymentSuccess {
+interface PaymentSuccessProps {
   amount: number;
   address: string;
 }
 
-const PaymentSuccess: FC<IPaymentSuccess> = ({ amount, address }) => {
+const PaymentSuccess: FC<PaymentSuccessProps> = ({ amount, address }) => {
   return (
     <Paper elevation={3} sx={{ p: 8 }}>
       <Grid

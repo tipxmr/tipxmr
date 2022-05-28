@@ -2,25 +2,25 @@ import { FC } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { DonationSettings } from "@prisma/client";
+import { DonationSetting } from "@prisma/client";
 import Chip from "@mui/material/Chip";
 import PaperWrapper from "~/components/PaperWrapper";
 
-interface ISettingsForm {
-  donationSettings: IDonationSettings;
+interface SettingsFormProps {
+  donationSettings: DonationSettingProps;
   handleSubmit: any;
 }
 
-interface IDonationSettings {
-  secondPrice: DonationSettings["secondPrice"];
-  charPrice: DonationSettings["charPrice"];
-  charLimit: DonationSettings["charLimit"];
-  minAmount: DonationSettings["minAmount"];
-  gifsMinAmount: DonationSettings["gifsMinAmount"];
-  goal: DonationSettings["goal"];
+interface DonationSettingProps {
+  secondPrice: DonationSetting["secondPrice"];
+  charPrice: DonationSetting["charPrice"];
+  charLimit: DonationSetting["charLimit"];
+  minAmount: DonationSetting["minAmount"];
+  gifsMinAmount: DonationSetting["gifsMinAmount"];
+  goal: DonationSetting["goal"];
 }
 
-const DonationSettingsForm: FC<ISettingsForm> = ({
+const DonationSettingsForm: FC<SettingsFormProps> = ({
   donationSettings,
   handleSubmit,
 }) => {

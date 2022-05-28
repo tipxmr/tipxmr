@@ -2,7 +2,7 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Provider } from "react-redux";
-import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { SWRConfig } from "swr";
 import createEmotionCache from "../styles/createEmotionCache";
 import Layout from "~/components/Layout";
@@ -41,6 +41,7 @@ function MyApp({
         </Head>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
+            <CssBaseline />
             <ThemeProvider theme={theme}>
               <Layout>
                 <Component {...pageProps} />

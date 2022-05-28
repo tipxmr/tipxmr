@@ -19,7 +19,7 @@ import WalletCreation from "./WalletCreation";
 import AccountCreation from "./AccountCreation";
 import RegistrationInfo from "./RegistrationInfo";
 
-interface IRegister {
+interface RegisterProps {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 const steps = [
@@ -44,7 +44,7 @@ function getStepContent(step: number, seedLang?: string) {
   }
 }
 
-const Register: FC<IRegister> = ({ handleSubmit }) => {
+const Register: FC<RegisterProps> = ({ handleSubmit }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [infoUnderstood, setInfoUnderstood] = useState(false);
   const [accountUnderstood, setAccountUnderstood] = useState(false);

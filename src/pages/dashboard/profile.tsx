@@ -35,13 +35,6 @@ const Profile: NextPage = () => {
         <ListItemText
           primary={
             <Typography variant="body1">
-              Account created at: {user?.createdAt}
-            </Typography>
-          }
-        />
-        <ListItemText
-          primary={
-            <Typography variant="body1">
               Last account update at: {user?.updatedAt}
             </Typography>
           }

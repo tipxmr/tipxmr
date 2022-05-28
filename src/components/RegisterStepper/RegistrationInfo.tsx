@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { FC } from "react";
 import InfoCard from "../InfoCard";
 
-interface IRegistrationInfo {}
+interface RegistrationInfoProps {}
 
 const infos = [
   {
@@ -27,7 +27,7 @@ const infos = [
   },
 ];
 
-const RegistrationInfo: FC<IRegistrationInfo> = ({}) => {
+const RegistrationInfo: FC<RegistrationInfoProps> = ({}) => {
   return (
     <>
       {infos.map(({ title, subtitle, bodyText, link, btnText }) => (

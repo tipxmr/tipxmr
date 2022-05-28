@@ -3,12 +3,12 @@ import AvatarImage from "../img/avatar.png";
 import { Streamer } from "@prisma/client";
 import { FC } from "react";
 
-interface IStreamerChip {
+interface StreamerChipProps {
   name: Streamer["name"] | undefined;
 }
 
 // TODO take the actual streamer avatar
-const StreamerChip: FC<IStreamerChip> = ({ name }) => {
+const StreamerChip: FC<StreamerChipProps> = ({ name }) => {
   return <Chip avatar={<Avatar alt={`${name} avatar`} />} label={name} />;
 };
 

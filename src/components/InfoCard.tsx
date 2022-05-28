@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
-interface IInfoCard {
+interface InfoCardProps {
   title?: string;
   subtitle?: string;
   uptitle?: string;
@@ -16,7 +16,7 @@ interface IInfoCard {
   bodyText: string;
 }
 
-const InfoCard: FC<IInfoCard> = ({
+const InfoCard: FC<InfoCardProps> = ({
   title,
   btnText,
   infos,

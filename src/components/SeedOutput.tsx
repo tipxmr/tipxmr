@@ -3,11 +3,11 @@ import Typography from "@mui/material/Typography";
 import { FC } from "react";
 import PaperWrapper from "~/components/PaperWrapper";
 
-interface ISeedOutput {
+interface SeedOutputProps {
   seedPhrase: string;
 }
 
-const SeedOutput: FC<ISeedOutput> = ({ seedPhrase }) => {
+const SeedOutput: FC<SeedOutputProps> = ({ seedPhrase }) => {
   return (
     <Tooltip title="This is your XMR seed" placement="bottom">
       <PaperWrapper>

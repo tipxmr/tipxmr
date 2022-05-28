@@ -10,17 +10,18 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PersonIcon from "@mui/icons-material/Person";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { useTheme } from "@mui/material/styles";
 
-const drawerWidth = 240;
 export default function PermanentDrawerLeft() {
+  const theme = useTheme();
   return (
     <Drawer
       sx={{
-        width: drawerWidth,
+        width: theme.drawerWidth,
         alignSelf: "strech",
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          width: drawerWidth,
+          width: theme.drawerWidth,
           position: "relative",
           top: "inherit",
           boxSizing: "border-box",

@@ -12,8 +12,8 @@ import {
   Container,
 } from "@mui/material";
 
-interface IPlanForm {}
-const PlanForm: FC<IPlanForm> = ({}) => {
+interface PlanFormProps {}
+const PlanForm: FC<PlanFormProps> = ({}) => {
   const tiers = [
     {
       title: "Free",

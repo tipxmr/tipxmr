@@ -1,12 +1,12 @@
 import { Container, Typography } from "@mui/material";
 import { FC } from "react";
 
-interface IHeroUnit {
+interface HeroUnitProps {
   title: string;
   text: string;
 }
 
-const HeroUnit: FC<IHeroUnit> = ({ title, text }) => {
+const HeroUnit: FC<HeroUnitProps> = ({ title, text }) => {
   return (
     <Container
       disableGutters

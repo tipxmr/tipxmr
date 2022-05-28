@@ -7,16 +7,16 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import WithdrawDialog from "./WithdrawDialog";
 
-interface ITipxmrWallet {
-  balance: number;
-  isSynced: boolean;
-  height: number;
-  percentDone: number;
-  startHeight: number;
-  endHeight: number;
+interface TipxmrWalletProps {
+  balance?: number;
+  isSynced?: boolean;
+  height?: number;
+  percentDone?: number;
+  startHeight?: number;
+  endHeight?: number;
   /* handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void */
 }
-const TipxmrWallet: FC<ITipxmrWallet> = ({
+const TipxmrWallet: FC<TipxmrWalletProps> = ({
   balance,
   isSynced,
   height,

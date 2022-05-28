@@ -1,20 +1,16 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Paper,
-  Step,
-  StepLabel,
-  Stepper,
-  Typography,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import Typography from "@mui/material/Typography";
 import { FC, useState } from "react";
 import PaperWrapper from "../PaperWrapper";
 import PaymentSuccess from "../PaymentSuccess";
 import PaymentForm from "./PaymentForm";
 import PlanForm from "./PlanForm";
 
-interface IInvoice {}
+interface InvoiceProps {}
 
 const steps = ["Choose plan", "Payment", "Success"];
 
@@ -35,7 +31,7 @@ function getStepContent(step: number) {
       throw new Error("Unknown step");
   }
 }
-const Invoice: FC<IInvoice> = ({}) => {
+const Invoice: FC<InvoiceProps> = ({}) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useCallback } from "react";
 import { FormControl, MenuItem, TextField } from "@mui/material";
 
-interface ILanguageSelector {
+interface LanguageSelectorProps {
   language: string;
   onChange: (language: string) => void;
 }
@@ -43,7 +43,10 @@ const convertFlag = (language: string) => {
   }
 };
 
-const LanguageSelector: FC<ILanguageSelector> = ({ language, onChange }) => {
+const LanguageSelector: FC<LanguageSelectorProps> = ({
+  language,
+  onChange,
+}) => {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   }, []);

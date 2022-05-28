@@ -1,22 +1,22 @@
 import { Box, Grid, TextField } from "@mui/material";
 import { useAtom } from "jotai";
 import { toLower } from "ramda";
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 import { displayNameAtom, userNameAtom } from "~/store";
 import InfoCard from "../InfoCard";
 import Title from "../Title";
 
-interface IAccountCreation {}
+interface AccountCreationProps {}
 
-const AccountCreation: FC<IAccountCreation> = ({}) => {
+const AccountCreation: FC<AccountCreationProps> = ({}) => {
   const [userName, setUserName] = useAtom(userNameAtom);
   const [_, setDisplayName] = useAtom(displayNameAtom);
 
-  const userNameChange = (e) => {
+  const userNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const text = toLower(e.target.value);
     setUserName(text);
   };
-  const displayNameChange = (e) => {
+  const displayNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const text = toLower(e.target.value);
     setDisplayName(text);
   };

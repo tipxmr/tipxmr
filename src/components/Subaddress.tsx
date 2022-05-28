@@ -2,11 +2,11 @@ import { Chip, Snackbar } from "@mui/material";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import { FC, useState } from "react";
 
-interface ISubaddress {
+interface SubaddressProps {
   address: string;
 }
 
-const Subaddress: FC<ISubaddress> = ({ address }) => {
+const Subaddress: FC<SubaddressProps> = ({ address }) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {

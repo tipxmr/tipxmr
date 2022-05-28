@@ -7,13 +7,13 @@ import PaperWrapper from "~/components/PaperWrapper";
 
 import Image from "next/image";
 
-interface IDonationMask {
+interface DonationMaskProps {
   streamer: Streamer | undefined;
   txAddress: string;
   code: any;
 }
 
-const DonationMask: FC<IDonationMask> = ({ streamer, txAddress, code }) => {
+const DonationMask: FC<DonationMaskProps> = ({ streamer, txAddress, code }) => {
   return (
     <PaperWrapper>
       <Grid

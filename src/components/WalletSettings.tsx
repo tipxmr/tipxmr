@@ -6,17 +6,17 @@ import { Wallet } from "@prisma/client";
 import Chip from "@mui/material/Chip";
 import PaperWrapper from "~/components/PaperWrapper";
 
-interface ISettingsForm {
-  walletSettings: IWalletSettings;
+interface SettingsFormProps {
+  walletSettings: WalletSettingsProps;
   handleSubmit: any;
 }
 
-interface IWalletSettings {
+interface WalletSettingsProps {
   restoreHeight: Wallet["restoreHeight"];
   lastSyncHeight: Wallet["lastSyncHeight"];
 }
 
-const WalletSettingsForm: FC<ISettingsForm> = ({
+const WalletSettingsForm: FC<SettingsFormProps> = ({
   walletSettings,
   handleSubmit,
 }) => {

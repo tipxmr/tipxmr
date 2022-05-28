@@ -1,7 +1,7 @@
 import CreateIcon from "@mui/icons-material/Create";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
+import { useTheme } from "@mui/material/styles";
 import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 import { useAtom } from "jotai";
 import { LoadingButton } from "@mui/lab";
@@ -20,22 +20,19 @@ import LanguageSelector from "~/components/LanguageSelector";
 import SeedOutput from "~/components/SeedOutput";
 import Title from "../Title";
 
-interface IWalletCreation {}
+interface WalletCreationProps {}
 
-const WalletCreation: FC<IWalletCreation> = ({}) => {
+const WalletCreation: FC<WalletCreationProps> = ({}) => {
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
+  const theme = useTheme();
   const [isPending, startTransition] = useTransition();
-  const handleSetSeedLang = (language) => {
+  const handleSetSeedLang = (language: string) => {
     startTransition(() => {
       setSeedLang(language);
     });
   };
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
-  const boxStyles = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
+  const boxStyles = theme.boxStyles;
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12} sm={12} mt={3}>
@@ -63,7 +60,7 @@ const WalletCreation: FC<IWalletCreation> = ({}) => {
         <List sx={{ width: "100%", mt: 4, bgcolor: "background.paper" }}>
           <ListItem>
             <ListItemAvatar>
-              <Avatar sx={{ bgcolor: "#ffee58" }}>
+              <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
                 <CreateIcon color="success" />
               </Avatar>
             </ListItemAvatar>
@@ -74,7 +71,7 @@ const WalletCreation: FC<IWalletCreation> = ({}) => {
           </ListItem>
           <ListItem>
             <ListItemAvatar>
-              <Avatar sx={{ bgcolor: "#8bc34a" }}>
+              <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
                 <LockIcon />
               </Avatar>
             </ListItemAvatar>
@@ -85,7 +82,7 @@ const WalletCreation: FC<IWalletCreation> = ({}) => {
           </ListItem>
           <ListItem>
             <ListItemAvatar>
-              <Avatar sx={{ bgcolor: "#8bc34a" }}>
+              <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
                 <AccountBalanceWalletIcon />
               </Avatar>
             </ListItemAvatar>

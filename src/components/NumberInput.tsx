@@ -1,12 +1,12 @@
 import { useState, FC, ChangeEvent } from "react";
 import { Box, OutlinedInput, InputAdornment } from "@mui/material";
 
-interface INumberInput {
+interface NumberInputProps {
   label?: string;
   unit?: string;
 }
 
-const NumberInput: FC<INumberInput> = ({ label, unit = "XMR" }) => {
+const NumberInput: FC<NumberInputProps> = ({ label, unit = "XMR" }) => {
   const [amount, setAmount] = useState(0);
   const handleChangeAmount = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

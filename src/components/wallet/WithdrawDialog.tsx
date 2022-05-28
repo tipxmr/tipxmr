@@ -3,11 +3,14 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
 import NumberInput from "~/components/NumberInput";
-interface IWithdrawDialog {
+interface WithdrawDialogProps {
   address: string;
   handleWithdraw: () => void;
 }
-const WithdrawDialog: FC<IWithdrawDialog> = ({ address, handleWithdraw }) => {
+const WithdrawDialog: FC<WithdrawDialogProps> = ({
+  address,
+  handleWithdraw,
+}) => {
   return (
     <Paper elevation={3} sx={{ p: 4 }}>
       <Grid
