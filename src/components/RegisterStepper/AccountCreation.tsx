@@ -46,7 +46,7 @@ const AccountCreation: FC<AccountCreationProps> = ({}) => {
             name="name"
             onChange={userNameChange}
             required
-            helperText={`Your URL https://tipxmr.live/donate/${userName}`}
+            helperText={`Your URL ${process.env.PLATFORM_URL}/donate/${userName}`}
             label="Username"
             autoFocus
           />

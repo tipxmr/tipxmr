@@ -26,8 +26,6 @@ const TipxmrWallet: FC<TipxmrWalletProps> = ({
 }) => {
   // TODO handle the withdraw to address from db
   const handleWithdraw = () => console.log("Here should be a wallet call");
-  const address =
-    "53N5yFyay3uXvLepuRT8SG2KLijz1vHTnQ71y1CCBjxw3vEZysjmAMq3FjM3EFwXEUawDbrQAEmJgEnGVBiDP3HXFXVmxcS";
 
   return (
     <PaperWrapper title="My wallet">
@@ -59,7 +57,10 @@ const TipxmrWallet: FC<TipxmrWalletProps> = ({
           <LinearProgress variant="determinate" value={percentDone} />
         </Grid>
         <Grid item xs={12}>
-          <WithdrawDialog address={address} handleWithdraw={handleWithdraw} />
+          <WithdrawDialog
+            address={process.env.PRIMARY_TEST_ADDRESS}
+            handleWithdraw={handleWithdraw}
+          />
         </Grid>
       </Grid>
     </PaperWrapper>
