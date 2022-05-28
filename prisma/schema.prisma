@@ -32,7 +32,7 @@ model Category {
 
 model Donation {
   id                          Int       @id @default(autoincrement())
-  isPaid                      Boolean     @default(false) @db.Boolean
+  isPaid                      Boolean   @default(false) @db.Boolean
   streamer                    String?   @db.VarChar(12)
   amount                      Float     @default(0)
   message                     String?   @db.VarChar(256) @default("")

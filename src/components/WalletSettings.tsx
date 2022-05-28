@@ -23,9 +23,8 @@ const WalletSettingsForm: FC<SettingsFormProps> = ({
   const [restoreHeight, setRestoreHeight] = useState<Wallet["restoreHeight"]>();
 
   useEffect(() => {
-    const { restoreHeight } = walletSettings;
-    setRestoreHeight(restoreHeight);
-  }, [walletSettings, restoreHeight, setRestoreHeight]);
+    setRestoreHeight(walletSettings.restoreHeight);
+  }, [walletSettings.restoreHeight, setRestoreHeight]);
 
   return (
     <PaperWrapper title="Wallet settings">

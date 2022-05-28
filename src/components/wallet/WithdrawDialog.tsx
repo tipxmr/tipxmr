@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { FC } from "react";
 import NumberInput from "~/components/NumberInput";
 interface WithdrawDialogProps {
-  address: string;
+  address?: string;
   handleWithdraw: () => void;
 }
 const WithdrawDialog: FC<WithdrawDialogProps> = ({
