@@ -40,7 +40,7 @@ export const createDonation = async (
   });
 };
 
-export const updateDonation = (
+export const updateDonation = async (
   streamer: Donation["streamer"],
   data: DonationType
 ) => {
