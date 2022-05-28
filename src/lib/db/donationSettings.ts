@@ -1,41 +1,43 @@
-import { DonationSettings, Streamer } from "@prisma/client";
+import { DonationSetting, Streamer } from "@prisma/client";
 import prisma from "../prisma";
 
 // TODO this is a public data point from every streamer
 // therefore, can we really find the steamer by ID?
 // maybe.
+type DonationSettingUpate = Pick<
+  DonationSetting,
+  | "charPrice"
+  | "charLimit"
+  | "goal"
+  | "minAmount"
+  | "secondPrice"
+  | "gifsMinAmount"
+>;
 
 export const getDonationSettings = async (name: Streamer["name"]) => {
   // TODO manual error handeling
-
+  // --- first look up the streamer
   const streamer = await prisma.streamer.findUnique({
     where: {
       name,
     },
   });
   if (streamer && streamer.id) {
-    const donationSettings = await prisma.donation_settings.findUnique({
+    // -> then the settings
+    return prisma.donationSetting.findUnique({
       where: {
         streamer: streamer.id,
       },
     });
-    return donationSettings;
   }
   return undefined;
 };
 
 export const updateDonationSettings = (
-  streamer: DonationSettings["streamer"],
-  data: {
-    charPrice?: DonationSettings["charPrice"];
-    charLimit?: DonationSettings["charLimit"];
-    goal?: DonationSettings["goal"];
-    minAmount?: DonationSettings["minAmount"];
-    secondPrice?: DonationSettings["secondPrice"];
-    gifsMinAmount?: DonationSettings["gifsMinAmount"];
-  }
+  streamer: DonationSetting["streamer"],
+  data: DonationSettingUpate
 ) => {
-  return prisma?.donation_settings.update({
+  return prisma?.donationSetting.update({
     where: {
       streamer,
     },

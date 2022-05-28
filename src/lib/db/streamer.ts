@@ -1,6 +1,8 @@
 import { Streamer } from "@prisma/client";
 import prisma from "../prisma";
 
+type StreamerEssentials = Pick<Streamer, "name" | "alias" | "socket">;
+
 export const getStreamers = () => prisma.streamer.findMany({});
 
 export const getStreamer = (id: Streamer["id"]) => {
@@ -22,11 +24,7 @@ export const removeStreamer = (id: Streamer["id"]) => {
 
 export const createStreamer = (
   id: Streamer["id"],
-  data: {
-    name: Streamer["name"];
-    alias: Streamer["alias"];
-    socket?: Streamer["socket"];
-  }
+  data: StreamerEssentials
 ) => {
   // TODO implement current blockheight - 10 here as the default restoreHeight for the wallet
   return prisma?.streamer.create({
@@ -35,18 +33,14 @@ export const createStreamer = (
       ...data,
       Account: { create: {} },
       wallet: { create: {} },
-      donationSettings: { create: {} },
+      donationSetting: { create: {} },
     },
   });
 };
 
 export const updateStreamer = (
   id: Streamer["id"],
-  data: {
-    name: Streamer["name"];
-    alias: Streamer["alias"];
-    socket?: Streamer["socket"];
-  }
+  data: StreamerEssentials
 ) => {
   return prisma?.streamer.update({
     where: {

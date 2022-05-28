@@ -1,15 +1,24 @@
 import { Donation } from "@prisma/client";
 import prisma from "../prisma";
 
+type BlankDonation = Pick<Donation, "subaddress">;
+type DonationType = Pick<
+  Donation,
+  | "amount"
+  | "message"
+  | "displayTimeSeconds"
+  | "subaddress"
+  | "giphyUrl"
+  | "donor"
+  | "timestamp"
+>;
+
 export const createBlankDonation = async (
   streamer: Donation["streamer"],
-  data: {
-    subaddress: Donation["subaddress"];
-  }
+  data: BlankDonation
 ) => {
   const { subaddress } = data;
-  console.log({ subaddress });
-  return await prisma?.donation.create({
+  return prisma?.donation.create({
     data: {
       streamer,
       subaddress,
@@ -19,20 +28,11 @@ export const createBlankDonation = async (
 
 export const createDonation = async (
   streamer: Donation["streamer"],
-  data: {
-    amount?: Donation["amount"];
-    message?: Donation["message"];
-    displayTimeSeconds?: Donation["displayTimeSeconds"];
-    subaddress: Donation["subaddress"];
-    giphyUrl?: Donation["giphyUrl"];
-    donor?: Donation["donor"];
-    timestamp?: Donation["timestamp"];
-  }
+  data: DonationType
 ) => {
   // TODO manual error handeling
   const { subaddress } = data;
-  console.log({ subaddress });
-  return await prisma?.donation.create({
+  return prisma?.donation.create({
     data: {
       streamer,
       subaddress,
@@ -42,16 +42,10 @@ export const createDonation = async (
 
 export const updateDonation = (
   streamer: Donation["streamer"],
-  data: {
-    amount?: Donation["amount"];
-    message?: Donation["message"];
-    displayTimeSeconds?: Donation["displayTimeSeconds"];
-    subaddress: Donation["subaddress"];
-    giphyUrl?: Donation["giphyUrl"];
-    donor?: Donation["donor"];
-    timestamp?: Donation["timestamp"];
-  }
+  data: DonationType
 ) => {
+  // TODO to update the right donation, we have to get it by id... not by the streamer.
+  if (streamer === null) throw new Error("Cannot do this - sorry");
   return prisma?.donation.update({
     where: {
       streamer,
@@ -62,7 +56,7 @@ export const updateDonation = (
 
 export const getDonation = async (streamer: Donation["streamer"]) => {
   // TODO manual error handeling
-  return await prisma.donation.findUnique({
+  return prisma.donation.findUnique({
     where: {
       streamer,
     },

@@ -1,11 +1,13 @@
 import { Wallet } from "@prisma/client";
 import prisma from "../prisma";
 
+type WalletSettingsUpdate = Pick<Wallet, "lastSyncHeight" | "restoreHeight">;
+
 export const getStreamers = () => prisma.streamer.findMany({});
 
 export const getWallet = async (streamer: Wallet["streamer"]) => {
   // TODO manual error handeling
-  return await prisma.wallet.findUnique({
+  return prisma.wallet.findUnique({
     where: {
       streamer,
     },
@@ -14,13 +16,8 @@ export const getWallet = async (streamer: Wallet["streamer"]) => {
 
 export const updateWalletSettings = (
   streamer: Wallet["streamer"],
-  data: {
-    lastSyncHeight?: Wallet["lastSyncHeight"];
-    restoreHeight?: Wallet["restoreHeight"];
-  }
+  data: WalletSettingsUpdate
 ) => {
-  console.log(`DB Streamer: ${streamer}`);
-  console.log(`DB Data: `, data);
   return prisma?.wallet.update({
     where: {
       streamer,

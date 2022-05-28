@@ -1,4 +1,4 @@
-import { Account, Statuses } from "@prisma/client";
+import { Account, Status } from "@prisma/client";
 import prisma from "../prisma";
 
 export const getAccount = (streamer: Account["streamer"]) => {
@@ -22,7 +22,7 @@ export const createAccount = (
   streamer: Account["streamer"],
   data: {
     createdAt: Account["createdAt"];
-    status: Statuses;
+    status: Status;
   }
 ) => {
   return prisma?.account.create({
@@ -37,7 +37,7 @@ export const updateAccount = (
   streamer: Account["streamer"],
   data: {
     createdAt?: Account["createdAt"];
-    status?: Statuses;
+    status?: Status;
   }
 ) => {
   return prisma?.account.update({
