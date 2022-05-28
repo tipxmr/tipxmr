@@ -18,13 +18,6 @@ import {
 } from "~/store";
 import { createSyncProgressListener, open } from "~/lib/xmr";
 
-/* const hash =
- *   "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399".slice(
- *     0,
- *     11
- *   );
- *  */
-
 function useSocket() {
   useEffect(() => {
     const socket = io("http://localhost:3000/streamer", {
@@ -61,40 +54,41 @@ const Home: NextPage = () => {
   const [myWallet, setMyWallet] = useAtom(walletAtom);
   const [isSyncing] = useAtom(isSyncRunningAtom);
   const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom);
+  const [balance] = useAtom(balanceAtom);
 
-  useEffect(() => {
-    const listener = createSyncProgressListener(
-      (height, startHeight, endHeight, percentDone, message: string) => {
-        const percentage = Math.floor(percentDone * 100);
-        setProgress(percentage);
-        setSyncHeight(height);
-      }
-    );
+  /* useEffect(() => {
+*   const listener = createSyncProgressListener(
+*     (height, startHeight, endHeight, percentDone, message: string) => {
+*       const percentage = Math.floor(percentDone * 100);
+*       setProgress(percentage);
+*       setSyncHeight(height);
+*     }
+*   );
 
-    async function foobar() {
-      const wallet = await open(seedPhrase);
-      // setXmrWallet(wallet);
-      setMyWallet(wallet);
-      const primaryAddress = await wallet.getPrimaryAddress();
+*   async function foobar() {
+*     const wallet = await open(seedPhrase);
+*     // setXmrWallet(wallet);
+*     setMyWallet(wallet);
+*     const primaryAddress = await wallet.getPrimaryAddress();
 
-      await wallet.addListener(listener);
-      await wallet.setSyncHeight(1063600);
-      await wallet.startSyncing();
+*     await wallet.addListener(listener);
+*     await wallet.setSyncHeight(1063600);
+*     await wallet.startSyncing();
 
-      console.log({ primaryAddress });
+*     console.log({ primaryAddress });
 
-      return () => {
-        wallet.stopSyncing();
-      };
-    }
+*     return () => {
+*       wallet.stopSyncing();
+*     };
+*   }
 
-    const unsubscribe = foobar();
+*   const unsubscribe = foobar();
 
-    return () => {
-      // unsubscribe();
-    };
-  }, []);
-
+*   return () => {
+*     // unsubscribe();
+*   };
+* }, []);
+ */
   if (session && session.isLoggedIn) {
     return (
       <Container>

@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<ServerSideProps> = () => {
-  useUser({ redirectTo: "/dashboard", redirectIfFound: true });
+  /* useUser({ redirectTo: "/dashboard", redirectIfFound: true }); */
   const [language, setLanguage] = useState("English");
 
   return (
