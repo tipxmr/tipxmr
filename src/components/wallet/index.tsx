@@ -6,24 +6,27 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import WithdrawDialog from "./WithdrawDialog";
+import { useAtom } from "jotai";
+import {
+  balanceAtom,
+  isSyncRunningAtom,
+  progressAtom,
+  syncEndHeightAtom,
+  syncHeightAtom,
+  syncStartHeightAtom,
+} from "~/store";
 
 interface TipxmrWalletProps {
-  balance?: number;
-  isSynced?: boolean;
-  height?: number;
-  percentDone?: number;
-  startHeight?: number;
-  endHeight?: number;
   /* handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void */
 }
-const TipxmrWallet: FC<TipxmrWalletProps> = ({
-  balance,
-  isSynced,
-  height,
-  percentDone,
-  startHeight,
-  endHeight,
-}) => {
+const TipxmrWallet: FC<TipxmrWalletProps> = () => {
+  const [balance] = useAtom(balanceAtom);
+  const [isSyncing] = useAtom(isSyncRunningAtom);
+  const [height] = useAtom(syncHeightAtom);
+  const [percentDone] = useAtom(progressAtom);
+  const [startHeight] = useAtom(syncStartHeightAtom);
+  const [endHeight] = useAtom(syncEndHeightAtom);
+
   // TODO handle the withdraw to address from db
   const handleWithdraw = () => console.log("Here should be a wallet call");
 
@@ -52,7 +55,10 @@ const TipxmrWallet: FC<TipxmrWalletProps> = ({
             <Typography align="right">
               {height}/{endHeight}
             </Typography>
-            <Chip label={`${percentDone}%`} />
+            <Chip
+              label={`${percentDone}%`}
+              color={isSyncing ? "success" : "info"}
+            />
           </Box>
           <LinearProgress variant="determinate" value={percentDone} />
         </Grid>

@@ -6,6 +6,7 @@ import {
   syncHeightAtom,
   isSyncRunningAtom,
   walletAtom,
+  mnemonicAtom,
 } from "~/store";
 import { MoneroSubaddress, MoneroWalletFull } from "monero-javascript";
 import Subaddress from "~/components/Subaddress";
@@ -19,6 +20,10 @@ import {
 import useUser from "~/lib/useUser";
 import { Button } from "@mui/material";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
+import { useSyncListener } from "~/hooks/useSyncListener";
+import { useTransactionListener } from "~/hooks/useTransactionListener";
+import { useXmrWallet } from "~/hooks/useXMRWallet";
+import { useBalanceListener } from "~/hooks/useBalanceListener";
 
 /* const MNEMONIC =
  *   "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
@@ -60,20 +65,25 @@ const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
   return null;
 };
 
+const testSeed =
+  "typist error soothe tribal peeled rhino begun decay gopher yeti height tuxedo ferry etiquette pram bailed sneeze mostly urchins pheasants kisses ammo voice voted etiquette";
 const WalletPage: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
-
-  const [progress] = useAtom(progressAtom);
+  const [address, setAddress] = useState("");
   const [myWallet] = useAtom(walletAtom);
   const [isSyncing] = useAtom(isSyncRunningAtom);
-  const [syncHeight] = useAtom(syncHeightAtom);
-  const [syncEndHeight] = useAtom(syncEndHeightAtom);
-  const [balance] = useAtom(balanceAtom);
+  const [mnemonic, setMnemonic] = useAtom(mnemonicAtom);
   const [currentAddress, setCurrentAddress] = useState<
     MoneroSubaddress | string
   >("");
 
-  const isDone = progress === 100;
+  if (mnemonic.length !== 25) {
+    setMnemonic(testSeed);
+    const wallet = useXmrWallet(testSeed);
+    useSyncListener();
+    useTransactionListener();
+    useBalanceListener();
+  }
 
   const generateAddress = async () => {
     if (myWallet) {
@@ -107,17 +117,7 @@ const WalletPage: NextPage = () => {
 
   return (
     <>
-      {user && user.isLoggedIn && (
-        <TipxmrWallet
-          balance={balance}
-          isSynced={isDone && !isSyncing}
-          height={syncHeight}
-          percentDone={progress}
-          endHeight={syncEndHeight}
-        ></TipxmrWallet>
-      )}
-      {isDone ? <Transaction wallet={myWallet} /> : null}
-
+      {user && user.isLoggedIn && <TipxmrWallet />}
       <Button
         disabled={!myWallet && !isSyncing}
         variant="contained"

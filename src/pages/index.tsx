@@ -20,7 +20,6 @@ import { useState } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-import useUser from "~/lib/useUser";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 

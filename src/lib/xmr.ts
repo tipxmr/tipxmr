@@ -33,7 +33,7 @@ export const createWallet = async (lang = "English") => {
   return walletFull.getMnemonic();
 };
 
-export const open = (mnemonic: string) => {
+export const open = async (mnemonic: string) => {
   return createWalletFull({
     mnemonic,
     ...stagenetNode,
@@ -94,7 +94,13 @@ export const createOutputReceivedListener = (
   onOutputReceived: OutputReceivedListener
 ) =>
   new (class extends MoneroWalletListener {
-    onOutputReceived(output: MoneroWallet) {
+    onOutputReceived(output: any) {
+      // onOutputReceived(output)
+      let amount = output.getAmount();
+      let txHash = output.getTx().getHash();
+      let isConfirmed = output.getTx().isConfirmed();
+      let isLocked = output.getTx().isLocked();
       onOutputReceived(output);
+      return { amount, txHash, isConfirmed, isLocked };
     }
   })() as MoneroWalletListener;

@@ -3,7 +3,7 @@ import { atom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
 
 import counter from "./features/counter";
-import { createWallet, getMnemonicHash } from "./lib/xmr";
+import { createWallet, getMnemonicHash, open } from "./lib/xmr";
 
 export function makeStore() {
   return configureStore({
@@ -32,18 +32,19 @@ export const progressAtom = atom(0);
 export const balanceAtom = atom(0);
 export const syncHeightAtom = atom(0);
 export const syncEndHeightAtom = atom(0);
-export const syncStartHeightAtom = atom(0);
+export const syncStartHeightAtom = atom(1102410);
 export const isSyncRunningAtom = atom(false);
 export const walletAtom = atom<MoneroWalletFull | undefined>(undefined);
 
-export const openWalletAtom = atom(async (get) => {
+export const openWalletAtom = atom(null, async (get, set, update) => {
   const mnemonic = get(mnemonicAtom);
+  console.log("atom mnemonic", { mnemonic });
 
   if (mnemonic) {
-    return open(mnemonic);
+    const wallet = await open(mnemonic);
+    set(walletAtom, wallet);
+    return wallet;
   }
-
-  return undefined;
 });
 export const seedLangAtom = atom("English");
 
