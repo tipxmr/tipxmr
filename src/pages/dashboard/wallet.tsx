@@ -1,22 +1,10 @@
 import { useAtom } from "jotai";
-import {
-  balanceAtom,
-  syncEndHeightAtom,
-  progressAtom,
-  syncHeightAtom,
-  isSyncRunningAtom,
-  walletAtom,
-  mnemonicAtom,
-} from "~/store";
-import { MoneroSubaddress, MoneroWalletFull } from "monero-javascript";
+import { isSyncRunningAtom, walletAtom, mnemonicAtom } from "~/store";
+import { MoneroSubaddress } from "monero-javascript";
 import Subaddress from "~/components/Subaddress";
 import TipxmrWallet from "~/components/wallet";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import {
-  createBalancesChangedListener,
-  createOutputReceivedListener,
-} from "~/lib/xmr";
+import { Suspense, useState } from "react";
 import useUser from "~/lib/useUser";
 import { Button } from "@mui/material";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
@@ -25,51 +13,10 @@ import { useTransactionListener } from "~/hooks/useTransactionListener";
 import { useXmrWallet } from "~/hooks/useXMRWallet";
 import { useBalanceListener } from "~/hooks/useBalanceListener";
 
-/* const MNEMONIC =
- *   "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
- *  */
-const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
-  useEffect(() => {
-    (async () => {
-      const listener = createOutputReceivedListener((output) => {
-        const { inTxPool, isLocked, isIncoming } = output.state.tx.state;
-
-        if (inTxPool && isLocked && isIncoming) {
-          console.log({
-            subaddressIndex: output.getSubaddressIndex(),
-            amount: output.getAmount().toString(),
-          });
-        }
-      });
-
-      await wallet.addListener(listener);
-
-      const subaddress = await wallet.createSubaddress(0, "foobar");
-      const address = await subaddress.getAddress();
-    })();
-
-    (async () => {
-      const listener = createBalancesChangedListener(
-        (newBalance: BigInteger, newUnlockedBalance: BigInteger) => {
-          console.log({
-            newBalance: newBalance.toString(),
-            newUnlockedBalance: newUnlockedBalance.toString(),
-          });
-        }
-      );
-
-      await wallet.addListener(listener);
-    })();
-  }, [wallet]);
-
-  return null;
-};
-
 const testSeed =
   "typist error soothe tribal peeled rhino begun decay gopher yeti height tuxedo ferry etiquette pram bailed sneeze mostly urchins pheasants kisses ammo voice voted etiquette";
 const WalletPage: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
-  const [address, setAddress] = useState("");
   const [myWallet] = useAtom(walletAtom);
   const [isSyncing] = useAtom(isSyncRunningAtom);
   const [mnemonic, setMnemonic] = useAtom(mnemonicAtom);
@@ -77,13 +24,12 @@ const WalletPage: NextPage = () => {
     MoneroSubaddress | string
   >("");
 
-  if (mnemonic.length !== 25) {
-    setMnemonic(testSeed);
-    const wallet = useXmrWallet(testSeed);
-    useSyncListener();
-    useTransactionListener();
-    useBalanceListener();
-  }
+  if (!mnemonic) setMnemonic(testSeed);
+
+  useXmrWallet();
+  useSyncListener();
+  useTransactionListener();
+  useBalanceListener();
 
   const generateAddress = async () => {
     if (myWallet) {
@@ -117,7 +63,9 @@ const WalletPage: NextPage = () => {
 
   return (
     <>
-      {user && user.isLoggedIn && <TipxmrWallet />}
+      <Suspense fallback="Loading...">
+        {user && user.isLoggedIn && <TipxmrWallet />}
+      </Suspense>
       <Button
         disabled={!myWallet && !isSyncing}
         variant="contained"

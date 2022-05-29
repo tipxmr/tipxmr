@@ -30,6 +30,7 @@ export default store;
 export const mnemonicAtom = atom("");
 export const progressAtom = atom(0);
 export const balanceAtom = atom(0);
+export const lockedBalanceAtom = atom(0);
 export const syncHeightAtom = atom(0);
 export const syncEndHeightAtom = atom(0);
 export const syncStartHeightAtom = atom(1102410);

@@ -10,10 +10,12 @@ import { useAtom } from "jotai";
 import {
   balanceAtom,
   isSyncRunningAtom,
+  lockedBalanceAtom,
   progressAtom,
   syncEndHeightAtom,
   syncHeightAtom,
   syncStartHeightAtom,
+  walletAtom,
 } from "~/store";
 
 interface TipxmrWalletProps {
@@ -21,6 +23,8 @@ interface TipxmrWalletProps {
 }
 const TipxmrWallet: FC<TipxmrWalletProps> = () => {
   const [balance] = useAtom(balanceAtom);
+  const [lockedBalance] = useAtom(lockedBalanceAtom);
+  const [xmrWallet] = useAtom(walletAtom);
   const [isSyncing] = useAtom(isSyncRunningAtom);
   const [height] = useAtom(syncHeightAtom);
   const [percentDone] = useAtom(progressAtom);
@@ -28,7 +32,22 @@ const TipxmrWallet: FC<TipxmrWalletProps> = () => {
   const [endHeight] = useAtom(syncEndHeightAtom);
 
   // TODO handle the withdraw to address from db
-  const handleWithdraw = () => console.log("Here should be a wallet call");
+  const handleWithdraw = async () => {
+    const txs = xmrWallet?.getTxs();
+    console.info({ txs });
+    const transaction = {
+      address:
+        "73a4nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn",
+      accountIndex: 0,
+      subaddressIndex: 1,
+      amount: "1",
+      relay: true,
+    };
+    console.log("tx is: ", transaction);
+
+    let tx = await xmrWallet?.createTx(transaction);
+    console.log(tx);
+  };
 
   return (
     <PaperWrapper title="My wallet">
@@ -41,7 +60,7 @@ const TipxmrWallet: FC<TipxmrWalletProps> = () => {
       >
         <Grid item xs={12}>
           <Typography component="p" variant="h4">
-            Balance: {balance} XMR
+            Balance: {balance} XMR ({lockedBalance} XMR locked)
           </Typography>
         </Grid>
         <Grid item xs={12}></Grid>

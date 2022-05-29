@@ -1,16 +1,19 @@
 import { createBalancesChangedListener } from "~/lib/xmr";
 import { useAtom } from "jotai";
-import { balanceAtom, walletAtom } from "~/store";
+import { balanceAtom, lockedBalanceAtom, walletAtom } from "~/store";
 import { useEffect } from "react";
 
 export const useBalanceListener = () => {
   const [xmrWallet] = useAtom(walletAtom);
   const [balance, setBalance] = useAtom(balanceAtom);
+  const [lockedBalance, setLockedBalance] = useAtom(lockedBalanceAtom);
 
   useEffect(() => {
     const listener = createBalancesChangedListener(
       (newBalance: BigInteger, newUnlockedBalance: BigInteger) => {
-        setBalance(Number(newBalance));
+        setBalance(Number(newUnlockedBalance));
+        setLockedBalance(Number(newBalance));
+
         console.log({
           newBalance: newBalance.toString(),
           newUnlockedBalance: newUnlockedBalance.toString(),
