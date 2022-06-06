@@ -8,10 +8,10 @@ import { Suspense, useState } from "react";
 import useUser from "~/lib/useUser";
 import { Button } from "@mui/material";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { useSyncListener } from "~/hooks/useSyncListener";
-import { useTransactionListener } from "~/hooks/useTransactionListener";
-import { useXmrWallet } from "~/hooks/useXMRWallet";
-import { useBalanceListener } from "~/hooks/useBalanceListener";
+import useSyncListener from "~/hooks/useSyncListener";
+import useTransactionListener from "~/hooks/useTransactionListener";
+import useXmrWallet from "~/hooks/useXMRWallet";
+import useBalanceListener from "~/hooks/useBalanceListener";
 
 const testSeed =
   "typist error soothe tribal peeled rhino begun decay gopher yeti height tuxedo ferry etiquette pram bailed sneeze mostly urchins pheasants kisses ammo voice voted etiquette";

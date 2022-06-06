@@ -1,10 +1,10 @@
-import { Streamer } from "@prisma/client";
+import { DonationSetting, Streamer } from "@prisma/client";
 import { useQuery } from "react-query";
 import fetchJson from "~/lib/fetchJson";
 
 async function fetchDonationSettings(
   name: Streamer["name"] | undefined
-): Promise<Streamer> {
+): Promise<DonationSetting> {
   if (typeof name === "undefined")
     return Promise.reject(new Error("Invalid name"));
 

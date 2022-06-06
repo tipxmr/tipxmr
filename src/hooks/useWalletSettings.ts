@@ -1,10 +1,10 @@
-import { Streamer } from "@prisma/client";
+import { Streamer, Wallet } from "@prisma/client";
 import { useQuery } from "react-query";
 import fetchJson from "~/lib/fetchJson";
 
 async function fetchWalletSettings(
   id: Streamer["id"] | undefined
-): Promise<Streamer> {
+): Promise<Wallet> {
   if (typeof id === "undefined") return Promise.reject(new Error("Invalid id"));
 
   const { data } = await fetchJson<any>(`/api/wallet/settings/${id}`, {
