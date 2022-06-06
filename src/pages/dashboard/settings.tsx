@@ -1,5 +1,4 @@
 import { Grid } from "@mui/material";
-import { assoc } from "ramda";
 import { NextPage } from "next";
 import { FormEvent } from "react";
 import DonationSettingsForm from "~/components/DonationSettings";
@@ -9,18 +8,19 @@ import WalletSettingsForm from "~/components/WalletSettings";
 import useDonationSettings from "~/hooks/useDonationSettings";
 import useWalletSettings from "~/hooks/useWalletSettings";
 import { useMutation, useQueryClient } from "react-query";
-import { DonationSettings, Wallet } from "@prisma/client";
+import { DonationSetting, Wallet } from "@prisma/client";
+import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
 
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
-  const { data: donationSettings } = useDonationSettings(user?.name);
+  const { data: donationSetting } = useDonationSettings(user?.name);
   const { data: walletSettings } = useWalletSettings(user?.id);
 
   const queryClient = useQueryClient();
 
   const addDonationSettings = useMutation(
-    (donationSettings) => {
-      const body = { donationSettings };
+    (donationSetting) => {
+      const body = { donationSetting };
       return fetchJson(`/api/donation-settings/update/${user?.id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -28,9 +28,9 @@ const Settings: NextPage = () => {
       });
     },
     {
-      onMutate: async (settings: DonationSettings) => {
+      onMutate: async (settings: DonationSetting) => {
         await queryClient.cancelQueries(["streamer", user?.name]);
-        const previousSettings = queryClient.getQueryData<DonationSettings>([
+        const previousSettings = queryClient.getQueryData<DonationSetting>([
           "streamer",
           user?.name,
         ]);
@@ -38,7 +38,7 @@ const Settings: NextPage = () => {
         console.log({ settings });
 
         if (previousSettings) {
-          queryClient.setQueryData<DonationSettings>(["streamer", user?.name], {
+          queryClient.setQueryData<DonationSetting>(["streamer", user?.name], {
             ...previousSettings,
           });
         }
@@ -47,7 +47,7 @@ const Settings: NextPage = () => {
       },
       onError: (err, variables, context) => {
         if (context?.previousSettings) {
-          queryClient.setQueryData<DonationSettings>(
+          queryClient.setQueryData<DonationSetting>(
             ["streamer", user?.name],
             context.previousSettings
           );
@@ -106,25 +106,7 @@ const Settings: NextPage = () => {
     if (!user) return;
 
     const data = new FormData(event.currentTarget);
-    // TODO do we need to validate?
-
-    let updateData = {};
-
-    for (const pair of data.entries()) {
-      // this
-      if (pair.at(1) === "") {
-        continue;
-      }
-
-      updateData = assoc(pair[0], Number(pair[1]), updateData);
-    }
-    const body = {
-      streamer: user.id,
-      data: {
-        ...updateData,
-      },
-    };
-
+    const body = constructRequestBodyFromForm(data, user.id);
     addWalletSettings.mutate(body);
   };
 
@@ -134,25 +116,8 @@ const Settings: NextPage = () => {
     event.preventDefault();
     if (!user) return;
 
-    const data = new FormData(event.currentTarget);
-    // TODO do we need to validate?
-
-    let updateData = {};
-
-    for (const pair of data.entries()) {
-      // this
-      if (pair.at(1) === "") {
-        continue;
-      }
-
-      updateData = assoc(pair[0], Number(pair[1]), updateData);
-    }
-    const body = {
-      streamer: user.id,
-      data: {
-        ...updateData,
-      },
-    };
+    const settingsFormData = new FormData(event.currentTarget);
+    const body = constructRequestBodyFromForm(settingsFormData, user.id);
 
     addDonationSettings.mutate(body);
   };
@@ -165,10 +130,10 @@ const Settings: NextPage = () => {
       alignItems="center"
       spacing={3}
     >
-      {donationSettings && (
+      {donationSetting && (
         <Grid item xs={12}>
           <DonationSettingsForm
-            donationSettings={donationSettings}
+            donationSetting={donationSetting}
             handleSubmit={handleDonationSettingsSubmit}
           />
         </Grid>
