@@ -1,10 +1,11 @@
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import QrCode from "qrcode";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import DonationMask from "~/components/Donation";
+import Redirect from "~/components/Redirect";
 import useStreamerByName from "~/hooks/useStreamerByName";
 
 import { createMoneroTransactionUri } from "~/lib/xmr";
@@ -58,8 +59,7 @@ const DonateTo: NextPage = () => {
 
   if (status === "error" && error instanceof Error) {
     console.error({ error });
-    router.push("/donate");
-    return <Typography variant="body1">There was an error</Typography>;
+    return <Redirect to="/donate" />;
   }
 
   if (status === "loading") {
