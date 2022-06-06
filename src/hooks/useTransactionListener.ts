@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { walletAtom } from "~/store";
 import { useEffect } from "react";
 
-export const useTransactionListener = () => {
+const useTransactionListener = () => {
   const [xmrWallet] = useAtom(walletAtom);
   useEffect(() => {
     const listener = createOutputReceivedListener((output) => {
@@ -37,3 +37,5 @@ export const useTransactionListener = () => {
   }, []);
   return xmrWallet;
 };
+
+export default useTransactionListener;

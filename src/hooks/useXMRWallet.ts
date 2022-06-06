@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { mnemonicAtom, walletAtom } from "~/store";
 import { useEffect } from "react";
 
-export const useXmrWallet = () => {
+const useXmrWallet = () => {
   const [seedPhrase] = useAtom(mnemonicAtom);
   const [xmrWallet, setXmrWallet] = useAtom(walletAtom);
 
@@ -21,3 +21,5 @@ export const useXmrWallet = () => {
     };
   }, []);
 };
+
+export default useXmrWallet;

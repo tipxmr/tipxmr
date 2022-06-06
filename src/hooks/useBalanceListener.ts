@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { balanceAtom, lockedBalanceAtom, walletAtom } from "~/store";
 import { useEffect } from "react";
 
-export const useBalanceListener = () => {
+const useBalanceListener = () => {
   const [xmrWallet] = useAtom(walletAtom);
   const [balance, setBalance] = useAtom(balanceAtom);
   const [lockedBalance, setLockedBalance] = useAtom(lockedBalanceAtom);
@@ -39,3 +39,5 @@ export const useBalanceListener = () => {
   }, []);
   return xmrWallet;
 };
+
+export default useBalanceListener;

@@ -10,7 +10,7 @@ import {
 } from "~/store";
 import { useEffect } from "react";
 
-export const useSyncListener = () => {
+const useSyncListener = () => {
   const [xmrWallet] = useAtom(walletAtom);
   const [progress, setProgress] = useAtom(progressAtom);
   const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom);
@@ -50,3 +50,5 @@ export const useSyncListener = () => {
   }, []);
   return xmrWallet;
 };
+
+export default useSyncListener;
