@@ -1,16 +1,15 @@
-import { Streamer } from "@prisma/client";
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
+import { User } from "~/lib/config";
+import { withSessionRoute } from "~/lib/withSession";
 
-export type User = Partial<Streamer> & { isLoggedIn: boolean };
-
-export default withIronSessionApiRoute(userRoute, sessionOptions);
+export default withSessionRoute(userRoute);
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
-  if (req.session.user) {
+  const { session } = req;
+  if (session.user) {
     // in a real world application you might read the user id from the session and then do a database request
     // to get more information on the user if needed
+
     res.json({
       ...req.session.user,
       isLoggedIn: true,

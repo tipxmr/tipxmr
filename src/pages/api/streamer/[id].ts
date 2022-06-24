@@ -4,9 +4,10 @@ import {
   getStreamer,
   removeStreamer,
   updateStreamer,
-} from "~/lib/streamer";
+} from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {
+  console.log(req.query);
   switch (req.method) {
     case "GET":
       streamerGetHandler(req, res);
@@ -30,10 +31,14 @@ const streamerGetHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { id } = req.query;
-  const result = await getStreamer(String(id));
+  try {
+    const { id } = req.query;
+    const streamer = await getStreamer(String(id));
 
-  res.json(result);
+    res.status(200).json({ data: streamer });
+  } catch (reason) {
+    res.status(500).json({ error: "failed to load data" });
+  }
 };
 
 const streamerPostHandler = async (
@@ -42,6 +47,7 @@ const streamerPostHandler = async (
 ) => {
   const { id } = req.query;
   const { name, alias, socket } = req.body;
+  console.log({ id, name, alias, socket });
   const result = await createStreamer(String(id), { name, alias, socket });
 
   res.json(result);

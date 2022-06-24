@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { getStreamerByName } from "~/lib/streamer";
+import { getStreamerByName } from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -16,10 +16,14 @@ const streamerGetHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { name } = req.query;
-  const result = await getStreamerByName(String(name));
+  try {
+    const { name } = req.query;
+    const streamer = await getStreamerByName(String(name));
 
-  res.status(200).json(result);
+    res.status(200).json({ data: streamer });
+  } catch (reason) {
+    res.status(500).json({ error: "failed to load" });
+  }
 };
 
 export default handler;

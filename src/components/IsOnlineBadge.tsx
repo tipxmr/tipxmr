@@ -1,11 +1,11 @@
 import { FC } from "react";
 import Button from "@mui/material/Button";
 
-interface IIsOnlineBadge {
-  isOnline: boolean;
+interface IsOnlineBadgeProps {
+  isOnline?: boolean;
 }
 
-const IsOnlineBadge: FC<IIsOnlineBadge> = ({ isOnline }) => {
+const IsOnlineBadge: FC<IsOnlineBadgeProps> = ({ isOnline }) => {
   return (
     <Button
       variant={isOnline ? "contained" : "outlined"}

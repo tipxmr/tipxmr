@@ -1,4 +1,6 @@
-import { Grid, Typography, Box, Button } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { Streamer } from "@prisma/client";
 import type {
@@ -7,10 +9,15 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
-import { getStreamers } from "~/lib/streamer";
+import { getStreamers } from "~/lib/db/streamer";
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
-import { InfoCard, IsOnlineBadge, LanguageSelector } from "~/components";
+import InfoCard from "~/components/InfoCard";
+import IsOnlineBadge from "~/components/IsOnlineBadge";
+import LanguageSelector from "~/components/LanguageSelector";
+import HeroUnit from "~/components/HeroUnit";
+
 import { useState } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -19,7 +26,6 @@ type Modify<T, R> = Omit<T, keyof R> & R;
 type SerializedStreamer = Modify<
   Streamer,
   {
-    createdAt: string;
     updatedAt: string;
   }
 >;
@@ -30,10 +36,9 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const streamers = await getStreamers();
-  const serialized = streamers.map(({ createdAt, updatedAt, ...streamer }) => {
+  const serialized = streamers.map(({ updatedAt, ...streamer }) => {
     return {
       ...streamer,
-      createdAt: createdAt.toJSON(),
       updatedAt: updatedAt.toJSON(),
     };
   });
@@ -44,6 +49,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<ServerSideProps> = () => {
+  /* useUser({ redirectTo: "/dashboard", redirectIfFound: true }); */
   const [language, setLanguage] = useState("English");
 
   return (
@@ -66,18 +72,19 @@ const Home: NextPage<ServerSideProps> = () => {
           </Grid>
 
           <Grid item xs={6} sx={{ margin: "auto" }}>
-            <Typography variant="h1" align="center">
-              Monero Donations in your livestream
-            </Typography>
+            <HeroUnit
+              title="TipXMR"
+              text="Monetize your streams with Monero!"
+            />
           </Grid>
 
           <Grid item xs={3}>
-            <InfoCard>Online</InfoCard>
+            <InfoCard bodyText="Online" />
             <IsOnlineBadge isOnline />
           </Grid>
 
           <Grid item xs={3}>
-            <LanguageSelector language={language} handleChange={setLanguage} />
+            <LanguageSelector language={language} onChange={setLanguage} />
           </Grid>
         </Grid>
 

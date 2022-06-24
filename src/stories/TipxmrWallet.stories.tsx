@@ -1,4 +1,4 @@
-import TipxmrWallet from "~/components/TipxmrWallet";
+import TipxmrWallet from "~/components/wallet/TipxmrWallet";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
@@ -21,4 +21,6 @@ NotSynced.args = {
   balance: 1000,
   height: 2131222,
   isSynced: false,
+  percentDone: 78,
+  endHeight: 2131242,
 };

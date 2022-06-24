@@ -10,8 +10,7 @@ datasource db {
 model Account {
   streamer                   String    @id @db.VarChar(12)
   createdAt                  DateTime  @default(now()) @db.Timestamp(6)
-  isOnline                   Boolean   @default(false) @db.Boolean
-  status                     Statuses?
+  status                     Status?
   streamer_accountTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -26,35 +25,36 @@ model Animation {
 model Category {
   id                          Int         @id @default(autoincrement())
   streamer                    String?     @db.VarChar(12)
-  name                        Categories?
+  name                        StreamCategory?
   streamer_categoryTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stream                      Stream[]
 }
 
 model Donation {
   id                          Int       @id @default(autoincrement())
+  isPaid                      Boolean   @default(false) @db.Boolean
   streamer                    String?   @db.VarChar(12)
-  amount                      Float
-  message                     String?   @db.VarChar(256)
-  displayTimeSeconds          Int?
+  amount                      Float     @default(0)
+  message                     String?   @db.VarChar(256) @default("")
+  displayTimeSeconds          Int?      @default(0)
   subaddress                  String?   @db.VarChar(95)
-  confirmations               Int?
-  giphyUrl                    String?   @db.VarChar(100)
-  donor                       String?   @db.VarChar(24)
-  timestamp                   DateTime? @db.Timestamp(6)
+  confirmations               Int?      @default(0)
+  giphyUrl                    String?   @db.VarChar(100) @default("")
+  donor                       String?   @db.VarChar(24) @default("")
+  timestamp                   DateTime? @db.Timestamp(6) @default(now())
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model Donation_settings {
+model DonationSetting {
   streamer                             String   @id @db.VarChar(12)
-  secondPrice                          Int?
-  charPrice                            Float?
-  charLimit                            Int?
-  minAmount                            Int?
-  gifsMinAmount                        Float?
-  goal                                 Float?
-  goalProgress                         Float?   @db.Real
-  goalReached                          Boolean?
+  secondPrice                          Int?     @default(0)
+  charPrice                            Float?   @default(0)
+  charLimit                            Int?     @default(140)
+  minAmount                            Int?     @default(0)
+  gifsMinAmount                        Float?   @default(0)
+  goal                                 Float?   @default(0)
+  goalProgress                         Float?   @db.Real @default(0)
+  goalReached                          Boolean? @default(false)
   streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -63,8 +63,8 @@ model Invoice {
   streamer                   String?        @db.VarChar(12)
   startDate                  DateTime?      @db.Timestamp(6)
   endDate                    DateTime?      @db.Timestamp(6)
-  planType                   Plan_types?
-  paidStatus                 Paid_statuses?
+  planType                   PlanType?
+  paidStatus                 PaidStatus?
   subaddress                 String?        @db.VarChar(95)
   streamer_invoiceTostreamer Streamer?      @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -72,8 +72,8 @@ model Invoice {
 model Stream {
   streamer                  String     @id @db.VarChar(12)
   url                       String?    @db.VarChar(100)
-  platform                  Platforms?
-  language                  Languages?
+  platform                  Platform?
+  language                  Language?
   category                  Int?
   category_categoryTostream Category?  @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   streamer_streamTostreamer Streamer   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -84,14 +84,13 @@ model Streamer {
   name             String             @unique @db.VarChar(20)
   alias            String             @unique @db.VarChar(24)
   socket           String?            @unique @db.VarChar(20)
-  createdAt        DateTime           @default(now())
   updatedAt        DateTime           @default(now()) @updatedAt
   isOnline         Boolean            @default(false) @db.Boolean
-  status           Statuses?
+  status           Status?
   animation        Animation[]
   category         Category[]
   donation         Donation[]
-  donationSettings Donation_settings?
+  donationSetting DonationSetting?
   invoice          Invoice[]
   stream           Stream?
   wallet           Wallet?
@@ -100,44 +99,44 @@ model Streamer {
 
 model Wallet {
   streamer                  String   @id @db.VarChar(12)
-  restoreHeight             Int?
-  lastSyncHeight            Int?
+  restoreHeight             Int?     @default(0)
+  lastSyncHeight            Int?     @default(0)
   streamer_streamerTowallet Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-enum Categories {
-  Gaming
-  Learning
-  Talk
-  Erotics
+enum StreamCategory {
+  gaming
+  learning
+  talk
+  erotics
 }
 
-enum Languages {
-  English
-  German
-  French
-  Italian
+enum Language {
+  english
+  german
+  french
+  italian
 }
 
-enum Paid_statuses {
+enum PaidStatus {
   paid
   unpaid
   canceled
 }
 
-enum Plan_types {
+enum PlanType {
   basic
   premium
 }
 
-enum Platforms {
-  YouTube
-  Twitch
-  Chaturbate
-  Selfhosted
+enum Platform {
+  youtube
+  twitch
+  chaturbate
+  selfhosted
 }
 
-enum Statuses {
+enum Status {
   active
   closed
 }

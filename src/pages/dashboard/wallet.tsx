@@ -1,148 +1,82 @@
-// TODO:
-import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
-import {
-  balanceAtom,
-  mnemonicAtom,
-  progressAtom,
-  syncHeightAtom,
-  isSyncRunningAtom,
-  walletAtom,
-  openWalletAtom,
-} from "~/store";
-import { MoneroWalletFull } from "monero-javascript";
-import { TipxmrWallet } from "~/components";
+import { isSyncRunningAtom, walletAtom, mnemonicAtom } from "~/store";
+import { MoneroSubaddress } from "monero-javascript";
+import Subaddress from "~/components/Subaddress";
+import TipxmrWallet from "~/components/wallet";
 import { NextPage } from "next";
-import { useEffect } from "react";
-import {
-  createBalancesChangedListener,
-  createOutputReceivedListener,
-  createSyncProgressListener,
-  open,
-} from "~/lib/xmr";
+import { Suspense, useState } from "react";
 import useUser from "~/lib/useUser";
+import { Button } from "@mui/material";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
+import useSyncListener from "~/hooks/useSyncListener";
+import useTransactionListener from "~/hooks/useTransactionListener";
+import useXmrWallet from "~/hooks/useXMRWallet";
+import useBalanceListener from "~/hooks/useBalanceListener";
 
-const MNEMONIC =
-  "aimless erected efficient eluded richly return cage unveil seismic zodiac hotel ringing jingle echo rims maze tapestry inline bomb eldest woken zero older onslaught ringing";
-
-const Transaction = ({ wallet }: { wallet?: MoneroWalletFull }) => {
-  useEffect(() => {
-    (async () => {
-      const listener = createOutputReceivedListener((output) => {
-        const { inTxPool, isLocked, isIncoming } = output.state.tx.state;
-
-        if (inTxPool && isLocked && isIncoming) {
-          console.log({
-            subaddressIndex: output.getSubaddressIndex(),
-            amount: output.getAmount().toString(),
-          });
-        }
-      });
-
-      await wallet.addListener(listener);
-
-      const subaddress = await wallet.createSubaddress(0, "foobar");
-      const address = await subaddress.getAddress();
-
-      console.log({ subaddress: address });
-    })();
-
-    (async () => {
-      const listener = createBalancesChangedListener(
-        (newBalance: BigInteger, newUnlockedBalance: BigInteger) => {
-          console.log({
-            newBalance: newBalance.toString(),
-            newUnlockedBalance: newUnlockedBalance.toString(),
-          });
-        }
-      );
-
-      await wallet.addListener(listener);
-    })();
-  }, [wallet]);
-
-  return null;
-};
-
+const testSeed =
+  "typist error soothe tribal peeled rhino begun decay gopher yeti height tuxedo ferry etiquette pram bailed sneeze mostly urchins pheasants kisses ammo voice voted etiquette";
 const WalletPage: NextPage = () => {
-  const { user: session } = useUser({ redirectTo: "/login" });
+  const { user } = useUser({ redirectTo: "/login" });
+  const [myWallet] = useAtom(walletAtom);
+  const [isSyncing] = useAtom(isSyncRunningAtom);
+  const [mnemonic, setMnemonic] = useAtom(mnemonicAtom);
+  const [currentAddress, setCurrentAddress] = useState<
+    MoneroSubaddress | string
+  >("");
 
-  const [progress, setProgress] = useAtom(progressAtom);
-  const [myWallet, setMyWallet] = useAtom(walletAtom);
-  const [isSyncing, setIsSyncing] = useAtom(isSyncRunningAtom);
-  const [syncHeight, setSyncHeight] = useAtom(syncHeightAtom);
-  const [balance, setBalance] = useAtom(balanceAtom);
+  if (!mnemonic) setMnemonic(testSeed);
 
-  // const [progress, setProgress] = useState(0);
-  // const [xmrWallet, setXmrWallet] = useState<MoneroWalletFull>();
+  useXmrWallet();
+  useSyncListener();
+  useTransactionListener();
+  useBalanceListener();
 
-  const isDone = progress === 100;
+  const generateAddress = async () => {
+    if (myWallet) {
+      const addr = await myWallet.createSubaddress(0, "test");
+      const subaddress = await addr.getAddress();
 
-  useEffect(() => {
-    const listener = createSyncProgressListener(
-      (
-        height: number,
-        startHeight: number,
-        endHeight: number,
-        percentDone: number,
-        message: string
-      ) => {
-        const percentage = Math.floor(percentDone * 100);
-        setProgress(percentage);
-        setSyncHeight(height);
-      }
-    );
+      setCurrentAddress(subaddress);
 
-    async function foobar() {
-      const wallet = await open(MNEMONIC);
-      // setXmrWallet(wallet);
-      setMyWallet(wallet);
-      const primaryAddress = await wallet.getPrimaryAddress();
-
-      await wallet.addListener(listener);
-      await wallet.setSyncHeight(995039);
-      await wallet.startSyncing();
-
-      console.log({ primaryAddress });
-
-      return () => {
-        wallet.stopSyncing();
+      const body = {
+        streamer: user?.id,
+        data: { subaddress },
       };
+
+      try {
+        const result = await fetchJson(`/api/donate/${user?.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        console.log(result);
+      } catch (reason) {
+        if (reason instanceof FetchError) {
+          console.error(reason);
+        } else {
+          console.error("An unexpected error happened:", reason);
+        }
+      }
     }
+  };
 
-    const unsubscribe = foobar();
-
-    return () => {
-      // unsubscribe();
-    };
-  }, []);
-
-  if (!session?.isLoggedIn) {
-    return <Typography variant="h2">Please log in</Typography>;
-  }
-
-  if (session && session.isLoggedIn) {
-    return (
-      <>
-        <TipxmrWallet
-          balance={balance}
-          isSynced={isSyncing}
-          height={syncHeight}
-        ></TipxmrWallet>
-        <Typography>Progress: {progress}%</Typography>
-        {isDone ? <Transaction wallet={myWallet} /> : null}
-      </>
-    );
-  }
+  return (
+    <>
+      <Suspense fallback="Loading...">
+        {user && user.isLoggedIn && <TipxmrWallet />}
+      </Suspense>
+      <Button
+        disabled={!myWallet && !isSyncing}
+        variant="contained"
+        color="primary"
+        onClick={generateAddress}
+      >
+        Generate new Subaddress
+      </Button>
+      {currentAddress && <Subaddress address={String(currentAddress)} />}
+    </>
+  );
 };
 
 export default WalletPage;
-
-// const walletAtom = atom(
-//   (get) => {
-//     return null;
-//   },
-//   (get, set, update) => {
-//     return null
-//   }
-// )
