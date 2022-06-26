@@ -32,6 +32,7 @@ services:
 
   monero-node:
     container_name: "monero-node"
+    platform: linux/amd64
     build:
       context: ./monero
     command: --non-interactive --config-file /home/monero/.bitmonero/stagenet.conf

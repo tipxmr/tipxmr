@@ -1,6 +1,6 @@
-FROM ubuntu:20.04 AS build
+FROM ubuntu:22.04 AS build
       
-ENV MONERO_VERSION=0.17.3.0 MONERO_SHA256=ac18ce3d1189410a5c175984827d5d601974733303411f6142296d647f6582ce
+ENV MONERO_VERSION=0.17.3.2 MONERO_SHA256=1e54acd749265d9439d3733441c645d9b058316283c8f21cca2a333c1238cd16
 
 RUN apt-get update && apt-get install -y curl bzip2
 
@@ -13,7 +13,7 @@ RUN curl https://dlsrc.getmonero.org/cli/monero-linux-x64-v$MONERO_VERSION.tar.b
   cp ./monero-x86_64-linux-gnu-v$MONERO_VERSION/monerod . &&\
   rm -r monero-*
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN useradd -ms /bin/bash monero && mkdir -p /home/monero/.bitmonero && chown -R monero:monero /home/monero/.bitmonero
 USER monero
