@@ -7,15 +7,15 @@ import WalletSettingsForm from "~/components/WalletSettings";
 import useDonationSettings from "~/hooks/useDonationSettings";
 import useWalletSettings from "~/hooks/useWalletSettings";
 import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
-import addWalletSetting from "~/hooks/addWalletSetting";
-import addDonationSetting from "~/hooks/addDonationSetting";
+import useAddWalletSetting from "~/hooks/useAddWalletSetting";
+import useAddDonationSetting from "~/hooks/useAddDonationSetting";
 
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
   const { data: donationSetting } = useDonationSettings(user?.name);
   const { data: walletSetting } = useWalletSettings(user?.id);
-  const { mutate: updateDonationSetting } = addDonationSetting();
-  const { mutate: updateWalletSetting } = addWalletSetting();
+  const { mutate: updateDonationSetting } = useAddDonationSetting();
+  const { mutate: updateWalletSetting } = useAddWalletSetting();
 
   console.log("donationSetting: ", donationSetting);
   console.log("walletSetting: ", walletSetting);

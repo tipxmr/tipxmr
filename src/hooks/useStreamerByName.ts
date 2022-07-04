@@ -8,10 +8,7 @@ async function fetchStreamerByName(
   if (typeof name === "undefined")
     return Promise.reject(new Error("Invalname name"));
 
-  const { data } = await fetchJson<any>(`/api/streamer/name/${name}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const { data } = await fetchJson<any>(`/api/streamer/name/${name}`);
   return data;
 }
 

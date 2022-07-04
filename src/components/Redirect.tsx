@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 interface RedirectProps {
-  to: string;
+  to?: URL;
 }
 
 const Redirect = ({ to }: RedirectProps) => {
