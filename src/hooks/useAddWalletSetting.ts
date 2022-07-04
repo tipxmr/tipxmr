@@ -7,7 +7,7 @@ type UpdateObject = {
   streamer?: string;
   data: {};
 };
-const addWalletSetting = () => {
+const useAddWalletSetting = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
   return useMutation(
@@ -52,4 +52,4 @@ const addWalletSetting = () => {
   );
 };
 
-export default addWalletSetting;
+export default useAddWalletSetting;
