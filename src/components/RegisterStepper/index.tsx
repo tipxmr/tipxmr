@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, Suspense, useState } from "react";
 import Image from "next/image";
 import {
   Container,
@@ -34,7 +34,11 @@ function getStepContent(step: number, seedLang?: string) {
     case 0:
       return <RegistrationInfo />;
     case 1:
-      return <WalletCreation />;
+      return (
+        <Suspense fallback="Loading Wallet...">
+          <WalletCreation />
+        </Suspense>
+      );
     case 2:
       return <AccountCreation />;
     case 3:

@@ -19,6 +19,8 @@ function setupDonation(io: Server) {
     socket.on("subaddress:create", (streamer) => {
       console.log({ streamer });
 
+      // TODO get the by name for the socket id
+      // TODO emit an event to the streamer that a new
       // socket
       // .to()
 

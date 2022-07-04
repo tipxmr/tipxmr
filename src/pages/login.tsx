@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { FormEvent } from "react";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
+
 import { User } from "~/lib/config";
 import { useMutation } from "react-query";
 import { Streamer } from "@prisma/client";
@@ -13,16 +14,17 @@ async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
 
   const user = await fetchJson<User>("/api/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body,
   });
 
   return user;
 }
 
 const LoginPage: NextPage = () => {
-  /* const mutation = useMutation(loginUser) */
-  const { user } = useUser({ redirectTo: "/dashboard", redirectIfFound: true });
+  const { mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,7 +43,7 @@ const LoginPage: NextPage = () => {
 
     const truncatedHashedSeed = getMnemonicHash(seed).slice(0, 11);
     try {
-      loginUser(truncatedHashedSeed);
+      mutateUser(truncatedHashedSeed);
     } catch (reason) {
       if (reason instanceof FetchError) {
         console.error(reason);

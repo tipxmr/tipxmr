@@ -1,4 +1,4 @@
-import { Wallet } from "@prisma/client";
+import { DonationSetting } from "@prisma/client";
 import { useMutation, useQueryClient } from "react-query";
 import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
@@ -7,30 +7,30 @@ type UpdateObject = {
   streamer?: string;
   data: {};
 };
-const addWalletSetting = () => {
+const addDonationSetting = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
+
   return useMutation(
-    (walletSettings) => {
-      const body = { walletSettings };
-      return fetchJson(`/api/wallet/settings/update/${user?.id}`, {
+    (donationSetting) => {
+      const body = { donationSetting };
+      return fetchJson(`/api/donation-settings/update/${user?.id}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body,
       });
     },
     {
       onMutate: async (settings: UpdateObject) => {
-        await queryClient.cancelQueries(["streamer", user?.id]);
-        const previousSettings = queryClient.getQueryData<Wallet>([
+        await queryClient.cancelQueries(["streamer", user?.name]);
+        const previousSettings = queryClient.getQueryData<DonationSetting>([
           "streamer",
-          user?.id,
+          user?.name,
         ]);
 
         console.log({ settings });
 
         if (previousSettings) {
-          queryClient.setQueryData<Wallet>(["streamer", user?.id], {
+          queryClient.setQueryData<DonationSetting>(["streamer", user?.name], {
             ...previousSettings,
           });
         }
@@ -39,17 +39,16 @@ const addWalletSetting = () => {
       },
       onError: (err, variables, context) => {
         if (context?.previousSettings) {
-          queryClient.setQueryData<Wallet>(
-            ["streamer", user?.id],
+          queryClient.setQueryData<DonationSetting>(
+            ["streamer", user?.name],
             context.previousSettings
           );
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["streamer", user?.id]);
+        queryClient.invalidateQueries(["streamer", user?.name]);
       },
     }
   );
 };
-
-export default addWalletSetting;
+export default addDonationSetting;

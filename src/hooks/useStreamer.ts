@@ -7,10 +7,7 @@ async function fetchStreamer(
 ): Promise<Streamer> {
   if (typeof id === "undefined") Promise.reject(new Error("Invalid ID"));
 
-  const { data } = await fetchJson<any>(`/api/streamer/${id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const { data } = await fetchJson<any>(`/api/streamer/${id}`);
   return data;
 }
 
