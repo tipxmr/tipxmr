@@ -7,6 +7,7 @@ export const constructRequestBodyFromForm = (
   // TODO do we need to further validate user input?
   let updateData = {};
 
+  // TODO rework with filter and map => make more generic
   for (const pair of formData.entries()) {
     if (pair.at(1) === "") {
       // skip the value if there was nothing entered
