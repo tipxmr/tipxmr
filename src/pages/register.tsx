@@ -7,21 +7,20 @@ import {
   truncatedHashedSeedAtom,
   userNameAtom,
 } from "~/store";
-import useUser from "~/lib/useUser";
-import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { Streamer } from "@prisma/client";
-import { User } from "~/lib/config";
+import useCreateUser from "~/hooks/useCreateUser";
+
 import { ErrorBoundary } from "react-error-boundary";
 
 const Home: NextPage = () => {
-  const { mutateUser } = useUser({
-    redirectTo: "/dashboard",
-    redirectIfFound: true,
-  });
+  // TODO rewrite into custom hook to use react-query
+  const createUser = useCreateUser();
+
+  console.log("createUser: ", createUser);
 
   const [userName] = useAtom(userNameAtom);
   const [displayName] = useAtom(displayNameAtom);
   const [truncatedHashedSeed] = useAtom(truncatedHashedSeedAtom);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,58 +35,7 @@ const Home: NextPage = () => {
       alert("Sorry, you must agree to proceed");
       return;
     }
-
-    console.log({ data, name, alias, truncatedHashedSeed });
-    try {
-      const { streamer } = await fetchJson<{
-        streamer: Streamer;
-      }>(`/api/streamer/${truncatedHashedSeed}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: truncatedHashedSeed,
-          name: name,
-          alias: alias,
-        }),
-      });
-
-      // TODO streamer already exists handling
-
-      if (streamer) {
-        const body = {
-          hash: truncatedHashedSeed,
-        };
-
-        try {
-          const user = await fetchJson<User>("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          });
-          mutateUser(user);
-        } catch (reason) {
-          if (reason instanceof FetchError) {
-            console.error(reason);
-          } else {
-            console.error("An unexpected error happened:", reason);
-          }
-        }
-      }
-    } catch (reason) {
-      if (reason instanceof FetchError) {
-        console.error(reason);
-      } else {
-        console.error("An unexpected error happened:", reason);
-      }
-    }
-    /*
-     *    const res = await fetchJson(`/api/streamer`, {
-     *      method: "POST",
-     *      body: JSON.stringify({
-     *      }),
-     *    });
-     */
-    // TODO navigate the streamer to the login
+    createUser.mutate({ id: truncatedHashedSeed, name, alias });
   };
 
   return <Register handleSubmit={handleSubmit} />;

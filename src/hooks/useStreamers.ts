@@ -3,10 +3,7 @@ import { useQuery } from "react-query";
 import fetchJson from "~/lib/fetchJson";
 
 async function fetchStreamers(): Promise<Streamer[]> {
-  const { data } = await fetchJson<any>(`/api/streamer/all`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const { data } = await fetchJson<any>(`/api/streamer/all`);
   return data;
 }
 

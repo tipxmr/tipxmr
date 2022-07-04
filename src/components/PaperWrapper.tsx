@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import { FC, ReactNode } from "react";
+import { FC, forwardRef, ReactNode } from "react";
 import Title from "~/components/Title";
 
 interface PaperWrapperProps {
@@ -7,15 +7,18 @@ interface PaperWrapperProps {
   children: ReactNode;
 }
 
-const PaperWrapper: FC<PaperWrapperProps> = (props) => {
+const PaperWrapper: FC<PaperWrapperProps> = forwardRef<
+  HTMLDivElement,
+  PaperWrapperProps
+>((props, ref) => {
   const { title, children } = props;
 
   return (
-    <Paper elevation={3} sx={{ p: 4 }}>
+    <Paper elevation={3} sx={{ p: 4 }} ref={ref}>
       {title && <Title>{title}</Title>}
       {children}
     </Paper>
   );
-};
+});
 
 export default PaperWrapper;

@@ -1,8 +1,24 @@
-export default async function fetchJson<JSON = unknown>(
+export default async function fetchJson<JSON = unknown, DATA = unknown>(
   input: RequestInfo,
-  init?: RequestInit
+  init?: Omit<RequestInit, "body"> & { body: DATA }
 ): Promise<JSON> {
-  const response = await fetch(input, init);
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const config = {
+    ...init,
+    headers: {
+      ...headers,
+      ...init?.headers,
+    },
+  } as RequestInit;
+
+  if (init?.body) {
+    config.body = JSON.stringify(init.body);
+  }
+
+  const response = await fetch(input, config);
 
   // if the server replies, there's always some data in json
   // if there's a network error, it will throw at the previous line
@@ -47,6 +63,6 @@ export class FetchError extends Error {
 
     this.name = "FetchError";
     this.response = response;
-    this.data = data ?? { message: message };
+    this.data = data ?? { message };
   }
 }

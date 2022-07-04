@@ -1,41 +1,36 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import fetchJson from "./fetchJson";
-import { User } from "./config";
+import { PartialStreamer } from "./config";
 import { Streamer } from "@prisma/client";
-import useSWR from "swr";
 
 async function fetchUser(): Promise<User> {
-  const response = await fetchJson<any>(`/api/user`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  console.log(`response: ${response}\n`);
-  return response;
+  return fetchJson<any>(`/api/user`);
 }
 
-async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
-  // this was an attempt to get rid of useSWR for everything
+async function loginUser(
+  id: Streamer["id"] | undefined
+): Promise<PartialStreamer> {
   const body = { hash: id };
-  const user = await fetchJson<User>("/api/login", {
+  return fetchJson<PartialStreamer>("/api/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body,
   });
-
-  return user;
 }
 
 export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>("/api/user");
-  // const { data: user, error } = useQuery(["user"], () => fetchUser);
-  // const mutation = useMutation(loginUser)
-  // console.log(`Mutation: `, mutation)
-
+  const { data: user, error } = useQuery(["user"], fetchUser);
+  const queryClient = useQueryClient();
+  const mutation = useMutation(loginUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
+  console.log("user from within useUser: ", user);
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet
@@ -51,5 +46,5 @@ export default function useUser({
     }
   }, [user, redirectIfFound, redirectTo]);
 
-  return { user, mutateUser };
+  return { user, mutateUser: mutation.mutate };
 }

@@ -1,10 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "~/lib/config";
+import { PartialStreamer } from "~/lib/config";
 import { withSessionRoute } from "~/lib/withSession";
 
 export default withSessionRoute(userRoute);
 
-async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
+async function userRoute(
+  req: NextApiRequest,
+  res: NextApiResponse<PartialStreamer>
+) {
   const { session } = req;
   if (session.user) {
     // in a real world application you might read the user id from the session and then do a database request
