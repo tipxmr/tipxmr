@@ -10,7 +10,6 @@ async function fetchUser(): Promise<User> {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
-  console.log(`response: ${response}\n`);
   return response;
 }
 
@@ -23,7 +22,6 @@ async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
     body: JSON.stringify(body),
   });
 
-  console.log("user", { user });
   return user;
 }
 
@@ -38,7 +36,6 @@ export default function useUser({
       queryClient.invalidateQueries(["user"]);
     },
   });
-  console.log(`Mutation: `, mutation);
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
@@ -54,10 +51,6 @@ export default function useUser({
       Router.push(redirectTo);
     }
   }, [user, redirectIfFound, redirectTo]);
-
-  useEffect(() => {
-    console.log("user in new effect", user);
-  }, [user]);
 
   return { user, mutateUser: mutation.mutate };
 }
