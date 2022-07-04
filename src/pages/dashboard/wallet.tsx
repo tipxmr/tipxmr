@@ -46,7 +46,7 @@ const WalletPage: NextPage = () => {
       try {
         const result = await fetchJson(`/api/donate/${user?.id}`, {
           method: "POST",
-          body
+          body,
         });
 
         console.log(result);

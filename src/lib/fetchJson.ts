@@ -1,18 +1,18 @@
 export default async function fetchJson<JSON = unknown, DATA = unknown>(
   input: RequestInfo,
-  init?: Omit<RequestInit, 'body'> & { body: DATA }
+  init?: Omit<RequestInit, "body"> & { body: DATA }
 ): Promise<JSON> {
   const headers = {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  };
 
   const config = {
     ...init,
     headers: {
       ...headers,
       ...init?.headers,
-    }
-  } as RequestInit
+    },
+  } as RequestInit;
 
   if (init?.body) {
     config.body = JSON.stringify(init.body);
