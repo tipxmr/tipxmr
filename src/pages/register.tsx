@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai";
-import { FormEvent } from "react";
+import { FormEvent, Suspense } from "react";
 import Register from "~/components/RegisterStepper";
 import {
   displayNameAtom,
@@ -12,6 +12,7 @@ import fetchJson, { FetchError } from "~/lib/fetchJson";
 import { Streamer } from "@prisma/client";
 import { User } from "~/lib/config";
 import { ErrorBoundary } from "react-error-boundary";
+import { LoadingButton } from "@mui/lab";
 
 const Home: NextPage = () => {
   const { mutateUser } = useUser({
@@ -59,12 +60,13 @@ const Home: NextPage = () => {
         };
 
         try {
-          const user = await fetchJson<User>("/api/login", {
+          await fetchJson<User>("/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
           });
-          mutateUser(user);
+          /* mutateUser(user); */
+          mutateUser(truncatedHashedSeed);
         } catch (reason) {
           if (reason instanceof FetchError) {
             console.error(reason);

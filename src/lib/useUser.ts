@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import fetchJson from "./fetchJson";
 import { User } from "./config";
 import { Streamer } from "@prisma/client";
-import useSWR from "swr";
 
 async function fetchUser(): Promise<User> {
   const response = await fetchJson<any>(`/api/user`, {
@@ -24,6 +23,7 @@ async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
     body: JSON.stringify(body),
   });
 
+  console.log("user", { user });
   return user;
 }
 
@@ -31,10 +31,15 @@ export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>("/api/user");
-  // const { data: user, error } = useQuery(["user"], () => fetchUser);
-  // const mutation = useMutation(loginUser)
-  // console.log(`Mutation: `, mutation)
+  // const { data: user, mutate: mutateUser } = useSWR<User>("/api/user");
+  const { data: user, error } = useQuery(["user"], fetchUser);
+  const queryClient = useQueryClient();
+  const mutation = useMutation(loginUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
+  console.log(`Mutation: `, mutation);
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
@@ -51,5 +56,9 @@ export default function useUser({
     }
   }, [user, redirectIfFound, redirectTo]);
 
-  return { user, mutateUser };
+  useEffect(() => {
+    console.log("user in new effect", user);
+  }, [user]);
+
+  return { user, mutateUser: mutation.mutate };
 }
