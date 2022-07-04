@@ -2,15 +2,12 @@ import { getMnemonicHash } from "~/lib/xmr";
 import Login from "~/components/Login";
 import { NextPage } from "next";
 import { FormEvent } from "react";
-import fetchJson, { FetchError } from "~/lib/fetchJson";
+import { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
-import { User } from "~/lib/config";
-import { useMutation } from "react-query";
-import { Streamer } from "@prisma/client";
 
 const LoginPage: NextPage = () => {
   /* const mutation = useMutation(loginUser) */
-  const { user, mutateUser } = useUser({
+  const { mutateUser } = useUser({
     redirectTo: "/dashboard",
     redirectIfFound: true,
   });
