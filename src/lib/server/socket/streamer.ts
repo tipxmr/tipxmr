@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { getIronSession } from "iron-session";
 import { ServerResponse } from "node:http";
 import { Server, Socket } from "socket.io";
-import { sessionOptions } from "../../session";
+import { ironOptions } from "../../config";
 
 const prisma = new PrismaClient();
 
@@ -14,7 +14,7 @@ function setupStreamer(io: Server) {
     const session = await getIronSession(
       socket.request,
       { headersSent: false } as ServerResponse,
-      sessionOptions
+      ironOptions
     );
 
     if (session?.user ?? false) {

@@ -1,13 +1,17 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai";
-import { useState, useEffect, FormEvent } from "react";
-import { Register } from "~/components";
-import { createWallet, getMnemonicHash, open } from "~/lib/xmr";
-import { walletAtom } from "~/store";
+import { FormEvent } from "react";
+import Register from "~/components/RegisterStepper";
+import {
+  displayNameAtom,
+  truncatedHashedSeedAtom,
+  userNameAtom,
+} from "~/store";
 import useUser from "~/lib/useUser";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { Account, Streamer } from "@prisma/client";
-import { User } from "./api/user";
+import { Streamer } from "@prisma/client";
+import { User } from "~/lib/config";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Home: NextPage = () => {
   const { mutateUser } = useUser({
@@ -15,15 +19,17 @@ const Home: NextPage = () => {
     redirectIfFound: true,
   });
 
-  const [seedLang, setSeedLang] = useState("English");
-  const [newWallet, setNewWallet] = useAtom(walletAtom);
-  const [seedPhrase, setSeedPhrase] = useState("");
-
+  const [userName] = useAtom(userNameAtom);
+  const [displayName] = useAtom(displayNameAtom);
+  const [truncatedHashedSeed] = useAtom(truncatedHashedSeedAtom);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const name = data.get("name") as string;
-    const alias = data.get("alias") as string;
+    /* const name = data.get("name") as string;
+     * const alias = data.get("alias") as string; */
+    const name = userName;
+    const alias = displayName;
+
     const understood = data.get("understood");
     if (!understood) {
       // TODO validate this on the field
@@ -31,14 +37,11 @@ const Home: NextPage = () => {
       return;
     }
 
-    // TODO create a new streamer in the tipxmr db with this
-    const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
-
+    console.log({ data, name, alias, truncatedHashedSeed });
     try {
-      const { streamer, account } = await fetchJson<{
+      const { streamer } = await fetchJson<{
         streamer: Streamer;
-        account: Account;
-      }>("/api/streamer", {
+      }>(`/api/streamer/${truncatedHashedSeed}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -87,26 +90,18 @@ const Home: NextPage = () => {
     // TODO navigate the streamer to the login
   };
 
-  useEffect(() => {
-    const walletCreator = async (seedLang: string) => {
-      const seed = await createWallet(seedLang);
-      setSeedPhrase(seed);
-    };
-    walletCreator(seedLang);
-  }, [seedLang]);
+  return <Register handleSubmit={handleSubmit} />;
+};
 
-  // TODO when the seed language changes, a new seed should be generated
-  // TODO prepare the handeling for submit (ie. open the wallet with the seed, create a new streamer entry in the db, log the streamer in)
-
+const Wrapper: NextPage = () => {
   return (
-    <Register
-      seedLang={seedLang}
-      setSeedLang={setSeedLang}
-      handleSubmit={handleSubmit}
-      seedPhrase={seedPhrase}
-      setSeedPhrase={setSeedPhrase}
-    />
+    <ErrorBoundary
+      FallbackComponent={({ error }) => <div>{error.message}</div>}
+      onError={console.log}
+    >
+      <Home />
+    </ErrorBoundary>
   );
 };
 
-export default Home;
+export default Wrapper;

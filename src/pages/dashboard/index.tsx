@@ -1,17 +1,22 @@
 import { io } from "socket.io-client";
-import { IsOnlineBadge } from "~/components";
+import IsOnlineBadge from "~/components/IsOnlineBadge";
 import { useEffect } from "react";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import type { NextPage } from "next";
 import Typography from "@mui/material/Typography";
 import useUser from "~/lib/useUser";
-
-const hash =
-  "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399".slice(
-    0,
-    11
-  );
+import { useAtom } from "jotai";
+import {
+  balanceAtom,
+  generatedSeedPhraseAtom,
+  isSyncRunningAtom,
+  progressAtom,
+  syncEndHeightAtom,
+  syncHeightAtom,
+  walletAtom,
+} from "~/store";
+import { createSyncProgressListener, open } from "~/lib/xmr";
 
 function useSocket() {
   useEffect(() => {

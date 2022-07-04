@@ -1,11 +1,9 @@
-import type { User } from "~/pages/api/user";
 import prisma from "~/lib/prisma";
-
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
+import { withSessionRoute } from "~/lib/withSession";
+import { User } from "~/lib/config";
 
-export default withIronSessionApiRoute(loginRoute, sessionOptions);
+export default withSessionRoute(loginRoute);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const id = req.body.hash as string;
@@ -20,7 +18,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
 
     req.session.user = user;
     await req.session.save();
-    res.json(user);
+    res.send({ ok: true });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

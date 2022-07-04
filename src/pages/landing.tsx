@@ -1,7 +1,8 @@
 /* import landingIcon from "../images/landing-screen.svg"; */
 
-import { Typography, Grid } from "@mui/material";
-import { HorizontalCenter } from "~/components";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import HorizontalCenter from "~/components/helper/HorizontalCenter";
 
 const Landing = () => {
   return (

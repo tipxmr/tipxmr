@@ -1,15 +1,17 @@
 import { ReactNode, FC } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Container } from "@mui/material";
-import { Drawer, Header, Footer } from "~/components";
+import Drawer from "~/components/Drawer";
+import Header from "~/components/Header";
+import Footer from "~/components/Footer";
 import useUser from "~/lib/useUser";
 
-interface ILayout {
+interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: FC<ILayout> = ({ children }) => {
-  const { user: session, mutateUser } = useUser();
+const Layout: FC<LayoutProps> = ({ children }) => {
+  const { user: session } = useUser();
   return (
     <Box
       sx={{

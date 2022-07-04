@@ -1,13 +1,40 @@
 import { useEffect } from "react";
 import Router from "next/router";
+import { useMutation, useQuery } from "react-query";
+import fetchJson from "./fetchJson";
+import { User } from "./config";
+import { Streamer } from "@prisma/client";
 import useSWR from "swr";
-import { User } from "~/pages/api/user";
+
+async function fetchUser(): Promise<User> {
+  const response = await fetchJson<any>(`/api/user`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  console.log(`response: ${response}\n`);
+  return response;
+}
+
+async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
+  // this was an attempt to get rid of useSWR for everything
+  const body = { hash: id };
+  const user = await fetchJson<User>("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  return user;
+}
 
 export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
 } = {}) {
   const { data: user, mutate: mutateUser } = useSWR<User>("/api/user");
+  // const { data: user, error } = useQuery(["user"], () => fetchUser);
+  // const mutation = useMutation(loginUser)
+  // console.log(`Mutation: `, mutation)
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
