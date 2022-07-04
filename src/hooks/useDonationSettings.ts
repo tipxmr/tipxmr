@@ -8,10 +8,7 @@ async function fetchDonationSettings(
   if (typeof name === "undefined")
     return Promise.reject(new Error("Invalid name"));
 
-  const { data } = await fetchJson<any>(`/api/donation-settings/${name}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const { data } = await fetchJson<any>(`/api/donation-settings/${name}`);
   console.log({ data });
   return data;
 }

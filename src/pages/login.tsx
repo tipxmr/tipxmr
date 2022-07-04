@@ -2,8 +2,23 @@ import { getMnemonicHash } from "~/lib/xmr";
 import Login from "~/components/Login";
 import { NextPage } from "next";
 import { FormEvent } from "react";
-import { FetchError } from "~/lib/fetchJson";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
+
+import { User } from "~/lib/config";
+import { useMutation } from "react-query";
+import { Streamer } from "@prisma/client";
+
+async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
+  const body = { hash: id };
+
+  const user = await fetchJson<User>("/api/login", {
+    method: "POST",
+    body,
+  });
+
+  return user;
+}
 
 const LoginPage: NextPage = () => {
   /* const mutation = useMutation(loginUser) */

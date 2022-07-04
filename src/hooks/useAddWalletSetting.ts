@@ -15,8 +15,7 @@ const useAddWalletSetting = () => {
       const body = { walletSettings };
       return fetchJson(`/api/wallet/settings/update/${user?.id}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body,
       });
     },
     {

@@ -16,8 +16,7 @@ const addDonationSetting = () => {
       const body = { donationSetting };
       return fetchJson(`/api/donation-settings/update/${user?.id}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body
       });
     },
     {

@@ -6,11 +6,7 @@ import { User } from "./config";
 import { Streamer } from "@prisma/client";
 
 async function fetchUser(): Promise<User> {
-  const response = await fetchJson<any>(`/api/user`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  return response;
+  return fetchJson<any>(`/api/user`);
 }
 
 async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
@@ -18,8 +14,7 @@ async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
   const body = { hash: id };
   const user = await fetchJson<User>("/api/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body,
   });
 
   return user;

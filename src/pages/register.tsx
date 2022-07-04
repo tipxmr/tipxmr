@@ -44,12 +44,11 @@ const Home: NextPage = () => {
         streamer: Streamer;
       }>(`/api/streamer/${truncatedHashedSeed}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           id: truncatedHashedSeed,
           name: name,
           alias: alias,
-        }),
+        },
       });
 
       // TODO streamer already exists handling
@@ -62,8 +61,7 @@ const Home: NextPage = () => {
         try {
           await fetchJson<User>("/api/login", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
+            body
           });
           /* mutateUser(user); */
           mutateUser(truncatedHashedSeed);
@@ -85,8 +83,7 @@ const Home: NextPage = () => {
     /*
      *    const res = await fetchJson(`/api/streamer`, {
      *      method: "POST",
-     *      body: JSON.stringify({
-     *      }),
+     *      body,
      *    });
      */
     // TODO navigate the streamer to the login

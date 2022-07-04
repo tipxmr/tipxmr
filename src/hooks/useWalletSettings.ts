@@ -7,10 +7,7 @@ async function fetchWalletSettings(
 ): Promise<Wallet> {
   if (typeof id === "undefined") return Promise.reject(new Error("Invalid id"));
 
-  const { data } = await fetchJson<any>(`/api/wallet/settings/${id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const { data } = await fetchJson<any>(`/api/wallet/settings/${id}`);
   return data;
 }
 
