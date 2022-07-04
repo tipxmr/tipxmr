@@ -6,7 +6,6 @@ import { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
 const LoginPage: NextPage = () => {
-  /* const mutation = useMutation(loginUser) */
   const { mutateUser } = useUser({
     redirectTo: "/dashboard",
     redirectIfFound: true,

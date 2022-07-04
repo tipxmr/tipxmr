@@ -2,27 +2,25 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import fetchJson from "./fetchJson";
-import { User } from "./config";
+import { PartialStreamer } from "./config";
 import { Streamer } from "@prisma/client";
 
-async function fetchUser(): Promise<User> {
-  const response = await fetchJson<any>(`/api/user`, {
+async function fetchUser(): Promise<PartialStreamer> {
+  return fetchJson<any>(`/api/user`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
-  return response;
 }
 
-async function loginUser(id: Streamer["id"] | undefined): Promise<User> {
-  // this was an attempt to get rid of useSWR for everything
+async function loginUser(
+  id: Streamer["id"] | undefined
+): Promise<PartialStreamer> {
   const body = { hash: id };
-  const user = await fetchJson<User>("/api/login", {
+  return fetchJson<PartialStreamer>("/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-
-  return user;
 }
 
 export default function useUser({
@@ -36,7 +34,7 @@ export default function useUser({
       queryClient.invalidateQueries(["user"]);
     },
   });
-
+  console.log("user from within useUser: ", user);
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet
