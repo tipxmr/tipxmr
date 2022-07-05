@@ -9,13 +9,10 @@ async function fetchUser(): Promise<User> {
   return fetchJson<any>(`/api/user`);
 }
 
-async function loginUser(
-  id: Streamer["id"] | undefined
-): Promise<User> {
-  const body = { hash: id };
+async function loginUser(id?: Streamer["id"]) {
   return fetchJson<User>("/api/login", {
     method: "POST",
-    body,
+    body: { id },
   });
 }
 
@@ -30,7 +27,7 @@ export default function useUser({
       queryClient.invalidateQueries(["user"]);
     },
   });
-  
+
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet
@@ -46,5 +43,5 @@ export default function useUser({
     }
   }, [user, redirectIfFound, redirectTo]);
 
-  return { user, mutateUser: mutation.mutate };
+  return { user, mutate: mutation.mutate };
 }

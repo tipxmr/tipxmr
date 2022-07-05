@@ -4,10 +4,7 @@ import { withSessionRoute } from "~/lib/withSession";
 
 export default withSessionRoute(logoutRoute);
 
-function logoutRoute(
-  req: NextApiRequest,
-  res: NextApiResponse<User>
-) {
+function logoutRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   req.session.destroy();
   res.json({ isLoggedIn: false });
 }

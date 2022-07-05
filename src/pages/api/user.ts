@@ -4,10 +4,7 @@ import { withSessionRoute } from "~/lib/withSession";
 
 export default withSessionRoute(userRoute);
 
-async function userRoute(
-  req: NextApiRequest,
-  res: NextApiResponse<User>
-) {
+async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   const { session } = req;
   if (session.user) {
     // in a real world application you might read the user id from the session and then do a database request

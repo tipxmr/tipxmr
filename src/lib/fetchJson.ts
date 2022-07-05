@@ -1,6 +1,6 @@
 export default async function fetchJson<JSON = unknown, DATA = unknown>(
   input: RequestInfo,
-  init?: Omit<RequestInit, "body"> & { body: DATA }
+  init?: Omit<RequestInit, "body"> & { body?: DATA }
 ): Promise<JSON> {
   const headers = {
     "Content-Type": "application/json",

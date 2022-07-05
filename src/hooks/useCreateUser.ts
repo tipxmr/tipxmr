@@ -1,19 +1,12 @@
 import { useMutation } from "react-query";
 import { Streamer } from "@prisma/client";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { User } from "~/lib/config";
 import useUser from "~/lib/useUser";
 
 type NewUserData = Pick<Streamer, "id" | "alias" | "name">;
 
-async function createUser({
-  id,
-  alias,
-  name,
-}: NewUserData): Promise<User> {
-  return fetchJson<{
-    streamer: User;
-  }>(`/api/streamer`, {
+async function createStreamer({ id, alias, name }: NewUserData) {
+  return fetchJson<Streamer>(`/api/streamer`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -25,27 +18,22 @@ async function createUser({
 }
 
 export default function useCreateUser() {
-  const { user, mutateUser } = useUser({
+  const { user, mutate: mutateUser } = useUser({
     redirectIfFound: true,
     redirectTo: "/dashboard",
   });
 
-  return useMutation<User, FetchError, NewUserData>(
-    (newUser) => {
-      return createUser(newUser);
-    },
-    {
-      onSuccess: async ({ id }) => {
-        await fetchJson(`/api/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            hash: id,
-          }),
-        });
+  return useMutation<Streamer, FetchError, NewUserData>(createStreamer, {
+    onSuccess: async ({ id }) => {
+      await fetchJson(`/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id,
+        }),
+      });
 
-        mutateUser(id);
-      },
-    }
-  );
+      mutateUser(id);
+    },
+  });
 }

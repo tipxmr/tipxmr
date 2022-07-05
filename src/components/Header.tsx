@@ -38,7 +38,7 @@ let logged_in_pages: pages = [
 ];
 
 const ResponsiveAppBar: FC = () => {
-  const { user: session, mutateUser } = useUser();
+  const { user: session, mutate: mutateUser } = useUser();
   const [menuItems, setMenuItems] = useState(logged_out_pages);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const ResponsiveAppBar: FC = () => {
     const user = await fetchJson<User>("/api/logout", {
       method: "POST",
     });
-    mutateUser(user, false);
+    mutateUser(undefined);
   }
 
   return (
