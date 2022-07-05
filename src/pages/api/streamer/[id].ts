@@ -1,9 +1,5 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import {
-  getStreamer,
-  removeStreamer,
-  updateStreamer,
-} from "~/lib/db/streamer";
+import { getStreamer, removeStreamer, updateStreamer } from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {
   console.log(req.query);
@@ -28,7 +24,7 @@ const streamerGetHandler = async (
   res: NextApiResponse
 ) => {
   try {
-    const id  = req.query.id as string;
+    const id = req.query.id as string;
     const streamer = await getStreamer(id);
 
     res.status(200).json(streamer);
@@ -53,7 +49,7 @@ const streamerDeleteHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const id  = req.query.id as string;
+  const id = req.query.id as string;
   const result = await removeStreamer(id);
 
   res.json(result);
@@ -63,7 +59,7 @@ const streamerPutHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const id  = req.query.id as string;
+  const id = req.query.id as string;
   const { name, alias, socket } = req.body;
   const result = await updateStreamer(id, { name, alias, socket });
 
