@@ -1,30 +1,7 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { atom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
 
-import counter from "./features/counter";
 import { createWallet, getMnemonicHash, open } from "./lib/xmr";
-
-export function makeStore() {
-  return configureStore({
-    reducer: { counter },
-  });
-}
-
-const store = makeStore();
-
-export type AppState = ReturnType<typeof store.getState>;
-
-export type AppDispatch = typeof store.dispatch;
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppState,
-  unknown,
-  Action<string>
->;
-
-export default store;
 
 // --- ATOMS
 export const mnemonicAtom = atom("");
