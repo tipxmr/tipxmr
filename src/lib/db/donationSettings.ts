@@ -4,7 +4,7 @@ import prisma from "../prisma";
 // TODO this is a public data point from every streamer
 // therefore, can we really find the steamer by ID?
 // maybe.
-type DonationSettingUpate = Pick<
+export type DonationSettingUpdate = Pick<
   DonationSetting,
   | "charPrice"
   | "charLimit"
@@ -35,7 +35,7 @@ export const getDonationSettings = async (name: Streamer["name"]) => {
 
 export const updateDonationSettings = (
   streamer: DonationSetting["streamer"],
-  data: DonationSettingUpate
+  data: DonationSettingUpdate
 ) => {
   return prisma?.donationSetting.update({
     where: {

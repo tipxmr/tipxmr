@@ -7,15 +7,15 @@ type UpdateObject = {
   streamer?: string;
   data: {};
 };
-const addDonationSetting = () => {
+const useAddDonationSetting = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
   return useMutation(
     (donationSetting) => {
       const body = { donationSetting };
-      return fetchJson(`/api/donation-settings/update/${user?.id}`, {
-        method: "POST",
+      return fetchJson(`/api/donation-settings/${user?.id}`, {
+        method: "PUT",
         body,
       });
     },
@@ -51,4 +51,5 @@ const addDonationSetting = () => {
     }
   );
 };
-export default addDonationSetting;
+
+export default useAddDonationSetting;

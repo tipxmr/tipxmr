@@ -17,27 +17,27 @@ const getStreamerDonationSettings = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
-  const { name } = request.query;
+  const name = request.query.name as string;
 
-  if (!name) throw new Error("Provide a streamer name");
+  if (!name) throw Error("Provide a streamer name");
 
   try {
-    const donationSettings = await getDonationSettings(String(name));
+    const donationSettings = await getDonationSettings(name);
 
     if (donationSettings) {
-      response.status(200).json({ data: donationSettings });
-      return;
+      response.status(200).json(donationSettings);
     }
 
-    throw new Error("This user does not exist");
+    response.status(404).json({ error: "DontationSettings not found by name" });
+    throw new Error("DontationSettings not found by name");
   } catch (error) {
+    console.error(error);
     if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
       response
         .status(500)
-        .json({ error: `failed to create streamer, ${message}` });
+        .json({ error: `DontationSettings could not be fetched ${message}` });
     }
-    console.error(error);
   }
 };
 
