@@ -1,7 +1,10 @@
 import { DonationSetting } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { updateDonationSettings, DonationSettingUpdate } from "~/lib/db/donationSettings";
+import {
+  updateDonationSettings,
+  DonationSettingUpdate,
+} from "~/lib/db/donationSettings";
 import { withSessionRoute } from "~/lib/withSession";
 
 const handler: NextApiHandler = async (req, res) => {
