@@ -1,7 +1,7 @@
 import prisma from "~/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { withSessionRoute } from "~/lib/withSession";
-import { PartialStreamer } from "~/lib/config";
+import { User } from "~/lib/config";
 
 export default withSessionRoute(loginRoute);
 
@@ -14,7 +14,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       rejectOnNotFound: true,
     });
 
-    const user = { ...streamer, isLoggedIn: true } as PartialStreamer;
+    const user = { ...streamer, isLoggedIn: true } as User;
 
     req.session.user = user;
     await req.session.save();

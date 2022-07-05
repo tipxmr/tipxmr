@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PartialStreamer } from "~/lib/config";
+import { User } from "~/lib/config";
 import { withSessionRoute } from "~/lib/withSession";
 
 export default withSessionRoute(userRoute);
 
 async function userRoute(
   req: NextApiRequest,
-  res: NextApiResponse<PartialStreamer>
+  res: NextApiResponse<User>
 ) {
   const { session } = req;
   if (session.user) {

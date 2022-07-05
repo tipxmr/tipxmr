@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import fetchJson from "./fetchJson";
-import { PartialStreamer } from "./config";
+import { User } from "./config";
 import { Streamer } from "@prisma/client";
 
 async function fetchUser(): Promise<User> {
@@ -11,9 +11,9 @@ async function fetchUser(): Promise<User> {
 
 async function loginUser(
   id: Streamer["id"] | undefined
-): Promise<PartialStreamer> {
+): Promise<User> {
   const body = { hash: id };
-  return fetchJson<PartialStreamer>("/api/login", {
+  return fetchJson<User>("/api/login", {
     method: "POST",
     body,
   });
@@ -30,7 +30,7 @@ export default function useUser({
       queryClient.invalidateQueries(["user"]);
     },
   });
-  console.log("user from within useUser: ", user);
+  
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet

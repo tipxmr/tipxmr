@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { Streamer } from "@prisma/client";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
-import { PartialStreamer } from "~/lib/config";
+import { User } from "~/lib/config";
 import useUser from "~/lib/useUser";
 
 type NewUserData = Pick<Streamer, "id" | "alias" | "name">;
@@ -10,9 +10,9 @@ async function createUser({
   id,
   alias,
   name,
-}: NewUserData): Promise<PartialStreamer> {
+}: NewUserData): Promise<User> {
   return fetchJson<{
-    streamer: PartialStreamer;
+    streamer: User;
   }>(`/api/streamer`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -30,7 +30,7 @@ export default function useCreateUser() {
     redirectTo: "/dashboard",
   });
 
-  return useMutation<PartialStreamer, FetchError, NewUserData>(
+  return useMutation<User, FetchError, NewUserData>(
     (newUser) => {
       return createUser(newUser);
     },

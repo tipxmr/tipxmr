@@ -18,7 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
-import { PartialStreamer } from "~/lib/config";
+import { User } from "~/lib/config";
 
 type pages = { page: string; href: string }[];
 let default_pages: pages = [
@@ -68,7 +68,7 @@ const ResponsiveAppBar: FC = () => {
   };
 
   async function signOut() {
-    const user = await fetchJson<PartialStreamer>("/api/logout", {
+    const user = await fetchJson<User>("/api/logout", {
       method: "POST",
     });
     mutateUser(user, false);
