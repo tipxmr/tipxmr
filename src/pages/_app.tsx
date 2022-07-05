@@ -29,15 +29,15 @@ function MyApp({
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-          <QueryClientProvider client={queryClient}>
-            <CssBaseline />
-            <ThemeProvider theme={theme}>
-              <Layout>
-                <Component {...pageProps} />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </Layout>
-            </ThemeProvider>
-          </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <CssBaseline />
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+              <ReactQueryDevtools initialIsOpen={false} />
+            </Layout>
+          </ThemeProvider>
+        </QueryClientProvider>
       </CacheProvider>
     </Suspense>
   );
