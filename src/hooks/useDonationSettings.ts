@@ -6,7 +6,7 @@ async function fetchDonationSettings(
   name?: Streamer["name"]
 ): Promise<DonationSetting> {
   if (name) {
-    return fetchJson<DonationSetting>(`/api/donation-settings/${name}`);
+    return fetchJson<DonationSetting>(`/api/donation-settings/name/${name}`);
   }
   throw Error("name is required");
 }

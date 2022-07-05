@@ -4,7 +4,6 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import createEmotionCache from "../styles/createEmotionCache";
 import Layout from "~/components/Layout";
-
 import theme from "../styles/theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
