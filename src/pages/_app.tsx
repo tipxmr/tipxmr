@@ -23,22 +23,24 @@ function MyApp({
   pageProps: { session, ...pageProps },
 }: MyAppProps) {
   return (
-    <Suspense fallback={<Typography variant="overline">Loading...</Typography>}>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <QueryClientProvider client={queryClient}>
-          <CssBaseline />
-          <ThemeProvider theme={theme}>
-            <Layout>
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Suspense
+              fallback={<Typography variant="overline">Loading...</Typography>}
+            >
               <Component {...pageProps} />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </Layout>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </CacheProvider>
-    </Suspense>
+            </Suspense>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </Layout>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </CacheProvider>
   );
 }
 

@@ -20,17 +20,17 @@ import SeedOutput from "~/components/SeedOutput";
 import Title from "../Title";
 
 const WalletCreation: FC = () => {
-  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const theme = useTheme();
   const [isPending, startTransition] = useTransition();
-
+  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
+  const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
+  
   const handleSetSeedLang = (language: string) => {
     startTransition(() => {
       setSeedLang(language);
     });
   };
 
-  const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
   const boxStyles = theme.boxStyles;
 
   return (
@@ -51,7 +51,7 @@ const WalletCreation: FC = () => {
         )}
         <Box sx={{ ...boxStyles, mt: 5 }}>
           <LanguageSelector
-            language={String(seedLang)}
+            language={seedLang}
             onChange={handleSetSeedLang}
           />
         </Box>
