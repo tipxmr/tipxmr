@@ -28,10 +28,9 @@ const infos = [
 const RegistrationInfo: FC = () => {
   return (
     <>
-      {infos.map(({ title, subtitle, bodyText, link, btnText }, index) => (
-        <Box sx={{ m: 2 }} key={index}>
+      {infos.map(({ title, subtitle, bodyText, link, btnText }) => (
+        <Box sx={{ m: 2 }} key={title}>
           <InfoCard
-            key={index}
             title={title}
             subtitle={subtitle}
             bodyText={bodyText}
