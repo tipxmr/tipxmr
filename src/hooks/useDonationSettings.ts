@@ -12,7 +12,7 @@ async function fetchDonationSettings(
 }
 
 export default function useDonationSettings(name?: Streamer["name"]) {
-  console.log(`Trying to get the donation settings: `);
+  console.log(`Trying to get the donation settings for ${name}`);
   return useQuery<DonationSetting, Error>(["streamer", name], () =>
     fetchDonationSettings(name)
   );

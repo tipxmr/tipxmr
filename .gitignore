@@ -48,3 +48,5 @@ monero/bitmonero/stagenet/*
 
 # monero javascript files
 /public/monero_*
+
+.vscode/settings.json
