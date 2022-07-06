@@ -64,7 +64,7 @@ const Home: NextPage<ServerSideProps> = () => {
             <HorizontalCenter>
               <Image
                 alt="Landing"
-                src="https://via.placeholder.com/150"
+                src="https://picsum.photos/150"
                 width={150}
                 height={150}
               />

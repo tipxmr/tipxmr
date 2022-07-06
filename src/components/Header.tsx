@@ -18,27 +18,27 @@ import Image from "next/image";
 import Link from "next/link";
 import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
-import { PartialStreamer } from "~/lib/config";
+import { User } from "~/lib/config";
 
 type pages = { page: string; href: string }[];
-let default_pages: pages = [
+const default_pages: pages = [
   { page: "Overview", href: "/overview" },
   { page: "Donate", href: "/donate" },
 ];
 
-let logged_out_pages: pages = [
+const logged_out_pages: pages = [
   ...default_pages,
   { page: "Register", href: "/register" },
   { page: "Login", href: "/login" },
 ];
 
-let logged_in_pages: pages = [
+const logged_in_pages: pages = [
   ...default_pages,
   { page: "Dashboard", href: "/dashboard" },
 ];
 
 const ResponsiveAppBar: FC = () => {
-  const { user: session, mutateUser } = useUser();
+  const { user: session, mutate: mutateUser } = useUser();
   const [menuItems, setMenuItems] = useState(logged_out_pages);
 
   useEffect(() => {
@@ -67,12 +67,12 @@ const ResponsiveAppBar: FC = () => {
     setAnchorElUser(false);
   };
 
-  async function signOut() {
-    const user = await fetchJson<PartialStreamer>("/api/logout", {
+  const signOut = async () => {
+    await fetchJson<User>("/api/logout", {
       method: "POST",
     });
-    mutateUser(user, false);
-  }
+    mutateUser(undefined);
+  };
 
   return (
     <>

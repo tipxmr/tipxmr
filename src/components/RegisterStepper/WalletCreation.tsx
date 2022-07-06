@@ -14,25 +14,25 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-//@ts-ignore
 import { FC, useTransition } from "react";
 import LanguageSelector from "~/components/LanguageSelector";
 import SeedOutput from "~/components/SeedOutput";
 import Title from "../Title";
 
-interface WalletCreationProps {}
-
-const WalletCreation: FC<WalletCreationProps> = ({}) => {
-  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
+const WalletCreation: FC = () => {
   const theme = useTheme();
   const [isPending, startTransition] = useTransition();
+  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
+  const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
+
   const handleSetSeedLang = (language: string) => {
     startTransition(() => {
       setSeedLang(language);
     });
   };
-  const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
+
   const boxStyles = theme.boxStyles;
+
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12} sm={12} mt={3}>
@@ -50,10 +50,7 @@ const WalletCreation: FC<WalletCreationProps> = ({}) => {
           <SeedOutput seedPhrase={seedPhrase} />
         )}
         <Box sx={{ ...boxStyles, mt: 5 }}>
-          <LanguageSelector
-            language={String(seedLang)}
-            onChange={handleSetSeedLang}
-          />
+          <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </Box>
       </Grid>
       <Grid item xs={12}>

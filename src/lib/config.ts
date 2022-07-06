@@ -12,9 +12,9 @@ export const ironOptions: IronSessionOptions = {
 // This is where we specify the typings of req.session.*
 declare module "iron-session" {
   interface IronSessionData {
-    user?: PartialStreamer;
+    user?: User;
     id: Streamer["id"];
   }
 }
 
-export type PartialStreamer = Partial<Streamer> & { isLoggedIn: boolean };
+export type User = Partial<Streamer> & { isLoggedIn: boolean };

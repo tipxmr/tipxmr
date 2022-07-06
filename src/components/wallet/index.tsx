@@ -17,11 +17,9 @@ import {
   syncStartHeightAtom,
   walletAtom,
 } from "~/store";
+import { MoneroTxConfig, MoneroTxPriority } from "monero-javascript";
 
-interface TipxmrWalletProps {
-  /* handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void */
-}
-const TipxmrWallet: FC<TipxmrWalletProps> = () => {
+const TipxmrWallet: FC = () => {
   const [balance] = useAtom(balanceAtom);
   const [lockedBalance] = useAtom(lockedBalanceAtom);
   const [xmrWallet] = useAtom(walletAtom);
@@ -40,13 +38,16 @@ const TipxmrWallet: FC<TipxmrWalletProps> = () => {
         "73a4nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn",
       accountIndex: 0,
       subaddressIndex: 1,
-      amount: "1",
+      amount: 1n,
       relay: true,
-    };
+      priority: MoneroTxPriority.UNIMPORTANT,
+    } as MoneroTxConfig;
+
     console.log("tx is: ", transaction);
 
-    let tx = await xmrWallet?.createTx(transaction);
-    console.log(tx);
+    const tx = xmrWallet?.createTx(transaction);
+    console.log("Result of transaction", tx);
+    return tx;
   };
 
   return (

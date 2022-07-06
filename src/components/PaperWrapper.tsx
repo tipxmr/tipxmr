@@ -10,7 +10,7 @@ interface PaperWrapperProps {
 const PaperWrapper: FC<PaperWrapperProps> = forwardRef<
   HTMLDivElement,
   PaperWrapperProps
->((props, ref) => {
+>(function PaperWrapper(props, ref) {
   const { title, children } = props;
 
   return (

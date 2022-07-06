@@ -6,9 +6,7 @@ import { displayNameAtom, userNameAtom } from "~/store";
 import InfoCard from "../InfoCard";
 import Title from "../Title";
 
-interface AccountCreationProps {}
-
-const AccountCreation: FC<AccountCreationProps> = ({}) => {
+const AccountCreation: FC = () => {
   const [userName, setUserName] = useAtom(userNameAtom);
   const [_, setDisplayName] = useAtom(displayNameAtom);
 

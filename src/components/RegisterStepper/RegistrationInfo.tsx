@@ -2,8 +2,6 @@ import { Box } from "@mui/material";
 import { FC } from "react";
 import InfoCard from "../InfoCard";
 
-interface RegistrationInfoProps {}
-
 const infos = [
   {
     title: "Your wallet in your bowser",
@@ -27,11 +25,11 @@ const infos = [
   },
 ];
 
-const RegistrationInfo: FC<RegistrationInfoProps> = ({}) => {
+const RegistrationInfo: FC = () => {
   return (
     <>
       {infos.map(({ title, subtitle, bodyText, link, btnText }) => (
-        <Box sx={{ m: 2 }}>
+        <Box sx={{ m: 2 }} key={title}>
           <InfoCard
             title={title}
             subtitle={subtitle}

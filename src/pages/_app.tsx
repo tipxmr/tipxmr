@@ -1,13 +1,10 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import { Provider } from "react-redux";
 import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import createEmotionCache from "../styles/createEmotionCache";
 import Layout from "~/components/Layout";
-
 import theme from "../styles/theme";
-import store from "../store";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Suspense } from "react";
@@ -26,24 +23,24 @@ function MyApp({
   pageProps: { session, ...pageProps },
 }: MyAppProps) {
   return (
-    <Suspense fallback={<Typography variant="overline">Loading...</Typography>}>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <CssBaseline />
-            <ThemeProvider theme={theme}>
-              <Layout>
-                <Component {...pageProps} />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </Layout>
-            </ThemeProvider>
-          </QueryClientProvider>
-        </Provider>
-      </CacheProvider>
-    </Suspense>
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Suspense
+              fallback={<Typography variant="overline">Loading...</Typography>}
+            >
+              <Component {...pageProps} />
+            </Suspense>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </Layout>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </CacheProvider>
   );
 }
 

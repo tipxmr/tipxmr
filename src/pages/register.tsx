@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useAtom } from "jotai";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import Register from "~/components/RegisterStepper";
 import {
   displayNameAtom,
@@ -15,7 +15,9 @@ const Home: NextPage = () => {
   // TODO rewrite into custom hook to use react-query
   const createUser = useCreateUser();
 
-  console.log("createUser: ", createUser);
+  useEffect(() => {
+    console.log("createUser: ", createUser);
+  }, [createUser]);
 
   const [userName] = useAtom(userNameAtom);
   const [displayName] = useAtom(displayNameAtom);

@@ -2,7 +2,6 @@ import sha256 from "crypto-js/sha256";
 import Hex from "crypto-js/enc-hex";
 import type {
   BalancesChangedListener,
-  MoneroWallet,
   MoneroWalletFull,
   OutputReceivedListener,
   SyncProgressListener,
@@ -96,10 +95,10 @@ export const createOutputReceivedListener = (
   new (class extends MoneroWalletListener {
     onOutputReceived(output: any) {
       // onOutputReceived(output)
-      let amount = output.getAmount();
-      let txHash = output.getTx().getHash();
-      let isConfirmed = output.getTx().isConfirmed();
-      let isLocked = output.getTx().isLocked();
+      const amount = output.getAmount();
+      const txHash = output.getTx().getHash();
+      const isConfirmed = output.getTx().isConfirmed();
+      const isLocked = output.getTx().isLocked();
       onOutputReceived(output);
       return { amount, txHash, isConfirmed, isLocked };
     }

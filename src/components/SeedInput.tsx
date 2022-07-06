@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { TextField } from "@mui/material";
 
-interface SeedInputProps {}
-
-const SeedInput: FC<SeedInputProps> = ({}) => {
+const SeedInput: FC = () => {
   return (
     <TextField
       margin="normal"

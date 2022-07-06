@@ -5,9 +5,7 @@ import { displayNameAtom, userNameAtom } from "~/store";
 import PaperWrapper from "../PaperWrapper";
 import Title from "../Title";
 
-interface SuccessProps {}
-
-const Success: FC<SuccessProps> = ({}) => {
+const Success: FC = () => {
   const [displayName] = useAtom(displayNameAtom);
   const [userName] = useAtom(userNameAtom);
 

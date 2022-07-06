@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,7 @@ import PaperWrapper from "~/components/PaperWrapper";
 
 interface SettingsFormProps {
   walletSettings: WalletSettingsProps;
-  handleSubmit: any;
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 interface WalletSettingsProps {

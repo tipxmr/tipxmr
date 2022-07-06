@@ -2,20 +2,17 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import fetchJson from "./fetchJson";
-import { PartialStreamer } from "./config";
+import { User } from "./config";
 import { Streamer } from "@prisma/client";
 
-async function fetchUser(): Promise<User> {
-  return fetchJson<any>(`/api/user`);
+async function fetchUser() {
+  return fetchJson<User>(`/api/user`);
 }
 
-async function loginUser(
-  id: Streamer["id"] | undefined
-): Promise<PartialStreamer> {
-  const body = { hash: id };
-  return fetchJson<PartialStreamer>("/api/login", {
+async function loginUser(id?: Streamer["id"]) {
+  return fetchJson<User>("/api/login", {
     method: "POST",
-    body,
+    body: { id },
   });
 }
 
@@ -24,13 +21,20 @@ export default function useUser({
   redirectIfFound = false,
 } = {}) {
   const { data: user, error } = useQuery(["user"], fetchUser);
+
+  useEffect(() => {
+    if (error) {
+      console.warn(error);
+    }
+  }, [error]);
+
   const queryClient = useQueryClient();
   const mutation = useMutation(loginUser, {
     onSuccess: () => {
       queryClient.invalidateQueries(["user"]);
     },
   });
-  console.log("user from within useUser: ", user);
+
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet
@@ -46,5 +50,5 @@ export default function useUser({
     }
   }, [user, redirectIfFound, redirectTo]);
 
-  return { user, mutateUser: mutation.mutate };
+  return { user, mutate: mutation.mutate };
 }
