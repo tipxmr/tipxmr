@@ -24,6 +24,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.9.3",
+    "@hapi/boom": "^10.0.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.89",
     "@mui/material": "^5.8.7",
@@ -46,7 +47,8 @@
     "react-query": "^4.0.0-beta.3",
     "react-redux": "^8.0.2",
     "socket.io": "^4.5.1",
-    "socket.io-client": "^4.5.1"
+    "socket.io-client": "^4.5.1",
+    "undici": "^5.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
