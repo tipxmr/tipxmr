@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { UrlObject } from "url";
 
-interface RedirectProps {
-  to?: URL;
-}
+type Url = UrlObject | string;
 
-const Redirect = ({ to }: RedirectProps) => {
+const Redirect = ({ to }: { to: Url }) => {
   const router = useRouter();
+
   useEffect(() => {
     router.push(to);
-  }, [to]);
+  }, [router, to]);
+
   return null;
 };
 

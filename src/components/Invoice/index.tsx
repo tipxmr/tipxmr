@@ -10,8 +10,6 @@ import PaymentSuccess from "../PaymentSuccess";
 import PaymentForm from "./PaymentForm";
 import PlanForm from "./PlanForm";
 
-interface InvoiceProps {}
-
 const steps = ["Choose plan", "Payment", "Success"];
 
 function getStepContent(step: number) {
@@ -31,7 +29,7 @@ function getStepContent(step: number) {
       throw new Error("Unknown step");
   }
 }
-const Invoice: FC<InvoiceProps> = ({}) => {
+const Invoice: FC = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {

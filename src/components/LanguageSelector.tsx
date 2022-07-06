@@ -1,10 +1,6 @@
 import { ChangeEvent, FC, useCallback } from "react";
 import { FormControl, MenuItem, TextField } from "@mui/material";
 
-interface LanguageSelectorProps {
-  language: string;
-  onChange: (language: string) => void;
-}
 const languages = [
   "Dutch",
   "English",
@@ -43,13 +39,18 @@ const convertFlag = (language: string) => {
   }
 };
 
+interface LanguageSelectorProps {
+  language: string;
+  onChange: (language: string) => void;
+}
+
 const LanguageSelector: FC<LanguageSelectorProps> = ({
   language,
   onChange,
 }) => {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
-  }, []);
+  }, [onChange]);
 
   const languageItems = languages.map((language) => {
     return (

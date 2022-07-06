@@ -21,18 +21,18 @@ import useUser from "~/lib/useUser";
 import { User } from "~/lib/config";
 
 type pages = { page: string; href: string }[];
-let default_pages: pages = [
+const default_pages: pages = [
   { page: "Overview", href: "/overview" },
   { page: "Donate", href: "/donate" },
 ];
 
-let logged_out_pages: pages = [
+const logged_out_pages: pages = [
   ...default_pages,
   { page: "Register", href: "/register" },
   { page: "Login", href: "/login" },
 ];
 
-let logged_in_pages: pages = [
+const logged_in_pages: pages = [
   ...default_pages,
   { page: "Dashboard", href: "/dashboard" },
 ];
@@ -67,12 +67,12 @@ const ResponsiveAppBar: FC = () => {
     setAnchorElUser(false);
   };
 
-  async function signOut() {
-    const user = await fetchJson<User>("/api/logout", {
+  const signOut = async () => {
+    await fetchJson<User>("/api/logout", {
       method: "POST",
     });
     mutateUser(undefined);
-  }
+  };
 
   return (
     <>

@@ -5,8 +5,8 @@ import fetchJson from "./fetchJson";
 import { User } from "./config";
 import { Streamer } from "@prisma/client";
 
-async function fetchUser(): Promise<User> {
-  return fetchJson<any>(`/api/user`);
+async function fetchUser() {
+  return fetchJson<User>(`/api/user`);
 }
 
 async function loginUser(id?: Streamer["id"]) {
@@ -21,6 +21,13 @@ export default function useUser({
   redirectIfFound = false,
 } = {}) {
   const { data: user, error } = useQuery(["user"], fetchUser);
+  
+  useEffect(() => {
+    if (error) {
+      console.warn(error);
+    }
+  }, [error]);
+
   const queryClient = useQueryClient();
   const mutation = useMutation(loginUser, {
     onSuccess: () => {

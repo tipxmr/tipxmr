@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
-const HorizontalCenter = ({ children }: any) => {
+const HorizontalCenter = ({ children }: { children?: ReactNode }) => {
   return (
     <div>
       <Box

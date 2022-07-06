@@ -10,7 +10,7 @@ declare module "monero-javascript" {
 
   export interface MoneroTxConfig {
     accountIndex: number;
-    amount: BigInt;
+    amount: bigint;
     address: string;
     relay: boolean;
     priority: MoneroTxPriority;
@@ -51,7 +51,7 @@ declare module "monero-javascript" {
     async setSyncHeight(height: number);
     async getDaemonConnection(): unknown;
     async isConnectedToDaemon(): boolean;
-
+    async createTx(config: MoneroTxConfig): MoneroTxWallet;
     async getTxs(): unknown[];
     async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
   }
@@ -91,8 +91,4 @@ declare module "monero-javascript" {
     async onOutputReceived(output: MoneroWallet): void;
   }
 
-  // declare class BigInteger {
-  //   BigInteger(): Uint8Array;
-  //   BigInteger(n: number): Uint8Array;
-  // }
 }
