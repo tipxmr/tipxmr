@@ -21,7 +21,7 @@ export default function useUser({
   redirectIfFound = false,
 } = {}) {
   const { data: user, error } = useQuery(["user"], fetchUser);
-  
+
   useEffect(() => {
     if (error) {
       console.warn(error);

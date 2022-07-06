@@ -90,5 +90,4 @@ declare module "monero-javascript" {
     async onNewBlock(height: number): void;
     async onOutputReceived(output: MoneroWallet): void;
   }
-
 }

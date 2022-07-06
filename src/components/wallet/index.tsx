@@ -19,7 +19,6 @@ import {
 } from "~/store";
 import { MoneroTxConfig, MoneroTxPriority } from "monero-javascript";
 
-
 const TipxmrWallet: FC = () => {
   const [balance] = useAtom(balanceAtom);
   const [lockedBalance] = useAtom(lockedBalanceAtom);

@@ -19,7 +19,6 @@ import LanguageSelector from "~/components/LanguageSelector";
 import SeedOutput from "~/components/SeedOutput";
 import Title from "../Title";
 
-
 const WalletCreation: FC = () => {
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const theme = useTheme();

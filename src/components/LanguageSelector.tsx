@@ -48,9 +48,12 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({
   language,
   onChange,
 }) => {
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
-  }, [onChange]);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onChange(e.target.value);
+    },
+    [onChange]
+  );
 
   const languageItems = languages.map((language) => {
     return (
