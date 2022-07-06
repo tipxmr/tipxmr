@@ -28,4 +28,3 @@ export const generatedSeedPhraseAtom = atom(async (get) => {
   const seedPhrase = await createWallet(seedLang);
   return seedPhrase;
 });
-

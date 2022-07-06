@@ -24,7 +24,7 @@ const WalletCreation: FC = () => {
   const [isPending, startTransition] = useTransition();
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
-  
+
   const handleSetSeedLang = (language: string) => {
     startTransition(() => {
       setSeedLang(language);
@@ -50,10 +50,7 @@ const WalletCreation: FC = () => {
           <SeedOutput seedPhrase={seedPhrase} />
         )}
         <Box sx={{ ...boxStyles, mt: 5 }}>
-          <LanguageSelector
-            language={seedLang}
-            onChange={handleSetSeedLang}
-          />
+          <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </Box>
       </Grid>
       <Grid item xs={12}>
