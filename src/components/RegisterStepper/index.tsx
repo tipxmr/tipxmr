@@ -18,7 +18,7 @@ import Success from "./Success";
 import WalletCreation from "./WalletCreation";
 import AccountCreation from "./AccountCreation";
 import RegistrationInfo from "./RegistrationInfo";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 const steps = [
   "This is TipXMR",
@@ -98,7 +98,7 @@ const Register: FC = () => {
             ))}
           </Stepper>
 
-         {/*  {getStepContent(activeStep)} */}
+          {/*  {getStepContent(activeStep)} */}
 
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {activeStep >= 1 && (
@@ -138,8 +138,6 @@ const Register: FC = () => {
               </Button>
             )}
           </Box>
-
-          
 
           {activeStep === 0 && (
             <Box

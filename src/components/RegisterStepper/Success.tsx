@@ -1,7 +1,21 @@
-import { Box, Button, Checkbox, FormControlLabel, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { useAtom } from "jotai";
 import { FC, FormEvent } from "react";
-import { displayNameAtom, truncatedHashedSeedAtom, userNameAtom } from "~/store";
+import {
+  displayNameAtom,
+  truncatedHashedSeedAtom,
+  userNameAtom,
+} from "~/store";
 import PaperWrapper from "../PaperWrapper";
 import Title from "../Title";
 import useCreateUser from "~/hooks/useCreateUser";
@@ -21,7 +35,7 @@ const Success: FC = () => {
     const name = userName;
     const alias = displayName;
 
-   /*  const understood = data.get("understood");
+    /*  const understood = data.get("understood");
     if (!understood) {
       // TODO validate this on the field
       alert("Sorry, you must agree to proceed");
