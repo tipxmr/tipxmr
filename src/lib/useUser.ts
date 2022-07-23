@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchJson from "./fetchJson";
 import { User } from "./config";
 import { Streamer } from "@prisma/client";

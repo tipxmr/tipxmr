@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Streamer } from "@prisma/client";
 import fetchJson, { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";

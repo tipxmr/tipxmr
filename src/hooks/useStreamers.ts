@@ -1,5 +1,5 @@
 import { Streamer } from "@prisma/client";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import fetchJson from "~/lib/fetchJson";
 
 async function fetchStreamers() {
