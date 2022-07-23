@@ -9,16 +9,16 @@ async function createStreamer({ id, alias, name }: NewUserData) {
   return fetchJson<Streamer>(`/api/streamer`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+    body: {
       id,
       name,
       alias,
-    }),
+    },
   });
 }
 
 export default function useCreateUser() {
-  const { user, mutate: mutateUser } = useUser({
+  const { mutate: mutateUser } = useUser({
     redirectIfFound: true,
     redirectTo: "/dashboard",
   });
@@ -28,9 +28,7 @@ export default function useCreateUser() {
       await fetchJson(`/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id,
-        }),
+        body: { id },
       });
 
       mutateUser(id);

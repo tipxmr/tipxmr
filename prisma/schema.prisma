@@ -12,10 +12,10 @@ datasource db {
 }
 
 model Account {
-  streamer                   String    @id @db.VarChar(12)
-  createdAt                  DateTime  @default(now()) @db.Timestamp(6)
+  streamer                   String   @id @db.VarChar(12)
+  createdAt                  DateTime @default(now()) @db.Timestamp(6)
   status                     Status?
-  streamer_accountTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_accountTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Animation {
@@ -27,10 +27,10 @@ model Animation {
 }
 
 model Category {
-  id                          Int         @id @default(autoincrement())
-  streamer                    String?     @db.VarChar(12)
+  id                          Int             @id @default(autoincrement())
+  streamer                    String?         @db.VarChar(12)
   name                        StreamCategory?
-  streamer_categoryTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_categoryTostreamer Streamer?       @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stream                      Stream[]
 }
 
@@ -39,13 +39,13 @@ model Donation {
   isPaid                      Boolean   @default(false) @db.Boolean
   streamer                    String?   @db.VarChar(12)
   amount                      Float     @default(0)
-  message                     String?   @db.VarChar(256) @default("")
+  message                     String?   @default("") @db.VarChar(256)
   displayTimeSeconds          Int?      @default(0)
   subaddress                  String?   @db.VarChar(95)
   confirmations               Int?      @default(0)
-  giphyUrl                    String?   @db.VarChar(100) @default("")
-  donor                       String?   @db.VarChar(24) @default("")
-  timestamp                   DateTime? @db.Timestamp(6) @default(now())
+  giphyUrl                    String?   @default("") @db.VarChar(100)
+  donor                       String?   @default("") @db.VarChar(24)
+  timestamp                   DateTime? @default(now()) @db.Timestamp(6)
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -57,48 +57,48 @@ model DonationSetting {
   minAmount                            Int?     @default(0)
   gifsMinAmount                        Float?   @default(0)
   goal                                 Float?   @default(0)
-  goalProgress                         Float?   @db.Real @default(0)
+  goalProgress                         Float?   @default(0) @db.Real
   goalReached                          Boolean? @default(false)
   streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Invoice {
-  id                         Int            @id @default(autoincrement())
-  streamer                   String?        @db.VarChar(12)
-  startDate                  DateTime?      @db.Timestamp(6)
-  endDate                    DateTime?      @db.Timestamp(6)
+  id                         Int         @id @default(autoincrement())
+  streamer                   String?     @db.VarChar(12)
+  startDate                  DateTime?   @db.Timestamp(6)
+  endDate                    DateTime?   @db.Timestamp(6)
   planType                   PlanType?
   paidStatus                 PaidStatus?
-  subaddress                 String?        @db.VarChar(95)
-  streamer_invoiceTostreamer Streamer?      @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subaddress                 String?     @db.VarChar(95)
+  streamer_invoiceTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Stream {
-  streamer                  String     @id @db.VarChar(12)
-  url                       String?    @db.VarChar(100)
+  streamer                  String    @id @db.VarChar(12)
+  url                       String?   @db.VarChar(100)
   platform                  Platform?
   language                  Language?
   category                  Int?
-  category_categoryTostream Category?  @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  streamer_streamTostreamer Streamer   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  category_categoryTostream Category? @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_streamTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Streamer {
-  id               String             @id @db.VarChar(12)
-  name             String             @unique @db.VarChar(20)
-  alias            String             @unique @db.VarChar(24)
-  socket           String?            @unique @db.VarChar(20)
-  updatedAt        DateTime           @default(now()) @updatedAt
-  isOnline         Boolean            @default(false) @db.Boolean
-  status           Status?
-  animation        Animation[]
-  category         Category[]
-  donation         Donation[]
+  id              String           @id @db.VarChar(12)
+  name            String           @unique @db.VarChar(20)
+  alias           String           @unique @db.VarChar(24)
+  socket          String?          @unique @db.VarChar(20)
+  updatedAt       DateTime         @default(now()) @updatedAt
+  isOnline        Boolean          @default(false) @db.Boolean
+  status          Status?
+  animation       Animation[]
+  category        Category[]
+  donation        Donation[]
   donationSetting DonationSetting?
-  invoice          Invoice[]
-  stream           Stream?
-  wallet           Wallet?
-  Account          Account[]
+  invoice         Invoice[]
+  stream          Stream?
+  wallet          Wallet?
+  Account         Account[]
 }
 
 model Wallet {
