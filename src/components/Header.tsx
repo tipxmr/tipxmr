@@ -19,6 +19,7 @@ import Link from "next/link";
 import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 import { User } from "~/lib/config";
+import { useRouter } from "next/router";
 
 type pages = { page: string; href: string }[];
 const default_pages: pages = [
@@ -40,6 +41,7 @@ const logged_in_pages: pages = [
 const ResponsiveAppBar: FC = () => {
   const { user: session, mutate: mutateUser } = useUser();
   const [menuItems, setMenuItems] = useState(logged_out_pages);
+  const router = useRouter();
 
   useEffect(() => {
     if (!session?.isLoggedIn) {
@@ -72,6 +74,7 @@ const ResponsiveAppBar: FC = () => {
       method: "POST",
     });
     mutateUser(undefined);
+    router.push("/login");
   };
 
   return (
