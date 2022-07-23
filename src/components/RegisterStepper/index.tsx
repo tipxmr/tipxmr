@@ -1,4 +1,4 @@
-import { FC, FormEvent, Suspense, useState } from "react";
+import { FC, FormEvent, Suspense, useCallback, useState } from "react";
 import Image from "next/image";
 import {
   Container,
@@ -18,10 +18,8 @@ import Success from "./Success";
 import WalletCreation from "./WalletCreation";
 import AccountCreation from "./AccountCreation";
 import RegistrationInfo from "./RegistrationInfo";
+import { styled } from '@mui/material/styles';
 
-interface RegisterProps {
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
-}
 const steps = [
   "This is TipXMR",
   "Wallet creation",
@@ -48,44 +46,46 @@ function getStepContent(step: number, seedLang?: string) {
   }
 }
 
-const Register: FC<RegisterProps> = ({ handleSubmit }) => {
+const StyledBox = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Register: FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [infoUnderstood, setInfoUnderstood] = useState(false);
   const [accountUnderstood, setAccountUnderstood] = useState(false);
   const [seedWritten, setSeedWritten] = useState(false);
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
+  const handleNext = useCallback(() => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  }, []);
 
-  const handleInfoAgree = () => {
-    setInfoUnderstood(!infoUnderstood);
-  };
-  const handleAccountAgree = () => {
-    setAccountUnderstood(!accountUnderstood);
-  };
-  const handleSeedWritten = () => {
-    setSeedWritten(!seedWritten);
-  };
+  const handleBack = useCallback(() => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  }, []);
 
-  const boxStyles = {
-    /* marginTop: 8, */
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
+  const handleInfoAgree = useCallback(() => {
+    setInfoUnderstood((prevInfoUnderstood) => !prevInfoUnderstood);
+  }, []);
+
+  const handleAccountAgree = useCallback(() => {
+    setAccountUnderstood((prevAccountUnderstood) => !prevAccountUnderstood);
+  }, []);
+
+  const handleSeedWritten = useCallback(() => {
+    setSeedWritten((prevSeedWritten) => !prevSeedWritten);
+  }, []);
+
   // TODO implement the color scheme here on the avatars. Also DRY
   return (
     <Container maxWidth="md">
-      <Box sx={boxStyles} component="form" onSubmit={handleSubmit}>
+      <StyledBox>
         <PaperWrapper>
           <Box sx={{ justifyContent: "center", display: "flex" }}>
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
           </Box>
-
           <Typography component="h1" variant="h5" align="center" mt={2}>
             Register
           </Typography>
@@ -97,6 +97,8 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
               </Step>
             ))}
           </Stepper>
+
+         {/*  {getStepContent(activeStep)} */}
 
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {activeStep >= 1 && (
@@ -137,7 +139,7 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
             )}
           </Box>
 
-          {getStepContent(activeStep)}
+          
 
           {activeStep === 0 && (
             <Box
@@ -160,7 +162,6 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
           )}
 
           {activeStep === 1 && (
-            /* (<Box sx={{ display: "flex", alignItems: "center", flexDirection: "column", justifyContent: "left" }}> */
             <Grid container justifyContent="center" mt={3}>
               <Grid
                 item
@@ -205,39 +206,8 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
               </Typography>
             </Box>
           )}
-
-          {activeStep === 3 && (
-            <Box
-              mt={3}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                justifyContent: "flex-end",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    required
-                    name="understood"
-                    onChange={handleAccountAgree}
-                  />
-                }
-                label={
-                  <Typography variant="subtitle2">
-                    I understand that I am responsible for my own security.
-                    TipXMR is not liable.
-                  </Typography>
-                }
-              />
-              <Button variant="contained" color="primary" type="submit">
-                Create wallet and continue
-              </Button>
-            </Box>
-          )}
         </PaperWrapper>
-      </Box>
+      </StyledBox>
     </Container>
   );
 };
