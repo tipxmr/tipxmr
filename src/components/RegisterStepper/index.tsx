@@ -1,4 +1,11 @@
-import { FC, FormEvent, Suspense, useCallback, useEffect, useState } from "react";
+import {
+  FC,
+  FormEvent,
+  Suspense,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import Image from "next/image";
 import {
   Container,
@@ -65,8 +72,8 @@ const End = styled(Box)`
 `;
 
 const MyStepper = styled(Stepper)`
-  padding-top: ${({theme}) => theme.spacing(3)};
-  padding-bottom: ${({theme}) => theme.spacing(5)};
+  padding-top: ${({ theme }) => theme.spacing(3)};
+  padding-bottom: ${({ theme }) => theme.spacing(5)};
 `;
 
 const Register: FC = () => {
@@ -108,7 +115,6 @@ const Register: FC = () => {
     console.log({ seedWritten });
   }, [seedWritten]);
 
-
   // TODO implement the color scheme here on the avatars. Also DRY
   return (
     <Container maxWidth="md">
@@ -129,7 +135,7 @@ const Register: FC = () => {
             ))}
           </MyStepper>
 
-           {getStepContent(activeStep)}
+          {getStepContent(activeStep)}
 
           <End>
             {activeStep >= 1 && (

@@ -5,7 +5,7 @@ interface TitleProps {
   children?: ReactNode;
 }
 
-const Title: FC<TitleProps> = ({children}) => {
+const Title: FC<TitleProps> = ({ children }) => {
   if (!children) {
     return null;
   }

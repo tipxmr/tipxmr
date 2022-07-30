@@ -26,7 +26,7 @@ const LoginPage: NextPage = () => {
     // TODO handle the "remembered status"
     const remember = data.get("remember");
 
-    console.log(getMnemonicHash(seed))
+    console.log(getMnemonicHash(seed));
 
     const truncatedHashedSeed = getMnemonicHash(seed).slice(0, 11);
     try {

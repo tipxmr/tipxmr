@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 const DONATION_WS_URL = "http://localhost:3000/donation";
 const DONATION_WS_CLIENT = "/ws";
 
-function useWebsocket(recipient ?: Streamer["id"]) {
+function useWebsocket(recipient?: Streamer["id"]) {
   const queryClient = useQueryClient();
 
   useEffect(() => {

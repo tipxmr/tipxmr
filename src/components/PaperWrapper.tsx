@@ -3,15 +3,14 @@ import { FC, forwardRef, ReactNode } from "react";
 import Title from "~/components/Title";
 import { styled } from "@mui/material/styles";
 
-
 interface PaperWrapperProps {
   title?: string;
   children: ReactNode;
 }
 
 const MyPaper = styled(Paper)`
-  padding: ${({theme}) => theme.spacing(4)};
-`
+  padding: ${({ theme }) => theme.spacing(4)};
+`;
 
 const PaperWrapper: FC<PaperWrapperProps> = forwardRef<
   HTMLDivElement,
