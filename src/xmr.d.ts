@@ -54,6 +54,7 @@ declare module "monero-javascript" {
     async createTx(config: MoneroTxConfig): MoneroTxWallet;
     async getTxs(): unknown[];
     async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
+    async createPaymentUri(config: unknown): string;
   }
 
   export function createWalletFull(
@@ -89,5 +90,9 @@ declare module "monero-javascript" {
     ): void;
     async onNewBlock(height: number): void;
     async onOutputReceived(output: MoneroWallet): void;
+  }
+
+  declare class MoneroTxConfig {
+    constructor(config: object);
   }
 }

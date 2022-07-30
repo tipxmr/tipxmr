@@ -19,6 +19,7 @@ export const seedLangAtom = atom("English");
 
 export const truncatedHashedSeedAtom = atom(async (get) => {
   const seedPhrase = get(generatedSeedPhraseAtom);
+  console.log({seedPhrase})
   const truncatedHashedSeed = getMnemonicHash(seedPhrase).slice(0, 11);
   return truncatedHashedSeed;
 });

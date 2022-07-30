@@ -5,7 +5,11 @@ interface TitleProps {
   children?: ReactNode;
 }
 
-const Title: FC<TitleProps> = (props) => {
+const Title: FC<TitleProps> = ({children}) => {
+  if (!children) {
+    return null;
+  }
+
   return (
     <Typography
       component="h2"
@@ -14,7 +18,7 @@ const Title: FC<TitleProps> = (props) => {
       align="center"
       gutterBottom
     >
-      {props.children}
+      {children}
     </Typography>
   );
 };

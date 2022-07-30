@@ -1,4 +1,4 @@
-import { FC, FormEvent, Suspense, useState } from "react";
+import { FC, FormEvent, Suspense, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Container,
@@ -48,7 +48,28 @@ function getStepContent(step: number, seedLang?: string) {
   }
 }
 
-const Register: FC<RegisterProps> = ({ handleSubmit }) => {
+const StyledBox = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Center = styled(Box)`
+  display: flex;
+  justify-content: center;
+`;
+
+const End = styled(Box)`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const MyStepper = styled(Stepper)`
+  padding-top: ${({theme}) => theme.spacing(3)};
+  padding-bottom: ${({theme}) => theme.spacing(5)};
+`;
+
+const Register: FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [infoUnderstood, setInfoUnderstood] = useState(false);
   const [accountUnderstood, setAccountUnderstood] = useState(false);
@@ -71,34 +92,46 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
     setSeedWritten(!seedWritten);
   };
 
-  const boxStyles = {
-    /* marginTop: 8, */
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
+  useEffect(() => {
+    console.log({ activeStep });
+  }, [activeStep]);
+
+  useEffect(() => {
+    console.log({ infoUnderstood });
+  }, [infoUnderstood]);
+
+  useEffect(() => {
+    console.log({ accountUnderstood });
+  }, [accountUnderstood]);
+
+  useEffect(() => {
+    console.log({ seedWritten });
+  }, [seedWritten]);
+
+
   // TODO implement the color scheme here on the avatars. Also DRY
   return (
     <Container maxWidth="md">
       <Box sx={boxStyles} component="form" onSubmit={handleSubmit}>
         <PaperWrapper>
-          <Box sx={{ justifyContent: "center", display: "flex" }}>
+          <Center>
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
-          </Box>
-
+          </Center>
           <Typography component="h1" variant="h5" align="center" mt={2}>
             Register
           </Typography>
 
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          <MyStepper activeStep={activeStep}>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
-          </Stepper>
+          </MyStepper>
 
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+           {getStepContent(activeStep)}
+
+          <End>
             {activeStep >= 1 && (
               <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                 Back
@@ -135,7 +168,7 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
                 Next
               </Button>
             )}
-          </Box>
+          </End>
 
           {getStepContent(activeStep)}
 

@@ -49,6 +49,7 @@ function useSocket() {
 
 const Home: NextPage = () => {
   const { user: session } = useUser({ redirectTo: "/login" });
+  useSocket();
 
   if (session && session.isLoggedIn) {
     return (

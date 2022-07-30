@@ -27,7 +27,7 @@ const WalletPage: NextPage = () => {
   if (!mnemonic) setMnemonic(testSeed);
 
   useXmrWallet();
-  useSyncListener();
+  // useSyncListener();
   useTransactionListener();
   useBalanceListener();
 

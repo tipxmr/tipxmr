@@ -1,23 +1,27 @@
 import { Paper } from "@mui/material";
 import { FC, forwardRef, ReactNode } from "react";
 import Title from "~/components/Title";
+import { styled } from "@mui/material/styles";
+
 
 interface PaperWrapperProps {
   title?: string;
   children: ReactNode;
 }
 
+const MyPaper = styled(Paper)`
+  padding: ${({theme}) => theme.spacing(4)};
+`
+
 const PaperWrapper: FC<PaperWrapperProps> = forwardRef<
   HTMLDivElement,
   PaperWrapperProps
->(function PaperWrapper(props, ref) {
-  const { title, children } = props;
-
+>(function PaperWrapper({ title, children }, ref) {
   return (
-    <Paper elevation={3} sx={{ p: 4 }} ref={ref}>
-      {title && <Title>{title}</Title>}
+    <MyPaper elevation={3} ref={ref}>
+      <Title>{title}</Title>
       {children}
-    </Paper>
+    </MyPaper>
   );
 });
 

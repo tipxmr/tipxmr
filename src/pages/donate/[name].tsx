@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import DonationMask from "~/components/Donation";
 import Redirect from "~/components/Redirect";
 import useStreamerByName from "~/hooks/useStreamerByName";
+import useWebsocket from "~/lib/client/ws";
 
 import { createMoneroTransactionUri } from "~/lib/xmr";
 
@@ -29,27 +30,29 @@ const DonateTo: NextPage = () => {
     description: "donation",
   });
 
-  useEffect(() => {
-    if (!streamer) {
-      return;
-    }
+  useWebsocket(streamer?.id);
 
-    const socket = io("http://localhost:3000/donation", {
-      path: "/ws",
-    });
+  // useEffect(() => {
+  //   if (!streamer) {
+  //     return;
+  //   }
 
-    socket.on("connect", () => {
-      socket.emit("subaddress:create", streamer.id);
-    });
+  //   const socket = io("http://localhost:3000/donation", {
+  //     path: "/ws",
+  //   });
 
-    socket.on("subaddress:created", (subaddress: string) => {
-      console.log({ subaddress });
-    });
+  //   socket.on("connect", () => {
+  //     socket.emit("subaddress:create", streamer.id);
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [streamer]);
+  //   socket.on("subaddress:created", (subaddress: string) => {
+  //     console.log({ subaddress });
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [streamer]);
 
   useEffect(() => {
     if (streamer) {
