@@ -2,6 +2,7 @@ import { NextApiRequest } from "next";
 import { NextApiResponseServerIO } from "../../types/next";
 import { Server as ServerIO } from "socket.io";
 import { Server as NetServer } from "http";
+import setupSocket from "lib/server/socket";
 
 const socketHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (!res.socket.server.io) {
@@ -12,6 +13,7 @@ const socketHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
       path: "/api/socket",
     });
     res.socket.server.io = io;
+    setupSocket(io);
   } else {
     console.log("Socket is already running");
   }
