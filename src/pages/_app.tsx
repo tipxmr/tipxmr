@@ -1,13 +1,13 @@
-import Head from "next/head";
-import type { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
-import createEmotionCache from "../styles/createEmotionCache";
-import Layout from "~/components/Layout";
-import theme from "../styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import type { AppProps } from "next/app";
+import Head from "next/head";
 import { Suspense } from "react";
+import Layout from "~/components/Layout";
+import createEmotionCache from "../styles/createEmotionCache";
+import theme from "../styles/theme";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -20,7 +20,7 @@ interface MyAppProps extends AppProps {
 function MyApp({
   Component,
   emotionCache = clientSideEmotionCache,
-  pageProps: { session, ...pageProps },
+  pageProps,
 }: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
@@ -28,8 +28,8 @@ function MyApp({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <CssBaseline />
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <Layout>
             <Suspense
               fallback={<Typography variant="overline">Loading...</Typography>}
