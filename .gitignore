@@ -50,3 +50,7 @@ monero/bitmonero/stagenet/*
 /public/monero_*
 
 .vscode/settings.json
+
+.direnv
+# .envrc
+wallet

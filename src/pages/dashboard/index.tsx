@@ -21,7 +21,7 @@ import { createSyncProgressListener, open } from "~/lib/xmr";
 function useSocket() {
   useEffect(() => {
     const socket = io("http://localhost:3000/streamer", {
-      path: "/ws",
+      path: "/api/socket",
     });
 
     socket.on("connect_error", (reason) => {
@@ -48,6 +48,8 @@ function useSocket() {
 }
 
 const Home: NextPage = () => {
+  useSocket();
+
   const { user: session } = useUser({ redirectTo: "/login" });
 
   if (session && session.isLoggedIn) {

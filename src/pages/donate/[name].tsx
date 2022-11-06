@@ -35,7 +35,7 @@ const DonateTo: NextPage = () => {
     }
 
     const socket = io("http://localhost:3000/donation", {
-      path: "/ws",
+      path: "/api/socket",
     });
 
     socket.on("connect", () => {
