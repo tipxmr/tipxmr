@@ -82,13 +82,7 @@ const ResponsiveAppBar: FC = () => {
             <Box display="flex" alignItems="center">
               <Box mx={8} sx={{ cursor: "pointer" }}>
                 <Link href="/" passHref>
-                  <Image
-                    src={Logo}
-                    alt="Logo"
-                    objectFit="contain"
-                    width={200}
-                    height={50}
-                  />
+                  <Image src={Logo} alt="Logo" width={250} height={50} />
                 </Link>
               </Box>
             </Box>
