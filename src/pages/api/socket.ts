@@ -1,22 +1,24 @@
 import { NextApiRequest } from "next";
-import { NextApiResponseServerIO } from "../../types/next";
+import { NextApiResponseWithSocket } from "../../types/next";
 import { Server as ServerIO } from "socket.io";
-import { Server as NetServer } from "http";
+
 import setupSocket from "lib/server/socket";
 
-const socketHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
+const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
   if (!res.socket.server.io) {
-    console.log("New Socket.io server...");
-    // adapt Next's net Server to http Server
-    const httpServer: NetServer = res.socket.server as any;
+    const httpServer = res.socket.server;
+
     const io = new ServerIO(httpServer, {
       path: "/api/socket",
     });
+
     res.socket.server.io = io;
+
     setupSocket(io);
   } else {
     console.log("Socket is already running");
   }
+
   res.end();
 };
 
