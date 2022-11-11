@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import type { Server } from "socket.io";
 
 import setupDonation from "./donation";
 import setupStreamer from "./streamer";

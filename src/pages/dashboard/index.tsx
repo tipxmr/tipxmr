@@ -17,10 +17,12 @@ import {
   walletAtom,
 } from "~/store";
 import { createSyncProgressListener, open } from "~/lib/xmr";
+import useFooSocket from "~/hooks/socket/use-socket";
+import { useQuery } from "@tanstack/react-query";
 
 function useSocket() {
   useEffect(() => {
-    const socket = io("http://localhost:3000/streamer", {
+    const socket = io("http://localhost:3000/X_streamer", {
       path: "/api/socket",
     });
 
@@ -48,9 +50,19 @@ function useSocket() {
 }
 
 const Home: NextPage = () => {
-  useSocket();
+  // useSocket();
+  useFooSocket();
 
   const { user: session } = useUser({ redirectTo: "/login" });
+
+  // const qux = useQuery(["streamer", session?.id, "isOnline"], () => {
+  //   console.log("useQuery - streamer");
+
+  //   if (session?.id) {
+  //     return fetch(`/api/streamer/${session.id}`);
+  //   }
+  //   // return Promise.resolve();
+  // });
 
   if (session && session.isLoggedIn) {
     return (

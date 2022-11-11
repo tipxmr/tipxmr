@@ -1,13 +1,37 @@
 import { PrismaClient } from "@prisma/client";
 import { getIronSession } from "iron-session";
 import { ServerResponse } from "node:http";
-import { Server, Socket } from "socket.io";
+import type { Namespace, Server, Socket } from "socket.io";
+
+import invariant from "tiny-invariant";
+
 import { ironOptions } from "../../config";
 
 const prisma = new PrismaClient();
 
+export interface StreamerClientToServerEvents {
+  online: (socketId: string) => void;
+  offline: () => void;
+}
+
+export interface StreamerServerToClientEvents {}
+
+interface StreamerInterServerEvents {
+  // ...
+}
+
+interface StreamerSocketData {
+  // ...
+}
+
 function setupStreamer(io: Server) {
-  const streamerNsp = io.of("/streamer");
+  // const streamerNsp = io.of("/streamer");
+  const streamerNsp: Namespace<
+    StreamerClientToServerEvents,
+    StreamerServerToClientEvents,
+    StreamerInterServerEvents,
+    StreamerSocketData
+  > = io.of("/streamer");
 
   streamerNsp.use(async (socket, next) => {
     // TODO: Is this recommended?
@@ -25,17 +49,10 @@ function setupStreamer(io: Server) {
     }
   });
 
-  streamerNsp.on("connection", onConnection);
-}
+  streamerNsp.on("connection", (socket) => {
+    socket.on("online", async (socketId) => {
+      invariant(socket.request.session.user, "Expected user to be logged in");
 
-function onConnection(socket: Socket) {
-  console.log("streamer:connect");
-
-  socket.on("streamer:online", async (socketId: string) => {
-    console.log("streamer:online");
-    console.log(socket.request.session.user);
-
-    if (socket.request.session.user) {
       const { id } = socket.request.session.user;
 
       const result = await prisma.streamer.update({
@@ -47,30 +64,27 @@ function onConnection(socket: Socket) {
       });
 
       console.log(result);
-    }
-  });
+    });
 
-  socket.on("streamer:offline", async () => {
-    console.log("streamer:offline");
-    console.log(socket.request.session.user);
+    socket.on("offline", async () => {
+      invariant(socket.request.session.user, "Expected user to be logged in");
 
-    if (socket.request.session.user) {
       const { id } = socket.request.session.user;
 
       const result = await prisma.streamer.update({
         where: { id },
         data: {
           isOnline: false,
+          socket: "",
         },
       });
 
       console.log(result);
-    }
-  });
+    });
 
-  socket.on("disconnect", (reason) => {
-    console.log("streamer:disconnect");
-    console.error(reason);
+    socket.on("disconnect", (reason) => {
+      console.error(reason);
+    });
   });
 }
 
