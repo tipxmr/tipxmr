@@ -1,6 +1,5 @@
 import { ReactNode, FC } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Container } from "@mui/material";
+
 import Drawer from "~/components/Drawer";
 import Header from "~/components/Header";
 import Footer from "~/components/Footer";
@@ -12,25 +11,16 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const { user: session } = useUser();
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
-      <CssBaseline />
-      <Header />
 
-      <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex flex-row grow">
         {session?.isLoggedIn && <Drawer />}
-        <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
-          {children}
-        </Container>
-      </Box>
+        <main className="container mx-auto mt-8 mb-2">{children}</main>
+      </div>
       <Footer />
-    </Box>
+    </div>
   );
 };
 

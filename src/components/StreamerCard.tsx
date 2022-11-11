@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -40,7 +39,7 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">watch now</Button>
+        <button className="btn-primary">watch now</button>
       </CardActions>
     </Card>
   );

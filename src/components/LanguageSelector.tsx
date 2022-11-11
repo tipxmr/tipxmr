@@ -1,5 +1,25 @@
-import { ChangeEvent, FC, useCallback } from "react";
-import { FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from "@radix-ui/react-icons";
+import * as Select from "@radix-ui/react-select";
+import { forwardRef } from "react";
+
+const SelectItem = forwardRef(
+  ({ children, className, ...props }, forwardedRef) => {
+    return (
+      <Select.Item className={className} {...props} ref={forwardedRef}>
+        <Select.ItemText>{children}</Select.ItemText>
+        <Select.ItemIndicator className="SelectItemIndicator">
+          <CheckIcon />
+        </Select.ItemIndicator>
+      </Select.Item>
+    );
+  }
+);
+
+SelectItem.displayName = "SelectItem";
 
 const languages = [
   "Dutch",
@@ -44,38 +64,39 @@ interface LanguageSelectorProps {
   onChange: (language: string) => void;
 }
 
-const LanguageSelector: FC<LanguageSelectorProps> = ({
-  language,
-  onChange,
-}) => {
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
-    },
-    [onChange]
-  );
-
-  const languageItems = languages.map((language) => {
-    return (
-      <MenuItem key={language} value={language}>{`${convertFlag(
-        language
-      )} ${language}`}</MenuItem>
-    );
-  });
-
+const LanguageSelector = ({ language, onChange }: LanguageSelectorProps) => {
   return (
-    <FormControl>
-      <TextField
-        id="seed-language-select"
-        select
-        defaultValue={"English"}
-        label="Seed Language"
-        onChange={handleChange}
-        helperText="Please select your seed language"
-      >
-        {languageItems}
-      </TextField>
-    </FormControl>
+    <Select.Root
+      value={language}
+      defaultValue="English"
+      onValueChange={onChange}
+    >
+      <Select.Trigger>
+        <Select.Value placeholder="Please select your seed language" />
+        <Select.Icon className="SelectIcon">
+          <ChevronDownIcon />
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content>
+          <Select.ScrollUpButton>
+            <ChevronUpIcon />
+          </Select.ScrollUpButton>
+
+          <Select.Viewport className="SelectViewport">
+            {languages.map((language) => (
+              <SelectItem key={language} value={language}>{`${convertFlag(
+                language
+              )} ${language}`}</SelectItem>
+            ))}
+          </Select.Viewport>
+
+          <Select.ScrollDownButton>
+            <ChevronDownIcon />
+          </Select.ScrollDownButton>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
   );
 };
 

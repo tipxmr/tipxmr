@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
 import { FC } from "react";
+
 import InfoCard from "../InfoCard";
 
 const infos = [
@@ -29,7 +29,7 @@ const RegistrationInfo: FC = () => {
   return (
     <>
       {infos.map(({ title, subtitle, bodyText, link, btnText }) => (
-        <Box sx={{ m: 2 }} key={title}>
+        <div className="m-2" key={title}>
           <InfoCard
             title={title}
             subtitle={subtitle}
@@ -37,7 +37,7 @@ const RegistrationInfo: FC = () => {
             btnText={btnText}
             link={link}
           />
-        </Box>
+        </div>
       ))}
     </>
   );

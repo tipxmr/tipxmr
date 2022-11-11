@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
@@ -65,20 +64,16 @@ const Invoice: FC = () => {
           {getStepContent(activeStep)}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {activeStep !== 0 && (
-              <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+              <button className="btn-primary mt-3 ml-1" onClick={handleBack}>
                 Back
-              </Button>
+              </button>
             )}
-            <Button
-              variant="contained"
-              onClick={handleNext}
-              sx={{ mt: 3, ml: 1 }}
-            >
+            <button className="btn-primary mt-3 ml-1" onClick={handleNext}>
               {activeStep === steps.length - 1 ? "Place order" : "Next"}
-            </Button>
+            </button>
           </Box>
         </>
-      )}{" "}
+      )}
     </PaperWrapper>
   );
 };

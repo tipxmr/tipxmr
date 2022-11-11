@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
+
 import TextField from "@mui/material/TextField";
 import { DonationSetting } from "@prisma/client";
 import Chip from "@mui/material/Chip";
@@ -121,9 +121,9 @@ const DonationSettingsForm: FC<SettingsFormProps> = ({
         </Grid>
 
         <Grid item xs={12}>
-          <Button fullWidth type="submit" color="primary">
+          <button className="btn-primary w-full" type="submit">
             Save settings
-          </Button>
+          </button>
         </Grid>
       </Grid>
     </PaperWrapper>

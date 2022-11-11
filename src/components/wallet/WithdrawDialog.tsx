@@ -1,16 +1,12 @@
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { FC } from "react";
 import NumberInput from "~/components/NumberInput";
 interface WithdrawDialogProps {
   address?: string;
   handleWithdraw: () => void;
 }
-const WithdrawDialog: FC<WithdrawDialogProps> = ({
-  address,
-  handleWithdraw,
-}) => {
+const WithdrawDialog = ({ address, handleWithdraw }: WithdrawDialogProps) => {
   return (
     <Paper elevation={3} sx={{ p: 4 }}>
       <Grid
@@ -38,9 +34,9 @@ const WithdrawDialog: FC<WithdrawDialogProps> = ({
           </Typography>
         </Grid>
         <Grid item>
-          <Button variant="contained" color="primary" onClick={handleWithdraw}>
+          <button className="btn-primary" onClick={handleWithdraw}>
             Withdraw
-          </Button>
+          </button>
         </Grid>
       </Grid>
     </Paper>

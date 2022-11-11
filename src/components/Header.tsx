@@ -8,7 +8,6 @@ import {
   Menu,
   Container,
   Avatar,
-  Button,
   Tooltip,
   MenuItem,
 } from "@mui/material";
@@ -128,12 +127,9 @@ const ResponsiveAppBar: FC = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {menuItems.map(({ page, href }) => (
                 <Link href={href} passHref key={page}>
-                  <Button
-                    key={page}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
+                  <button key={page} className="my-2 text-white block">
                     {page}
-                  </Button>
+                  </button>
                 </Link>
               ))}
             </Box>

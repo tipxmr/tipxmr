@@ -1,5 +1,4 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardHeader from "@mui/material/CardHeader";
@@ -31,13 +30,8 @@ const Donate: NextPage = () => {
               <Card>
                 <CardHeader title={streamer.name} />
                 <CardActions>
-                  <Link
-                    href={`/donate/${encodeURIComponent(streamer.name)}`}
-                    passHref
-                  >
-                    <Button size="small" component="a">
-                      Donate
-                    </Button>
+                  <Link href={`/donate/${encodeURIComponent(streamer.name)}`}>
+                    Donate
                   </Link>
                 </CardActions>
               </Card>

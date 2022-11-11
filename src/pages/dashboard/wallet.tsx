@@ -1,17 +1,17 @@
 import { useAtom } from "jotai";
-import { isSyncRunningAtom, walletAtom, mnemonicAtom } from "~/store";
 import { MoneroSubaddress } from "monero-javascript";
-import Subaddress from "~/components/Subaddress";
-import TipxmrWallet from "~/components/wallet";
 import { NextPage } from "next";
 import { Suspense, useState } from "react";
-import useUser from "~/lib/useUser";
-import { Button } from "@mui/material";
-import fetchJson, { FetchError } from "~/lib/fetchJson";
+
+import Subaddress from "~/components/Subaddress";
+import TipxmrWallet from "~/components/wallet";
+import useBalanceListener from "~/hooks/useBalanceListener";
 import useSyncListener from "~/hooks/useSyncListener";
 import useTransactionListener from "~/hooks/useTransactionListener";
 import useXmrWallet from "~/hooks/useXMRWallet";
-import useBalanceListener from "~/hooks/useBalanceListener";
+import fetchJson, { FetchError } from "~/lib/fetchJson";
+import useUser from "~/lib/useUser";
+import { isSyncRunningAtom, mnemonicAtom, walletAtom } from "~/store";
 
 const testSeed =
   "typist error soothe tribal peeled rhino begun decay gopher yeti height tuxedo ferry etiquette pram bailed sneeze mostly urchins pheasants kisses ammo voice voted etiquette";
@@ -65,14 +65,14 @@ const WalletPage: NextPage = () => {
       <Suspense fallback="Loading...">
         {user && user.isLoggedIn && <TipxmrWallet />}
       </Suspense>
-      <Button
+      <button
+        role="button"
+        className="btn-primary"
         disabled={!myWallet && !isSyncing}
-        variant="contained"
-        color="primary"
         onClick={generateAddress}
       >
         Generate new Subaddress
-      </Button>
+      </button>
       {currentAddress && <Subaddress address={String(currentAddress)} />}
     </>
   );

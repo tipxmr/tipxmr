@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import StarIcon from "@mui/icons-material/Star";
 import {
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -90,12 +89,7 @@ const PlanForm: FC = ({}) => {
                 </ul>
               </CardContent>
               <CardActions>
-                <Button
-                  fullWidth
-                  variant={tier.buttonVariant as "outlined" | "contained"}
-                >
-                  {tier.buttonText}
-                </Button>
+                <button className="btn-primary block">{tier.buttonText}</button>
               </CardActions>
             </Card>
           </Grid>

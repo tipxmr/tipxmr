@@ -1,6 +1,5 @@
 import { FC, FormEvent, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Wallet } from "@prisma/client";
 import Chip from "@mui/material/Chip";
@@ -16,10 +15,10 @@ interface WalletSettingsProps {
   lastSyncHeight: Wallet["lastSyncHeight"];
 }
 
-const WalletSettingsForm: FC<SettingsFormProps> = ({
+const WalletSettingsForm = ({
   walletSettings,
   handleSubmit,
-}) => {
+}: SettingsFormProps) => {
   const [restoreHeight, setRestoreHeight] = useState<Wallet["restoreHeight"]>();
 
   useEffect(() => {
@@ -54,9 +53,9 @@ const WalletSettingsForm: FC<SettingsFormProps> = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button fullWidth type="submit" color="primary">
+          <button className="btn-primary block mt-3 ml-1" type="submit">
             Save settings
-          </Button>
+          </button>
         </Grid>
       </Grid>
     </PaperWrapper>

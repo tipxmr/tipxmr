@@ -1,6 +1,4 @@
-import { FC, FormEvent } from "react";
 import Image from "next/image";
-import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
@@ -16,7 +14,7 @@ interface LoginProps {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-const Login: FC<LoginProps> = ({ handleSubmit }) => {
+const Login = ({ handleSubmit }: LoginProps) => {
   return (
     <Container maxWidth="md">
       <Box
@@ -49,15 +47,9 @@ const Login: FC<LoginProps> = ({ handleSubmit }) => {
               control={<Checkbox name="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <button className="btn-primary block mt-3 mb-2" type="submit">
               Let&apos;s go!
-            </Button>
+            </button>
             <Grid container justifyContent="right">
               <Grid item>
                 <Link href="/register">Don&apos;t have an account yet?</Link>

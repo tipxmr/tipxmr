@@ -7,7 +7,6 @@ import { useAtom } from "jotai";
 import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
-  Box,
   Grid,
   List,
   ListItem,
@@ -31,8 +30,6 @@ const WalletCreation: FC = () => {
     });
   };
 
-  const boxStyles = theme.boxStyles;
-
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12} sm={12} mt={3}>
@@ -49,9 +46,9 @@ const WalletCreation: FC = () => {
         ) : (
           <SeedOutput seedPhrase={seedPhrase} />
         )}
-        <Box sx={{ ...boxStyles, mt: 5 }}>
+        <div className="flex flex-col items-center mt-5">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
-        </Box>
+        </div>
       </Grid>
       <Grid item xs={12}>
         <List sx={{ width: "100%", mt: 4, bgcolor: "background.paper" }}>

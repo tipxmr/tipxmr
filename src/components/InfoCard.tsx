@@ -1,8 +1,6 @@
-import { FC } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
@@ -16,7 +14,7 @@ interface InfoCardProps {
   bodyText: string;
 }
 
-const InfoCard: FC<InfoCardProps> = ({
+const InfoCard = ({
   title,
   btnText,
   infos,
@@ -24,7 +22,7 @@ const InfoCard: FC<InfoCardProps> = ({
   uptitle,
   link,
   bodyText,
-}) => {
+}: InfoCardProps) => {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -42,7 +40,7 @@ const InfoCard: FC<InfoCardProps> = ({
       {btnText && link && (
         <CardActions>
           <Link href={`${link}`}>
-            <Button size="small">{btnText}</Button>
+            <button className="btn-primary">{btnText}</button>
           </Link>
         </CardActions>
       )}

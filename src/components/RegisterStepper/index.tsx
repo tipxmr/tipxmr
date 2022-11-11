@@ -7,7 +7,6 @@ import {
   Typography,
   FormControlLabel,
   Checkbox,
-  Button,
   Stepper,
   StepLabel,
   Step,
@@ -71,16 +70,10 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
     setSeedWritten(!seedWritten);
   };
 
-  const boxStyles = {
-    /* marginTop: 8, */
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-  // TODO implement the color scheme here on the avatars. Also DRY
+  // TODO: implement the color scheme here on the avatars. Also DRY
   return (
     <Container maxWidth="md">
-      <Box sx={boxStyles} component="form" onSubmit={handleSubmit}>
+      <form className="flex flex-col items-center" onSubmit={handleSubmit}>
         <PaperWrapper>
           <Box sx={{ justifyContent: "center", display: "flex" }}>
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
@@ -100,40 +93,36 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
 
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {activeStep >= 1 && (
-              <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+              <button className="btn-primary mt-3 ml-1" onClick={handleBack}>
                 Back
-              </Button>
+              </button>
             )}
             {activeStep == 0 && (
-              <Button
+              <button
                 disabled={activeStep == 0 && !infoUnderstood}
-                variant="contained"
                 onClick={handleNext}
-                sx={{ mt: 3, ml: 1 }}
               >
                 Next
-              </Button>
+              </button>
             )}
 
             {activeStep == 1 && (
-              <Button
+              <button
+                className="btn-primary mt-3 ml-1"
                 disabled={activeStep == 1 && !seedWritten}
-                variant="contained"
                 onClick={handleNext}
-                sx={{ mt: 3, ml: 1 }}
               >
                 Next
-              </Button>
+              </button>
             )}
             {activeStep == 2 && (
-              <Button
+              <button
+                className="btn-primary mt-3 ml-1"
                 disabled={activeStep == 2 && !accountUnderstood}
-                variant="contained"
                 onClick={handleNext}
-                sx={{ mt: 3, ml: 1 }}
               >
                 Next
-              </Button>
+              </button>
             )}
           </Box>
 
@@ -231,13 +220,13 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
                   </Typography>
                 }
               />
-              <Button variant="contained" color="primary" type="submit">
+              <button className="btn-primary" type="submit">
                 Create wallet and continue
-              </Button>
+              </button>
             </Box>
           )}
         </PaperWrapper>
-      </Box>
+      </form>
     </Container>
   );
 };
