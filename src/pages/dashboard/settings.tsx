@@ -1,14 +1,14 @@
-import { Grid } from "@mui/material";
 import { NextPage } from "next";
 import { FormEvent } from "react";
+
 import DonationSettingsForm from "~/components/DonationSettings";
-import useUser from "~/lib/useUser";
 import WalletSettingsForm from "~/components/WalletSettings";
+import useAddDonationSetting from "~/hooks/useAddDonationSetting";
+import useAddWalletSetting from "~/hooks/useAddWalletSetting";
 import useDonationSettings from "~/hooks/useDonationSettings";
 import useWalletSettings from "~/hooks/useWalletSettings";
 import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
-import useAddWalletSetting from "~/hooks/useAddWalletSetting";
-import useAddDonationSetting from "~/hooks/useAddDonationSetting";
+import useUser from "~/lib/useUser";
 
 const Settings: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
@@ -46,30 +46,20 @@ const Settings: NextPage = () => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      spacing={3}
-    >
+    <div className="container grid grid-cols-1 gap-3">
       {donationSetting && (
-        <Grid item xs={12}>
-          <DonationSettingsForm
-            donationSettings={donationSetting}
-            handleSubmit={handleDonationSettingsSubmit}
-          />
-        </Grid>
+        <DonationSettingsForm
+          donationSettings={donationSetting}
+          handleSubmit={handleDonationSettingsSubmit}
+        />
       )}
       {walletSetting && (
-        <Grid item xs={12}>
-          <WalletSettingsForm
-            walletSettings={walletSetting}
-            handleSubmit={handleWalletSettingsSubmit}
-          />
-        </Grid>
+        <WalletSettingsForm
+          walletSettings={walletSetting}
+          handleSubmit={handleWalletSettingsSubmit}
+        />
       )}
-    </Grid>
+    </div>
   );
 };
 
