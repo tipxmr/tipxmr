@@ -3,8 +3,6 @@ import { Streamer } from "@prisma/client";
 import { FC } from "react";
 import StreamerChip from "~/components/StreamerChip";
 import Subaddress from "~/components/Subaddress";
-import PaperWrapper from "~/components/PaperWrapper";
-
 import Image from "next/image";
 
 interface DonationMaskProps {
@@ -15,7 +13,24 @@ interface DonationMaskProps {
 
 const DonationMask: FC<DonationMaskProps> = ({ streamer, txAddress, code }) => {
   return (
-    <PaperWrapper>
+    <div className="tip-border rounded-md p-2">
+      <p>
+        Donate to
+        <StreamerChip name={streamer?.alias} />
+      </p>
+
+      <p>Send XMR 0.13 (€4.50) to the following address:</p>
+      {txAddress && <Subaddress address={txAddress} />}
+      {code && (
+        <Image
+          src={code}
+          alt=""
+          title=""
+          objectFit="contain"
+          width={256}
+          height={256}
+        />
+      )}
       <Grid
         container
         direction="column"
@@ -57,7 +72,7 @@ const DonationMask: FC<DonationMaskProps> = ({ streamer, txAddress, code }) => {
           )}
         </Grid>
       </Grid>
-    </PaperWrapper>
+    </div>
   );
 };
 

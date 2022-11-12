@@ -6,6 +6,10 @@ import { useState } from "react";
 
 type Callback = () => void;
 
+function shortenAddress(address: string) {
+  return `${address.slice(0, 4)}...${address.slice(-4)}`;
+}
+
 function useTimeout(callback: Callback, delay: number | null) {
   const timeoutRef = useRef<number>(null);
   const savedCallback = useRef(callback);
@@ -27,11 +31,13 @@ function useTimeout(callback: Callback, delay: number | null) {
 
 interface SubaddressProps {
   address: string;
-  className: string;
 }
 
 const Subaddress = ({ address }: SubaddressProps) => {
   const [open, setOpen] = useState(false);
+  const [truncatedAddress, setTruncatedAddress] = useState(() =>
+    shortenAddress(address)
+  );
 
   const handleClick = () => {
     setOpen(true);
@@ -53,7 +59,7 @@ const Subaddress = ({ address }: SubaddressProps) => {
           onClick={handleClick}
         >
           <FileTextIcon className="mr-1 inline" />
-          {address}
+          {truncatedAddress}
         </button>
 
         <Toast.Root open={open} onOpenChange={setOpen}>

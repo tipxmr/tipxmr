@@ -9,7 +9,7 @@ interface StreamerChipProps {
 // TODO take the actual streamer avatar
 const StreamerChip: FC<StreamerChipProps> = ({ name }) => {
   return (
-    <div className="tip-border m-2 rounded-lg px-2">
+    <div className="tip-border m-2 inline rounded-lg p-2">
       <AvatarIcon className="mr-1 inline" />
       {name}
     </div>
