@@ -1,79 +1,54 @@
-import Divider from "@mui/material/Divider";
-import TimelineIcon from "@mui/icons-material/Timeline";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import Drawer from "@mui/material/Drawer";
-import Link from "next/link";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PersonIcon from "@mui/icons-material/Person";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { useTheme } from "@mui/material/styles";
+import {
+  BarChartIcon,
+  DashboardIcon,
+  DesktopIcon,
+  PersonIcon,
+  RocketIcon,
+} from "@radix-ui/react-icons";
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import clsx from "clsx";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 
-export default function PermanentDrawerLeft() {
-  const theme = useTheme();
+const MenuItem = ({ href, Icon, text, ...props }) => {
+  const router = useRouter();
+  const isActive = router.asPath === href;
+
   return (
-    <Drawer
-      sx={{
-        width: theme.drawerWidth,
-        alignSelf: "strech",
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: theme.drawerWidth,
-          position: "relative",
-          top: "inherit",
-          boxSizing: "border-box",
-        },
-      }}
-      variant="permanent"
-      anchor="left"
-    >
-      <Divider />
-      <List>
-        <Link href="/dashboard" key="1" passHref>
-          <ListItem button key="Dashboard">
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-        </Link>
-        <Link href="/dashboard/wallet" key="2" passHref>
-          <ListItem button key="Wallet">
-            <ListItemIcon>
-              <AccountBalanceIcon />
-            </ListItemIcon>
-            <ListItemText primary="Wallet" />
-          </ListItem>
-        </Link>
-        <Link href="/dashboard/settings" key="3" passHref>
-          <ListItem button key="Settings">
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
-        </Link>
-        <Link href="/dashboard/profile" key="4" passHref>
-          <ListItem button key="Profile">
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItem>
-        </Link>
-        <Link href="/dashboard/history" key="5" passHref>
-          <ListItem button key="History">
-            <ListItemIcon>
-              <TimelineIcon />
-            </ListItemIcon>
-            <ListItemText primary="History" />
-          </ListItem>
-        </Link>
-      </List>
-      <Divider />
-    </Drawer>
+    <NavigationMenu.Item className="rounded px-4 py-2 hover:bg-gray-200">
+      <NextLink href={href} passHref>
+        <NavigationMenu.Link className={clsx(isActive && "underline")}>
+          <Icon className="mr-1 inline h-4 w-4 align-middle" /> {text}
+        </NavigationMenu.Link>
+      </NextLink>
+    </NavigationMenu.Item>
+  );
+};
+
+function Drawer() {
+  return (
+    <NavigationMenu.Root className="shrink-0 self-stretch bg-white p-2">
+      <NavigationMenu.List>
+        <MenuItem href="/dashboard" Icon={DashboardIcon} text="Dashboard" />
+
+        <MenuItem href="/dashboard/wallet" Icon={RocketIcon} text="wallet" />
+
+        <MenuItem
+          href="/dashboard/settings"
+          Icon={DesktopIcon}
+          text="Settings"
+        />
+
+        <MenuItem href="/dashboard/profile" Icon={PersonIcon} text="Profile" />
+
+        <MenuItem
+          href="/dashboard/history"
+          Icon={BarChartIcon}
+          text="History"
+        />
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
   );
 }
+
+export default Drawer;
