@@ -1,3 +1,7 @@
+/*
+ * DEPRECATED - Migrated to Navbar
+ */
+
 import { FC, MouseEvent, useEffect, useState } from "react";
 import {
   AppBar,
