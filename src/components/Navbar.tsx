@@ -45,7 +45,7 @@ const Navbar = () => {
   };
 
   return (
-    <NavigationMenu.Root className="flex flex-row justify-between p-2">
+    <NavigationMenu.Root className="relative flex flex-row justify-between p-2">
       <Link href="/">
         <Image src={Logo} alt="TipXMR Logo" width={250} />
       </Link>
@@ -66,12 +66,12 @@ const Navbar = () => {
       </NavigationMenu.List>
 
       <NavigationMenu.List>
-        <NavigationMenu.Item className="w-36 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
+        <NavigationMenu.Item className="w-36 overflow-scroll rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
           <NavigationMenu.Trigger className="flex flex-row items-center">
             My Account <CaretDownIcon className="CaretDown" aria-hidden />
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content>
-            <ul className="cursor-pointer">
+          <NavigationMenu.Content className="visible absolute bg-gray-700">
+            <ul className="mt-3 cursor-pointer">
               {session?.isLoggedIn && (
                 <li>
                   <span onClick={() => signOut()}>Logout</span>
