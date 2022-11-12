@@ -1,4 +1,4 @@
-import { CircularProgress } from "@mui/material";
+import { UpdateIcon } from "@radix-ui/react-icons";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import QrCode from "qrcode";
@@ -63,7 +63,7 @@ const DonateTo: NextPage = () => {
   }
 
   if (status === "loading") {
-    return <CircularProgress />;
+    return <UpdateIcon className="animate-spin" />;
   }
 
   return (

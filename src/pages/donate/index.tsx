@@ -1,4 +1,3 @@
-import CircularProgress from "@mui/material/CircularProgress";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardHeader from "@mui/material/CardHeader";
@@ -8,6 +7,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import useStreamers from "~/hooks/useStreamers";
 import Redirect from "~/components/Redirect";
+import { UpdateIcon } from "@radix-ui/react-icons";
 
 const Donate: NextPage = () => {
   const { status, data: streamers, error } = useStreamers();
@@ -18,7 +18,7 @@ const Donate: NextPage = () => {
   }
 
   if (status === "loading") {
-    return <CircularProgress />;
+    return <UpdateIcon className="animate-spin" />;
   }
 
   return (
