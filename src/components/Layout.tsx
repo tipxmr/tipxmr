@@ -1,9 +1,10 @@
-import { ReactNode, FC } from "react";
+import { FC, ReactNode } from "react";
 
 import Drawer from "~/components/Drawer";
-import Header from "~/components/Header";
 import Footer from "~/components/Footer";
+import Header from "~/components/Header";
 import useUser from "~/lib/useUser";
+
 import Navbar from "./Navbar";
 
 interface LayoutProps {
