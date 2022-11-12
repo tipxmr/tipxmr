@@ -1,4 +1,3 @@
-import { Grid, Typography } from "@mui/material";
 import { Streamer } from "@prisma/client";
 import { FC } from "react";
 import StreamerChip from "~/components/StreamerChip";
@@ -13,7 +12,7 @@ interface DonationMaskProps {
 
 const DonationMask: FC<DonationMaskProps> = ({ streamer, txAddress, code }) => {
   return (
-    <div className="tip-border rounded-md p-2">
+    <div className="tip-border flex flex-col items-center space-y-4 rounded-lg md:py-2 lg:py-8">
       <p>
         Donate to
         <StreamerChip name={streamer?.alias} />
@@ -31,47 +30,6 @@ const DonationMask: FC<DonationMaskProps> = ({ streamer, txAddress, code }) => {
           height={256}
         />
       )}
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Typography>Donate to</Typography>
-          <StreamerChip name={streamer?.alias} />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography>
-            Send XMR 0.13 (€4.50) to the following address:
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {txAddress && <Subaddress address={txAddress} />}
-        </Grid>
-
-        <Grid item xs={12}>
-          {code && (
-            <Image
-              src={code}
-              alt=""
-              title=""
-              objectFit="contain"
-              width={256}
-              height={256}
-            />
-          )}
-        </Grid>
-      </Grid>
     </div>
   );
 };
