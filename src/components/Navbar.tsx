@@ -1,15 +1,17 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import Logo from "../img/logo.png";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { User } from "~/lib/config";
 import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
-import { User } from "~/lib/config";
-import { useEffect, useState } from "react";
-import clsx from "clsx";
+
+import Logo from "../img/logo.png";
 
 type Pages = { page: string; href: string }[];
 

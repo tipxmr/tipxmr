@@ -14,7 +14,11 @@
     "studio": "prisma studio",
     "migrate": "prisma migrate",
     "postinstall": "cp node_modules/monero-javascript/dist/* public/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
+    "eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
+    "prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+    "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\""
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -38,7 +42,6 @@
     "@types/crypto-js": "^4.1.1",
     "clsx": "^1.2.1",
     "crypto-js": "^4.1.1",
-    "eslint-config-prettier": "^8.5.0",
     "iron-session": "^6.3.1",
     "jotai": "^1.9.1",
     "monero-javascript": "^0.7.4",
@@ -74,8 +77,10 @@
     "eslint-config-next": "^13.0.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
     "eslint-plugin-storybook": "^0.6.7",
     "husky": "^8.0.1",
     "postcss": "^8.4.19",
