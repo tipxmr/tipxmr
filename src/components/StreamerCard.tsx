@@ -1,47 +1,38 @@
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Chip,
-  Typography,
-} from "@mui/material";
 import { Streamer } from "@prisma/client";
+import Image from "next/image";
 
 const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
   const { alias, name, status, isOnline } = streamer;
 
   return (
-    <Card>
-      <CardHeader
-        title={
-          <Typography sx={{ fontSize: 14 }} color="text.secondary">
-            {alias}
-          </Typography>
-        }
-        action={
-          isOnline ? (
-            <Chip label="Online" color="success" />
-          ) : (
-            <Chip label="Offline" color="error" />
-          )
-        }
-      />
-      <CardMedia component="img" image="https://via.placeholder.com/350x200" />
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {name}
-        </Typography>
+    <div className="w-96 rounded-md bg-white p-4">
+      <div className="flex justify-between">
+        {alias}
+        {isOnline ? (
+          <span className="badge-priamry">Online</span>
+        ) : (
+          <span className="badge-secondary">Offline</span>
+        )}
+      </div>
 
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {status ?? "I ❤️ TipXMR"}
-        </Typography>
-      </CardContent>
-      <CardActions>
+      <div className="relative h-64">
+        <Image
+          src="https://via.placeholder.com/350x200.png"
+          className="object-contain"
+          alt={name}
+          fill
+        />
+      </div>
+
+      <div>
+        <h4>{name}</h4>
+        <h5 className="mb-1.5">{status ?? "I ❤️ TipXMR"}</h5>
+      </div>
+
+      <div>
         <button className="btn-primary">watch now</button>
-      </CardActions>
-    </Card>
+      </div>
+    </div>
   );
 };
 
