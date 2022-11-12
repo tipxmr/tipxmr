@@ -1,6 +1,5 @@
-import { Grid, Paper, Typography } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { FC } from "react";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
 
 interface PaymentSuccessProps {
   amount: number;
@@ -9,29 +8,15 @@ interface PaymentSuccessProps {
 
 const PaymentSuccess: FC<PaymentSuccessProps> = ({ amount, address }) => {
   return (
-    <Paper elevation={3} sx={{ p: 8 }}>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item>
-          <CheckCircleIcon fontSize="large" color="success" />
-        </Grid>
-        <Grid item>
-          <Typography component="h2" variant="h2">
-            Payment successful
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Typography component="p" variant="subtitle1">
-            Sent {amount} XMR to {address}
-          </Typography>
-        </Grid>
-      </Grid>
-    </Paper>
+    <div className="flex flex-col items-center rounded-md border-2 border-solid border-black py-4">
+      <p>
+        <CheckCircledIcon className="mr-1 inline" />
+        Payment sucessful
+      </p>
+      <p>
+        Sent {amount} XMR to {address}
+      </p>
+    </div>
   );
 };
 
