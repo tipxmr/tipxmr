@@ -1,9 +1,6 @@
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CreateIcon from "@mui/icons-material/Create";
 import LockIcon from "@mui/icons-material/Lock";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { useTheme } from "@mui/material/styles";
-import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
-import { useAtom } from "jotai";
 import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
@@ -13,10 +10,13 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useAtom } from "jotai";
 import { FC, useTransition } from "react";
+
 import LanguageSelector from "~/components/LanguageSelector";
 import SeedOutput from "~/components/SeedOutput";
-import Title from "../Title";
+import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 
 const WalletCreation: FC = () => {
   const theme = useTheme();
@@ -33,7 +33,7 @@ const WalletCreation: FC = () => {
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12} sm={12} mt={3}>
-        <Title>You XMR wallet seedphrase</Title>
+        <h3 className="text-center">You XMR wallet seedphrase</h3>
         {isPending ? (
           <LoadingButton
             loading

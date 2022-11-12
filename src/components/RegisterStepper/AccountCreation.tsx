@@ -2,7 +2,9 @@ import { Box, Grid, TextField } from "@mui/material";
 import { useAtom } from "jotai";
 import { toLower } from "ramda";
 import { ChangeEvent, FC } from "react";
+
 import { displayNameAtom, userNameAtom } from "~/store";
+
 import InfoCard from "../InfoCard";
 import Title from "../Title";
 
@@ -22,7 +24,7 @@ const AccountCreation: FC = () => {
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12}>
-        <Title>Create your TipXMR account</Title>
+        <h3 className="text-center">Create your TipXMR account</h3>
       </Grid>
       <Grid item xs={12}>
         <InfoCard

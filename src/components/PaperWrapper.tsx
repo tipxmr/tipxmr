@@ -1,6 +1,5 @@
 import { Paper } from "@mui/material";
 import { FC, forwardRef, ReactNode } from "react";
-import Title from "~/components/Title";
 
 interface PaperWrapperProps {
   title?: string;
@@ -15,7 +14,7 @@ const PaperWrapper: FC<PaperWrapperProps> = forwardRef<
 
   return (
     <Paper elevation={3} sx={{ p: 4 }} ref={ref}>
-      {title && <Title>{title}</Title>}
+      {title && <h3 className="text-center">{title}</h3>}
       {children}
     </Paper>
   );

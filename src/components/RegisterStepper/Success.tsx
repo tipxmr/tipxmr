@@ -1,7 +1,9 @@
 import { Grid, List, ListItem, ListItemText } from "@mui/material";
 import { useAtom } from "jotai";
 import { FC } from "react";
+
 import { displayNameAtom, userNameAtom } from "~/store";
+
 import PaperWrapper from "../PaperWrapper";
 import Title from "../Title";
 
@@ -12,7 +14,7 @@ const Success: FC = () => {
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12}>
-        <Title>Confirm your Account creation</Title>
+        <h3 className="text-center">Confirm your Account creation</h3>
       </Grid>
       <Grid item xs={12}>
         <PaperWrapper>
