@@ -1,13 +1,10 @@
+import * as Checkbox from "@radix-ui/react-checkbox";
+import { CheckIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+
 import TipxmrLogo from "~/img/logo.png";
-import PaperWrapper from "./PaperWrapper";
+
 import SeedInput from "./SeedInput";
 
 interface LoginProps {
@@ -16,49 +13,53 @@ interface LoginProps {
 
 const Login = ({ handleSubmit }: LoginProps) => {
   return (
-    <Container maxWidth="md">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <PaperWrapper>
-          <Box sx={{ justifyContent: "center", display: "flex" }}>
+    <div className="container max-w-xl">
+      <div className="mt-8 flex flex-col items-center">
+        <div className="rounded border border-solid border-gray-200 bg-white p-4">
+          <div className="flex justify-center">
             <Image src={TipxmrLogo} alt="TipXMR Logo" width={250} height={50} />
-          </Box>
-          <Typography component="h1" variant="h5" align="center" mt={2}>
-            Login
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          </div>
+          <h2 className="mt-2 text-center">Login</h2>
+          <form noValidate className="mt-1" onSubmit={handleSubmit}>
             <SeedInput />
-            <FormControlLabel
-              control={<Checkbox required name="understood" color="primary" />}
-              label="I understand that I am responsible for my own security and TipXMR has no liability"
-            />
-            <FormControlLabel
-              control={<Checkbox name="remember" color="primary" />}
-              label="Remember me"
-            />
-            <button className="btn-primary mt-3 mb-2 block" type="submit">
-              Let&apos;s go!
-            </button>
-            <Grid container justifyContent="right">
-              <Grid item>
-                <Link href="/register">Don&apos;t have an account yet?</Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </PaperWrapper>
-      </Box>
-    </Container>
+
+            <div className="flex items-center">
+              <Checkbox.Root
+                name="understood"
+                className="flex h-5 w-5 bg-gray-200"
+              >
+                <Checkbox.Indicator className="text-black">
+                  <CheckIcon />
+                </Checkbox.Indicator>
+              </Checkbox.Root>
+              <label className="pl-3">
+                I understand that I am responsible for my own security and
+                TipXMR has no liability
+              </label>
+            </div>
+
+            <div className="flex items-center">
+              <Checkbox.Root
+                name="remember"
+                className="flex h-5 w-5 bg-gray-200"
+              >
+                <Checkbox.Indicator className="text-black">
+                  <CheckIcon />
+                </Checkbox.Indicator>
+              </Checkbox.Root>
+              <label className="pl-3">Remember me</label>
+            </div>
+
+            <div className="flex flex-row items-center justify-between">
+              <button className="btn-primary mt-3 mb-2 block" type="submit">
+                Let&apos;s go!
+              </button>
+              <Link href="/register">Don&apos;t have an account yet?</Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 export default Login;
