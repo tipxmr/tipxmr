@@ -53,7 +53,7 @@ const WalletSettingsForm = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <button className="btn-primary block mt-3 ml-1" type="submit">
+          <button className="btn-primary mt-3 ml-1 block" type="submit">
             Save settings
           </button>
         </Grid>

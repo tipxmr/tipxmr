@@ -14,9 +14,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const { user: session } = useUser();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
-      <div className="flex flex-row grow">
+      <div className="flex grow flex-row">
         {session?.isLoggedIn && <Drawer />}
         <main className="container mx-auto mt-8 mb-2">{children}</main>
       </div>

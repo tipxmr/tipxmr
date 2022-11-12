@@ -131,7 +131,7 @@ const ResponsiveAppBar: FC = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {menuItems.map(({ page, href }) => (
                 <Link href={href} passHref key={page}>
-                  <button key={page} className="my-2 text-white block">
+                  <button key={page} className="my-2 block text-white">
                     {page}
                   </button>
                 </Link>

@@ -84,7 +84,7 @@ const Home: NextPage<ServerSideProps> = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="mt-12 flex flex-col gap-4">
           <Link
             href="/overview"
             className="text-sky-600 no-underline hover:underline"

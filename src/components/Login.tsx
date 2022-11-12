@@ -47,7 +47,7 @@ const Login = ({ handleSubmit }: LoginProps) => {
               control={<Checkbox name="remember" color="primary" />}
               label="Remember me"
             />
-            <button className="btn-primary block mt-3 mb-2" type="submit">
+            <button className="btn-primary mt-3 mb-2 block" type="submit">
               Let&apos;s go!
             </button>
             <Grid container justifyContent="right">

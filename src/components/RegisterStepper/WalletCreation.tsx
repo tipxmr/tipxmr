@@ -46,7 +46,7 @@ const WalletCreation: FC = () => {
         ) : (
           <SeedOutput seedPhrase={seedPhrase} />
         )}
-        <div className="flex flex-col items-center mt-5">
+        <div className="mt-5 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </div>
       </Grid>

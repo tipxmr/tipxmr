@@ -14,7 +14,7 @@ const Profile: NextPage = () => {
       <h3>Your TipXMR Profile</h3>
       <ul
         role="list"
-        className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-400"
+        className="list-disc space-y-3 pl-5 text-slate-400 marker:text-sky-400"
       >
         <li>Your unique Tipxmr ID: {user?.id}</li>
         <li>Username: {user?.name}</li>
