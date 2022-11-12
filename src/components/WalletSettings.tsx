@@ -1,8 +1,9 @@
-import { FC, FormEvent, useEffect, useState } from "react";
+import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { Wallet } from "@prisma/client";
-import Chip from "@mui/material/Chip";
+import { FC, FormEvent, useEffect, useState } from "react";
+
 import PaperWrapper from "~/components/PaperWrapper";
 
 interface SettingsFormProps {
