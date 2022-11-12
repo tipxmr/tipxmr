@@ -1,8 +1,3 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardHeader from "@mui/material/CardHeader";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import type { NextPage } from "next";
 import Link from "next/link";
 import useStreamers from "~/hooks/useStreamers";
@@ -22,23 +17,22 @@ const Donate: NextPage = () => {
   }
 
   return (
-    <Container>
-      <Grid container spacing={4}>
+    <div className="container">
+      <div className="flex flex-row space-x-4">
         {streamers &&
           streamers.map((streamer) => (
-            <Grid item key={streamer.id} xs={12} sm={6} md={4}>
-              <Card>
-                <CardHeader title={streamer.name} />
-                <CardActions>
-                  <Link href={`/donate/${encodeURIComponent(streamer.name)}`}>
-                    Donate
-                  </Link>
-                </CardActions>
-              </Card>
-            </Grid>
+            <div className="tip-border rounded-md p-4" key={streamer.id}>
+              <h2>{streamer.name}</h2>
+              <Link
+                className="text-orange hover:text-gray-700"
+                href={`/donate/${encodeURIComponent(streamer.name)}`}
+              >
+                Donate
+              </Link>
+            </div>
           ))}
-      </Grid>
-    </Container>
+      </div>
+    </div>
   );
 };
 
