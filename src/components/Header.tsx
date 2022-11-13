@@ -1,175 +1,178 @@
-/*
- * DEPRECATED - Migrated to Navbar
- */
+// /*
+//  * DEPRECATED - Migrated to Navbar
+//  */
 
-import { FC, MouseEvent, useEffect, useState } from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
-  Avatar,
-  Tooltip,
-  MenuItem,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Logo from "../img/logo.png";
-import Image from "next/image";
-import Link from "next/link";
-import fetchJson from "~/lib/fetchJson";
-import useUser from "~/lib/useUser";
-import { User } from "~/lib/config";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import {
+//   AppBar,
+//   Avatar,
+//   Box,
+//   Container,
+//   IconButton,
+//   Menu,
+//   MenuItem,
+//   Toolbar,
+//   Tooltip,
+//   Typography,
+// } from "@mui/material";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { FC, MouseEvent, useEffect, useState } from "react";
 
-type pages = { page: string; href: string }[];
-const default_pages: pages = [
-  { page: "Overview", href: "/overview" },
-  { page: "Donate", href: "/donate" },
-];
+// import { User } from "~/lib/config";
+// import fetchJson from "~/lib/fetchJson";
+// import useUser from "~/lib/useUser";
 
-const logged_out_pages: pages = [
-  ...default_pages,
-  { page: "Register", href: "/register" },
-  { page: "Login", href: "/login" },
-];
+// import Logo from "../img/logo.png";
 
-const logged_in_pages: pages = [
-  ...default_pages,
-  { page: "Dashboard", href: "/dashboard" },
-];
+// type pages = { page: string; href: string }[];
+// const default_pages: pages = [
+//   { page: "Overview", href: "/overview" },
+//   { page: "Donate", href: "/donate" },
+// ];
 
-const ResponsiveAppBar: FC = () => {
-  const { user: session, mutate: mutateUser } = useUser();
-  const [menuItems, setMenuItems] = useState(logged_out_pages);
+// const logged_out_pages: pages = [
+//   ...default_pages,
+//   { page: "Register", href: "/register" },
+//   { page: "Login", href: "/login" },
+// ];
 
-  useEffect(() => {
-    if (!session?.isLoggedIn) {
-      setMenuItems(logged_out_pages);
-    } else {
-      setMenuItems(logged_in_pages);
-    }
-  }, [session, setMenuItems]);
+// const logged_in_pages: pages = [
+//   ...default_pages,
+//   { page: "Dashboard", href: "/dashboard" },
+// ];
 
-  const [anchorElNav, setAnchorElNav] = useState(false);
-  const [anchorElUser, setAnchorElUser] = useState(false);
+// const ResponsiveAppBar: FC = () => {
+//   const { user: session, mutate: mutateUser } = useUser();
+//   const [menuItems, setMenuItems] = useState(logged_out_pages);
 
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(!!event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElUser(!!event.currentTarget);
-  };
+//   useEffect(() => {
+//     if (!session?.isLoggedIn) {
+//       setMenuItems(logged_out_pages);
+//     } else {
+//       setMenuItems(logged_in_pages);
+//     }
+//   }, [session, setMenuItems]);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(false);
-  };
+//   const [anchorElNav, setAnchorElNav] = useState(false);
+//   const [anchorElUser, setAnchorElUser] = useState(false);
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(false);
-  };
+//   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
+//     setAnchorElNav(!!event.currentTarget);
+//   };
+//   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
+//     setAnchorElUser(!!event.currentTarget);
+//   };
 
-  const signOut = async () => {
-    await fetchJson<User>("/api/logout", {
-      method: "POST",
-    });
-    mutateUser(undefined);
-  };
+//   const handleCloseNavMenu = () => {
+//     setAnchorElNav(false);
+//   };
 
-  return (
-    <>
-      <AppBar position="static" elevation={0}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Box display="flex" alignItems="center">
-              <Box mx={8} sx={{ cursor: "pointer" }}>
-                <Link href="/" passHref>
-                  <Image src={Logo} alt="Logo" width={250} height={50} />
-                </Link>
-              </Box>
-            </Box>
+//   const handleCloseUserMenu = () => {
+//     setAnchorElUser(false);
+//   };
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {menuItems.map(({ page, href }) => (
-                  <Link href={href} passHref key={page}>
-                    <MenuItem key={page}>
-                      <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                  </Link>
-                ))}
-              </Menu>
-            </Box>
+//   const signOut = async () => {
+//     await fetchJson<User>("/api/logout", {
+//       method: "POST",
+//     });
+//     mutateUser(undefined);
+//   };
 
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {menuItems.map(({ page, href }) => (
-                <Link href={href} passHref key={page}>
-                  <button key={page} className="my-2 block text-white">
-                    {page}
-                  </button>
-                </Link>
-              ))}
-            </Box>
+//   return (
+//     <>
+//       <AppBar position="static" elevation={0}>
+//         <Container maxWidth="xl">
+//           <Toolbar disableGutters>
+//             <Box display="flex" alignItems="center">
+//               <Box mx={8} sx={{ cursor: "pointer" }}>
+//                 <Link href="/" passHref>
+//                   <Image src={Logo} alt="Logo" width={250} height={50} />
+//                 </Link>
+//               </Box>
+//             </Box>
 
-            {session?.isLoggedIn && (
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Ködi" src="/static/images/avatar/2.jpg" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <MenuItem key="logout" onClick={() => signOut()}>
-                    <Typography textAlign="center">logout</Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </>
-  );
-};
-export default ResponsiveAppBar;
+//             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+//               <IconButton
+//                 size="large"
+//                 aria-label="account of current user"
+//                 aria-controls="menu-appbar"
+//                 aria-haspopup="true"
+//                 onClick={handleOpenNavMenu}
+//                 color="inherit"
+//               >
+//                 <MenuIcon />
+//               </IconButton>
+//               <Menu
+//                 id="menu-appbar"
+//                 anchorOrigin={{
+//                   vertical: "bottom",
+//                   horizontal: "left",
+//                 }}
+//                 keepMounted
+//                 transformOrigin={{
+//                   vertical: "top",
+//                   horizontal: "left",
+//                 }}
+//                 open={Boolean(anchorElNav)}
+//                 onClose={handleCloseNavMenu}
+//                 sx={{
+//                   display: { xs: "block", md: "none" },
+//                 }}
+//               >
+//                 {menuItems.map(({ page, href }) => (
+//                   <Link href={href} passHref key={page}>
+//                     <MenuItem key={page}>
+//                       <Typography textAlign="center">{page}</Typography>
+//                     </MenuItem>
+//                   </Link>
+//                 ))}
+//               </Menu>
+//             </Box>
+
+//             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+//               {menuItems.map(({ page, href }) => (
+//                 <Link href={href} passHref key={page}>
+//                   <button key={page} className="my-2 block text-white">
+//                     {page}
+//                   </button>
+//                 </Link>
+//               ))}
+//             </Box>
+
+//             {session?.isLoggedIn && (
+//               <Box sx={{ flexGrow: 0 }}>
+//                 <Tooltip title="Open settings">
+//                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+//                     <Avatar alt="Ködi" src="/static/images/avatar/2.jpg" />
+//                   </IconButton>
+//                 </Tooltip>
+//                 <Menu
+//                   sx={{ mt: "45px" }}
+//                   id="menu-appbar"
+//                   anchorOrigin={{
+//                     vertical: "top",
+//                     horizontal: "right",
+//                   }}
+//                   keepMounted
+//                   transformOrigin={{
+//                     vertical: "top",
+//                     horizontal: "right",
+//                   }}
+//                   open={Boolean(anchorElUser)}
+//                   onClose={handleCloseUserMenu}
+//                 >
+//                   <MenuItem key="logout" onClick={() => signOut()}>
+//                     <Typography textAlign="center">logout</Typography>
+//                   </MenuItem>
+//                 </Menu>
+//               </Box>
+//             )}
+//           </Toolbar>
+//         </Container>
+//       </AppBar>
+//     </>
+//   );
+// };
+
+// export default ResponsiveAppBar;
