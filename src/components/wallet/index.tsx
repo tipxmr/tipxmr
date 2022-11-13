@@ -1,8 +1,4 @@
-import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import Grid from "@mui/material/Grid";
-import LinearProgress from "@mui/material/LinearProgress";
-import Typography from "@mui/material/Typography";
+import * as Progress from "@radix-ui/react-progress";
 import { useAtom } from "jotai";
 import { MoneroTxConfig, MoneroTxPriority } from "monero-javascript";
 import { FC } from "react";
@@ -54,43 +50,42 @@ const TipxmrWallet: FC = () => {
   return (
     <div className="rounded bg-white p-4">
       <h3 className="text-center">My wallet</h3>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item xs={12}>
-          <Typography component="p" variant="h4">
-            Balance: {balance} XMR ({lockedBalance} XMR locked)
-          </Typography>
-        </Grid>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={10}></Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{ display: "flex", mb: 2 }}
-            justifyContent="space-evenly"
-            alignItems="center"
-          >
-            <Typography align="right">
-              {height}/{endHeight}
-            </Typography>
-            <Chip
-              label={`${percentDone}%`}
-              color={isSyncing ? "success" : "info"}
-            />
-          </Box>
-          <LinearProgress variant="determinate" value={percentDone} />
-        </Grid>
-        <Grid item xs={12}>
-          <WithdrawDialog
-            address={process.env.PRIMARY_TEST_ADDRESS}
-            handleWithdraw={handleWithdraw}
+
+      <div className="container flex flex-col items-center justify-center gap-3">
+        <h4>
+          Balance: {balance} XMR ({lockedBalance} XMR locked)
+        </h4>
+
+        <div className="mb-2 flex items-center justify-evenly">
+          <div className="mr-2">
+            {height} / {endHeight}
+          </div>
+
+          {isSyncing ? (
+            <span className="badge-primary">{percentDone}%</span>
+          ) : (
+            <span className="badge-secondary">{percentDone}%</span>
+          )}
+        </div>
+
+        <Progress.Root
+          className="relative w-full overflow-hidden rounded bg-gray-300"
+          value={percentDone}
+        >
+          <Progress.Indicator
+            className="h-4 w-full bg-blue-600"
+            style={{
+              transform: `translateX(-${100 - percentDone}%)`,
+              transition: "transform 660ms cubic-bezier(0.65, 0, 0.35, 1)",
+            }}
           />
-        </Grid>
-      </Grid>
+        </Progress.Root>
+
+        <WithdrawDialog
+          address={process.env.PRIMARY_TEST_ADDRESS}
+          handleWithdraw={handleWithdraw}
+        />
+      </div>
     </div>
   );
 };
