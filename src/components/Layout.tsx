@@ -19,7 +19,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <Navbar />
       <div className="flex grow flex-row">
         {session?.isLoggedIn && <Drawer />}
-        <main className="container mx-auto mt-8 mb-2">{children}</main>
+        <main className="container mt-8 mb-2">{children}</main>
       </div>
       <Footer />
     </div>

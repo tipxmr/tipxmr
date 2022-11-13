@@ -15,14 +15,9 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-6 gap-4 py-8">
+    <div className="flex flex-wrap gap-4 py-8">
       {streamers.map((streamer) => (
-        <div
-          key={streamer.id}
-          className="xs:col-span-12 sm:col-span-6 md:col-span-4"
-        >
-          <StreamerCard streamer={streamer} />
-        </div>
+        <StreamerCard key={streamer.id} streamer={streamer} />
       ))}
     </div>
   );
