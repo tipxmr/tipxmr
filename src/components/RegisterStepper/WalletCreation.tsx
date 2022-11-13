@@ -15,7 +15,6 @@ import { useAtom } from "jotai";
 import { FC, useTransition } from "react";
 
 import LanguageSelector from "~/components/LanguageSelector";
-import SeedOutput from "~/components/SeedOutput";
 import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 
 const WalletCreation: FC = () => {
