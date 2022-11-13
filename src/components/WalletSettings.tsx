@@ -28,8 +28,6 @@ const WalletSettingsForm = () => {
     return <span>Wallet settings loading</span>;
   }
 
-  const { restoreHeight } = walletSettings;
-
   const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = async (
     data
   ) => {
