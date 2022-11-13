@@ -1,12 +1,12 @@
-import { FC } from "react";
-import Typography from "@mui/material/Typography";
-import PaperWrapper from "~/components/PaperWrapper";
-import Chip from "@mui/material/Chip";
-import LinearProgress from "@mui/material/LinearProgress";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import WithdrawDialog from "./WithdrawDialog";
+import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
+import { MoneroTxConfig, MoneroTxPriority } from "monero-javascript";
+import { FC } from "react";
+
 import {
   balanceAtom,
   isSyncRunningAtom,
@@ -17,7 +17,8 @@ import {
   syncStartHeightAtom,
   walletAtom,
 } from "~/store";
-import { MoneroTxConfig, MoneroTxPriority } from "monero-javascript";
+
+import WithdrawDialog from "./WithdrawDialog";
 
 const TipxmrWallet: FC = () => {
   const [balance] = useAtom(balanceAtom);
@@ -51,7 +52,8 @@ const TipxmrWallet: FC = () => {
   };
 
   return (
-    <PaperWrapper title="My wallet">
+    <div className="rounded bg-white p-4">
+      <h3 className="text-center">My wallet</h3>
       <Grid
         container
         direction="row"
@@ -89,7 +91,7 @@ const TipxmrWallet: FC = () => {
           />
         </Grid>
       </Grid>
-    </PaperWrapper>
+    </div>
   );
 };
 export default TipxmrWallet;
