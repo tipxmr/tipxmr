@@ -1,7 +1,3 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 interface InfoCardProps {
@@ -24,27 +20,21 @@ const InfoCard = ({
   bodyText,
 }: InfoCardProps) => {
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {uptitle}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {subtitle}
-        </Typography>
-        <Typography variant="body2">{bodyText}</Typography>
-      </CardContent>
+    <div className="rounded border p-2 shadow">
+      <h5 className="font-light">{uptitle}</h5>
+
+      <h4 className="font-bold">{title}</h4>
+
+      <h5 className="font-normal">{subtitle}</h5>
+
+      <div className="mb-3">{bodyText}</div>
+
       {btnText && link && (
-        <CardActions>
-          <Link href={`${link}`}>
-            <button className="btn-primary">{btnText}</button>
-          </Link>
-        </CardActions>
+        <Link href={`${link}`}>
+          <button className="btn-primary">{btnText}</button>
+        </Link>
       )}
-    </Card>
+    </div>
   );
 };
 
