@@ -1,3 +1,5 @@
+"use client";
+
 import { Streamer } from "@prisma/client";
 import type {
   GetServerSideProps,
@@ -29,17 +31,17 @@ type Props = {
   streamers: SerializedStreamer[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const streamers = await getStreamers();
-  const serialized = streamers.map(({ updatedAt, ...streamer }) => {
-    return {
-      ...streamer,
-      updatedAt: updatedAt.toJSON(),
-    };
-  });
+// export const getServerSideProps: GetServerSideProps<Props> = async () => {
+//   const streamers = await getStreamers();
+//   const serialized = streamers.map(({ updatedAt, ...streamer }) => {
+//     return {
+//       ...streamer,
+//       updatedAt: updatedAt.toJSON(),
+//     };
+//   });
 
-  return { props: { streamers: serialized } };
-};
+//   return { props: { streamers: serialized } };
+// };
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 

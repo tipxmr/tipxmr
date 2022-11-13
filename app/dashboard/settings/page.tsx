@@ -1,3 +1,5 @@
+"use client";
+
 import { NextPage } from "next";
 
 import DonationSettingsForm from "~/components/DonationSettings";

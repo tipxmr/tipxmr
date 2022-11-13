@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtom } from "jotai";
 import { NextPage } from "next";
 import { FormEvent, useEffect } from "react";

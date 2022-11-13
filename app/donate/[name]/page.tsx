@@ -1,3 +1,5 @@
+"use client";
+
 import { UpdateIcon } from "@radix-ui/react-icons";
 import { NextPage } from "next";
 import { useRouter } from "next/router";

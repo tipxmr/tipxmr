@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtom } from "jotai";
 import { MoneroSubaddress } from "monero-javascript";
 import { NextPage } from "next";

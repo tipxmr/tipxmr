@@ -8,11 +8,11 @@ import {
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import clsx from "clsx";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const MenuItem = ({ href, Icon, text, ...props }) => {
-  const router = useRouter();
-  const isActive = router.asPath === href;
+  const pathname = usePathname();
+  const isActive = pathname === href;
 
   return (
     <NavigationMenu.Item className="rounded px-4 py-2 hover:bg-gray-200">

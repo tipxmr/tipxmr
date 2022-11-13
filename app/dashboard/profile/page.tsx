@@ -1,3 +1,5 @@
+"use client";
+
 import { NextPage } from "next";
 
 import IsOnlineBadge from "~/components/IsOnlineBadge";
