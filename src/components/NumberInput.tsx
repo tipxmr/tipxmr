@@ -1,5 +1,4 @@
-import { useState, FC, ChangeEvent } from "react";
-import { Box, OutlinedInput, InputAdornment } from "@mui/material";
+import { ChangeEvent, FC, useState } from "react";
 
 interface NumberInputProps {
   label?: string;
@@ -8,32 +7,24 @@ interface NumberInputProps {
 
 const NumberInput: FC<NumberInputProps> = ({ label, unit = "XMR" }) => {
   const [amount, setAmount] = useState(0);
-  const handleChangeAmount = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setAmount(Number(e.target.value));
+
+  const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
+    setAmount(event.target.valueAsNumber);
   };
+
   return (
-    <Box
-      sx={{
-        "& > :not(style)": {
-          m: 1,
-        },
-      }}
-    >
-      <OutlinedInput
-        label={label}
-        value={amount}
-        onChange={handleChangeAmount}
-        endAdornment={<InputAdornment position="end">{unit}</InputAdornment>}
+    <label className="block">
+      <span className="text-gray-700">{label}</span>
+      <input
+        className="mt-1 block w-full rounded-md border-transparent bg-gray-100 focus:border-gray-500 focus:bg-white focus:ring-0"
+        type="number"
+        pattern="[0-9]*"
+        placeholder={unit}
         name="numberformat"
-        id="numberformat-input"
-        inputProps={{
-          inputMode: "numeric",
-          pattern: "[0-9]*",
-        }}
+        onChange={handleChangeAmount}
+        value={amount}
       />
-    </Box>
+    </label>
   );
 };
 export default NumberInput;
