@@ -31,7 +31,7 @@ function Drawer() {
       <NavigationMenu.List>
         <MenuItem href="/dashboard" Icon={DashboardIcon} text="Dashboard" />
 
-        <MenuItem href="/dashboard/wallet" Icon={RocketIcon} text="wallet" />
+        <MenuItem href="/dashboard/wallet" Icon={RocketIcon} text="Wallet" />
 
         <MenuItem
           href="/dashboard/settings"
