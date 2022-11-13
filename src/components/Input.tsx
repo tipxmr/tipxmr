@@ -4,7 +4,6 @@ import { UseFormRegister } from "react-hook-form";
 type InputProps = {
   label: string;
   name: string;
-  placeholder: string;
   register: UseFormRegister<any>;
   required: boolean;
   errorMessage?: string;
@@ -14,7 +13,6 @@ type InputProps = {
 const Input = ({
   label,
   name,
-  placeholder,
   register,
   required,
   errorMessage,
@@ -31,7 +29,6 @@ const Input = ({
         type="text"
         className="block w-full"
         {...register(name, { required })}
-        placeholder={placeholder}
       />
       {errorMessage && <span>errorMessage</span>}
     </div>
