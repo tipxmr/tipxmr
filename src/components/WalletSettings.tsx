@@ -1,65 +1,63 @@
-import Chip from "@mui/material/Chip";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import { Wallet } from "@prisma/client";
-import { FC, FormEvent, useEffect, useState } from "react";
+import type { Wallet } from "@prisma/client";
+import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import PaperWrapper from "~/components/PaperWrapper";
+import useAddWalletSetting from "~/hooks/useAddWalletSetting";
+import useWalletSettings from "~/hooks/useWalletSettings";
+import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
+import useUser from "~/lib/useUser";
 
-interface SettingsFormProps {
-  walletSettings: WalletSettingsProps;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
-}
+import Input from "./Input";
 
-interface WalletSettingsProps {
-  restoreHeight: Wallet["restoreHeight"];
-  lastSyncHeight: Wallet["lastSyncHeight"];
-}
-
-const WalletSettingsForm = ({
-  walletSettings,
-  handleSubmit,
-}: SettingsFormProps) => {
-  const [restoreHeight, setRestoreHeight] = useState<Wallet["restoreHeight"]>();
+const WalletSettingsForm = () => {
+  const { user } = useUser({ redirectTo: "/login" });
+  const { data: walletSettings } = useWalletSettings(user?.id);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Wallet>({ defaultValues: walletSettings });
+  const { mutate: updateWalletSetting } = useAddWalletSetting();
 
   useEffect(() => {
-    setRestoreHeight(walletSettings.restoreHeight);
-  }, [walletSettings.restoreHeight, setRestoreHeight]);
+    reset(walletSettings);
+  }, [walletSettings, reset]);
+
+  if (!user || !walletSettings) {
+    return <span>Wallet settings loading</span>;
+  }
+
+  const { restoreHeight } = walletSettings;
+
+  const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = async (
+    data
+  ) => {
+    if (!user) return;
+
+    const walletSettingUpdateRequest = constructRequestBodyFromForm(
+      data,
+      user.id
+    );
+    updateWalletSetting(walletSettingUpdateRequest);
+  };
 
   return (
-    <PaperWrapper title="Wallet settings">
-      <Grid
-        container
-        component="form"
-        onSubmit={handleSubmit}
-        spacing={3}
-        justifyContent="center"
-        direction="row"
-        alignItems="center"
-      >
-        <Grid item xs={5}>
-          <Chip
-            label={`${String(walletSettings.restoreHeight)} blocks`}
-            sx={{ display: "flex" }}
-          />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="restoreHeight"
-            name="restoreHeight"
-            label="What height should your wallet restore from?"
-            placeholder={String(restoreHeight)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <button className="btn-primary mt-3 ml-1 block" type="submit">
-            Save settings
-          </button>
-        </Grid>
-      </Grid>
-    </PaperWrapper>
+    <form
+      className="flex flex-col items-center gap-y-2 p-4"
+      onSubmit={handleSubmit(handleWalletSettingsSubmit)}
+    >
+      <h3 className="text-center text-3xl">Wallet Settings</h3>
+      <Input
+        label="Restore height"
+        name="restoreHeight"
+        register={register}
+        required={false}
+        errorMessage={errors?.["restoreHeight"]?.message?.toString()}
+      ></Input>
+
+      <input type="submit" value="Save settings" className="btn-primary" />
+    </form>
   );
 };
 export default WalletSettingsForm;

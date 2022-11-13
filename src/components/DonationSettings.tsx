@@ -1,5 +1,5 @@
 import type { DonationSetting } from "@prisma/client";
-import type { FC } from "react";
+import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import useAddDonationSetting from "~/hooks/useAddDonationSetting";
@@ -13,12 +13,17 @@ const DonationSettingsForm: FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<DonationSetting>();
 
   const { user } = useUser({ redirectTo: "/login" });
   const { data: donationSettings } = useDonationSettings(user?.name);
   const { mutate: updateDonationSetting } = useAddDonationSetting();
+
+  useEffect(() => {
+    reset(donationSettings);
+  }, [donationSettings, reset]);
 
   if (!donationSettings || !user) {
     return <span>Loading Donation Settings</span>;
@@ -48,7 +53,6 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="XMR price per second of showtime"
         name="secondPrice"
-        value={String(secondPrice)}
         register={register}
         required={false}
         errorMessage={errors?.["secondPrice"]?.message?.toString()}
@@ -56,7 +60,6 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="XMR price per character"
         name="charPrice"
-        value={String(charPrice)}
         register={register}
         required={false}
         errorMessage={errors?.["charPrice"]?.message?.toString()}
@@ -64,7 +67,6 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="The maximum amount of characters per message"
         name="charLimit"
-        value={String(charLimit)}
         register={register}
         required={false}
         errorMessage={errors?.["charLimit"]?.message?.toString()}
@@ -72,7 +74,6 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="Minimum XMR amount for donation"
         name="minAmount"
-        value={String(minAmount)}
         register={register}
         required={false}
         errorMessage={errors?.["minAmount"]?.message?.toString()}
@@ -80,7 +81,6 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="Minimum XMR amount for sending GIFs"
         name="gifsMinAmount"
-        value={String(gifsMinAmount)}
         register={register}
         required={false}
         errorMessage={errors?.["gifsMinAmount"]?.message?.toString()}
@@ -88,7 +88,6 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="Funding goal"
         name="goal"
-        value={String(goal)}
         register={register}
         required={false}
         errorMessage={errors?.["goal"]?.message?.toString()}
