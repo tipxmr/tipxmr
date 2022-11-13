@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import Invoice from "~/components/Invoice";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "Invoice",

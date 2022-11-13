@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import LanguageSelector from "../components/LanguageSelector";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "LanguageSelector",

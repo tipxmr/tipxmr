@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import WithdrawDialog from "~/components/wallet/WithdrawDialog";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "WithdrawDialog",

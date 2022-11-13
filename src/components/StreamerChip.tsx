@@ -1,6 +1,6 @@
 import { Streamer } from "@prisma/client";
-import { FC } from "react";
 import { AvatarIcon } from "@radix-ui/react-icons";
+import { FC } from "react";
 
 interface StreamerChipProps {
   name: Streamer["name"] | undefined;

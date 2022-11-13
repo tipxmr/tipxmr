@@ -1,9 +1,10 @@
-import { getMnemonicHash } from "~/lib/xmr";
-import Login from "~/components/Login";
 import { NextPage } from "next";
 import { FormEvent } from "react";
+
+import Login from "~/components/Login";
 import { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
+import { getMnemonicHash } from "~/lib/xmr";
 
 const LoginPage: NextPage = () => {
   const { mutate: mutateUser } = useUser({

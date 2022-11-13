@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import StreamerChip from "~/components/StreamerChip";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "StreamerChip",

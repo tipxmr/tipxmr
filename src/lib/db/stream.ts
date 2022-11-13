@@ -1,4 +1,5 @@
 import { Stream } from "@prisma/client";
+
 import prisma from "../prisma";
 
 export const getStreamByStreamer = async (streamer: Stream["streamer"]) => {

@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import IsOnlineBadge from "../components/IsOnlineBadge";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "IsOnlineBadge",

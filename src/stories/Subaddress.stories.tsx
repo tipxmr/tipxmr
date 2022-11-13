@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import Subaddress from "~/components/Subaddress";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "Subaddress",

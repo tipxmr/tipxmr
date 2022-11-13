@@ -16,8 +16,6 @@ declare module "monero-javascript" {
     priority: MoneroTxPriority;
   }
 
-  export interface MoneroTxWallet {}
-
   export interface MoneroWalletConfig {
     mnemonic?: string;
     networkType: string;

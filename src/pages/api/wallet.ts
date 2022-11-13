@@ -1,5 +1,6 @@
 import { Wallet } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import prisma from "../../lib/prisma";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -1,5 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+
 import { updateWalletSettings } from "~/lib/db/wallet";
 import { withSessionRoute } from "~/lib/withSession";
 

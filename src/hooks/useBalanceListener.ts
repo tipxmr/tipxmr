@@ -1,7 +1,8 @@
-import { createBalancesChangedListener } from "~/lib/xmr";
 import { useAtom } from "jotai";
-import { balanceAtom, lockedBalanceAtom, walletAtom } from "~/store";
 import { useEffect } from "react";
+
+import { createBalancesChangedListener } from "~/lib/xmr";
+import { balanceAtom, lockedBalanceAtom, walletAtom } from "~/store";
 
 const useBalanceListener = () => {
   const [xmrWallet] = useAtom(walletAtom);

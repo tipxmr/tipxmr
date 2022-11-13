@@ -1,9 +1,10 @@
-import { useEffect } from "react";
-import Router from "next/router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import fetchJson from "./fetchJson";
-import { User } from "./config";
 import { Streamer } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Router from "next/router";
+import { useEffect } from "react";
+
+import { User } from "./config";
+import fetchJson from "./fetchJson";
 
 async function fetchUser() {
   return fetchJson<User>(`/api/user`);

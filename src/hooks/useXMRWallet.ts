@@ -1,7 +1,8 @@
-import { open } from "~/lib/xmr";
 import { useAtom } from "jotai";
-import { mnemonicAtom, walletAtom } from "~/store";
 import { useEffect } from "react";
+
+import { open } from "~/lib/xmr";
+import { mnemonicAtom, walletAtom } from "~/store";
 
 const useXmrWallet = () => {
   const [seedPhrase] = useAtom(mnemonicAtom);

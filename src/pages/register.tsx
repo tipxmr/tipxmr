@@ -1,15 +1,15 @@
-import { NextPage } from "next";
 import { useAtom } from "jotai";
+import { NextPage } from "next";
 import { FormEvent, useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import Register from "~/components/RegisterStepper";
+import useCreateUser from "~/hooks/useCreateUser";
 import {
   displayNameAtom,
   truncatedHashedSeedAtom,
   userNameAtom,
 } from "~/store";
-import useCreateUser from "~/hooks/useCreateUser";
-
-import { ErrorBoundary } from "react-error-boundary";
 
 const Home: NextPage = () => {
   // TODO rewrite into custom hook to use react-query

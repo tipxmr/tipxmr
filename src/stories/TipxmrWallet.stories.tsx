@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import TipxmrWallet from "~/components/wallet/TipxmrWallet";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "TipxmrWallet",

@@ -1,12 +1,11 @@
-import sha256 from "crypto-js/sha256";
 import Hex from "crypto-js/enc-hex";
+import sha256 from "crypto-js/sha256";
 import type {
   BalancesChangedListener,
   MoneroWalletFull,
   OutputReceivedListener,
   SyncProgressListener,
 } from "monero-javascript";
-
 import { createWalletFull, MoneroWalletListener } from "monero-javascript";
 
 const stagenetNode = {

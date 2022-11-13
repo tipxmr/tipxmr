@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import PaymentForm from "~/components/invoice/PaymentForm";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "PaymentForm",

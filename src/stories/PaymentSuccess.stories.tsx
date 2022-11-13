@@ -1,5 +1,6 @@
+import { ComponentMeta,ComponentStory } from "@storybook/react";
+
 import PaymentSuccess from "~/components/PaymentSuccess";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "PaymentSuccess",
