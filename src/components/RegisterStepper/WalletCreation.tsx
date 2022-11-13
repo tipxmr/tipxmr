@@ -48,7 +48,7 @@ const WalletCreation: FC = () => {
             Keep your seed secure
           </span>
           <span className="col-start-2 text-sm text-slate-500">
-            Don't lose it or show it to anybody. It is best kept offline.
+            {`Don't lose it or show it to anybody. It is best kept offline.`}
           </span>
         </li>
 
