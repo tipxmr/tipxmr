@@ -33,7 +33,7 @@ const WalletCreation: FC = () => {
   return (
     <Grid container spacing={2} mt={3}>
       <Grid item xs={12} sm={12} mt={3}>
-        <h3 className="text-center">You XMR wallet seedphrase</h3>
+        <h3 className="text-center">Your XMR wallet seedphrase</h3>
         {isPending ? (
           <LoadingButton
             loading
@@ -44,9 +44,9 @@ const WalletCreation: FC = () => {
             Testing
           </LoadingButton>
         ) : (
-          <SeedOutput seedPhrase={seedPhrase} />
+          <div className="container p-8 font-mono">{seedPhrase}</div>
         )}
-        <div className="mt-5 flex flex-col items-center">
+        <div className="mt-4 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </div>
       </Grid>
