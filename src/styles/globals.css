@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 255 175 122;
+    --color-secondary: 237 242 255;
+    --color-error: 220 38 38;
+  }
+}
+
+@layer components {
+  .badge-primary {
+    @apply pointer-events-none rounded-full border border-transparent bg-green-400 px-4 py-1 text-sm font-semibold text-white;
+  }
+
+  .badge-secondary {
+    @apply pointer-events-none rounded-full border border-transparent bg-red-400 px-4 py-1 text-sm font-semibold text-white;
+  }
+
+  .btn-primary {
+    @apply rounded-lg bg-blue-500 py-2 px-4 font-semibold text-white shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* Custom aliases */
+  .tip-border {
+    @apply border-2 border-solid border-gray-700;
+  }
+}
+
+/*
+const theme = createTheme({
+    palette: {
+        primary: {
+        main: "#FFAF7A",
+        },
+        secondary: {
+        main: "#edf2ff",
+        },
+        error: {
+        main: red.A400,
+        },
+    },
+    drawerWidth: 240,
+    background: "#ffee58",
+    typography: {
+        fontFamily: roboto.style.fontFamily,
+    },
+});
+ */

@@ -2,7 +2,16 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['via.placeholder.com', 'picsum.photos' ]
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -12,4 +21,4 @@ module.exports = {
 
     return config;
   },
-}
+};

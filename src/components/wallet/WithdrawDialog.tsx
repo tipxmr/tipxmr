@@ -1,49 +1,27 @@
-import { Button, Grid } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import { FC } from "react";
 import NumberInput from "~/components/NumberInput";
+
 interface WithdrawDialogProps {
   address?: string;
   handleWithdraw: () => void;
 }
-const WithdrawDialog: FC<WithdrawDialogProps> = ({
-  address,
-  handleWithdraw,
-}) => {
-  return (
-    <Paper elevation={3} sx={{ p: 4 }}>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item>
-          <Typography component="h3" variant="h4">
-            Withdraw from wallet
-          </Typography>
-        </Grid>
 
-        <Grid item>
-          <NumberInput label="Withdraw amount" />
-        </Grid>
-        <Grid item>
-          <Typography component="p" variant="body1" align="center">
-            Recipient address:
-          </Typography>
-          <Typography component="p" variant="caption" align="center">
-            {address}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" onClick={handleWithdraw}>
-            Withdraw
-          </Button>
-        </Grid>
-      </Grid>
-    </Paper>
+const WithdrawDialog = ({ address, handleWithdraw }: WithdrawDialogProps) => {
+  return (
+    <div className="container p-4">
+      <div className="flex flex-col items-center gap-3">
+        <h4>Withdraw from wallet</h4>
+
+        <NumberInput label="Withdraw amount" />
+
+        <p>
+          Recipient address: <br /> {address}
+        </p>
+
+        <button className="btn-primary" onClick={handleWithdraw}>
+          Withdraw
+        </button>
+      </div>
+    </div>
   );
 };
 

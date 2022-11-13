@@ -1,7 +1,3 @@
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 import { Streamer } from "@prisma/client";
 import type {
   GetServerSideProps,
@@ -9,17 +5,17 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
-import { getStreamers } from "~/lib/db/streamer";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
 import HorizontalCenter from "~/components/helper/HorizontalCenter";
+import HeroUnit from "~/components/HeroUnit";
 import InfoCard from "~/components/InfoCard";
 import IsOnlineBadge from "~/components/IsOnlineBadge";
 import LanguageSelector from "~/components/LanguageSelector";
-import HeroUnit from "~/components/HeroUnit";
-
-import { useState } from "react";
-
-import Link from "next/link";
-import Image from "next/image";
+import { getStreamers } from "~/lib/db/streamer";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
@@ -58,9 +54,9 @@ const Home: NextPage<ServerSideProps> = () => {
         <title>TipXMR</title>
       </Head>
 
-      <Container sx={{ py: 8 }}>
-        <Grid container spacing={4}>
-          <Grid item xs={6}>
+      <div className="container py-8">
+        <div className="grid grid-cols-4">
+          <div className="col-span-2">
             <HorizontalCenter>
               <Image
                 alt="Landing"
@@ -69,41 +65,41 @@ const Home: NextPage<ServerSideProps> = () => {
                 height={150}
               />
             </HorizontalCenter>
-          </Grid>
+          </div>
 
-          <Grid item xs={6} sx={{ margin: "auto" }}>
+          <div className="col-span-2 m-auto">
             <HeroUnit
               title="TipXMR"
               text="Monetize your streams with Monero!"
             />
-          </Grid>
+          </div>
 
-          <Grid item xs={3}>
+          <div>
             <InfoCard bodyText="Online" />
             <IsOnlineBadge isOnline />
-          </Grid>
+          </div>
 
-          <Grid item xs={3}>
+          <div>
             <LanguageSelector language={language} onChange={setLanguage} />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
 
-        <Box
-          sx={{
-            mt: 8,
-          }}
-        />
+        <div className="mt-12 flex flex-col gap-4">
+          <Link
+            href="/overview"
+            className="text-sky-600 no-underline hover:underline"
+          >
+            See who&apos;s streaming
+          </Link>
 
-        <Link href={`/overview`} passHref>
-          <Button component="a">See who&apos;s streaming</Button>
-        </Link>
-
-        <Box />
-
-        <Link href={`/donate`} passHref>
-          <Button component="a">Want to donate? Follow me</Button>
-        </Link>
-      </Container>
+          <Link
+            href="/donate"
+            className="text-sky-600 no-underline hover:underline"
+          >
+            Want to donate? Follow me
+          </Link>
+        </div>
+      </div>
     </>
   );
 };

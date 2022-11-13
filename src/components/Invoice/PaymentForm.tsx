@@ -1,66 +1,75 @@
 import { FC } from "react";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 
 const PaymentForm: FC = () => {
   return (
-    <>
-      <Typography variant="h6" gutterBottom>
-        Payment method
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardName"
-            label="Name on card"
-            fullWidth
-            autoComplete="cc-name"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardNumber"
-            label="Card number"
-            fullWidth
-            autoComplete="cc-number"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="expDate"
-            label="Expiry date"
-            fullWidth
-            autoComplete="cc-exp"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-            autoComplete="cc-csc"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
-        </Grid>
-      </Grid>
-    </>
+    <div className="container rounded bg-white p-2 py-12">
+      <h2 className="text-2xl font-bold">Payment method</h2>
+
+      <div className="mt-8">
+        <div className="grid grid-cols-2 gap-2 ">
+          <label className="block">
+            <span className="text-gray-700">Name on card</span>
+            <input
+              type="text"
+              className="mt-1 block w-full rounded-md border-transparent bg-gray-100 focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder=""
+              required
+              name="cardName"
+              autoComplete="cc-name"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-gray-700">Card number</span>
+            <input
+              type="text"
+              className="mt-1 block w-full rounded-md border-transparent bg-gray-100 focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder=""
+              required
+              name="cardNumber"
+              autoComplete="cc-number"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-gray-700">Expiry date</span>
+            <input
+              type="text"
+              className="mt-1 block w-full rounded-md border-transparent bg-gray-100 focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder=""
+              required
+              name="expDate"
+              autoComplete="cc-exp"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-gray-700">CVV</span>
+            <input
+              type="text"
+              className="mt-1 block w-full rounded-md border-transparent bg-gray-100 focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="Last three digits on signature strip"
+              required
+              name="cvv"
+              autoComplete="cc-csc"
+            />
+          </label>
+
+          <div className="col-span-2 mt-2">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="saveCard"
+                className="rounded border-transparent bg-gray-200 text-gray-700 focus:border-transparent focus:bg-gray-200 focus:ring-1 focus:ring-gray-500 focus:ring-offset-2"
+              />
+              <span className="ml-2">
+                Remember credit card details for next time
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 export default PaymentForm;

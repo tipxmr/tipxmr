@@ -1,132 +1,99 @@
-import { FC } from "react";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { DonationSetting } from "@prisma/client";
-import Chip from "@mui/material/Chip";
-import PaperWrapper from "~/components/PaperWrapper";
+import type { DonationSetting } from "@prisma/client";
+import { FC, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-interface SettingsFormProps {
-  donationSettings: DonationSettingProps;
-  handleSubmit: any;
-}
+import useAddDonationSetting from "~/hooks/useAddDonationSetting";
+import useDonationSettings from "~/hooks/useDonationSettings";
+import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
+import useUser from "~/lib/useUser";
 
-interface DonationSettingProps {
-  secondPrice: DonationSetting["secondPrice"];
-  charPrice: DonationSetting["charPrice"];
-  charLimit: DonationSetting["charLimit"];
-  minAmount: DonationSetting["minAmount"];
-  gifsMinAmount: DonationSetting["gifsMinAmount"];
-  goal: DonationSetting["goal"];
-}
+import Input from "./Input";
 
-const DonationSettingsForm: FC<SettingsFormProps> = ({
-  donationSettings,
-  handleSubmit,
-}) => {
+const DonationSettingsForm: FC = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<DonationSetting>();
+
+  const { user } = useUser({ redirectTo: "/login" });
+  const { data: donationSettings } = useDonationSettings(user?.name);
+  const { mutate: updateDonationSetting } = useAddDonationSetting();
+
+  useEffect(() => {
+    reset(donationSettings);
+  }, [donationSettings, reset]);
+
+  if (!donationSettings || !user) {
+    return <span>Loading Donation Settings</span>;
+  }
+
   const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
     donationSettings;
+
+  const handleDonationSettingsSubmit: SubmitHandler<
+    Partial<DonationSetting>
+  > = async (data) => {
+    if (!user) return;
+    const donationSettingUpdateRequest = constructRequestBodyFromForm(
+      data,
+      user.id
+    );
+
+    updateDonationSetting(donationSettingUpdateRequest);
+  };
+
   return (
-    <PaperWrapper title="Donation Settings">
-      <Grid
-        container
-        component="form"
-        onSubmit={handleSubmit}
-        spacing={3}
-        justifyContent="center"
-        direction="row"
-        alignItems="center"
-      >
-        <Grid item xs={5}>
-          <Chip label={`${secondPrice} XMR`} sx={{ display: "flex" }} />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="secondPrice"
-            name="secondPrice"
-            label="XMR price per second of showtime"
-            placeholder={String(secondPrice)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-
-        <Grid item xs={5}>
-          <Chip label={`${charPrice} XMR`} sx={{ display: "flex" }} />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="charPrice"
-            name="charPrice"
-            label="XMR price per character"
-            placeholder={String(charPrice)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <Chip
-            label={`${charLimit} characters max`}
-            sx={{ display: "flex" }}
-          />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="charLimit"
-            name="charLimit"
-            label="The maximum amount of characters per message"
-            placeholder={String(charLimit)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <Chip label={`${minAmount} XMR`} sx={{ display: "flex" }} />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="minAmount"
-            name="minAmount"
-            label="Minimum XMR amount for donation"
-            placeholder={String(minAmount)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <Chip label={`${gifsMinAmount} XMR`} sx={{ display: "flex" }} />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="gifsMinAmount"
-            name="gifsMinAmount"
-            label="Minimum XMR amount for sending GIFs"
-            placeholder={String(gifsMinAmount)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={5}>
-          <Chip label={`${goal} XMR`} sx={{ display: "flex" }} />
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            id="goal"
-            name="goal"
-            label="Funding goal"
-            placeholder={String(goal)}
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <Button fullWidth type="submit" color="primary">
-            Save settings
-          </Button>
-        </Grid>
-      </Grid>
-    </PaperWrapper>
+    <form
+      className="flex flex-col items-center gap-y-2 p-4"
+      onSubmit={handleSubmit(handleDonationSettingsSubmit)}
+    >
+      <h3 className="text-center text-3xl">Dontation Settings</h3>
+      <Input
+        label="XMR price per second of showtime"
+        name="secondPrice"
+        register={register}
+        required={false}
+        errorMessage={errors?.["secondPrice"]?.message?.toString()}
+      ></Input>
+      <Input
+        label="XMR price per character"
+        name="charPrice"
+        register={register}
+        required={false}
+        errorMessage={errors?.["charPrice"]?.message?.toString()}
+      ></Input>
+      <Input
+        label="The maximum amount of characters per message"
+        name="charLimit"
+        register={register}
+        required={false}
+        errorMessage={errors?.["charLimit"]?.message?.toString()}
+      ></Input>
+      <Input
+        label="Minimum XMR amount for donation"
+        name="minAmount"
+        register={register}
+        required={false}
+        errorMessage={errors?.["minAmount"]?.message?.toString()}
+      ></Input>
+      <Input
+        label="Minimum XMR amount for sending GIFs"
+        name="gifsMinAmount"
+        register={register}
+        required={false}
+        errorMessage={errors?.["gifsMinAmount"]?.message?.toString()}
+      ></Input>
+      <Input
+        label="Funding goal"
+        name="goal"
+        register={register}
+        required={false}
+        errorMessage={errors?.["goal"]?.message?.toString()}
+      ></Input>
+      <input type="submit" value="Save settings" className="btn-primary" />
+    </form>
   );
 };
 export default DonationSettingsForm;

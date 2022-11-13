@@ -1,22 +1,10 @@
-import { io } from "socket.io-client";
-import IsOnlineBadge from "~/components/IsOnlineBadge";
-import { useEffect } from "react";
-import Container from "@mui/material/Container";
-import Head from "next/head";
 import type { NextPage } from "next";
-import Typography from "@mui/material/Typography";
+import Head from "next/head";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
+
+import IsOnlineBadge from "~/components/IsOnlineBadge";
 import useUser from "~/lib/useUser";
-import { useAtom } from "jotai";
-import {
-  balanceAtom,
-  generatedSeedPhraseAtom,
-  isSyncRunningAtom,
-  progressAtom,
-  syncEndHeightAtom,
-  syncHeightAtom,
-  walletAtom,
-} from "~/store";
-import { createSyncProgressListener, open } from "~/lib/xmr";
 
 function useSocket() {
   useEffect(() => {
@@ -54,20 +42,18 @@ const Home: NextPage = () => {
 
   if (session && session.isLoggedIn) {
     return (
-      <Container>
+      <div className="container">
         <Head>
           <title>Dashboard</title>
         </Head>
 
-        <>
-          <Typography variant="h4">Welcome, {session.alias}</Typography>
-          <Typography variant="h5">Your ID: {session.id}</Typography>
-          <IsOnlineBadge isOnline={!!session?.isOnline} />
-        </>
-      </Container>
+        <h4>Welcome, {session.alias}</h4>
+        <h5>Your ID: {session.id}</h5>
+        <IsOnlineBadge isOnline={!!session?.isOnline} />
+      </div>
     );
   }
-  return <Typography variant="h2">Please log in</Typography>;
+  return <h2>Please log in</h2>;
 };
 
 export default Home;

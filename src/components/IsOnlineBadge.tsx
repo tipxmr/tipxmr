@@ -1,5 +1,4 @@
 import { FC } from "react";
-import Button from "@mui/material/Button";
 
 interface IsOnlineBadgeProps {
   isOnline?: boolean;
@@ -7,12 +6,9 @@ interface IsOnlineBadgeProps {
 
 const IsOnlineBadge: FC<IsOnlineBadgeProps> = ({ isOnline }) => {
   return (
-    <Button
-      variant={isOnline ? "contained" : "outlined"}
-      color={isOnline ? "success" : "error"}
-    >
-      {isOnline ? "online" : "offline"}
-    </Button>
+    <span className={isOnline ? "badge-primary" : "badge-secondary"}>
+      {isOnline ? "Online" : "Offline"}
+    </span>
   );
 };
 

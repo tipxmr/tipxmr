@@ -1,19 +1,18 @@
 import { FC } from "react";
-import { TextField } from "@mui/material";
 
 const SeedInput: FC = () => {
   return (
-    <TextField
-      margin="normal"
-      required
-      fullWidth
-      id="seed"
-      label="XMR seed"
-      name="seed"
-      rows={4}
-      multiline
-      autoFocus
-    />
+    <label className="block">
+      <span className="text-gray-700">XMR seed</span>
+      <textarea
+        className="w-full"
+        required
+        id="seed"
+        name="seed"
+        rows={4}
+        autoFocus
+      ></textarea>
+    </label>
   );
 };
 

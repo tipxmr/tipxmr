@@ -1,26 +1,11 @@
-import CreateIcon from "@mui/icons-material/Create";
-import LockIcon from "@mui/icons-material/Lock";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { useTheme } from "@mui/material/styles";
-import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
+import { LockClosedIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
 import { useAtom } from "jotai";
-import { LoadingButton } from "@mui/lab";
-import {
-  Avatar,
-  Box,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@mui/material";
 import { FC, useTransition } from "react";
+
 import LanguageSelector from "~/components/LanguageSelector";
-import SeedOutput from "~/components/SeedOutput";
-import Title from "../Title";
+import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 
 const WalletCreation: FC = () => {
-  const theme = useTheme();
   const [isPending, startTransition] = useTransition();
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
@@ -31,66 +16,56 @@ const WalletCreation: FC = () => {
     });
   };
 
-  const boxStyles = theme.boxStyles;
-
   return (
-    <Grid container spacing={2} mt={3}>
-      <Grid item xs={12} sm={12} mt={3}>
-        <Title>You XMR wallet seedphrase</Title>
-        {isPending ? (
-          <LoadingButton
-            loading
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
-            Testing
-          </LoadingButton>
-        ) : (
-          <SeedOutput seedPhrase={seedPhrase} />
-        )}
-        <Box sx={{ ...boxStyles, mt: 5 }}>
+    <div className="container mt-3 flex flex-col gap-2">
+      <div>
+        <h3 className="text-center">Your XMR wallet seedphrase</h3>
+        <div className="container p-8 font-mono">{seedPhrase}</div>
+        <div className="mt-4 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
-        </Box>
-      </Grid>
-      <Grid item xs={12}>
-        <List sx={{ width: "100%", mt: 4, bgcolor: "background.paper" }}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
-                <CreateIcon color="success" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary="Note down your seed phrase"
-              secondary="You need to to sign into TipXMR"
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
-                <LockIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary="Keep your seed secure"
-              secondary="Don't lose it or show it to anybody. It is best kept offline."
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
-                <AccountBalanceWalletIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary="These words hold your money!"
-              secondary="It is the ultimate backup to your sweet Moneroj"
-            />
-          </ListItem>
-        </List>
-      </Grid>
-    </Grid>
+        </div>
+      </div>
+      <ul className="mt-4 flex flex-col gap-6">
+        <li className="grid grid-cols-[auto_1fr] gap-x-3">
+          <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
+            <Pencil1Icon className="h-12 w-12 p-3" />
+          </span>
+
+          <span className="col-start-2 text-base text-slate-800">
+            Note down your seed phrase
+          </span>
+          <span className="col-start-2 text-sm text-slate-500">
+            You need to to sign into TipXMR
+          </span>
+        </li>
+
+        <li className="grid grid-cols-[auto_1fr] gap-x-3">
+          <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
+            <LockClosedIcon className="h-12 w-12 p-3" />
+          </span>
+
+          <span className="col-start-2 text-base text-slate-800">
+            Keep your seed secure
+          </span>
+          <span className="col-start-2 text-sm text-slate-500">
+            {`Don't lose it or show it to anybody. It is best kept offline.`}
+          </span>
+        </li>
+
+        <li className="grid grid-cols-[auto_1fr] gap-x-3">
+          <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
+            <RocketIcon className="h-12 w-12 p-3" />
+          </span>
+
+          <span className="col-start-2 text-base text-slate-800">
+            These words hold your money!
+          </span>
+          <span className="col-start-2 text-sm text-slate-500">
+            It is the ultimate backup to your sweet Moneroj
+          </span>
+        </li>
+      </ul>
+    </div>
   );
 };
 
