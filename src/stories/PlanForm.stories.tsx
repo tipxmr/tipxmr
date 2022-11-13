@@ -1,5 +1,6 @@
-import PlanForm from "~/components/invoice/PlanForm";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
+import PlanForm from "~/components/Invoice/PlanForm";
 
 export default {
   title: "PlanForm",

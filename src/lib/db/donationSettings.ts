@@ -1,4 +1,5 @@
 import { DonationSetting, Streamer } from "@prisma/client";
+
 import prisma from "../prisma";
 
 // TODO this is a public data point from every streamer

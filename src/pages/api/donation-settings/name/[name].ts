@@ -1,5 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+
 import { getDonationSettings } from "~/lib/db/donationSettings";
 
 const handler: NextApiHandler = async (req, res) => {

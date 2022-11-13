@@ -1,9 +1,10 @@
 import { DonationSetting } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+
 import {
-  updateDonationSettings,
   DonationSettingUpdate,
+  updateDonationSettings,
 } from "~/lib/db/donationSettings";
 import { withSessionRoute } from "~/lib/withSession";
 

@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import Login from "../components/Login";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "Login",

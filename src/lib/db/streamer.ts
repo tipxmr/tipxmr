@@ -1,4 +1,5 @@
 import { Streamer } from "@prisma/client";
+
 import prisma from "../prisma";
 
 type StreamerEssentials = Pick<Streamer, "name" | "alias" | "socket">;

@@ -37,14 +37,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-postgresql
+/postgresql
 
 
 # logs
 .log/**
 
 # monero daemon
-monero/bitmonero/stagenet/*
+/monero/bitmonero/stagenet/*
 
 # monero javascript files
 /public/monero_*
@@ -53,4 +53,4 @@ monero/bitmonero/stagenet/*
 
 .direnv
 # .envrc
-wallet
+/wallet

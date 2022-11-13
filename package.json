@@ -15,10 +15,10 @@
     "migrate": "prisma migrate",
     "postinstall": "cp node_modules/monero-javascript/dist/* public/",
     "prepare": "husky install",
-    "eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
-    "eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
-    "prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
-    "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\""
+    "eslint": "eslint \"src/**/*.+(js|jsx|ts|tsx)\"",
+    "eslint:fix": "eslint --fix \"src/**/*.+(js|jsx|ts|tsx)\"",
+    "prettier": "prettier --check \"src/**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+    "prettier:fix": "prettier --write \"src/**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\""
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

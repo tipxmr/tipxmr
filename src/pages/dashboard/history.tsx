@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+
 import useUser from "~/lib/useUser";
 
 const History: NextPage = () => {

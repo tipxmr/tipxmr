@@ -1,4 +1,5 @@
 import { Donation } from "@prisma/client";
+
 import prisma from "../prisma";
 
 type BlankDonation = Pick<Donation, "subaddress">;

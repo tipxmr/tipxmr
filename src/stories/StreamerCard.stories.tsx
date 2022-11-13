@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import StreamerCard from "../components/StreamerCard";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "StreamerCard",

@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { DonationSettingsForm } from "../components";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "DonationSettingsForm",

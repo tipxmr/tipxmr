@@ -1,5 +1,6 @@
 import { Streamer } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+
 import { createStreamer, getStreamers } from "~/lib/db/streamer";
 
 const handler: NextApiHandler = async (req, res) => {

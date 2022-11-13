@@ -1,4 +1,5 @@
 import { Account, Status } from "@prisma/client";
+
 import prisma from "../prisma";
 
 export const getAccount = (streamer: Account["streamer"]) => {

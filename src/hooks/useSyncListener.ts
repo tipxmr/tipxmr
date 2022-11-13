@@ -1,5 +1,7 @@
-import { createSyncProgressListener } from "~/lib/xmr";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
+
+import { createSyncProgressListener } from "~/lib/xmr";
 import {
   isSyncRunningAtom,
   progressAtom,
@@ -8,7 +10,6 @@ import {
   syncStartHeightAtom,
   walletAtom,
 } from "~/store";
-import { useEffect } from "react";
 
 const useSyncListener = () => {
   const [xmrWallet] = useAtom(walletAtom);

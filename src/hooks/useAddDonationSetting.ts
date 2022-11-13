@@ -1,11 +1,12 @@
-import { DonationSetting } from "@prisma/client";
+import type { DonationSetting } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
 type UpdateObject = {
   streamer?: string;
-  data: {};
+  data: Partial<DonationSetting>;
 };
 const useAddDonationSetting = () => {
   const queryClient = useQueryClient();

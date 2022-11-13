@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import QrCode from "qrcode";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+
 import DonationMask from "~/components/Donation";
 import Redirect from "~/components/Redirect";
 import useStreamerByName from "~/hooks/useStreamerByName";
-
 import { createMoneroTransactionUri } from "~/lib/xmr";
 
 async function toQrCode(data: string) {

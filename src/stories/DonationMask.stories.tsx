@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import DonationMask from "~/components/Donation";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "DonationMask",

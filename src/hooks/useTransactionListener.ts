@@ -1,7 +1,8 @@
-import { createOutputReceivedListener } from "~/lib/xmr";
 import { useAtom } from "jotai";
-import { walletAtom } from "~/store";
 import { useEffect } from "react";
+
+import { createOutputReceivedListener } from "~/lib/xmr";
+import { walletAtom } from "~/store";
 
 const useTransactionListener = () => {
   const [xmrWallet] = useAtom(walletAtom);

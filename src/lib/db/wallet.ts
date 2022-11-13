@@ -1,4 +1,5 @@
 import { Wallet } from "@prisma/client";
+
 import prisma from "../prisma";
 
 type WalletSettingsUpdate = Pick<Wallet, "lastSyncHeight" | "restoreHeight">;

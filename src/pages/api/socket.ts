@@ -1,8 +1,8 @@
+import setupSocket from "lib/server/socket";
 import { NextApiRequest } from "next";
-import { NextApiResponseWithSocket } from "../../types/next";
 import { Server as ServerIO } from "socket.io";
 
-import setupSocket from "lib/server/socket";
+import { NextApiResponseWithSocket } from "../../types/next";
 
 const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
   if (!res.socket.server.io) {

@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import SeedOutput from "~/components/SeedOutput";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "SeedOutput",

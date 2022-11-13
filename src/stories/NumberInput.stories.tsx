@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import NumberInput from "~/components/NumberInput";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "NumberInput",

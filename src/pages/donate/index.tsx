@@ -1,8 +1,9 @@
+import { UpdateIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import Link from "next/link";
-import useStreamers from "~/hooks/useStreamers";
+
 import Redirect from "~/components/Redirect";
-import { UpdateIcon } from "@radix-ui/react-icons";
+import useStreamers from "~/hooks/useStreamers";
 
 const Donate: NextPage = () => {
   const { status, data: streamers, error } = useStreamers();

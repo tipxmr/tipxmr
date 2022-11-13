@@ -1,8 +1,9 @@
 import { Streamer } from "@prisma/client";
+import Image from "next/image";
 import { FC } from "react";
+
 import StreamerChip from "~/components/StreamerChip";
 import Subaddress from "~/components/Subaddress";
-import Image from "next/image";
 
 interface DonationMaskProps {
   streamer: Streamer | undefined;

@@ -42,7 +42,7 @@ const PlanForm: FC = ({}) => {
                 </div>
                 <ul>
                   {description.map((line) => (
-                    <li>{line}</li>
+                    <li key={line}>{line}</li>
                   ))}
                 </ul>
                 <button className="btn-primary mt-2">{buttonText}</button>

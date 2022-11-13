@@ -1,5 +1,6 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import WalletSettingsForm from "~/components/WalletSettings";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {
   title: "WalletSettingsForm",
