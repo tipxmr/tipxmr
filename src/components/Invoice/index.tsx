@@ -1,29 +1,20 @@
-import Box from "@mui/material/Box";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Stepper from "@mui/material/Stepper";
-import Typography from "@mui/material/Typography";
 import { FC, useState } from "react";
-import PaperWrapper from "../PaperWrapper";
 import PaymentSuccess from "../PaymentSuccess";
 import PaymentForm from "./PaymentForm";
 import PlanForm from "./PlanForm";
 
-const steps = ["Choose plan", "Payment", "Success"];
+const steps = ["1. Select your plan", "2. Payment", "3. Start streaming!"];
 
 function getStepContent(step: number) {
+  const dummyAddress =
+    "73Ajo8zALxQdaj4UJHprYXGrxurbMtxnZiJnLaXhFQ7GKyGNgsG95LqNyRLQiaXKfMbRe5gTdnHVJV5qWJRc58x2QfyuEBz";
   switch (step) {
     case 0:
       return <PlanForm />;
     case 1:
       return <PaymentForm />;
     case 2:
-      return (
-        <PaymentSuccess
-          amount={2}
-          address="73Ajo8zALxQdaj4UJHprYXGrxurbMtxnZiJnLaXhFQ7GKyGNgsG95LqNyRLQiaXKfMbRe5gTdnHVJV5qWJRc58x2QfyuEBz"
-        />
-      );
+      return <PaymentSuccess amount={2} address={dummyAddress} />;
     default:
       throw new Error("Unknown step");
   }
@@ -39,30 +30,29 @@ const Invoice: FC = () => {
     setActiveStep(activeStep - 1);
   };
 
+  const orderNo = "#2001539";
   return (
-    <PaperWrapper title="Tipxmr Registration">
-      <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+    <div className="tip-border rounded-lg py-5 px-2">
+      <div className="flex flex-row justify-center space-x-5">
         {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
+          <div key={label}>
+            <p>{label}</p>
+          </div>
         ))}
-      </Stepper>
+      </div>
       {activeStep === steps.length ? (
         <>
-          <Typography variant="h5" gutterBottom>
-            Thank you for your order.
-          </Typography>
-          <Typography variant="subtitle1">
-            Your order number is #2001539. We have emailed your order
+          <h2>Thank you for your order.</h2>
+          <p>
+            Your order number is {orderNo}. We have emailed your order
             confirmation, and will send you an update when your order has
             shipped.
-          </Typography>
+          </p>
         </>
       ) : (
         <>
           {getStepContent(activeStep)}
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <div className="flex flex-col">
             {activeStep !== 0 && (
               <button className="btn-primary mt-3 ml-1" onClick={handleBack}>
                 Back
@@ -71,10 +61,10 @@ const Invoice: FC = () => {
             <button className="btn-primary mt-3 ml-1" onClick={handleNext}>
               {activeStep === steps.length - 1 ? "Place order" : "Next"}
             </button>
-          </Box>
+          </div>
         </>
       )}
-    </PaperWrapper>
+    </div>
   );
 };
 

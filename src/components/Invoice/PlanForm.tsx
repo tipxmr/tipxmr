@@ -1,20 +1,10 @@
 import { FC } from "react";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import StarIcon from "@mui/icons-material/Star";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Container,
-} from "@mui/material";
 
 const PlanForm: FC = ({}) => {
   const tiers = [
     {
       title: "Free",
+      subheader: "Try it out",
       price: "0",
       description: [
         "Try out Tipxmr for free",
@@ -39,63 +29,29 @@ const PlanForm: FC = ({}) => {
   ];
 
   return (
-    <Container maxWidth="md" component="main">
-      <Grid container spacing={5} alignItems="flex-end" justifyContent="center">
-        {tiers.map((tier) => (
-          <Grid item key={tier.title} xs={12} md={4}>
-            <Card>
-              <CardHeader
-                title={tier.title}
-                subheader={tier.subheader}
-                titleTypographyProps={{ align: "center" }}
-                action={tier.title === "Pro" ? <StarIcon /> : null}
-                subheaderTypographyProps={{
-                  align: "center",
-                }}
-                sx={{
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === "light"
-                      ? theme.palette.grey[200]
-                      : theme.palette.grey[700],
-                }}
-              />
-              <CardContent>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "baseline",
-                    mb: 2,
-                  }}
-                >
-                  <Typography component="h2" variant="h3" color="text.primary">
-                    ${tier.price}
-                  </Typography>
-                  <Typography variant="h6" color="text.secondary">
-                    /mo
-                  </Typography>
-                </Box>
+    <main className="container px-2">
+      <div className="flex flex-col justify-center space-y-5">
+        {tiers.map(
+          ({ title, subheader = "", price, description, buttonText }) => (
+            <div key={title} className="tip-border rounded-md p-5">
+              <div className="text-center">
+                <h2>{title}</h2>
+                {subheader.length && <h3>{subheader}</h3>}
+                <div className="mb-2 flex flex-col justify-center">
+                  <p>${price} per month</p>
+                </div>
                 <ul>
-                  {tier.description.map((line) => (
-                    <Typography
-                      component="li"
-                      variant="subtitle1"
-                      align="left"
-                      key={line}
-                    >
-                      {line}
-                    </Typography>
+                  {description.map((line) => (
+                    <li>{line}</li>
                   ))}
                 </ul>
-              </CardContent>
-              <CardActions>
-                <button className="btn-primary block">{tier.buttonText}</button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                <button className="btn-primary mt-2">{buttonText}</button>
+              </div>
+            </div>
+          )
+        )}
+      </div>
+    </main>
   );
 };
 export default PlanForm;
