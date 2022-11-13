@@ -1,4 +1,4 @@
-import { Account,Streamer } from "@prisma/client";
+import { Account, Streamer } from "@prisma/client";
 
 import prisma from "./prisma";
 
