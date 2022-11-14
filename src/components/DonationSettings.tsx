@@ -2,12 +2,14 @@ import type { DonationSetting } from "@prisma/client";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import useDonationSettings from "~/hooks/useDonationSettings";
 import useAddDonationSetting from "~/hooks/useAddDonationSetting";
+import useDonationSettings from "~/hooks/useDonationSettings";
 import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
 import useUser from "~/lib/useUser";
 
 import Input from "./Input";
+
+async function foo(tings) {}
 
 const DonationSettingsForm: FC = () => {
   const {
@@ -28,9 +30,6 @@ const DonationSettingsForm: FC = () => {
   if (!donationSettings || !user) {
     return <span>Loading Donation Settings</span>;
   }
-
-  const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
-    donationSettings;
 
   const handleDonationSettingsSubmit: SubmitHandler<
     Partial<DonationSetting>
