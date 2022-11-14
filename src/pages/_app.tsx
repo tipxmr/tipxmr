@@ -11,7 +11,9 @@ import { Suspense } from "react";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
-const queryClient = new QueryClient();
+
+// TODO: Move into custom file
+export const queryClient = new QueryClient();
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
