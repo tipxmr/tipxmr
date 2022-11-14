@@ -1,21 +1,12 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { Streamer } from "@prisma/client";
 import { useEffect } from "react";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 
 import streamerKeys from "~/features/streamer/queries";
-import {
-  StreamerClientToServerEvents,
-  StreamerServerToClientEvents,
-} from "~/lib/server/socket/streamer";
-
-type StreamerSocket = Socket<
-  StreamerServerToClientEvents,
-  StreamerClientToServerEvents
->;
+import { DonationSocket, StreamerSocket } from "~/lib/server/socket/nsp";
+import { queryClient } from "~/pages/_app";
 
 const useFooSocket = () => {
-  const queryClient = useQueryClient();
-
   useEffect(() => {
     const socket: StreamerSocket = io("http://localhost:3000/streamer", {
       path: "/api/socket",
@@ -33,6 +24,14 @@ const useFooSocket = () => {
     socket.on("disconnect", () => {
       socket.emit("offline");
       queryClient.invalidateQueries(streamerKeys.online());
+    });
+
+    socket.on("fetch", (...args) => {
+      // FIXME: This will work, but only for a single required subaddress
+      // Maybe create an array as queue for pending subaddress generations
+      // We could push the socketIds into the state to know where the
+      // new address belongs to
+      queryClient.setQueryData(streamerKeys.subaddress(), "");
     });
 
     socket.onAny((event, ...args) => {
@@ -55,7 +54,38 @@ const useFooSocket = () => {
       socket.emit("offline");
       socket.disconnect();
     };
-  }, [queryClient]);
+  }, []);
 };
+
+export function useBarSocket() {
+  const streamerId = queryClient.getQueryData<Streamer["id"]>([
+    "donation",
+    "streamer",
+  ]);
+
+  useEffect(() => {
+    console.log({ streamerId });
+
+    if (!streamerId) {
+      return;
+    }
+
+    const socket: DonationSocket = io("http://localhost:3000/donation", {
+      path: "/api/socket",
+    });
+
+    socket.on("connect", () => {
+      socket.emit("create", streamerId);
+    });
+
+    socket.on("created", (subaddress: string) => {
+      console.log({ subaddress });
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [streamerId]);
+}
 
 export default useFooSocket;
