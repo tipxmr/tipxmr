@@ -1,32 +1,11 @@
 import { FileTextIcon } from "@radix-ui/react-icons";
 import * as Toast from "@radix-ui/react-toast";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-type Callback = () => void;
+import useTimeout from "~/lib/hooks/use-timeout";
 
 function shortenAddress(address: string) {
   return `${address.slice(0, 4)}...${address.slice(-4)}`;
-}
-
-function useTimeout(callback: Callback, delay: number | null) {
-  const timeoutRef = useRef<number>(null);
-  const savedCallback = useRef(callback);
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => savedCallback.current();
-    if (typeof delay === "number") {
-      timeoutRef.current = window.setTimeout(tick, delay);
-      return () => window.clearTimeout(timeoutRef.current);
-    }
-  }, [delay]);
-
-  return timeoutRef;
 }
 
 interface SubaddressProps {
@@ -35,9 +14,7 @@ interface SubaddressProps {
 
 const Subaddress = ({ address }: SubaddressProps) => {
   const [open, setOpen] = useState(false);
-  const [truncatedAddress, setTruncatedAddress] = useState(() =>
-    shortenAddress(address)
-  );
+  const truncatedAddress = useMemo(() => shortenAddress(address), [address]);
 
   const handleClick = () => {
     setOpen(true);
@@ -48,7 +25,7 @@ const Subaddress = ({ address }: SubaddressProps) => {
     () => {
       setOpen(false);
     },
-    open ? 3000 : null
+    open ? 3000 : undefined
   );
 
   return (
