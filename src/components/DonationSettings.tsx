@@ -9,7 +9,10 @@ import useUser from "~/lib/useUser";
 
 import Input from "./Input";
 
-async function foo(tings) {}
+const helloYou    = (name: string)=> {
+  name = 'you' || name   ;
+  console.log("hello" + name + "!" )
+}
 
 const DonationSettingsForm: FC = () => {
   const {
