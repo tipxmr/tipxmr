@@ -1,68 +1,29 @@
-import { io } from "socket.io-client";
-import IsOnlineBadge from "~/components/IsOnlineBadge";
-import { useEffect } from "react";
 import Container from "@mui/material/Container";
-import Head from "next/head";
-import type { NextPage } from "next";
 import Typography from "@mui/material/Typography";
-import useUser from "~/lib/useUser";
-import { useAtom } from "jotai";
-import {
-  balanceAtom,
-  generatedSeedPhraseAtom,
-  isSyncRunningAtom,
-  progressAtom,
-  syncEndHeightAtom,
-  syncHeightAtom,
-  walletAtom,
-} from "~/store";
-import { createSyncProgressListener, open } from "~/lib/xmr";
-import useFooSocket from "~/hooks/socket/use-socket";
 import { useQuery } from "@tanstack/react-query";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useEffect } from "react";
 
-function useSocket() {
-  useEffect(() => {
-    const socket = io("http://localhost:3000/X_streamer", {
-      path: "/api/socket",
-    });
-
-    socket.on("connect_error", (reason) => {
-      console.error(reason.message);
-    });
-
-    socket.on("connect", () => {
-      console.log("connected");
-      socket.emit("streamer:online", socket.id);
-    });
-
-    socket.on("disconnect", () => {
-      socket.emit("streamer:offline");
-    });
-
-    return () => {
-      console.log("disconnect");
-      socket.emit("streamer:offline");
-      socket.disconnect();
-    };
-  }, []);
-
-  return;
-}
+import IsOnlineBadge from "~/components/IsOnlineBadge";
+import streamerKeys from "~/features/streamer/queries";
+import useFooSocket from "~/hooks/socket/use-socket";
+import useUser from "~/lib/useUser";
 
 const Home: NextPage = () => {
-  // useSocket();
   useFooSocket();
 
   const { user: session } = useUser({ redirectTo: "/login" });
 
-  // const qux = useQuery(["streamer", session?.id, "isOnline"], () => {
-  //   console.log("useQuery - streamer");
+  const foobar = useQuery({
+    queryKey: streamerKeys.subaddress(),
+    queryFn: () => "",
+    enabled: false,
+  });
 
-  //   if (session?.id) {
-  //     return fetch(`/api/streamer/${session.id}`);
-  //   }
-  //   // return Promise.resolve();
-  // });
+  useEffect(() => {
+    console.log({ foobar: foobar.data });
+  }, [foobar.data]);
 
   if (session && session.isLoggedIn) {
     return (
