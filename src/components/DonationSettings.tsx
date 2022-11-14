@@ -2,17 +2,13 @@ import type { DonationSetting } from "@prisma/client";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import useAddDonationSetting from "~/hooks/useAddDonationSetting";
 import useDonationSettings from "~/hooks/useDonationSettings";
+import useAddDonationSetting from "~/hooks/useAddDonationSetting";
 import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
 import useUser from "~/lib/useUser";
 
 import Input from "./Input";
 
-const helloYou    = (name: string)=> {
-  name = 'you' || name   ;
-  console.log("hello" + name + "!" )
-}
 
 const DonationSettingsForm: FC = () => {
   const {
