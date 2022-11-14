@@ -16,7 +16,6 @@ import HeroUnit from "~/components/HeroUnit";
 import InfoCard from "~/components/InfoCard";
 import IsOnlineBadge from "~/components/IsOnlineBadge";
 import LanguageSelector from "~/components/LanguageSelector";
-import { getStreamers } from "~/lib/db/streamer";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
@@ -31,21 +30,7 @@ type Props = {
   streamers: SerializedStreamer[];
 };
 
-// export const getServerSideProps: GetServerSideProps<Props> = async () => {
-//   const streamers = await getStreamers();
-//   const serialized = streamers.map(({ updatedAt, ...streamer }) => {
-//     return {
-//       ...streamer,
-//       updatedAt: updatedAt.toJSON(),
-//     };
-//   });
-
-//   return { props: { streamers: serialized } };
-// };
-
-type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
-
-const Home: NextPage<ServerSideProps> = () => {
+const Home: NextPage<Props> = () => {
   /* useUser({ redirectTo: "/dashboard", redirectIfFound: true }); */
   const [language, setLanguage] = useState("English");
 
