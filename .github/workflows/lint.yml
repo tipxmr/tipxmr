@@ -8,4 +8,6 @@ jobs:
     - name: Install modules
       run: npm ci
     - name: Run ESLint
-      run: npm run eslint:fix
+      run: npm run eslint
+    - name: Run Prettier
+      run: npm run prettier
