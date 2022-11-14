@@ -1,27 +1,34 @@
-"use client";
+// "use client";
 
-import { UpdateIcon } from "@radix-ui/react-icons";
-import { NextPage } from "next";
-import { useRouter } from "next/router";
+// import { UpdateIcon } from "@radix-ui/react-icons";
 import QrCode from "qrcode";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 
+// import { useEffect } from "react";
+// import { io } from "socket.io-client";
 import DonationMask from "~/components/Donation";
-import Redirect from "~/components/Redirect";
-import useStreamerByName from "~/hooks/useStreamerByName";
+import prisma from "~/lib/prisma";
 import { createMoneroTransactionUri } from "~/lib/xmr";
 
 async function toQrCode(data: string) {
   return QrCode.toDataURL(data, { scale: 25 });
 }
 
-const DonateTo: NextPage = () => {
-  const router = useRouter();
-  const { name } = router.query;
-  const { status, data: streamer, error } = useStreamerByName(name);
+interface Params {
+  name: string;
+}
 
-  const [code, setCode] = useState<string>();
+interface Props {
+  params: Params;
+}
+
+async function DonateTo({ params }: Props) {
+  const { name } = params;
+
+  const streamer = await prisma.streamer.findUniqueOrThrow({
+    where: {
+      name,
+    },
+  });
 
   const transactionAddress =
     "46BeWrHpwXmHDpDEUmZBWZfoQpdc6HaERCNmx1pEYL2rAcuwufPN9rXHHtyUA4QVy66qeFQkn6sfK8aHYjA3jk3o1Bv16em";
@@ -31,42 +38,16 @@ const DonateTo: NextPage = () => {
     description: "donation",
   });
 
-  useEffect(() => {
-    if (!streamer) {
-      return;
-    }
+  const code = await toQrCode(transactionUri);
 
-    const socket = io("http://localhost:3000/donation", {
-      path: "/api/socket",
-    });
+  // return <div>{code}</div>;
+  // const [code, setCode] = useState<string>();
 
-    socket.on("connect", () => {
-      socket.emit("subaddress:create", streamer.id);
-    });
-
-    socket.on("subaddress:created", (subaddress: string) => {
-      console.log({ subaddress });
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [streamer]);
-
-  useEffect(() => {
-    if (streamer) {
-      toQrCode(transactionUri).then(setCode);
-    }
-  }, [transactionUri, streamer]);
-
-  if (status === "error" && error instanceof Error) {
-    console.error({ error });
-    return <Redirect to="/donate" />;
-  }
-
-  if (status === "loading") {
-    return <UpdateIcon className="animate-spin" />;
-  }
+  // useEffect(() => {
+  //   if (streamer) {
+  //     // toQrCode(transactionUri).then(setCode);
+  //   }
+  // }, [transactionUri, streamer]);
 
   return (
     <DonationMask
@@ -75,6 +56,6 @@ const DonateTo: NextPage = () => {
       code={code}
     />
   );
-};
+}
 
 export default DonateTo;
