@@ -1,34 +1,29 @@
 import type { Server } from "socket.io";
+import { Namespaces } from "./nsp";
 
-// function donationHandler(io, socket) {
-//     const createOrder = (payload) => {    // ...  }
-//         const readOrder = (orderId, callback) => {    // ...  }
-
-//       return {
-//         createOrder,
-//         readOrder,
-//       };
-// }
-
-// export default donationHandler
-
-function setupDonation(io: Server) {
-  const donationNsp = io.of("/donation");
-
+function setupDonation({ donationNsp, streamerNsp }: Namespaces, io: Server) {
   donationNsp.on("connection", (socket) => {
-    socket.on("subaddress:create", (streamer) => {
-      console.log({ streamer });
+    socket.on("create", async (id) => {
+      const streamer = await prisma?.streamer.findUnique({
+        where: {
+          id,
+        },
+      });
 
       // TODO get the by name for the socket id
       // TODO emit an event to the streamer that a new
       // socket
       // .to()
 
-      io.to(streamer.socket).emit("subaddress:fetch", socket.id);
+      if (streamer?.socket) {
+        streamerNsp.to(streamer.socket).emit("fetch", socket.id);
+      }
     });
 
-    socket.on("subaddress:fetched", (subaddress) => {
-      io.to(subaddress.socket).emit("subaddress:created", subaddress);
+    socket.on("fetched", (subaddress) => {
+      if (subaddress?.socket) {
+        io.to(subaddress.socket).emit("created", subaddress);
+      }
     });
   });
 }

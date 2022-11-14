@@ -1,38 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 import { getIronSession } from "iron-session";
 import { ServerResponse } from "node:http";
-import type { Namespace, Server, Socket } from "socket.io";
-
+import type { Server } from "socket.io";
 import invariant from "tiny-invariant";
 
 import { ironOptions } from "../../config";
+import { Namespaces } from "./nsp";
 
 const prisma = new PrismaClient();
 
-export interface StreamerClientToServerEvents {
-  online: (socketId: string) => void;
-  offline: () => void;
-}
-
-export interface StreamerServerToClientEvents {}
-
-interface StreamerInterServerEvents {
-  // ...
-}
-
-interface StreamerSocketData {
-  // ...
-}
-
-function setupStreamer(io: Server) {
-  // const streamerNsp = io.of("/streamer");
-  const streamerNsp: Namespace<
-    StreamerClientToServerEvents,
-    StreamerServerToClientEvents,
-    StreamerInterServerEvents,
-    StreamerSocketData
-  > = io.of("/streamer");
-
+function setupStreamer({ streamerNsp }: Namespaces, io: Server) {
   streamerNsp.use(async (socket, next) => {
     // TODO: Is this recommended?
     const session = await getIronSession(
