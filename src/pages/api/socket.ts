@@ -10,6 +10,7 @@ const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
 
     const io = new ServerIO(httpServer, {
       path: "/api/socket",
+      serveClient: false,
     });
 
     res.socket.server.io = io;

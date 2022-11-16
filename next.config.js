@@ -20,6 +20,10 @@ module.exports = {
     if (!isServer) {
       config.resolve.fallback.child_process = false;
       config.resolve.fallback.fs = false;
+      config.externals = {
+        bufferutil: "bufferutil",
+      "utf-8-validate": "utf-8-validate",
+      }
     }
 
     return config;
