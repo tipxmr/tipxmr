@@ -1,15 +1,11 @@
 "use client";
 
-import { CaretDownIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 
-import { User } from "~/lib/config";
-import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
 import Logo from "../img/logo.png";
@@ -37,17 +33,15 @@ const Navbar = () => {
   const menuItems = session?.isLoggedIn ? logged_in_pages : logged_out_pages;
 
   return (
-    <NavigationMenu.Root className="relative flex flex-row justify-between p-2">
+    <NavigationMenu.Root className="relative mt-4 flex flex-row items-center justify-between p-2">
       <Link href="/">
         <Image src={Logo} alt="TipXMR Logo" width={250} />
       </Link>
 
-      <NavigationMenu.List className="flex flex-row flex-wrap justify-center gap-4 text-lg"></NavigationMenu.List>
-
       <NavigationMenu.List>
-        <NavigationMenu.Item className="overflow-scroll rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
+        <NavigationMenu.Item className="mx-32 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
           <NavigationMenu.Trigger className="flex flex-row items-center">
-            Account <CaretDownIcon className="CaretDown" aria-hidden />
+            <HamburgerMenuIcon />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="visible absolute bg-gray-700">
             {menuItems.map(({ page, href }) => (
