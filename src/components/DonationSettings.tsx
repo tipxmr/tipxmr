@@ -29,9 +29,6 @@ const DonationSettingsForm: FC = () => {
     return <span>Loading Donation Settings</span>;
   }
 
-  const { secondPrice, charPrice, charLimit, minAmount, gifsMinAmount, goal } =
-    donationSettings;
-
   const handleDonationSettingsSubmit: SubmitHandler<
     Partial<DonationSetting>
   > = async (data) => {
