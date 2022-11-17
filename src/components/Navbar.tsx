@@ -66,14 +66,14 @@ const Navbar = () => {
       </NavigationMenu.List>
 
       <NavigationMenu.List>
-        <NavigationMenu.Item className="w-36 overflow-scroll rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
+        <NavigationMenu.Item className="overflow-scroll rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
           <NavigationMenu.Trigger className="flex flex-row items-center">
-            My Account <CaretDownIcon className="CaretDown" aria-hidden />
+            Account <CaretDownIcon className="CaretDown" aria-hidden />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="visible absolute bg-gray-700">
-            <ul className="mt-3 cursor-pointer">
+            <ul className="mt-2 cursor-pointer">
               {session?.isLoggedIn && (
-                <li>
+                <li className="m-3">
                   <span onClick={() => signOut()}>Logout</span>
                 </li>
               )}
