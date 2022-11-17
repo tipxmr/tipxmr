@@ -1,11 +1,6 @@
-// "use client";
-
-// import { UpdateIcon } from "@radix-ui/react-icons";
 import QrCode from "qrcode";
 
-// import { useEffect } from "react";
-// import { io } from "socket.io-client";
-import DonationMask from "~/components/Donation";
+import NewDonation from "~/components/NewDonation";
 import prisma from "~/lib/prisma";
 import { createMoneroTransactionUri } from "~/lib/xmr";
 
@@ -40,22 +35,7 @@ async function DonateTo({ params }: Props) {
 
   const code = await toQrCode(transactionUri);
 
-  // return <div>{code}</div>;
-  // const [code, setCode] = useState<string>();
-
-  // useEffect(() => {
-  //   if (streamer) {
-  //     // toQrCode(transactionUri).then(setCode);
-  //   }
-  // }, [transactionUri, streamer]);
-
-  return (
-    <DonationMask
-      streamer={streamer}
-      txAddress={transactionAddress}
-      code={code}
-    />
-  );
+  return <NewDonation streamer={streamer} code={code} />;
 }
 
 export default DonateTo;

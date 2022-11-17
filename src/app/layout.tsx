@@ -8,7 +8,7 @@ import { Suspense } from "react";
 
 import Layout from "~/components/Layout";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
