@@ -17,7 +17,7 @@ import Logo from "../img/logo.png";
 type Pages = { page: string; href: string }[];
 
 const default_pages: Pages = [
-  { page: "Overview", href: "/overview" },
+  { page: "Livestreams", href: "/overview" },
   { page: "Donate", href: "/donate" },
 ];
 
@@ -33,16 +33,8 @@ const logged_in_pages: Pages = [
 ];
 
 const Navbar = () => {
-  const { user: session, mutate: mutateUser } = useUser();
-  const pathname = usePathname();
+  const { user: session } = useUser();
   const menuItems = session?.isLoggedIn ? logged_in_pages : logged_out_pages;
-
-  const signOut = async () => {
-    await fetchJson<User>("/api/logout", {
-      method: "POST",
-    });
-    mutateUser(undefined);
-  };
 
   return (
     <NavigationMenu.Root className="relative flex flex-row justify-between p-2">
@@ -50,20 +42,7 @@ const Navbar = () => {
         <Image src={Logo} alt="TipXMR Logo" width={250} />
       </Link>
 
-      <NavigationMenu.List className="flex flex-row flex-wrap justify-center gap-4 text-lg">
-        {menuItems.map(({ page, href }) => (
-          <Link key={page} href={href}>
-            <NavigationMenu.Item
-              className={clsx(
-                "w-32 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400",
-                pathname === href && "bg-orange-400"
-              )}
-            >
-              {page}
-            </NavigationMenu.Item>
-          </Link>
-        ))}
-      </NavigationMenu.List>
+      <NavigationMenu.List className="flex flex-row flex-wrap justify-center gap-4 text-lg"></NavigationMenu.List>
 
       <NavigationMenu.List>
         <NavigationMenu.Item className="overflow-scroll rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
@@ -71,13 +50,13 @@ const Navbar = () => {
             Account <CaretDownIcon className="CaretDown" aria-hidden />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="visible absolute bg-gray-700">
-            <ul className="mt-2 cursor-pointer">
-              {session?.isLoggedIn && (
-                <li className="m-3">
-                  <span onClick={() => signOut()}>Logout</span>
-                </li>
-              )}
-            </ul>
+            {menuItems.map(({ page, href }) => (
+              <Link key={page} href={href}>
+                <NavigationMenu.Item className="m-4">
+                  {page}
+                </NavigationMenu.Item>
+              </Link>
+            ))}
           </NavigationMenu.Content>
         </NavigationMenu.Item>
       </NavigationMenu.List>
