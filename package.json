@@ -23,7 +23,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@next/font": "^13.0.3",
+    "@next/font": "^13.0.4",
     "@prisma/client": "^4.6.1",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-icons": "^1.1.1",
@@ -39,7 +39,7 @@
     "iron-session": "^6.3.1",
     "jotai": "^1.10.0",
     "monero-javascript": "^0.7.4",
-    "next": "^13.0.3",
+    "next": "^13.0.4",
     "qrcode": "^1.5.1",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
@@ -69,7 +69,7 @@
     "autoprefixer": "^10.4.13",
     "bufferutil": "^4.0.7",
     "eslint": "^8.27.0",
-    "eslint-config-next": "^13.0.3",
+    "eslint-config-next": "^13.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
