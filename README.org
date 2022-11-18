@@ -66,9 +66,9 @@ Thanks to the awesome [[https://github.com/monero-ecosystem/monero-javascript][m
 As you can see, the endusers (i.e. streamer and donors) are not required to have a deep understanding of the Monero network. TipXMR delivers an easy path for streamers to monetize their content powered by the best privacy coin out there.
 
 **** Login
-TipXMR requires very little information about the streamer who creates an account. There is no KYC process or even email required. After picking the username, the streamer can sign in by using their seed. While it may seem dangerous at first glance to enter a XMR seed into a browser, since TipXMR uses the WebAssembly wallet the seed never leaves the local computer. Of course, a compromised machine would leak the seed and risk loosing funds. However, in the end is OpSec a personal responsibility and we could never _guarantee_ safety. Therefore, we simply recommend sweeping the TipXMR wallet regularly in addition to other cybersafety measures.
+TipXMR requires very little information about the streamer who creates an account. There is no KYC process or even email required. After picking the username, the streamer can sign in by using their seed or with their private view key and primary address. While it may seem dangerous at first glance to enter a XMR seed into a browser, since TipXMR uses the WebAssembly wallet the seed never leaves the local computer. Of course, a compromised machine would leak the seed and risk loosing funds. However, in the end is OpSec a personal responsibility and we could never _guarantee_ safety. Therefore, we simply recommend sweeping the TipXMR wallet regularly in addition to other cybersafety measures.
 
-On login, the local browser hashes the seed and sends it to the user db. The hashed seed is used on the server side to authorize the user and log them in.
+On login, the local browser hashes the private view key and primary address. TipXMR will save that cryptographic hash in its database. The hash is used on the server side to authorize the user and log them in.
 
 **** Wallet functionality
 Once logged in the streamer is presented a dashboard, which offers stats, settings and a basic wallet. While the wallet interface is still a work in progress, the design should be minimal. The wallet should not be used as a store for large amounts, because of the inherent risk of being on a machine connected to the internet. The streamer will be able to provide a withdrawal address in the settings and be able to sweep the entire balance to this address with an easy button.
@@ -88,3 +88,8 @@ _Note_: Donors are always anonymous. They do not require an account to tip. This
 ** License
 
  ⚖️[[AGPL-3.0 License][AGPL-3.0 License]]
+
+** Donations
+
+Donations additional to the CCS are always welcome
+84H6qm4apZhg4jTvjyanfRfcmd1TtTjkpYMX7MFdPFxQPGsPmmFPYwte2hWBh9EyMQdCTeEpEhfGpTkN3W6ovWAwBrKckBL
