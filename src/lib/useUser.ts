@@ -1,6 +1,6 @@
 import { Streamer } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { User } from "./config";
@@ -21,6 +21,8 @@ export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
 } = {}) {
+  const router = useRouter();
+
   const { data: user, error } = useQuery(["user"], fetchUser);
 
   useEffect(() => {
@@ -47,9 +49,9 @@ export default function useUser({
       // If redirectIfFound is also set, redirect if the user was found
       (redirectIfFound && user?.isLoggedIn)
     ) {
-      Router.push(redirectTo);
+      router.push(redirectTo);
     }
-  }, [user, redirectIfFound, redirectTo]);
+  }, [user, redirectIfFound, redirectTo, router]);
 
   return { user, mutate: mutation.mutate };
 }
