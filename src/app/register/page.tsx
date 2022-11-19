@@ -7,13 +7,9 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import Register from "~/components/RegisterStepper";
 import useCreateUser from "~/hooks/useCreateUser";
-import {
-  displayNameAtom,
-  truncatedHashedSeedAtom,
-  userNameAtom,
-} from "~/store";
+import { displayNameAtom, truncatedHashIdAtom, userNameAtom } from "~/store";
 
-const Home: NextPage = () => {
+const RegisterPage: NextPage = () => {
   // TODO rewrite into custom hook to use react-query
   const createUser = useCreateUser();
 
@@ -23,7 +19,7 @@ const Home: NextPage = () => {
 
   const [userName] = useAtom(userNameAtom);
   const [displayName] = useAtom(displayNameAtom);
-  const [truncatedHashedSeed] = useAtom(truncatedHashedSeedAtom);
+  const [truncatedHashedSeed] = useAtom(truncatedHashIdAtom);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +47,7 @@ const Wrapper: NextPage = () => {
       FallbackComponent={({ error }) => <div>{error.message}</div>}
       onError={console.log}
     >
-      <Home />
+      <RegisterPage />
     </ErrorBoundary>
   );
 };

@@ -6,7 +6,11 @@ import type {
   OutputReceivedListener,
   SyncProgressListener,
 } from "monero-javascript";
-import { createWalletFull, MoneroWalletListener } from "monero-javascript";
+import {
+  createWalletFull,
+  createWalletKeys,
+  MoneroWalletListener,
+} from "monero-javascript";
 
 const stagenetNode = {
   networkType: "stagenet",
@@ -18,17 +22,28 @@ const stagenetNode = {
 };
 
 // --- Helper
-export const getMnemonicHash = (seed: FormDataEntryValue | null) =>
-  Hex.stringify(sha256(seed));
+export const hashSha256 = (seed: string) => Hex.stringify(sha256(seed));
 
 // --- Wallet stuff
-export const createWallet = async (lang = "English") => {
-  const walletFull = await createWalletFull({
+export const createWalletFromScratch = async (lang = "English") => {
+  const walletFull = createWalletFull({
     // mnemonic omitted => generate random wallet
     language: lang,
     ...stagenetNode,
   });
   return walletFull.getMnemonic();
+};
+
+export const createViewOnlyWallet = async (
+  privateViewKey: string,
+  primaryAddress: string
+) => {
+  const walletFull = await createWalletKeys({
+    networkType: "stagenet",
+    privateViewKey,
+    primaryAddress,
+  });
+  return walletFull;
 };
 
 export const open = async (mnemonic: string) => {
@@ -46,10 +61,7 @@ export const generateSubaddress = async ({
   accountIndex: number;
   label: string;
   wallet: MoneroWalletFull;
-}) => {
-  const address = await wallet.createSubaddress(accountIndex, label);
-  return address;
-};
+}) => wallet.createSubaddress(accountIndex, label);
 
 export const createMoneroTransactionUri = ({
   address,

@@ -6,7 +6,7 @@ import { FormEvent } from "react";
 import Login from "~/components/Login";
 import { FetchError } from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
-import { getMnemonicHash } from "~/lib/xmr";
+import { hashSha256 } from "~/lib/xmr";
 
 const LoginPage: NextPage = () => {
   const { mutate: mutateUser } = useUser({
@@ -29,7 +29,7 @@ const LoginPage: NextPage = () => {
     // TODO handle the "remembered status"
     const remember = data.get("remember");
 
-    const truncatedHashedSeed = getMnemonicHash(seed).slice(0, 11);
+    const truncatedHashedSeed = hashSha256(seed).slice(0, 11);
     try {
       mutateUser(truncatedHashedSeed);
     } catch (reason) {
