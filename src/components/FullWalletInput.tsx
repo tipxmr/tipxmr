@@ -1,42 +1,33 @@
 "use client";
 
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { primaryStagenetAddress } from "~/lib/regex";
-import { createViewOnlyWallet } from "~/lib/xmr";
+import { seedWordCount } from "~/lib/regex";
+import { open } from "~/lib/xmr";
 
-import Input from "./Input";
+import Textarea from "./Textarea";
 
-interface ViewWalletFormValues {
-  primaryAddress: string;
-  privateViewKey: string;
+interface FullWalletFormValues {
+  seed: string;
 }
 
-const ViewWalletInput = () => {
+const FullWalletInput = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid, isDirty },
-  } = useForm<ViewWalletFormValues>({
+    formState: { isValid, isDirty },
+  } = useForm<FullWalletFormValues>({
     mode: "onChange",
   });
 
-  const createWallet: SubmitHandler<ViewWalletFormValues> = async (
-    data: ViewWalletFormValues
+  const createWallet: SubmitHandler<FullWalletFormValues> = async (
+    data: FullWalletFormValues
   ) => {
     console.log(data);
     if (!isValid) return;
-    const wallet = await createViewOnlyWallet(
-      data.privateViewKey,
-      data.primaryAddress
-    );
+    const wallet = await open(data.seed);
     return wallet;
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <>
@@ -44,36 +35,17 @@ const ViewWalletInput = () => {
         onSubmit={handleSubmit(createWallet)}
         className="mx-auto flex w-6/12 flex-col gap-2 p-8"
       >
-        <Input
-          label="Private View Key"
-          name="privateViewKey"
-          control={control}
+        <Textarea
+          name="seed"
+          label="Your seed (25 words)"
           rules={{
-            required: { value: true, message: "Private View Key is required" },
-            minLength: { value: 64, message: "Private View has 64 characters" },
-            maxLength: { value: 64, message: "Private View has 64 characters" },
-          }}
-        ></Input>
-        <Input
-          label="Primary Address"
-          name="primaryAddress"
-          control={control}
-          rules={{
-            required: { value: true, message: "Primary Address is required" },
-            minLength: {
-              value: 95,
-              message: "Primary Address has less than 95 characters",
-            },
-            maxLength: {
-              value: 95,
-              message: "Primary Address has more than 95 characters",
-            },
             pattern: {
-              value: primaryStagenetAddress,
-              message: "Address does not match moneros address schema",
+              value: seedWordCount,
+              message: "seed must contain 25 words",
             },
           }}
-        ></Input>
+          control={control}
+        />
         <input
           type="submit"
           value="Create Account"
@@ -85,4 +57,4 @@ const ViewWalletInput = () => {
   );
 };
 
-export default ViewWalletInput;
+export default FullWalletInput;

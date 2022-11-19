@@ -52,18 +52,30 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="XMR price per second of showtime"
         name="secondPrice"
+        type="number"
         control={control}
       ></Input>
-      <Input label="XMR price per character" name="charPrice"></Input>
+      <Input
+        label="XMR price per character"
+        name="charPrice"
+        type="number"
+      ></Input>
       <Input
         label="The maximum amount of characters per message"
         name="charLimit"
+        type="number"
         control={control}
       ></Input>
-      <Input label="Minimum XMR amount for donation" name="minAmount"></Input>
+      <Input
+        label="Minimum XMR amount for donation"
+        name="minAmount"
+        type="number"
+        control={control}
+      ></Input>
       <Input
         label="Minimum XMR amount for sending GIFs"
         name="gifsMinAmount"
+        type="number"
         rules={{
           min: {
             value: 0,
@@ -72,7 +84,12 @@ const DonationSettingsForm: FC = () => {
         }}
         control={control}
       ></Input>
-      <Input label="Funding goal" name="goal" control={control}></Input>
+      <Input
+        label="Funding goal"
+        name="goal"
+        type="number"
+        control={control}
+      ></Input>
       <input
         type="submit"
         value="Save settings"

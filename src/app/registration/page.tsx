@@ -3,6 +3,7 @@
 import type { NextPage } from "next/types";
 import { useState } from "react";
 
+import FullWalletInput from "~/components/FullWalletInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
 
 const RegistrationPage: NextPage = () => {
@@ -16,12 +17,17 @@ const RegistrationPage: NextPage = () => {
 
   return (
     <div className="text-center">
-      <h1 className="text-3xl">Register to TipXMR</h1>
+      <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
       {registrationStep === 0 && (
         <div className="mx-auto my-8 flex w-72 flex-col gap-4">
           <button className="btn-primary">Register with new wallet</button>
-          <button className="btn-primary">Register with existing seed</button>
+          <button
+            className="btn-primary"
+            onClick={() => handleStepChange("fullWallet", 1)}
+          >
+            Register with existing seed
+          </button>
           <button
             className="btn-primary"
             onClick={() => handleStepChange("viewOnlyWallet", 1)}
@@ -31,6 +37,7 @@ const RegistrationPage: NextPage = () => {
         </div>
       )}
       {registrationMode === "viewOnlyWallet" && <ViewWalletInput />}
+      {registrationMode === "fullWallet" && <FullWalletInput />}
       {registrationStep > 0 && (
         <button
           className="btn-primary"

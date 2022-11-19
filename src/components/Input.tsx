@@ -1,4 +1,4 @@
-import { ReactElement, useId } from "react";
+import { HTMLInputTypeAttribute, ReactElement, useId } from "react";
 import {
   FieldValues,
   useController,
@@ -8,6 +8,7 @@ import {
 interface InputProps {
   label: string;
   name: string;
+  type: HTMLInputTypeAttribute;
   className?: string;
 }
 
@@ -23,7 +24,7 @@ const Input = <T extends FieldValues>(
       </label>
       <input
         id={id}
-        type="text"
+        type={props.type}
         className="block w-full"
         aria-invalid={fieldState.error ? "true" : "false"}
         {...field}

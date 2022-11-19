@@ -1,43 +1,35 @@
-import { useId } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { ReactElement, useId } from "react";
+import {
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
 
-type InputProps = {
+interface InputProps {
   label: string;
   name: string;
-  register: UseFormRegister<any>;
-  required: boolean;
-  minLength?: number;
-  maxLength?: number;
-  pattern?: RegExp;
-  errorMessage?: string;
   className?: string;
-};
+}
 
-const Input = ({
-  label,
-  name,
-  register,
-  required,
-  minLength,
-  maxLength,
-  pattern,
-  errorMessage,
-  className = "",
-}: InputProps) => {
+const Textarea = <T extends FieldValues>(
+  props: InputProps & UseControllerProps<T>
+): ReactElement => {
+  const { field, fieldState } = useController(props);
   const id = useId();
   return (
-    <div className={`w-full ${className}`}>
+    <div className={`w-full ${props.className}`}>
       <label htmlFor={id} className="block text-left">
-        {label}
+        {props.label}
       </label>
       <textarea
         id={id}
-        className="block w-full"
-        {...register(name, { required, minLength, maxLength, pattern })}
+        className="block h-full w-full resize-none"
+        aria-invalid={fieldState.error ? "true" : "false"}
+        {...field}
       />
-      {errorMessage && <span>{errorMessage}</span>}
+      {fieldState.error && <p role="alert">{fieldState.error?.message}</p>}
     </div>
   );
 };
 
-export default Input;
+export default Textarea;

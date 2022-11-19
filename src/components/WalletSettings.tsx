@@ -49,6 +49,7 @@ const WalletSettingsForm = () => {
       <Input
         label="Restore height"
         name="restoreHeight"
+        type="number"
         rules={{
           min: {
             value: 0,
