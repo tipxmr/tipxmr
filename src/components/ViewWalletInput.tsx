@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { mainnetAddress } from "~/lib/regex";
 import { createViewOnlyWallet } from "~/lib/xmr";
 
 import Input from "./Input";
@@ -36,6 +37,8 @@ const ViewWalletInput = () => {
           name="privateViewKey"
           register={register}
           required={true}
+          minLength={64}
+          maxLength={64}
           errorMessage={errors?.["privateViewKey"]?.message?.toString()}
         ></Input>
         <Input
@@ -43,6 +46,9 @@ const ViewWalletInput = () => {
           name="primaryAddress"
           register={register}
           required={true}
+          minLength={95}
+          maxLength={95}
+          pattern={mainnetAddress}
           errorMessage={errors?.["primaryAddress"]?.message?.toString()}
         ></Input>
         <input

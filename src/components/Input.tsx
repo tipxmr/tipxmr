@@ -6,6 +6,9 @@ type InputProps = {
   name: string;
   register: UseFormRegister<any>;
   required: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
   errorMessage?: string;
   className?: string;
 };
@@ -15,6 +18,9 @@ const Input = ({
   name,
   register,
   required,
+  minLength,
+  maxLength,
+  pattern,
   errorMessage,
   className = "",
 }: InputProps) => {
@@ -28,7 +34,7 @@ const Input = ({
         id={id}
         type="text"
         className="block w-full"
-        {...register(name, { required })}
+        {...register(name, { required, minLength, maxLength, pattern })}
       />
       {errorMessage && <span>errorMessage</span>}
     </div>
