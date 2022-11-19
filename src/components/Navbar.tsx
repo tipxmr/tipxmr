@@ -23,7 +23,7 @@ const default_pages: Pages = [
 
 const logged_out_pages: Pages = [
   ...default_pages,
-  { page: "Register", href: "/register" },
+  { page: "Register", href: "/registration" },
   { page: "Login", href: "/login" },
 ];
 
