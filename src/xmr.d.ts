@@ -46,20 +46,20 @@ declare module "monero-javascript" {
   }
 
   declare class MoneroWalletFull implements MoneroWallet {
+    async addListener(listener: MoneroWalletListener);
     async close();
+    async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
+    async createTx(config: MoneroTxConfig): MoneroTxWallet;
+    async getDaemonConnection(): unknown;
+    async getListeners(): MoneroWalletListener[];
     async getMnemonic(): string;
     async getPrimaryAddress(): string;
-    async addListener(listener: MoneroWalletListener);
+    async getTxs(): unknown[];
+    async isConnectedToDaemon(): boolean;
     async removeListener(listener: MoneroWalletListener);
+    async setSyncHeight(height: number);
     async startSyncing();
     async stopSyncing();
-    async getListeners(): MoneroWalletListener[];
-    async setSyncHeight(height: number);
-    async getDaemonConnection(): unknown;
-    async isConnectedToDaemon(): boolean;
-    async createTx(config: MoneroTxConfig): MoneroTxWallet;
-    async getTxs(): unknown[];
-    async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
   }
 
   declare class MoneroWalletKeys implements MoneroWallet {
@@ -82,11 +82,11 @@ declare module "monero-javascript" {
 
   export async function createWalletFull(
     config: MoneroWalletConfig
-  ): MoneroWalletFull;
+  ): Promise<MoneroWalletFull>;
 
   export async function createWalletKeys(
     config: MoneroWalletKeysConfig
-  ): MoneroWalletKeys;
+  ): Promise<MoneroWalletKeys>;
 
   export type SyncProgressListener = (
     height: number,

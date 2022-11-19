@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import type { MoneroWalletFull } from "monero-javascript";
+import { MoneroWalletFull, MoneroWalletKeys } from "monero-javascript";
 
 import { createWalletFromScratch, hashSha256, open } from "./lib/xmr";
 
@@ -14,7 +14,9 @@ export const syncStartHeightAtom = atom(1102410);
 export const isSyncRunningAtom = atom(false);
 export const userNameAtom = atom("");
 export const displayNameAtom = atom("");
-export const walletAtom = atom<MoneroWalletFull | undefined>(undefined);
+export const walletAtom = atom<MoneroWalletFull | MoneroWalletKeys | null>(
+  null
+);
 export const seedLangAtom = atom("English");
 
 export const truncatedHashIdAtom = atom(async (get) => {
@@ -26,6 +28,6 @@ export const truncatedHashIdAtom = atom(async (get) => {
 
 export const generatedSeedPhraseAtom = atom(async (get) => {
   const seedLang = get(seedLangAtom);
-  const seedPhrase = await createWalletFromScratch(seedLang);
-  return seedPhrase;
+  const fullWallet = await createWalletFromScratch(seedLang);
+  return fullWallet.getMnemonic();
 });

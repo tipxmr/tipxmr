@@ -3,6 +3,7 @@ import sha256 from "crypto-js/sha256";
 import type {
   BalancesChangedListener,
   MoneroWalletFull,
+  MoneroWalletKeys,
   OutputReceivedListener,
   SyncProgressListener,
 } from "monero-javascript";
@@ -23,21 +24,27 @@ const stagenetNode = {
 
 // --- Helper
 export const hashSha256 = (seed: string) => Hex.stringify(sha256(seed));
+export const buildIdentifierHash = (
+  privateViewKey: string,
+  primaryAddress: string
+) => hashSha256(`${privateViewKey}${primaryAddress}`);
 
 // --- Wallet stuff
-export const createWalletFromScratch = async (lang = "English") => {
-  const walletFull = createWalletFull({
+export const createWalletFromScratch = async (
+  lang = "English"
+): Promise<MoneroWalletFull> => {
+  const walletFull = await createWalletFull({
     // mnemonic omitted => generate random wallet
     language: lang,
     ...stagenetNode,
   });
-  return walletFull.getMnemonic();
+  return walletFull;
 };
 
 export const createViewOnlyWallet = async (
   privateViewKey: string,
   primaryAddress: string
-) => {
+): Promise<MoneroWalletKeys> => {
   const walletFull = await createWalletKeys({
     networkType: "stagenet",
     privateViewKey,

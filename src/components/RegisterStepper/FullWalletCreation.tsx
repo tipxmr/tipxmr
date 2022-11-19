@@ -5,7 +5,7 @@ import { FC, useTransition } from "react";
 import LanguageSelector from "~/components/LanguageSelector";
 import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 
-const WalletCreation: FC = () => {
+const FullWalletCreation: FC = () => {
   const [isPending, startTransition] = useTransition();
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
@@ -69,4 +69,4 @@ const WalletCreation: FC = () => {
   );
 };
 
-export default WalletCreation;
+export default FullWalletCreation;
