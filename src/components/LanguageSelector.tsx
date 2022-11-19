@@ -4,22 +4,6 @@ import {
   ChevronUpIcon,
 } from "@radix-ui/react-icons";
 import * as Select from "@radix-ui/react-select";
-import { forwardRef } from "react";
-
-const SelectItem = forwardRef(
-  ({ children, className, ...props }, forwardedRef) => {
-    return (
-      <Select.Item className={className} {...props} ref={forwardedRef}>
-        <Select.ItemText>{children}</Select.ItemText>
-        <Select.ItemIndicator className="SelectItemIndicator">
-          <CheckIcon />
-        </Select.ItemIndicator>
-      </Select.Item>
-    );
-  }
-);
-
-SelectItem.displayName = "SelectItem";
 
 const languages = [
   "Dutch",
@@ -71,27 +55,36 @@ const LanguageSelector = ({ language, onChange }: LanguageSelectorProps) => {
       defaultValue="English"
       onValueChange={onChange}
     >
-      <Select.Trigger>
+      <Select.Trigger className="inline-flex items-center justify-center gap-2 rounded-sm bg-slate-200 p-2 hover:bg-slate-300">
         <Select.Value placeholder="Please select your seed language" />
         <Select.Icon className="SelectIcon">
           <ChevronDownIcon />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content>
-          <Select.ScrollUpButton>
+        <Select.Content className="overflow-hidden bg-slate-200">
+          <Select.ScrollUpButton className="item-center flex cursor-default justify-center bg-slate-200">
             <ChevronUpIcon />
           </Select.ScrollUpButton>
 
-          <Select.Viewport className="SelectViewport">
+          <Select.Viewport className="p-1">
             {languages.map((language) => (
-              <SelectItem key={language} value={language}>{`${convertFlag(
-                language
-              )} ${language}`}</SelectItem>
+              <Select.Item
+                key={language}
+                className="relative flex cursor-pointer select-none items-center bg-slate-200 p-2 hover:bg-slate-400"
+                value={language}
+              >
+                <Select.ItemText>{`${convertFlag(
+                  language
+                )} ${language}`}</Select.ItemText>
+                <Select.ItemIndicator>
+                  <CheckIcon />
+                </Select.ItemIndicator>
+              </Select.Item>
             ))}
           </Select.Viewport>
 
-          <Select.ScrollDownButton>
+          <Select.ScrollDownButton className="item-center flex cursor-default justify-center bg-slate-200">
             <ChevronDownIcon />
           </Select.ScrollDownButton>
         </Select.Content>
