@@ -13,11 +13,11 @@ const WalletSettingsForm = () => {
   const { user } = useUser({ redirectTo: "/login" });
   const { data: walletSettings } = useWalletSettings(user?.id);
   const {
-    register,
+    control,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm<Wallet>({ defaultValues: walletSettings });
+    formState: { isDirty, isValid },
+  } = useForm<Wallet>({ defaultValues: walletSettings, mode: "onChange" });
   const { mutate: updateWalletSetting } = useAddWalletSetting();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const WalletSettingsForm = () => {
   const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = async (
     data
   ) => {
-    if (!user) return;
+    if (!user || !isValid) return;
 
     const walletSettingUpdateRequest = constructRequestBodyFromForm(
       data,
@@ -49,12 +49,21 @@ const WalletSettingsForm = () => {
       <Input
         label="Restore height"
         name="restoreHeight"
-        register={register}
-        required={false}
-        errorMessage={errors?.["restoreHeight"]?.message?.toString()}
+        rules={{
+          min: {
+            value: 0,
+            message: "",
+          },
+        }}
+        control={control}
       ></Input>
 
-      <input type="submit" value="Save settings" className="btn-primary" />
+      <input
+        type="submit"
+        value="Save settings"
+        className="btn-primary"
+        disabled={!isDirty || !isValid}
+      />
     </form>
   );
 };

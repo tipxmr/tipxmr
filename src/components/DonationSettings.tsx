@@ -10,16 +10,18 @@ import useUser from "~/lib/useUser";
 import Input from "./Input";
 
 const DonationSettingsForm: FC = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<DonationSetting>();
-
   const { user } = useUser({ redirectTo: "/login" });
   const { data: donationSettings } = useDonationSettings(user?.name);
   const { mutate: updateDonationSetting } = useAddDonationSetting();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty, isValid },
+  } = useForm<DonationSetting>({
+    defaultValues: donationSettings,
+    mode: "onChange",
+  });
 
   useEffect(() => {
     reset(donationSettings);
@@ -32,7 +34,7 @@ const DonationSettingsForm: FC = () => {
   const handleDonationSettingsSubmit: SubmitHandler<
     Partial<DonationSetting>
   > = async (data) => {
-    if (!user) return;
+    if (!user || !isValid) return;
     const donationSettingUpdateRequest = constructRequestBodyFromForm(
       data,
       user.id
@@ -50,46 +52,33 @@ const DonationSettingsForm: FC = () => {
       <Input
         label="XMR price per second of showtime"
         name="secondPrice"
-        register={register}
-        required={false}
-        errorMessage={errors?.["secondPrice"]?.message?.toString()}
+        control={control}
       ></Input>
-      <Input
-        label="XMR price per character"
-        name="charPrice"
-        register={register}
-        required={false}
-        errorMessage={errors?.["charPrice"]?.message?.toString()}
-      ></Input>
+      <Input label="XMR price per character" name="charPrice"></Input>
       <Input
         label="The maximum amount of characters per message"
         name="charLimit"
-        register={register}
-        required={false}
-        errorMessage={errors?.["charLimit"]?.message?.toString()}
+        control={control}
       ></Input>
-      <Input
-        label="Minimum XMR amount for donation"
-        name="minAmount"
-        register={register}
-        required={false}
-        errorMessage={errors?.["minAmount"]?.message?.toString()}
-      ></Input>
+      <Input label="Minimum XMR amount for donation" name="minAmount"></Input>
       <Input
         label="Minimum XMR amount for sending GIFs"
         name="gifsMinAmount"
-        register={register}
-        required={false}
-        errorMessage={errors?.["gifsMinAmount"]?.message?.toString()}
+        rules={{
+          min: {
+            value: 0,
+            message: "",
+          },
+        }}
+        control={control}
       ></Input>
-      <Input
-        label="Funding goal"
-        name="goal"
-        register={register}
-        required={false}
-        errorMessage={errors?.["goal"]?.message?.toString()}
-      ></Input>
-      <input type="submit" value="Save settings" className="btn-primary" />
+      <Input label="Funding goal" name="goal" control={control}></Input>
+      <input
+        type="submit"
+        value="Save settings"
+        className="btn-primary"
+        disabled={!isDirty || !isValid}
+      />
     </form>
   );
 };

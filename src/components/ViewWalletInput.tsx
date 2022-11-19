@@ -17,7 +17,7 @@ const ViewWalletInput = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid, isDirty },
+    formState: { isValid, isDirty },
   } = useForm<ViewWalletFormValues>({
     mode: "onChange",
   });
@@ -34,10 +34,6 @@ const ViewWalletInput = () => {
     return wallet;
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   return (
     <>
       <form
@@ -50,8 +46,14 @@ const ViewWalletInput = () => {
           control={control}
           rules={{
             required: { value: true, message: "Private View Key is required" },
-            minLength: { value: 64, message: "Private View has 64 characters" },
-            maxLength: { value: 64, message: "Private View has 64 characters" },
+            minLength: {
+              value: 64,
+              message: "Your Private View Key has less than 64 characters",
+            },
+            maxLength: {
+              value: 64,
+              message: "Your Private View Key has more than 64 characters",
+            },
           }}
         ></Input>
         <Input
