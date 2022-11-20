@@ -52,12 +52,12 @@ declare module "monero-javascript" {
       accountIdx: number,
       label: string
     ): Promise<MoneroSubaddress>;
-    async createTx(config: MoneroTxConfig): MoneroTxWallet;
+    async createTx(config: MoneroTxConfig): Promise<MoneroTxWallet>;
     async getDaemonConnection(): Promise<unknown>;
     async getListeners(): MoneroWalletListener[];
     async getPrimaryAddress(): Promise<string>;
     async getPrivateViewKey(): Promise<string>;
-    async getTxs(): unknown[];
+    async getTxs(): Promise<unknown[]>;
     async isConnectedToDaemon(): Promise<boolean>;
     async isViewOnly(): Promise<boolean>;
     async removeListener(listener: MoneroWalletListener);
