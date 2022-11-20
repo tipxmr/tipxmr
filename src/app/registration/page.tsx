@@ -24,7 +24,7 @@ const RegistrationPage: NextPage = () => {
   };
 
   return (
-    <div className="mx-auto w-4/12 text-center">
+    <div className="container max-w-md text-center">
       <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
       {registrationStep === 0 && (

@@ -1,10 +1,14 @@
 "use client";
 
+import { useAtomValue } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+import useCreateUser from "~/hooks/useCreateUser";
+import { truncatedHashIdAtom } from "~/store";
 
 import Input from "./Input";
 
-interface ViewWalletFormValues {
+interface UsernameDisplaynameValues {
   username: string;
   displayname: string;
 }
@@ -14,13 +18,28 @@ const UsernameDisplaynameInput = () => {
     handleSubmit,
     control,
     formState: { isValid, isDirty },
-  } = useForm<ViewWalletFormValues>({
+  } = useForm<UsernameDisplaynameValues>({
     mode: "onChange",
   });
+  const createUser = useCreateUser();
+  const truncatedHashId = useAtomValue(truncatedHashIdAtom);
+
+  const handleAccountCreation: SubmitHandler<UsernameDisplaynameValues> = (
+    data: UsernameDisplaynameValues
+  ) => {
+    createUser.mutate({
+      id: truncatedHashId,
+      name: data.username,
+      alias: data.displayname,
+    });
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit()} className="mx-auto flex flex-col gap-2">
+      <form
+        onSubmit={handleSubmit(handleAccountCreation)}
+        className="mx-auto flex flex-col gap-2"
+      >
         <Input
           label="Username"
           name="username"

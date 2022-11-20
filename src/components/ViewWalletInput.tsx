@@ -8,7 +8,7 @@ import { FetchError } from "~/lib/fetchJson";
 import { primaryStagenetAddress } from "~/lib/regex";
 import useUser from "~/lib/useUser";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
-import { truncatedHashIdAtom } from "~/store";
+import { hashIdAtom } from "~/store";
 
 import Input from "./Input";
 
@@ -22,7 +22,7 @@ interface ViewWalletInputProps {
 }
 
 const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
-  const setTruncatedHashId = useSetAtom(truncatedHashIdAtom);
+  const setHashId = useSetAtom(hashIdAtom);
   const {
     handleSubmit,
     control,
@@ -53,7 +53,7 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
       privateViewKey
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    setTruncatedHashId(id);
+    setHashId(id);
     login(id);
     handleStepChange("viewOnlyWallet", 2);
     return wallet;
