@@ -1,7 +1,12 @@
-import { LockClosedIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
+import {
+  LockClosedIcon,
+  Pencil1Icon,
+  RocketIcon,
+  UpdateIcon,
+} from "@radix-ui/react-icons";
 import { PrimitiveAtom, useAtom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 
 import { RegistrationMode } from "~/app/registration/page";
 import LanguageSelector from "~/components/LanguageSelector";
@@ -13,7 +18,6 @@ interface FullWalletCreationProps {
 }
 
 const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
-  const [isPending, startTransition] = useTransition();
   const [seedLang, setSeedLang] = useState<string>("English");
   const [wallet, setWallet] = useAtom<MoneroWalletFull>(
     walletAtom as PrimitiveAtom<MoneroWalletFull>
@@ -29,21 +33,23 @@ const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
   }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {
-    startTransition(() => {
-      setSeedLang(language);
-    });
+    setSeedLang(language);
   };
 
   return (
     <div className="flex flex-col gap-2">
       <div>
         <h3 className="text-center">Your XMR wallet seedphrase</h3>
-        <div className="p-8 font-mono">{seed}</div>
+        {seed === "" ? (
+          <UpdateIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
+        ) : (
+          <div className="p-8 font-mono">{seed}</div>
+        )}
         <div className="mt-4 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </div>
       </div>
-      <ul className="mt-4 flex flex-col gap-6">
+      <ul className="mt-4 flex flex-col gap-6 text-left">
         <li className="grid grid-cols-[auto_1fr] gap-x-3">
           <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
             <Pencil1Icon className="h-12 w-12 p-3" />
