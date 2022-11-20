@@ -27,7 +27,7 @@ export const hashSha256 = (seed: string) => Hex.stringify(sha256(seed));
 export const buildIdentifierHash = (
   privateViewKey: string,
   primaryAddress: string
-) => hashSha256(`${privateViewKey}${primaryAddress}`);
+) => hashSha256(`${privateViewKey}${primaryAddress}`).slice(0, 11);
 
 // --- Wallet stuff
 export const createWalletFromScratch = async (

@@ -8,7 +8,7 @@ import { FetchError } from "~/lib/fetchJson";
 import { seedWordCount } from "~/lib/regex";
 import useUser from "~/lib/useUser";
 import { buildIdentifierHash, open } from "~/lib/xmr";
-import { hashIdAtom } from "~/store";
+import { walletAtom } from "~/store";
 
 import Textarea from "./Textarea";
 
@@ -21,7 +21,8 @@ interface FullWalletInputProps {
 }
 
 const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
-  const setHashId = useSetAtom(hashIdAtom);
+  const setWallet = useSetAtom(walletAtom);
+
   const {
     handleSubmit,
     control,
@@ -49,8 +50,8 @@ const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
       privateViewKey
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    setHashId(id);
     login(id);
+    setWallet(wallet);
     handleStepChange?.("fullWallet", 2);
     return wallet;
   };

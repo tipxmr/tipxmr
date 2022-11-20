@@ -8,7 +8,7 @@ import { FetchError } from "~/lib/fetchJson";
 import { primaryStagenetAddress } from "~/lib/regex";
 import useUser from "~/lib/useUser";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
-import { hashIdAtom } from "~/store";
+import { walletAtom } from "~/store";
 
 import Input from "./Input";
 
@@ -22,7 +22,8 @@ interface ViewWalletInputProps {
 }
 
 const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
-  const setHashId = useSetAtom(hashIdAtom);
+  const setWallet = useSetAtom(walletAtom);
+
   const {
     handleSubmit,
     control,
@@ -39,7 +40,6 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
   const createWallet: SubmitHandler<ViewWalletFormValues> = async (
     data: ViewWalletFormValues
   ) => {
-    console.log(data);
     if (!isValid) return;
     const wallet = await createViewOnlyWallet(
       data.privateViewKey,
@@ -47,14 +47,9 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
     );
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
-    console.log(
-      "primaryAddress, privateViewKey:",
-      primaryAddress,
-      privateViewKey
-    );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    setHashId(id);
     login(id);
+    setWallet(wallet);
     handleStepChange?.("viewOnlyWallet", 2);
     return wallet;
   };

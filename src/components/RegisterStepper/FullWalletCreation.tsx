@@ -1,10 +1,12 @@
 import { LockClosedIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
-import { useAtom } from "jotai";
-import { useTransition } from "react";
+import { PrimitiveAtom, useAtom } from "jotai";
+import { MoneroWalletFull } from "monero-javascript";
+import { useEffect, useState, useTransition } from "react";
 
 import { RegistrationMode } from "~/app/registration/page";
 import LanguageSelector from "~/components/LanguageSelector";
-import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
+import { createWalletFromScratch } from "~/lib/xmr";
+import { walletAtom } from "~/store";
 
 interface FullWalletCreationProps {
   handleStepChange: (mode: RegistrationMode, step: number) => void;
@@ -12,8 +14,19 @@ interface FullWalletCreationProps {
 
 const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
   const [isPending, startTransition] = useTransition();
-  const [seedLang, setSeedLang] = useAtom(seedLangAtom);
-  const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
+  const [seedLang, setSeedLang] = useState<string>("English");
+  const [wallet, setWallet] = useAtom<MoneroWalletFull>(
+    walletAtom as PrimitiveAtom<MoneroWalletFull>
+  );
+  const [seed, setSeed] = useState<string>("");
+
+  useEffect(() => {
+    createWalletFromScratch(seedLang).then(setWallet);
+  }, [seedLang, setWallet]);
+
+  useEffect(() => {
+    wallet?.getMnemonic().then(setSeed);
+  }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {
     startTransition(() => {
@@ -25,7 +38,7 @@ const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
     <div className="flex flex-col gap-2">
       <div>
         <h3 className="text-center">Your XMR wallet seedphrase</h3>
-        <div className="p-8 font-mono">{seedPhrase}</div>
+        <div className="p-8 font-mono">{seed}</div>
         <div className="mt-4 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </div>

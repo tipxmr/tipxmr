@@ -27,6 +27,7 @@ const UsernameDisplaynameInput = () => {
   const handleAccountCreation: SubmitHandler<UsernameDisplaynameValues> = (
     data: UsernameDisplaynameValues
   ) => {
+    if (!truncatedHashId) return;
     createUser.mutate({
       id: truncatedHashId,
       name: data.username,

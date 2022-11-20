@@ -52,9 +52,9 @@ declare module "monero-javascript" {
     async createTx(config: MoneroTxConfig): MoneroTxWallet;
     async getDaemonConnection(): unknown;
     async getListeners(): MoneroWalletListener[];
-    async getMnemonic(): string;
-    async getPrimaryAddress(): string;
-    async getPrivateViewKey(): string;
+    async getMnemonic(): Promise<string>;
+    async getPrimaryAddress(): Promise<string>;
+    async getPrivateViewKey(): Promise<string>;
     async getTxs(): unknown[];
     async isConnectedToDaemon(): boolean;
     async removeListener(listener: MoneroWalletListener);
@@ -70,8 +70,8 @@ declare module "monero-javascript" {
     async createTx(config: MoneroTxConfig): MoneroTxWallet;
     async getDaemonConnection(): unknown;
     async getListeners(): MoneroWalletListener[];
-    async getPrimaryAddress(): string;
-    async getPrivateViewKey(): string;
+    async getPrimaryAddress(): Promise<string>;
+    async getPrivateViewKey(): Promise<string>;
     async getTxs(): unknown[];
     async isConnectedToDaemon(): boolean;
     async isViewOnly(): boolean;
