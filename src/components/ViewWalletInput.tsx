@@ -18,7 +18,7 @@ interface ViewWalletFormValues {
 }
 
 interface ViewWalletInputProps {
-  handleStepChange: (mode: RegistrationMode, step: number) => void;
+  handleStepChange?: (mode: RegistrationMode, step: number) => void;
 }
 
 const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
@@ -55,7 +55,7 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     setHashId(id);
     login(id);
-    handleStepChange("viewOnlyWallet", 2);
+    handleStepChange?.("viewOnlyWallet", 2);
     return wallet;
   };
 

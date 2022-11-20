@@ -17,7 +17,7 @@ interface FullWalletFormValues {
 }
 
 interface FullWalletInputProps {
-  handleStepChange: (mode: RegistrationMode, step: number) => void;
+  handleStepChange?: (mode: RegistrationMode, step: number) => void;
 }
 
 const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
@@ -51,7 +51,7 @@ const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     setHashId(id);
     login(id);
-    handleStepChange("fullWallet", 2);
+    handleStepChange?.("fullWallet", 2);
     return wallet;
   };
 
