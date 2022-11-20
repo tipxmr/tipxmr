@@ -5,8 +5,8 @@ import { FC, FormEvent, Suspense, useId, useState } from "react";
 
 import TipxmrLogo from "~/img/logo.png";
 
-import AccountCreation from "./AccountCreation";
 import WalletCreation from "../FullWalletCreation";
+import AccountCreation from "./AccountCreation";
 import RegistrationInfo from "./RegistrationInfo";
 import Success from "./Success";
 
