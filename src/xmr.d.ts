@@ -45,40 +45,32 @@ declare module "monero-javascript" {
     addListener(listener: MoneroWalletListener);
   }
 
-  declare class MoneroWalletFull implements MoneroWallet {
+  declare class MoneroWalletKeys implements MoneroWallet {
     async addListener(listener: MoneroWalletListener);
     async close();
-    async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
+    async createSubaddress(
+      accountIdx: number,
+      label: string
+    ): Promise<MoneroSubaddress>;
     async createTx(config: MoneroTxConfig): MoneroTxWallet;
-    async getDaemonConnection(): unknown;
+    async getDaemonConnection(): Promise<unknown>;
     async getListeners(): MoneroWalletListener[];
-    async getMnemonic(): Promise<string>;
     async getPrimaryAddress(): Promise<string>;
     async getPrivateViewKey(): Promise<string>;
     async getTxs(): unknown[];
-    async isConnectedToDaemon(): boolean;
+    async isConnectedToDaemon(): Promise<boolean>;
+    async isViewOnly(): Promise<boolean>;
     async removeListener(listener: MoneroWalletListener);
     async setSyncHeight(height: number);
     async startSyncing();
     async stopSyncing();
   }
 
-  declare class MoneroWalletKeys implements MoneroWallet {
-    async addListener(listener: MoneroWalletListener);
-    async close();
-    async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
-    async createTx(config: MoneroTxConfig): MoneroTxWallet;
-    async getDaemonConnection(): unknown;
-    async getListeners(): MoneroWalletListener[];
-    async getPrimaryAddress(): Promise<string>;
-    async getPrivateViewKey(): Promise<string>;
-    async getTxs(): unknown[];
-    async isConnectedToDaemon(): boolean;
-    async isViewOnly(): boolean;
-    async removeListener(listener: MoneroWalletListener);
-    async setSyncHeight(height: number);
-    async startSyncing();
-    async stopSyncing();
+  declare class MoneroWalletFull
+    extends MoneroWalletKeys
+    implements MoneroWallet
+  {
+    async getMnemonic(): Promise<string>;
   }
 
   export async function createWalletFull(
