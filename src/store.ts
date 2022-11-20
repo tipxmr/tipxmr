@@ -19,12 +19,7 @@ export const walletAtom = atom<MoneroWalletFull | MoneroWalletKeys | null>(
 );
 export const seedLangAtom = atom("English");
 
-export const truncatedHashIdAtom = atom(async (get) => {
-  const seedPhrase = get(generatedSeedPhraseAtom);
-  if (!seedPhrase) return "";
-  const truncatedHashIdAtom = hashSha256(seedPhrase).slice(0, 11);
-  return truncatedHashIdAtom;
-});
+export const truncatedHashIdAtom = atom("");
 
 export const generatedSeedPhraseAtom = atom(async (get) => {
   const seedLang = get(seedLangAtom);

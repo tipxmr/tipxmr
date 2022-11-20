@@ -1,10 +1,14 @@
 "use client";
 
+import { useSetAtom } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { RegistrationMode } from "~/app/registration/page";
+import { FetchError } from "~/lib/fetchJson";
 import { primaryStagenetAddress } from "~/lib/regex";
-import { createViewOnlyWallet } from "~/lib/xmr";
+import useUser from "~/lib/useUser";
+import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
+import { truncatedHashIdAtom } from "~/store";
 
 import Input from "./Input";
 
@@ -18,12 +22,18 @@ interface ViewWalletInputProps {
 }
 
 const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
+  const setTruncatedHashId = useSetAtom(truncatedHashIdAtom);
   const {
     handleSubmit,
     control,
     formState: { isValid, isDirty },
   } = useForm<ViewWalletFormValues>({
     mode: "onChange",
+  });
+
+  const { mutate: mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
   });
 
   const createWallet: SubmitHandler<ViewWalletFormValues> = async (
@@ -35,8 +45,30 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
       data.privateViewKey,
       data.primaryAddress
     );
+    const privateViewKey = await wallet.getPrivateViewKey();
+    const primaryAddress = await wallet.getPrimaryAddress();
+    console.log(
+      "primaryAddress, privateViewKey:",
+      primaryAddress,
+      privateViewKey
+    );
+    const id = buildIdentifierHash(privateViewKey, primaryAddress);
+    setTruncatedHashId(id);
+    login(id);
     handleStepChange("viewOnlyWallet", 2);
     return wallet;
+  };
+
+  const login = (id: string) => {
+    try {
+      mutateUser(id);
+    } catch (reason) {
+      if (reason instanceof FetchError) {
+        console.error(reason);
+      } else {
+        console.error("An unexpected error happened:", reason);
+      }
+    }
   };
 
   return (

@@ -20,10 +20,7 @@ const UsernameDisplaynameInput = () => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit()}
-        className="mx-auto flex w-6/12 flex-col gap-2 p-8"
-      >
+      <form onSubmit={handleSubmit()} className="mx-auto flex flex-col gap-2">
         <Input
           label="Username"
           name="username"
