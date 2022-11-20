@@ -2,6 +2,7 @@ import * as Checkbox from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
+import { FormEvent } from "react";
 
 import TipxmrLogo from "~/img/logo.png";
 

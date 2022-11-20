@@ -54,6 +54,7 @@ declare module "monero-javascript" {
     async getListeners(): MoneroWalletListener[];
     async getMnemonic(): string;
     async getPrimaryAddress(): string;
+    async getPrivateViewKey(): string;
     async getTxs(): unknown[];
     async isConnectedToDaemon(): boolean;
     async removeListener(listener: MoneroWalletListener);

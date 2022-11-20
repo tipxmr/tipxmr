@@ -16,9 +16,11 @@ const Input = <T extends FieldValues>(
   props: InputProps & UseControllerProps<T>
 ): ReactElement => {
   const { field, fieldState } = useController(props);
+  const outerClassName = props.className ?? "";
   const id = useId();
+
   return (
-    <div className={`w-full ${props.className}`}>
+    <div className={`w-full ${outerClassName}`}>
       <label htmlFor={id} className="block text-left">
         {props.label}
       </label>

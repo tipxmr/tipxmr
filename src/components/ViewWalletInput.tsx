@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { primaryStagenetAddress } from "~/lib/regex";
@@ -43,6 +42,7 @@ const ViewWalletInput = () => {
         <Input
           label="Private View Key"
           name="privateViewKey"
+          type="text"
           control={control}
           rules={{
             required: { value: true, message: "Private View Key is required" },
@@ -59,6 +59,7 @@ const ViewWalletInput = () => {
         <Input
           label="Primary Address"
           name="primaryAddress"
+          type="text"
           control={control}
           rules={{
             required: { value: true, message: "Primary Address is required" },

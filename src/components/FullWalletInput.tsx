@@ -2,8 +2,10 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { FetchError } from "~/lib/fetchJson";
 import { seedWordCount } from "~/lib/regex";
-import { open } from "~/lib/xmr";
+import useUser from "~/lib/useUser";
+import { buildIdentifierHash, open } from "~/lib/xmr";
 
 import Textarea from "./Textarea";
 
@@ -20,13 +22,39 @@ const FullWalletInput = () => {
     mode: "onChange",
   });
 
+  const { mutate: mutateUser } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
+
   const createWallet: SubmitHandler<FullWalletFormValues> = async (
     data: FullWalletFormValues
   ) => {
     console.log(data);
     if (!isValid) return;
     const wallet = await open(data.seed);
+    const privateViewKey = await wallet.getPrivateViewKey();
+    const primaryAddress = await wallet.getPrimaryAddress();
+    console.log(
+      "primaryAddress, privateViewKey:",
+      primaryAddress,
+      privateViewKey
+    );
+    const id = buildIdentifierHash(privateViewKey, primaryAddress);
+    login(id);
     return wallet;
+  };
+
+  const login = (id: string) => {
+    try {
+      mutateUser(id);
+    } catch (reason) {
+      if (reason instanceof FetchError) {
+        console.error(reason);
+      } else {
+        console.error("An unexpected error happened:", reason);
+      }
+    }
   };
 
   return (
@@ -38,6 +66,7 @@ const FullWalletInput = () => {
         <Textarea
           name="seed"
           label="Your seed (25 words)"
+          textareaClassName="font-mono h-24"
           rules={{
             pattern: {
               value: seedWordCount,
