@@ -2,6 +2,7 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { RegistrationMode } from "~/app/registration/page";
 import { primaryStagenetAddress } from "~/lib/regex";
 import { createViewOnlyWallet } from "~/lib/xmr";
 
@@ -12,7 +13,11 @@ interface ViewWalletFormValues {
   privateViewKey: string;
 }
 
-const ViewWalletInput = () => {
+interface ViewWalletInputProps {
+  handleStepChange: (mode: RegistrationMode, step: number) => void;
+}
+
+const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
   const {
     handleSubmit,
     control,
@@ -30,6 +35,7 @@ const ViewWalletInput = () => {
       data.privateViewKey,
       data.primaryAddress
     );
+    handleStepChange("viewOnlyWallet", 2);
     return wallet;
   };
 
@@ -37,7 +43,7 @@ const ViewWalletInput = () => {
     <>
       <form
         onSubmit={handleSubmit(createWallet)}
-        className="mx-auto flex w-6/12 flex-col gap-2 p-8"
+        className="mx-auto flex flex-col gap-2"
       >
         <Input
           label="Private View Key"
@@ -79,7 +85,7 @@ const ViewWalletInput = () => {
         ></Input>
         <input
           type="submit"
-          value="Create Account"
+          value="Next step"
           disabled={!isDirty || !isValid}
           className="btn-primary my-4"
         />

@@ -5,19 +5,26 @@ import { useState } from "react";
 
 import FullWalletInput from "~/components/FullWalletInput";
 import FullWalletCreation from "~/components/RegisterStepper/FullWalletCreation";
+import UsernameDisplaynameInput from "~/components/UsernameDisplaynameInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
 
+export type RegistrationMode =
+  | "fullWalletCreation"
+  | "fullWallet"
+  | "viewOnlyWallet";
+
 const RegistrationPage: NextPage = () => {
-  const [registrationMode, setRegistrationMode] = useState<string | null>(null);
+  const [registrationMode, setRegistrationMode] =
+    useState<RegistrationMode | null>(null);
   const [registrationStep, setRegistrationStep] = useState<number>(0);
 
-  const handleStepChange = (mode: string | null, step: number) => {
+  const handleStepChange = (mode: RegistrationMode | null, step: number) => {
     setRegistrationMode(step === 0 ? null : mode);
     setRegistrationStep(step);
   };
 
   return (
-    <div className="text-center">
+    <div className="mx-auto w-4/12 text-center">
       <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
       {registrationStep === 0 && (
@@ -42,12 +49,19 @@ const RegistrationPage: NextPage = () => {
           </button>
         </div>
       )}
-      {registrationMode === "fullWalletCreation" && <FullWalletCreation />}
-      {registrationMode === "viewOnlyWallet" && <ViewWalletInput />}
-      {registrationMode === "fullWallet" && <FullWalletInput />}
+      {registrationMode === "fullWalletCreation" && registrationStep === 1 && (
+        <FullWalletCreation handleStepChange={handleStepChange} />
+      )}
+      {registrationMode === "viewOnlyWallet" && registrationStep === 1 && (
+        <ViewWalletInput handleStepChange={handleStepChange} />
+      )}
+      {registrationMode === "fullWallet" && registrationStep === 1 && (
+        <FullWalletInput handleStepChange={handleStepChange} />
+      )}
+      {registrationStep === 2 && <UsernameDisplaynameInput />}
       {registrationStep > 0 && (
         <button
-          className="btn-primary"
+          className="btn-primary mt-2 w-full"
           onClick={() =>
             handleStepChange(registrationMode, registrationStep - 1)
           }

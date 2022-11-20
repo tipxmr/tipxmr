@@ -2,6 +2,7 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { RegistrationMode } from "~/app/registration/page";
 import { FetchError } from "~/lib/fetchJson";
 import { seedWordCount } from "~/lib/regex";
 import useUser from "~/lib/useUser";
@@ -13,7 +14,11 @@ interface FullWalletFormValues {
   seed: string;
 }
 
-const FullWalletInput = () => {
+interface FullWalletInputProps {
+  handleStepChange: (mode: RegistrationMode, step: number) => void;
+}
+
+const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
   const {
     handleSubmit,
     control,
@@ -42,6 +47,7 @@ const FullWalletInput = () => {
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     login(id);
+    handleStepChange("fullWallet", 2);
     return wallet;
   };
 
@@ -61,7 +67,7 @@ const FullWalletInput = () => {
     <>
       <form
         onSubmit={handleSubmit(createWallet)}
-        className="mx-auto flex w-6/12 flex-col gap-2 p-8"
+        className="mx-auto flex flex-col gap-2"
       >
         <Textarea
           name="seed"
@@ -77,7 +83,7 @@ const FullWalletInput = () => {
         />
         <input
           type="submit"
-          value="Create Account"
+          value="Next step"
           disabled={!isDirty || !isValid}
           className="btn-primary my-4"
         />

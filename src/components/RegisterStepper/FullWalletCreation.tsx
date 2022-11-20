@@ -1,11 +1,16 @@
 import { LockClosedIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
 import { useAtom } from "jotai";
-import { FC, useTransition } from "react";
+import { useTransition } from "react";
 
+import { RegistrationMode } from "~/app/registration/page";
 import LanguageSelector from "~/components/LanguageSelector";
 import { generatedSeedPhraseAtom, seedLangAtom } from "~/store";
 
-const FullWalletCreation: FC = () => {
+interface FullWalletCreationProps {
+  handleStepChange: (mode: RegistrationMode, step: number) => void;
+}
+
+const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
   const [isPending, startTransition] = useTransition();
   const [seedLang, setSeedLang] = useAtom(seedLangAtom);
   const [seedPhrase] = useAtom(generatedSeedPhraseAtom);
@@ -17,10 +22,10 @@ const FullWalletCreation: FC = () => {
   };
 
   return (
-    <div className="container mt-3 flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <div>
         <h3 className="text-center">Your XMR wallet seedphrase</h3>
-        <div className="container p-8 font-mono">{seedPhrase}</div>
+        <div className="p-8 font-mono">{seedPhrase}</div>
         <div className="mt-4 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
         </div>
@@ -65,6 +70,12 @@ const FullWalletCreation: FC = () => {
           </span>
         </li>
       </ul>
+      <button
+        className="btn-primary mt-4"
+        onClick={() => handleStepChange("fullWalletCreation", 2)}
+      >
+        Next step
+      </button>
     </div>
   );
 };
