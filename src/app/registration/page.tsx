@@ -3,8 +3,8 @@
 import type { NextPage } from "next/types";
 import { useState } from "react";
 
+import FullWalletCreation from "~/components/FullWalletCreation";
 import FullWalletInput from "~/components/FullWalletInput";
-import FullWalletCreation from "~/components/RegisterStepper/FullWalletCreation";
 import UsernameDisplaynameInput from "~/components/UsernameDisplaynameInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
 
