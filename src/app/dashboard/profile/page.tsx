@@ -21,7 +21,7 @@ const Profile: NextPage = () => {
         <li>Your unique Tipxmr ID: {user?.id}</li>
         <li>Username: {user?.name}</li>
         <li>Alias: {user?.alias}</li>
-        <li>Last account update at: {user?.updatedAt}</li>
+        <li>Last account update at: {user?.updatedAt?.toString()}</li>
         <li>
           Current wallet status: <IsOnlineBadge isOnline={user?.isOnline} />
         </li>

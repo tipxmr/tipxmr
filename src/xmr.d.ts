@@ -27,8 +27,16 @@ declare module "monero-javascript" {
     rejectUnauthorized: boolean;
   }
 
+  export interface MoneroWalletKeysConfig {
+    mnemonic?: string;
+    networkType: string;
+    language?: string;
+    primaryAddress: string;
+    privateViewKey: string;
+  }
+
   declare class MoneroSubaddress {
-    getAddress(): string;
+    async getAddress(): Promise<string>;
   }
 
   declare interface MoneroWallet {
@@ -37,26 +45,41 @@ declare module "monero-javascript" {
     addListener(listener: MoneroWalletListener);
   }
 
-  declare class MoneroWalletFull implements MoneroWallet {
-    async close();
-    async getMnemonic(): string;
-    async getPrimaryAddress(): string;
+  declare class MoneroWalletKeys implements MoneroWallet {
     async addListener(listener: MoneroWalletListener);
+    async close();
+    async createSubaddress(
+      accountIdx: number,
+      label: string
+    ): Promise<MoneroSubaddress>;
+    async createTx(config: MoneroTxConfig): Promise<MoneroTxWallet>;
+    async getDaemonConnection(): Promise<unknown>;
+    async getListeners(): MoneroWalletListener[];
+    async getPrimaryAddress(): Promise<string>;
+    async getPrivateViewKey(): Promise<string>;
+    async getTxs(): Promise<unknown[]>;
+    async isConnectedToDaemon(): Promise<boolean>;
+    async isViewOnly(): Promise<boolean>;
     async removeListener(listener: MoneroWalletListener);
+    async setSyncHeight(height: number);
     async startSyncing();
     async stopSyncing();
-    async getListeners(): MoneroWalletListener[];
-    async setSyncHeight(height: number);
-    async getDaemonConnection(): unknown;
-    async isConnectedToDaemon(): boolean;
-    async createTx(config: MoneroTxConfig): MoneroTxWallet;
-    async getTxs(): unknown[];
-    async createSubaddress(accountIdx: number, label: string): MoneroSubaddress;
   }
 
-  export function createWalletFull(
+  declare class MoneroWalletFull
+    extends MoneroWalletKeys
+    implements MoneroWallet
+  {
+    async getMnemonic(): Promise<string>;
+  }
+
+  export async function createWalletFull(
     config: MoneroWalletConfig
-  ): MoneroWalletFull;
+  ): Promise<MoneroWalletFull>;
+
+  export async function createWalletKeys(
+    config: MoneroWalletKeysConfig
+  ): Promise<MoneroWalletKeys>;
 
   export type SyncProgressListener = (
     height: number,

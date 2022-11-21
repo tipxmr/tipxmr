@@ -1,47 +1,54 @@
 "use client";
 
-import { NextPage } from "next";
-import { FormEvent } from "react";
+import type { NextPage } from "next/types";
+import { useState } from "react";
 
-import Login from "~/components/Login";
-import { FetchError } from "~/lib/fetchJson";
-import useUser from "~/lib/useUser";
-import { getMnemonicHash } from "~/lib/xmr";
+import FullWalletInput from "~/components/FullWalletInput";
+import ViewWalletInput from "~/components/ViewWalletInput";
+
+import { RegistrationMode } from "../registration/page";
+
+export type LoginMode = Exclude<RegistrationMode, "fullWalletCreation">;
 
 const LoginPage: NextPage = () => {
-  const { mutate: mutateUser } = useUser({
-    redirectTo: "/dashboard",
-    redirectIfFound: true,
-  });
+  const [loginMode, setLoginMode] = useState<LoginMode | null>(null);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-    let seed = data.get("seed") as string;
-    seed = seed.trim();
-    const understood = data.get("understood");
-    if (!understood) {
-      alert("Sorry, you must agree to proceed");
-      return;
-    }
-
-    // TODO handle the "remembered status"
-    const remember = data.get("remember");
-
-    const truncatedHashedSeed = getMnemonicHash(seed).slice(0, 11);
-    try {
-      mutateUser(truncatedHashedSeed);
-    } catch (reason) {
-      if (reason instanceof FetchError) {
-        console.error(reason);
-      } else {
-        console.error("An unexpected error happened:", reason);
-      }
-    }
+  const handleStepChange = (mode: LoginMode) => {
+    setLoginMode(mode);
   };
 
-  return <Login handleSubmit={handleSubmit} />;
+  return (
+    <div className="container max-w-md text-center">
+      <h1 className="mb-2 text-3xl">Login to TipXMR</h1>
+      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
+      {loginMode === null && (
+        <div className="mx-auto my-8 flex w-72 flex-col gap-4">
+          <button
+            className="btn-primary"
+            onClick={() => handleStepChange("fullWallet")}
+          >
+            Login with your seed
+          </button>
+          <button
+            className="btn-primary"
+            onClick={() => handleStepChange("viewOnlyWallet")}
+          >
+            Login with existing private view key
+          </button>
+        </div>
+      )}
+      {loginMode === "viewOnlyWallet" && <ViewWalletInput />}
+      {loginMode === "fullWallet" && <FullWalletInput />}
+      {loginMode !== null && (
+        <button
+          className="btn-primary mt-2 w-full"
+          onClick={() => setLoginMode(null)}
+        >
+          Go back
+        </button>
+      )}
+    </div>
+  );
 };
 
 export default LoginPage;

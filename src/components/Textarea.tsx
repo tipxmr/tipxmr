@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, ReactElement, useId } from "react";
+import { ReactElement, useId } from "react";
 import {
   FieldValues,
   useController,
@@ -8,15 +8,16 @@ import {
 interface InputProps {
   label: string;
   name: string;
-  type: HTMLInputTypeAttribute;
   className?: string;
+  textareaClassName?: string;
 }
 
-const Input = <T extends FieldValues>(
+const Textarea = <T extends FieldValues>(
   props: InputProps & UseControllerProps<T>
 ): ReactElement => {
   const { field, fieldState } = useController(props);
   const outerClassName = props.className ?? "";
+  const textareaClassName = props.textareaClassName ?? "";
   const id = useId();
 
   return (
@@ -24,10 +25,9 @@ const Input = <T extends FieldValues>(
       <label htmlFor={id} className="block text-left">
         {props.label}
       </label>
-      <input
+      <textarea
         id={id}
-        type={props.type}
-        className="block w-full"
+        className={`block w-full resize-none ${textareaClassName}`}
         aria-invalid={fieldState.error ? "true" : "false"}
         {...field}
       />
@@ -36,4 +36,4 @@ const Input = <T extends FieldValues>(
   );
 };
 
-export default Input;
+export default Textarea;

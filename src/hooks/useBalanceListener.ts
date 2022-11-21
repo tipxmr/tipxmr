@@ -24,7 +24,7 @@ const useBalanceListener = () => {
 
     async function sync() {
       if (xmrWallet !== undefined) {
-        await xmrWallet.addListener(listener);
+        await xmrWallet?.addListener(listener);
 
         console.log("From useBalanceListener - listener is set: ", {
           xmrWallet,
