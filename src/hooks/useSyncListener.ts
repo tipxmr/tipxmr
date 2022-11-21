@@ -32,7 +32,7 @@ const useSyncListener = () => {
     );
 
     async function sync() {
-      if (xmrWallet !== undefined) {
+      if (xmrWallet) {
         console.info("Set wallet sucessfully");
 
         await xmrWallet.addListener(listener);
@@ -48,7 +48,15 @@ const useSyncListener = () => {
     return () => {
       xmrWallet?.stopSyncing();
     };
-  }, []);
+  }, [
+    setEndHeight,
+    setIsSyncing,
+    setProgress,
+    setStartHeight,
+    setSyncHeight,
+    startHeight,
+    xmrWallet,
+  ]);
   return xmrWallet;
 };
 

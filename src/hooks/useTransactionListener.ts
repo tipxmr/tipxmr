@@ -22,7 +22,7 @@ const useTransactionListener = () => {
       if (xmrWallet !== undefined) {
         console.info("Set wallet sucessfully");
 
-        await xmrWallet.addListener(listener);
+        await xmrWallet?.addListener(listener);
 
         console.log("From TransactionListner - listener is set: ", {
           xmrWallet,

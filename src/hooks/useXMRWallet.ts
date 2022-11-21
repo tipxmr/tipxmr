@@ -2,10 +2,9 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 import { open } from "~/lib/xmr";
-import { mnemonicAtom, walletAtom } from "~/store";
+import { walletAtom } from "~/store";
 
 const useXmrWallet = () => {
-  const [seedPhrase] = useAtom(mnemonicAtom);
   const [xmrWallet, setXmrWallet] = useAtom(walletAtom);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const useXmrWallet = () => {
     return () => {
       xmrWallet?.close();
     };
-  }, []);
+  }, [setXmrWallet, xmrWallet]);
 };
 
 export default useXmrWallet;

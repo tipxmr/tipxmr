@@ -36,7 +36,7 @@ declare module "monero-javascript" {
   }
 
   declare class MoneroSubaddress {
-    getAddress(): string;
+    async getAddress(): Promise<string>;
   }
 
   declare interface MoneroWallet {

@@ -5,8 +5,8 @@ import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 import { User } from "~/lib/config";
 import fetchJson from "~/lib/fetchJson";
@@ -36,6 +36,7 @@ const Navbar = () => {
   const { user: session, mutate: mutateUser } = useUser({
     redirectTo: "/login",
   });
+  const router = useRouter();
   const pathname = usePathname();
   const menuItems = session?.isLoggedIn ? logged_in_pages : logged_out_pages;
 
@@ -45,6 +46,10 @@ const Navbar = () => {
     });
     mutateUser(undefined);
   };
+
+  useEffect(() => {
+    if (!session) router.push("/login");
+  }, [router, session]);
 
   return (
     <NavigationMenu.Root className="relative flex flex-row justify-between p-2">
