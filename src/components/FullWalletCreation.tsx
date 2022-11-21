@@ -22,7 +22,9 @@ const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
   const [wallet, setWallet] = useAtom<MoneroWalletFull>(
     walletAtom as PrimitiveAtom<MoneroWalletFull>
   );
-  const [seed, setSeed] = useState<string>("");
+  const [seed, setSeed] = useState<string | null>(null);
+  const [primaryAddress, setPrimaryAddress] = useState<string | null>(null);
+  const [privateViewKey, setPrivateViewKey] = useState<string | null>(null);
 
   useEffect(() => {
     createWalletFromScratch(seedLang).then(setWallet);
@@ -30,6 +32,8 @@ const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
 
   useEffect(() => {
     wallet?.getMnemonic().then(setSeed);
+    wallet?.getPrimaryAddress().then(setPrimaryAddress);
+    wallet?.getPrivateViewKey().then(setPrivateViewKey);
   }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {
@@ -37,13 +41,29 @@ const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="mt-4 flex flex-col gap-2">
       <div>
         <h3 className="text-center">Your XMR wallet seedphrase</h3>
-        {seed === "" ? (
-          <UpdateIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
+        {seed ? (
+          <div className="bg-white p-8 font-mono">{seed}</div>
         ) : (
-          <div className="p-8 font-mono">{seed}</div>
+          <UpdateIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
+        )}
+        {primaryAddress && (
+          <>
+            <p>Primary Address</p>
+            <div className="break-words bg-white p-8 font-mono">
+              {primaryAddress}
+            </div>
+          </>
+        )}
+        {privateViewKey && (
+          <>
+            <p>Private View Key</p>
+            <div className="break-words bg-white p-8 font-mono">
+              {privateViewKey}
+            </div>
+          </>
         )}
         <div className="mt-4 flex flex-col items-center">
           <LanguageSelector language={seedLang} onChange={handleSetSeedLang} />
