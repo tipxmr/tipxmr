@@ -33,7 +33,9 @@ const logged_in_pages: Pages = [
 ];
 
 const Navbar = () => {
-  const { user: session, mutate: mutateUser } = useUser();
+  const { user: session, mutate: mutateUser } = useUser({
+    redirectTo: "/login",
+  });
   const pathname = usePathname();
   const menuItems = session?.isLoggedIn ? logged_in_pages : logged_out_pages;
 
@@ -50,7 +52,7 @@ const Navbar = () => {
         <Image src={Logo} alt="TipXMR Logo" width={250} />
       </Link>
 
-      <NavigationMenu.List className="flex flex-row flex-wrap justify-center gap-4 text-lg">
+      <NavigationMenu.List className="flex list-none flex-row flex-wrap justify-center gap-4 rounded-md text-lg">
         {menuItems.map(({ page, href }) => (
           <Link key={page} href={href}>
             <NavigationMenu.Item
@@ -65,20 +67,27 @@ const Navbar = () => {
         ))}
       </NavigationMenu.List>
 
-      <NavigationMenu.List>
-        <NavigationMenu.Item className="w-36 overflow-scroll rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
-          <NavigationMenu.Trigger className="flex flex-row items-center">
-            My Account <CaretDownIcon className="CaretDown" aria-hidden />
+      <NavigationMenu.List className="flex list-none justify-center text-lg">
+        <NavigationMenu.Item>
+          <NavigationMenu.Trigger className="flex flex-row items-center justify-between gap-1 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400">
+            My Account{" "}
+            {session?.isLoggedIn && (
+              <CaretDownIcon className="relative" aria-hidden />
+            )}
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className="visible absolute bg-gray-700">
-            <ul className="mt-3 cursor-pointer">
-              {session?.isLoggedIn && (
-                <li>
-                  <span onClick={() => signOut()}>Logout</span>
-                </li>
-              )}
-            </ul>
-          </NavigationMenu.Content>
+          {session?.isLoggedIn && (
+            <NavigationMenu.Content className="visible absolute mt-2 w-full rounded-md border-2 border-solid border-gray-700 ease-in hover:bg-gray-700 hover:text-orange-400">
+              <ul className="grid cursor-pointer list-none">
+                {session?.isLoggedIn && (
+                  <li className="block select-none p-2 outline-none">
+                    <p className="font-medium" onClick={() => signOut()}>
+                      Logout
+                    </p>
+                  </li>
+                )}
+              </ul>
+            </NavigationMenu.Content>
+          )}
         </NavigationMenu.Item>
       </NavigationMenu.List>
     </NavigationMenu.Root>
