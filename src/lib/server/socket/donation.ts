@@ -20,12 +20,6 @@ function setupDonation({ donationNsp, streamerNsp }: Namespaces, io: Server) {
         streamerNsp.to(streamer.socket).emit("fetch", socket.id);
       }
     });
-
-    socket.on("fetched", (subaddress) => {
-      if (subaddress?.socket) {
-        io.to(subaddress.socket).emit("created", subaddress);
-      }
-    });
   });
 }
 

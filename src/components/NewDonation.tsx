@@ -1,25 +1,36 @@
 "use client";
 
 import { Streamer } from "@prisma/client";
-import { useEffect } from "react";
+import { useAtomValue } from "jotai";
+import QrCode from "qrcode";
+import { useQuery } from "react-query";
 
-import { queryClient } from "~/app/layout";
 import DonationMask from "~/components/Donation";
 import { useDonationSocket } from "~/hooks/socket/use-socket";
+import { createMoneroTransactionUri } from "~/lib/xmr";
+import { transactionAddressAtom } from "~/store";
 
-const transactionAddress =
-  "46BeWrHpwXmHDpDEUmZBWZfoQpdc6HaERCNmx1pEYL2rAcuwufPN9rXHHtyUA4QVy66qeFQkn6sfK8aHYjA3jk3o1Bv16em";
+async function toQrCode(data: string) {
+  return QrCode.toDataURL(data, { scale: 25 });
+}
 
-function NewDonation({ streamer, code }: { streamer: Streamer; code: string }) {
+function NewDonation({ streamer }: { streamer: Streamer }) {
   // Guard so streamer is ALWAYS DEFINED
-  //   console.log("Foobar");
   useDonationSocket(streamer.id);
 
-  //   useEffect(() => {
-  //     if (streamer?.id) {
-  //       queryClient.setQueryData(["donation", "streamer"], streamer.id);
-  //     }
-  //   }, [streamer?.id]);
+  const transactionAddress = useAtomValue(transactionAddressAtom);
+
+  const transactionUri = createMoneroTransactionUri({
+    address: transactionAddress,
+    amount: 239.39014,
+    description: "donation",
+  });
+
+  const { data: code } = useQuery({
+    queryKey: ["qrcode", transactionUri],
+    queryFn: () => toQrCode(transactionUri),
+    enabled: Boolean(transactionAddress),
+  });
 
   return (
     <DonationMask

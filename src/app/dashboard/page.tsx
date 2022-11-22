@@ -33,6 +33,7 @@ const Home: NextPage = () => {
       </div>
     );
   }
+
   return <h2>Please log in</h2>;
 };
 
