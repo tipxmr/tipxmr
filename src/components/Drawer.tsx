@@ -20,14 +20,14 @@ const MenuItem = ({ href, Icon, text, ...props }) => {
   const isActive = pathname === href;
 
   return (
-    <NavigationMenu.Item className="rounded px-4 py-2 hover:bg-gray-200">
-      <NextLink href={href} passHref>
+    <NextLink href={href} passHref>
+      <NavigationMenu.Item className="rounded px-4 py-2 hover:bg-gray-200">
         <NavigationMenu.Link className={clsx(isActive && "underline")}>
           <Icon className="mr-2 inline h-4 w-4 align-middle" />
           {text}
         </NavigationMenu.Link>
-      </NextLink>
-    </NavigationMenu.Item>
+      </NavigationMenu.Item>
+    </NextLink>
   );
 };
 
@@ -42,7 +42,7 @@ function Drawer() {
   };
 
   return (
-    <NavigationMenu.Root className="mr-2 shrink-0 self-stretch bg-white p-2">
+    <NavigationMenu.Root className="mr-2 shrink-0 p-2">
       <NavigationMenu.List>
         <MenuItem href="/dashboard" Icon={DashboardIcon} text="Dashboard" />
 

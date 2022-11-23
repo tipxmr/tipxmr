@@ -35,26 +35,30 @@ const Navbar = () => {
   const menuItems = session?.isLoggedIn ? logged_in_pages : logged_out_pages;
 
   return (
-    <NavigationMenu.Root className="relative mt-4 flex flex-row items-center justify-between p-2">
-      <Link href="/">
+    <div className="flex flex-col md:flex-row items-center justify-around mt-4 ">
+      <NavigationMenu.Root className="relative flex flex-row items-center start p-2">
+        <NavigationMenu.List className="flex list-none flex-row flex-wrap justify-center gap-4 rounded-md text-lg">
+          {menuItems.map(({ page, href }) => (
+            <Link key={page} href={href}>
+              <NavigationMenu.Item
+                className={clsx(
+                  "w-32 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400",
+                  pathname === href && "bg-orange-400"
+                )}
+              >
+                {page}
+              </NavigationMenu.Item>
+            </Link>
+          ))}
+        </NavigationMenu.List>
+
+      </NavigationMenu.Root>
+
+      <Link href="/" className="mx-4">
         <Image src={Logo} alt="TipXMR Logo" width={250} />
       </Link>
 
-      <NavigationMenu.List className="flex list-none flex-row flex-wrap justify-center gap-4 rounded-md text-lg">
-        {menuItems.map(({ page, href }) => (
-          <Link key={page} href={href}>
-            <NavigationMenu.Item
-              className={clsx(
-                "w-32 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400",
-                pathname === href && "bg-orange-400"
-              )}
-            >
-              {page}
-            </NavigationMenu.Item>
-          </Link>
-        ))}
-      </NavigationMenu.List>
-    </NavigationMenu.Root>
+    </div>
   );
 };
 
