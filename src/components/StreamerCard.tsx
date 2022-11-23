@@ -1,5 +1,6 @@
 import { Streamer } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 
 const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
   const { alias, name, status, isOnline } = streamer;
@@ -25,13 +26,13 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
       </div>
 
       <div>
-        <h4>{name}</h4>
-        <h5 className="mb-1.5">{status ?? "I ❤️ TipXMR"}</h5>
+        <h2 className="mb-1.5">{status ?? "I ❤️ TipXMR"}</h2>
       </div>
 
-      <div>
-        <button className="btn-primary">watch now</button>
+      <Link href={`/donate/${name}`}><div className="btn-primary text-center">
+        watch {alias} now
       </div>
+      </Link>
     </div>
   );
 };
