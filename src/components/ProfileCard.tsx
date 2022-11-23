@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { FC } from "react";
+import useDonationSettings from "~/hooks/useDonationSettings";
 
 import TipxmrLogo from "~/img/logo.png";
 import { User } from "~/lib/config";
 
-const ProfileCard: FC<User> = ({ id, alias, isOnline, socket }) => {
+const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {
+  const { data: donationSettings } = useDonationSettings(name)
+  console.log({ donationSettings })
   // TODO plug in the avatar URL
   return (
     <>
@@ -49,12 +52,20 @@ const ProfileCard: FC<User> = ({ id, alias, isOnline, socket }) => {
             </div>
           </div>
           <div className="mt-6 border-t border-slate-200 py-6 text-center">
-            {/* <div className="flex flex-wrap justify-center">
-                        <div className="w-full px-4">
-                            <p className="font-light leading-relaxed text-slate-600 mb-4">An artist of considerable range, Mike is the name taken by Melbourne-raised, Brooklyn-based Nick Murphy writes, performs and records all of his own music, giving it a warm.</p>
-                            <a href="javascript:;" className="font-normal text-slate-700 hover:text-slate-400">Follow Account</a>
-                        </div>
-                    </div> */}
+            <div className="flex flex-wrap justify-center">
+
+              <div className="w-full px-4">
+                {/* Component for streaming address*/}
+                <>
+                  <p>Your streaming animation URL</p>
+                  <div className="break-words bg-white p-8 font-mono">
+                    {donationSettings?.url}
+                  </div>
+                </>
+                <p className="font-light leading-relaxed text-slate-600 mb-4">An artist of considerable range, Mike is the name taken by Melbourne-raised, Brooklyn-based Nick Murphy writes, performs and records all of his own music, giving it a warm.</p>
+                <a href="javascript:;" className="font-normal text-slate-700 hover:text-slate-400">Follow Account</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
