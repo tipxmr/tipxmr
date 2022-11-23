@@ -63,7 +63,7 @@ function Drawer() {
         />
 
         <NavigationMenu.Item
-          className="rounded px-4 py-2 hover:bg-gray-200"
+          className="cursor-pointer rounded px-4 py-2 hover:bg-gray-200"
           onClick={() => signOut()}
         >
           <Icon className="mr-2 inline h-4 w-4 align-middle" />
