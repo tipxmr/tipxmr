@@ -27,9 +27,7 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
       </div> */}
 
       <Link href={`/donate/${name}`}>
-        <div className="btn-primary text-center">
-          watch {alias} now
-        </div>
+        <div className="btn-primary text-center">watch {alias} now</div>
       </Link>
     </div>
   );

@@ -31,7 +31,7 @@ const logged_in_pages: Pages = [
 
 const Navbar = () => {
   const { user: session } = useUser();
-  const pathname = usePathname()
+  const pathname = usePathname();
   const menuItems = session?.isLoggedIn ? logged_in_pages : logged_out_pages;
 
   return (
@@ -54,7 +54,6 @@ const Navbar = () => {
           </Link>
         ))}
       </NavigationMenu.List>
-
     </NavigationMenu.Root>
   );
 };
