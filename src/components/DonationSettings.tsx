@@ -59,6 +59,7 @@ const DonationSettingsForm: FC = () => {
         label="XMR price per character"
         name="charPrice"
         type="number"
+        control={control}
       ></Input>
       <Input
         label="The maximum amount of characters per message"

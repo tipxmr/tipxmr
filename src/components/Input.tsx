@@ -1,19 +1,21 @@
 import { HTMLInputTypeAttribute, ReactElement, useId } from "react";
 import {
+  Control,
   FieldValues,
   useController,
   UseControllerProps,
 } from "react-hook-form";
 
-interface InputProps {
+interface InputProps<T extends FieldValues> {
   label: string;
   name: string;
   type: HTMLInputTypeAttribute;
   className?: string;
+  control: Control<T>;
 }
 
 const Input = <T extends FieldValues>(
-  props: InputProps & UseControllerProps<T>
+  props: InputProps<T> & UseControllerProps<T>
 ): ReactElement => {
   const { field, fieldState } = useController(props);
   const outerClassName = props.className ?? "";
