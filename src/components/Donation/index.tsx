@@ -39,7 +39,7 @@ const DonationMask: FC<DonationMaskProps> = ({ streamer, txAddress, code }) => {
   }, [streamer]);
 
   return (
-    <div className="tip-border flex flex-col items-center space-y-4 rounded-lg md:py-2 lg:py-8">
+    <div className="tip-border m-2 flex flex-col items-center space-y-4 rounded-lg md:py-2 lg:py-8">
       <div>
         Donate to
         <StreamerChip name={streamer?.alias} />
