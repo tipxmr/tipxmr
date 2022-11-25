@@ -1,9 +1,9 @@
 "use client";
 
 import { Streamer } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import QrCode from "qrcode";
-import { useQuery } from "react-query";
 
 import DonationMask from "~/components/Donation";
 import { useDonationSocket } from "~/hooks/socket/use-socket";
