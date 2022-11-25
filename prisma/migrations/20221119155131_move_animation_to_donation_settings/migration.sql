@@ -14,3 +14,7 @@ ADD COLUMN     "url" TEXT;
 
 -- DropTable
 DROP TABLE "Animation";
+
+-- Insert UUID for existing users in column url
+UPDATE "DonationSetting"
+SET url=gen_random_uuid();
