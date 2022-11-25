@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { FC } from "react";
-import useDonationSettings from "~/hooks/useDonationSettings";
 
+import useDonationSettings from "~/hooks/useDonationSettings";
 import TipxmrLogo from "~/img/logo.png";
 import { User } from "~/lib/config";
+
 import StreamingUrl from "./StreamingAddress";
 
 const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {

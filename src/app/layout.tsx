@@ -4,10 +4,10 @@ import "~/styles/globals.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
 import Layout from "~/components/Layout";
-import { usePathname } from "next/navigation";
 
 export const queryClient = new QueryClient();
 
