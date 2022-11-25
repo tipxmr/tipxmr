@@ -1,20 +1,26 @@
-import DonationAnimation from "~/components/DonationAnimation"
-import prisma from "~/lib/prisma"
+import DonationAnimation from "~/components/DonationAnimation";
+import prisma from "~/lib/prisma";
 
 interface Props {
-    params: {
-        url: string;
-    }
+  params: {
+    url: string;
+  };
 }
 
 async function Animation({ params }: Props) {
-    const { url } = params
+  const { url } = params;
 
-    const animationSettings = await prisma.donationSetting.findFirstOrThrow({ where: { url: url } })
+  const animationSettings = await prisma.donationSetting.findFirstOrThrow({
+    where: { url: url },
+  });
 
-    return (<>
-        <DonationAnimation {...animationSettings} />
-    </>)
+  const animationProps = animationSettings;
+
+  return (
+    <div className="bg-transparent">
+      <DonationAnimation {...animationProps} />
+    </div>
+  );
 }
 
-export default Animation
+export default Animation;
