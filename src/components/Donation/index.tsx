@@ -1,5 +1,3 @@
-"use client";
-
 import { Streamer } from "@prisma/client";
 import Image from "next/image";
 import type { FC } from "react";
