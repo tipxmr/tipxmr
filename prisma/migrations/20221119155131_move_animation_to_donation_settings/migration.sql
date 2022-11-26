@@ -17,5 +17,5 @@ DROP TABLE "Animation";
 
 -- Insert UUID in url column for existing users
 UPDATE "DonationSetting"
-SET url=gen_random_uuid();
-WHERE url=NULL
+SET url=gen_random_uuid()
+WHERE url=NULL;
