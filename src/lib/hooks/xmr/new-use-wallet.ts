@@ -178,8 +178,25 @@ function useEvent<T extends Function>(handler: T) {
 
 const WALLET_KEY = "wallet";
 
+interface Store {
+  balance: {
+    locked: bigint;
+    unlocked: bigint;
+  };
+}
+
 function useWalletListener() {
-  const queryClient = useQueryClient();
+  const initialState = {} as Store;
+
+  const store = useRef(initialState);
+
+  const getState = useCallback(() => {
+    return store.current;
+  }, []);
+
+  const setState = useCallback((value: Partial<Store>) => {
+    store.current = { ...store.current, ...value };
+  }, []);
 
   const listener = useMemo(() => {
     return new (class Listener extends MoneroWalletListener {
@@ -187,39 +204,35 @@ function useWalletListener() {
         newBalance: BigInteger,
         newUnlockedBalance: BigInteger
       ): void {
-        const total = BigInt(newBalance.valueOf());
+        const locked = BigInt(newBalance.valueOf());
         const unlocked = BigInt(newUnlockedBalance.valueOf());
 
-        queryClient.setQueriesData(
-          [WALLET_KEY, "balance", "locked"],
-          () => total
-        );
-
-        queryClient.setQueriesData(
-          [WALLET_KEY, "balance", "unlocked"],
-          () => unlocked
-        );
+        setState({
+          balance: {
+            locked,
+            unlocked,
+          },
+        });
       }
 
       onNewBlock(height: number): void {
-        queryClient.setQueriesData(
-          [WALLET_KEY, "block", "height"],
-          () => height
-        );
+        setState({
+          block: {
+            height,
+          },
+        });
       }
 
       onOutputReceived(output: MoneroWallet): void {
-        queryClient.setQueriesData(
-          [WALLET_KEY, "output", "received"],
-          () => output
-        );
+        setState({
+          received: output,
+        });
       }
 
       onOutputSent(output: MoneroWallet) {
-        queryClient.setQueriesData(
-          [WALLET_KEY, "output", "sent"],
-          () => output
-        );
+        setState({
+          sent: output,
+        });
       }
 
       onSyncProgress(
@@ -229,41 +242,33 @@ function useWalletListener() {
         percentDone: number,
         message: string
       ): void {
-        queryClient.setQueriesData(
-          [WALLET_KEY, "syncProgress", "height"],
-          () => height
-        );
-
-        queryClient.setQueriesData(
-          [WALLET_KEY, "syncProgress", "startHeight"],
-          () => startHeight
-        );
-
-        queryClient.setQueriesData(
-          [WALLET_KEY, "syncProgress", "endHeight"],
-          () => endHeight
-        );
-
-        queryClient.setQueriesData(
-          [WALLET_KEY, "syncProgress", "percentDone"],
-          () => Math.floor(percentDone * 100)
-        );
-
-        queryClient.setQueriesData(
-          [WALLET_KEY, "syncProgress", "message"],
-          () => message
-        );
+        setState({
+          sync: {
+            height: height,
+            startHeight: startHeight,
+            endHeight: endHeight,
+            percentDone: Math.floor(percentDone * 100),
+            message: message,
+          },
+        });
       }
     })();
-  }, [queryClient]);
+  }, [setState]);
 
-  return listener;
+  //   return listener;
+
+  return {
+    getState,
+  };
 }
 
 function useWallet(instance: MoneroWalletFull) {
+  const initialState = {};
+  const selector = (id) => id;
+
   const listener = useWalletListener();
 
-  const onSubscribe = useEvent(() => {
+  const subscribe = useEvent(() => {
     instance.addListener(listener);
     instance.setSyncHeight(1200000);
     instance.startSyncing();
@@ -274,11 +279,31 @@ function useWallet(instance: MoneroWalletFull) {
     };
   });
 
-  useEffect(() => {
-    const unsubscribe = onSubscribe();
-    return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   useEffect(() => {
+  // const unsubscribe = onSubscribe();
+  // return () => unsubscribe();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, []);
+
+  //   const subscribe = (onStoreChange) => {
+  //     return store.subscribe(onStoreChange);
+  //   };
+
+  //   const getSnapshot = () => {
+  //     return selector(store.getState());
+  //   };
+
+  //   const getServerSnapshot = () => {
+  //     return selector(initialState);
+  //   };
+
+  return useSyncExternalStore(
+    store.subscribe,
+    () => selector(store.getState()),
+    () => selector(initialState)
+  );
+
+  //   return state;
 
   // const state = useSyncExternalStore(
   //   listener.subscribe,
@@ -306,63 +331,3 @@ function useWallet(instance: MoneroWalletFull) {
 }
 
 export default useWallet;
-
-// ############################################################################
-
-function replacer(key, value) {
-  if (typeof value === "bigint") {
-    return { tag: "bigint", value: value.toString() };
-  }
-
-  return value;
-}
-
-function reviver(key, value) {
-  if (
-    value !== null &&
-    typeof value === "object" &&
-    "tag" in value &&
-    value.tag === "bigint"
-  ) {
-    return BigInt(value["value"]);
-  }
-
-  return value;
-}
-
-const obj = {
-  start: 0n,
-  end: 100n,
-};
-
-JSON.parse(JSON.stringify(obj, replacer), reviver);
-
-// ############################################################################
-
-// function replacer(key, value) {
-//   if (typeof value === "bigint") {
-//     return { tag: "bigint", value: value.toString() };
-//   }
-
-//   return value;
-// }
-
-// function reviver(key, value) {
-//   if (
-//     value !== null &&
-//     typeof value === "object" &&
-//     "tag" in value &&
-//     value.tag === "bigint"
-//   ) {
-//     return BigInt(value["value"]);
-//   }
-
-//   return value;
-// }
-
-// const obj = {
-//   start: 0n,
-//   end: 100n,
-// };
-
-// JSON.parse(JSON.stringify(obj, replacer), reviver);
