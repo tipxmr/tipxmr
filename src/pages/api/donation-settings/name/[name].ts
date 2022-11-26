@@ -27,6 +27,7 @@ const getStreamerDonationSettings = async (
 
     if (donationSettings) {
       response.status(200).json(donationSettings);
+      return;
     }
 
     response.status(404).json({ error: "DontationSettings not found by name" });
