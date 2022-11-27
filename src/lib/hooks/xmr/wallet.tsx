@@ -4,8 +4,11 @@ import {
   MoneroWalletFull,
   MoneroWalletListener,
 } from "monero-javascript";
-import {
+import React, {
+  createContext,
+  use,
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -384,3 +387,54 @@ function useWallet<T>(
 }
 
 export default useWallet;
+
+function createWalletStateListener() {
+  function useStoreData() {
+    const get = () => {};
+
+    const set = () => {};
+
+    const subscribe = () => {};
+
+    return {
+      get,
+      set,
+      subscribe,
+    };
+  }
+
+  type UseStoreDataReturnType = ReturnType<typeof useStoreData>;
+
+  const WalletStateContext = createContext<UseStoreDataReturnType | null>(null);
+
+  function Provider({ children }: { children: React.ReactNode }) {
+    return (
+      <WalletStateContext.Provider value={useStoreData()}>
+        {children}
+      </WalletStateContext.Provider>
+    );
+  }
+
+  function useStore<SelectorOutput>(
+    selector: (store: Store) => SelectorOutput
+  ): [SelectorOutput, (value: Partial<Store>) => void] {
+    const store = useContext(WalletStateContext);
+
+    if (!store) {
+      throw Error("Store not found");
+    }
+
+    const state = useSyncExternalStore(
+      store.subscribe,
+      () => selector(store.get()),
+      () => selector(store.get())
+    );
+
+    return [state, store.set];
+  }
+
+  return {
+    Provider,
+    useWalletStateListener: useStore,
+  };
+}
