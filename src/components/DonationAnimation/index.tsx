@@ -18,7 +18,7 @@ function DonationAnimation({
   color,
 }: Props) {
   // TODO implement the size and color from the donation settings
-
+  // TODO connect to the Animation Websocket
   const [donation, setDonation] = useState<Partial<Donation> | undefined>();
   const transition = useTransition(donation, {
     from: { opacity: 0 },
@@ -26,46 +26,35 @@ function DonationAnimation({
     leave: { opacity: 0 },
     onRest: () => setTimeout(() => setDonation(undefined), 10000),
   });
-  const dummyDonation = donations?.at(0)
-
   useEffect(() => setDonation(dummyDonation), []);
 
   const progressPercentage =
     (goal && goalProgress && Math.floor((goalProgress / goal) * 100)) || 0;
 
-  const [open, toggle] = useState(false);
   const [ref, { width }] = useMeasure();
   const props = useSpring({ width: (goalProgress / goal) * width });
+  const dummyDonation = donations?.at(0);
 
   return (
-    <div className="transparent tip-border m-4 h-64 border-dotted bg-transparent text-white">
+    <div className="tip-border m-4 h-64 border-dotted text-white">
       <button onClick={() => setDonation(dummyDonation)}>
         Toggle animation
       </button>
       {/* Goal */}
-      <div className="container">
-        <div ref={ref} className="main" onClick={() => toggle(!open)}>
-          <animated.div className="fill" style={props} />
-          <animated.div className="content">
-            {props.width.to((x) => x.toFixed(0))}
-          </animated.div>
-        </div>
-      </div>
-
       <div className="m-3">
         <p className="text-right">{goal} XMR 🏁</p>
         <div
           ref={ref}
-          className="mb-4 flex h-4 overflow-hidden rounded text-xs"
+          className="mb-4 flex h-6 overflow-hidden rounded text-xs"
         >
           <animated.div
             style={props}
-            className="flex flex-col justify-center whitespace-nowrap bg-red-500 text-center text-white shadow-none"
+            className="flex flex-col justify-center whitespace-nowrap bg-red-500 text-center "
           >
-            <span>{goalProgress} XMR</span>
+            <p className="font-bold">{goalProgress} XMR</p>
           </animated.div>
-          <animated.div className="grow">
-            <p className="text-center">{progressPercentage}%</p>
+          <animated.div className="flex grow flex-col items-center justify-center bg-green-300">
+            <p className="font-bold">{progressPercentage}%</p>
           </animated.div>
         </div>
       </div>
