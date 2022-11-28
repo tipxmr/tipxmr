@@ -32,6 +32,7 @@ model Donation {
   giphyUrl                    String?   @default("") @db.VarChar(100)
   donor                       String?   @default("") @db.VarChar(24)
   timestamp                   DateTime? @default(now()) @db.Timestamp(6)
+  played                      DateTime?
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
