@@ -26,7 +26,6 @@ async function Animation({ params }: Props) {
 
   const animationProps = animationSettings;
 
-
   return (
     <div className="max-w-md bg-transparent">
       <DonationAnimation donations={donationList} {...animationProps} />

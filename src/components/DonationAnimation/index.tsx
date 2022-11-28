@@ -8,7 +8,6 @@ interface Props extends Partial<DonationSetting> {
   donations: Partial<Donation>[];
 }
 
-
 function DonationAnimation({
   /* message = "Hey man, I really like your stream and hope that this tip is supporting you!", */
   donations,
