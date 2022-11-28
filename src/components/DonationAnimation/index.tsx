@@ -26,8 +26,9 @@ function DonationAnimation({
     leave: { opacity: 0 },
     onRest: () => setTimeout(() => setDonation(undefined), 10000),
   });
+  const dummyDonation = donations?.at(0)
 
-  useEffect(() => setDonation(donations?.at(0)), []);
+  useEffect(() => setDonation(dummyDonation), []);
 
   const progressPercentage =
     (goal && goalProgress && Math.floor((goalProgress / goal) * 100)) || 0;
@@ -37,8 +38,8 @@ function DonationAnimation({
   const props = useSpring({ width: (goalProgress / goal) * width });
 
   return (
-    <div className="transparent tip-border m-4 h-64 border-dotted bg-transparent text-black">
-      <button onClick={() => setDonation(donations[0])}>
+    <div className="transparent tip-border m-4 h-64 border-dotted bg-transparent text-white">
+      <button onClick={() => setDonation(dummyDonation)}>
         Toggle animation
       </button>
       {/* Goal */}
@@ -63,7 +64,7 @@ function DonationAnimation({
           >
             <span>{goalProgress} XMR</span>
           </animated.div>
-          <animated.div className="content">
+          <animated.div className="grow">
             <p className="text-center">{progressPercentage}%</p>
           </animated.div>
         </div>
@@ -72,21 +73,21 @@ function DonationAnimation({
         <animated.div style={style}>
           {/* Message */}
           <div className="m-4">
-            {msg?.text && (
+            {msg?.message && (
               <div className="break-words text-center font-mono">
-                {msg.text}
+                {msg.message}
               </div>
             )}
             <div className="m-2">
-              {msg?.donorName && (
-                <p className="text-right font-mono">- {msg.donorName}</p>
+              {msg?.donor && (
+                <p className="text-right font-mono">- {msg.donor}</p>
               )}
             </div>
           </div>
           {/* Donation */}
-          {msg?.xmrAmount && (
+          {msg?.amount && (
             <div className="flex flex-col  text-center">
-              <p className="font-mono text-xl">{msg.xmrAmount} XMR</p>
+              <p className="font-mono text-xl">{msg.amount} XMR</p>
             </div>
           )}
         </animated.div>
