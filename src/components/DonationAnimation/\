@@ -8,6 +8,15 @@ interface Props extends Partial<DonationSetting> {
   donations: Partial<Donation>[];
 }
 
+const donationList = [
+  {
+    amount: 2,
+    message: "You are doing great",
+    donor: "Satoshi Nakamoto",
+    displayTimeSeconds: 3,
+    giphyUrl: "",
+  },
+];
 
 function DonationAnimation({
   /* message = "Hey man, I really like your stream and hope that this tip is supporting you!", */
@@ -20,7 +29,7 @@ function DonationAnimation({
 }: Props) {
   // TODO implement the size and color from the donation settings
 
-  const [donation, setDonation] = useState<Partial<Donation> | undefined>();
+  const [donation, setDonation] = useState<Partial<Donation>> | undefined>();
   const transition = useTransition(donation, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
