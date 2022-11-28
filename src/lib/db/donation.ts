@@ -1,65 +1,58 @@
-import { Donation } from "@prisma/client";
+import { Donation } from '@prisma/client'
 
-import prisma from "../prisma";
+import prisma from '../prisma'
 
-type BlankDonation = Pick<Donation, "subaddress">;
+type BlankDonation = Pick<Donation, 'subaddress'>
 type DonationType = Pick<
   Donation,
-  | "amount"
-  | "message"
-  | "displayTimeSeconds"
-  | "subaddress"
-  | "giphyUrl"
-  | "donor"
-  | "timestamp"
->;
+  'amount' | 'message' | 'displayTimeSeconds' | 'subaddress' | 'giphyUrl' | 'donor' | 'timestamp'
+>
 
-export const createBlankDonation = async (
-  streamer: Donation["streamer"],
-  data: BlankDonation
-) => {
-  const { subaddress } = data;
+export const createBlankDonation = async (streamer: Donation['streamer'], data: BlankDonation) => {
+  const { subaddress } = data
   return prisma?.donation.create({
     data: {
       streamer,
       subaddress,
     },
-  });
-};
+  })
+}
 
-export const createDonation = async (
-  streamer: Donation["streamer"],
-  data: DonationType
-) => {
+export const createDonation = async (streamer: Donation['streamer'], data: DonationType) => {
   // TODO manual error handeling
-  const { subaddress } = data;
+  const { subaddress } = data
   return prisma?.donation.create({
     data: {
       streamer,
       subaddress,
     },
-  });
-};
+  })
+}
 
-export const updateDonation = async (
-  streamer: Donation["streamer"],
-  data: DonationType
-) => {
+export const updateDonation = async (streamer: Donation['streamer'], data: DonationType) => {
   // TODO to update the right donation, we have to get it by id... not by the streamer.
-  if (streamer === null) throw new Error("Cannot do this - sorry");
+  if (streamer === null) throw new Error('Cannot do this - sorry')
   return prisma?.donation.update({
     where: {
       streamer,
     },
     data,
-  });
-};
+  })
+}
 
-export const getDonation = async (streamer: Donation["streamer"]) => {
+export const getDonation = async (streamer: Donation['streamer']) => {
   // TODO manual error handeling
-  return prisma.donation.findUnique({
+  return prisma.donation.findFirstOrThrow({
     where: {
       streamer,
     },
-  });
-};
+  })
+}
+
+export const getDonations = async (streamer: Donation['streamer']) => {
+  return prisma.donation.findMany({
+    where: {
+      streamer,
+    },
+  })
+}
