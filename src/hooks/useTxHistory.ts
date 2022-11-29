@@ -7,7 +7,7 @@ async function fetchDonations(id: Streamer['id']): Promise<Donation[]> {
   return fetchJson(`/api/donations/${id}`)
 }
 
-export default function useDonations(id?: Streamer['id']) {
+export default function useTxHistory(id?: Streamer['id']) {
   console.log(`Trying to get the donation history for ${id}`)
   return useQuery<Donation[], Error>({
     queryKey: ['donationHistory', id],

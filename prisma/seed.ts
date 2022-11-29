@@ -24,7 +24,15 @@ async function seedStreamers() {
 }
 
 async function seedDonations() {
-  return prisma.donation.createMany({ data: dummyDonations, skipDuplicates: true })
+  const streamers = await prisma.streamer.findMany({})
+  for (const streamer of streamers) {
+    const dummyData = dummyDonations.map((d) => ({ ...d, streamer: streamer.id }))
+    await prisma.donation.createMany({
+      data: dummyData,
+      skipDuplicates: true,
+    })
+  }
+  return
 }
 
 const seed = async () => {

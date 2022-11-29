@@ -1,5 +1,6 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
+import { slice } from 'ramda'
 import { getDonations } from '~/lib/db/donation'
 
 import { withSessionRoute } from '~/lib/withSession'
@@ -31,7 +32,9 @@ async function getDonationHistory(
 
   try {
     const result = await getDonations(String(user.id))
-    response.status(200).json(result)
+    const donations = slice(0, 100, result)
+    // only send the 100 most recent donations
+    response.status(200).json(donations)
   } catch (error) {
     console.error(error)
     if (error instanceof PrismaClientKnownRequestError) {

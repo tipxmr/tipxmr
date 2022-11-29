@@ -59,4 +59,13 @@ const donation3 = {
   donor: 'Julian',
 }
 
-export const dummyDonations = [donation1, donation2, donation3]
+const donation4 = {
+  isPaid: false,
+  amount: 2.123213,
+  message:
+    'Hey man, really lovin the stream and all, but lately you just have not been as good as usally. Therefore only a tiny donation. Do better.',
+  displayTimeSeconds: 7,
+  donor: 'Anonymous',
+}
+
+export const dummyDonations = [donation1, donation2, donation3, donation4]

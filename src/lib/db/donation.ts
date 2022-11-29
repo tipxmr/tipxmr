@@ -51,6 +51,7 @@ export const getDonation = async (streamer: Donation['streamer']) => {
 
 export const getDonations = async (streamer: Donation['streamer']) => {
   return prisma.donation.findMany({
+    orderBy: [{ timestamp: 'desc' }],
     where: {
       streamer,
     },
