@@ -3,7 +3,7 @@ import { Donation } from "@prisma/client";
 import prisma from "../prisma";
 
 type BlankDonation = Pick<Donation, "subaddress">;
-type DonationType = Pick<
+type DonationInputType = Pick<
   Donation,
   | "amount"
   | "message"
@@ -29,7 +29,7 @@ export const createBlankDonation = async (
 
 export const createDonation = async (
   streamer: Donation["streamer"],
-  data: DonationType
+  data: DonationInputType
 ) => {
   // TODO manual error handeling
   const { subaddress } = data;
@@ -43,7 +43,7 @@ export const createDonation = async (
 
 export const updateDonation = async (
   streamer: Donation["streamer"],
-  data: DonationType
+  data: DonationInputType
 ) => {
   // TODO to update the right donation, we have to get it by id... not by the streamer.
   if (streamer === null) throw new Error("Cannot do this - sorry");
@@ -64,11 +64,15 @@ export const getDonation = async (streamer: Donation["streamer"]) => {
   });
 };
 
-export const getDonations = async (streamer: Donation["streamer"]) => {
+export const getDonations = async (
+  streamer: Donation["streamer"],
+  take?: number
+) => {
   return prisma.donation.findMany({
     orderBy: [{ timestamp: "desc" }],
     where: {
       streamer,
     },
+    take,
   });
 };

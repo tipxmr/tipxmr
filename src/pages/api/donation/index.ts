@@ -1,6 +1,5 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { slice } from "ramda";
 
 import { getDonations } from "~/lib/db/donation";
 import { withSessionRoute } from "~/lib/withSession";
@@ -31,9 +30,9 @@ async function getDonationHistory(
   }
 
   try {
-    const result = await getDonations(String(user.id));
-    const donations = slice(0, 100, result);
-    // only send the 100 most recent donations
+    const limitParam = request.query.limit as string;
+    const limit = parseInt(limitParam) ?? 100;
+    const donations = await getDonations(String(user.id), limit);
     response.status(200).json(donations);
   } catch (error) {
     console.error(error);
@@ -41,7 +40,7 @@ async function getDonationHistory(
       const { message } = error;
       response
         .status(500)
-        .json({ error: `failed to create streamer, ${message}` });
+        .json({ error: `failed to fetch donations, ${message}` });
     }
   }
 }
