@@ -1,17 +1,17 @@
-import { Donation, Streamer } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
+import { Donation, Streamer } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 
-import fetchJson from '~/lib/fetchJson'
+import fetchJson from "~/lib/fetchJson";
 
-async function fetchDonations(id: Streamer['id']): Promise<Donation[]> {
-  return fetchJson(`/api/donations/${id}`)
+async function fetchDonations(id: Streamer["id"]): Promise<Donation[]> {
+  return fetchJson(`/api/donations/${id}`);
 }
 
-export default function useTxHistory(id?: Streamer['id']) {
-  console.log(`Trying to get the donation history for ${id}`)
+export default function useTxHistory(id?: Streamer["id"]) {
+  console.log(`Trying to get the donation history for ${id}`);
   return useQuery<Donation[], Error>({
-    queryKey: ['donationHistory', id],
-    queryFn: () => fetchDonations(id ?? ''),
+    queryKey: ["donationHistory", id],
+    queryFn: () => fetchDonations(id ?? ""),
     enabled: Boolean(id),
-  })
+  });
 }
