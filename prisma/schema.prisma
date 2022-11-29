@@ -35,7 +35,7 @@ model Category {
 }
 
 model Donation {
-  id                          Int       @id @default(autoincrement())
+  id                          String    @id @default(uuid())
   isPaid                      Boolean   @default(false) @db.Boolean
   streamer                    String?   @db.VarChar(12)
   amount                      Float     @default(0)
