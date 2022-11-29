@@ -1,6 +1,10 @@
 "use client";
 
-import { CheckCircledIcon, CrossCircledIcon } from "@radix-ui/react-icons";
+import {
+  CheckCircledIcon,
+  CrossCircledIcon,
+  UpdateIcon,
+} from "@radix-ui/react-icons";
 import { NextPage } from "next";
 
 import useTxHistory from "~/hooks/useTxHistory";
@@ -9,14 +13,8 @@ import useUser from "~/lib/useUser";
 const History: NextPage = () => {
   const { user } = useUser({ redirectTo: "/login" });
   const { data: donations, isLoading } = useTxHistory(user?.id);
-  // TODO render the data in a neat way
-  console.log({
-    donations,
-    length: donations?.length,
-    type: typeof Object.values(donations || {}),
-  });
 
-  if (isLoading) return <span>Loading</span>;
+  if (isLoading) return <UpdateIcon className="animate-spin" />;
 
   return (
     <>
