@@ -4,13 +4,27 @@ import { useQuery } from "@tanstack/react-query";
 
 import fetchJson from "~/lib/fetchJson";
 
-async function fetchDonations(limit = 100): Promise<Donation[]> {
-  return fetchJson(`/api/donation?limit=${limit}`);
+interface Options {
+  limit?: number;
+  index?: number;
 }
 
-export default function useTxHistory(limit = 100) {
-  return useQuery<Donation[], Error>({
-    queryKey: ["donationHistory", limit],
-    queryFn: () => fetchDonations(limit),
+interface History {
+  rows: Donation[];
+  pageCount: number;
+}
+
+async function fetchDonations(options: Options): Promise<History> {
+  const query = new URLSearchParams(Object.entries(options));
+  return fetchJson(`/api/donation?${query}`);
+}
+
+export default function useTxHistory({ limit = 1, index = 0 }: Options) {
+  const options = { limit, index };
+
+  return useQuery<History, Error>({
+    queryKey: ["donationHistory", options],
+    queryFn: () => fetchDonations(options),
+    keepPreviousData: true,
   });
 }

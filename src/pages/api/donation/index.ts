@@ -2,7 +2,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { clamp } from "ramda";
 
-import { getDonations } from "~/lib/db/donation";
+import prisma from "~/lib/prisma";
 import { withSessionRoute } from "~/lib/withSession";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -35,8 +35,31 @@ async function getDonationHistory(
     const maxLimit = 10000;
     const defaultLimit = 100;
     const limit = clamp(1, maxLimit, limitParam || defaultLimit);
-    const donations = await getDonations(String(user.id), limit);
-    response.status(200).json(donations);
+
+    const indexParam = parseInt(request.query.index as string);
+    const defaultIndex = 0;
+    const index = indexParam || defaultIndex;
+
+    const [donations, total] = await prisma.$transaction([
+      prisma.donation.findMany({
+        orderBy: [{ timestamp: "desc" }],
+        where: {
+          streamer: String(user.id),
+        },
+        take: limit,
+        skip: index,
+      }),
+      prisma.donation.count({
+        where: {
+          streamer: String(user.id),
+        },
+      }),
+    ]);
+
+    response.status(200).json({
+      pageCount: Math.ceil(total / limit),
+      rows: donations,
+    });
   } catch (error) {
     console.error(error);
     if (error instanceof PrismaClientKnownRequestError) {
