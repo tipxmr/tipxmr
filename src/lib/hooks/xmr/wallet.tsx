@@ -33,152 +33,6 @@ function useEvent<T extends Function>(handler: T) {
   }, []);
 }
 
-// ############################################################################
-
-// type ListenerState = {
-//   balances: {
-//     total: bigint;
-//     unlocked: bigint;
-//   };
-//   block: {
-//     height: number;
-//   };
-//   output: {
-//     received?: MoneroWallet;
-//     sent?: MoneroWallet;
-//   };
-//   syncProgress: {
-//     height: number;
-//     startHeight: number;
-//     endHeight: number;
-//     percentDone: number;
-//     message: string;
-//   };
-// };
-
-// type Callback = () => void;
-
-// const initialState = {
-//   balances: {
-//     total: 0n,
-//     unlocked: 0n,
-//   },
-//   block: {
-//     height: 0,
-//   },
-//   output: {
-//     received: undefined,
-//     sent: undefined,
-//   },
-//   syncProgress: {
-//     height: 0,
-//     startHeight: 0,
-//     endHeight: 0,
-//     percentDone: 0,
-//     message: "",
-//   },
-// } as ListenerState;
-
-// class Listener extends MoneroWalletListener {
-//   private state = initialState;
-
-//   private subscribers = new Set<Callback>();
-
-//   constructor() {
-//     super();
-//   }
-
-//   getState() {
-//     return this.state;
-//   }
-
-//   subscribe(callback: Callback) {
-//     this.subscribers.add(callback);
-
-//     return () => {
-//       this.subscribers.delete(callback);
-//     };
-//   }
-
-//   notify() {
-//     this.subscribers.forEach((callback) => callback());
-//   }
-
-//   onBalancesChanged(
-//     newBalance: BigInteger,
-//     newUnlockedBalance: BigInteger
-//   ): void {
-//     const total = BigInt(newBalance.valueOf());
-//     const unlocked = BigInt(newUnlockedBalance.valueOf());
-
-//     this.state = {
-//       ...this.state,
-//       balances: {
-//         total: total,
-//         unlocked: unlocked,
-//       },
-//     };
-
-//     this.notify();
-//   }
-
-//   onNewBlock(height: number): void {
-//     this.state = {
-//       ...this.state,
-//       block: {
-//         height: height,
-//       },
-//     };
-
-//     this.notify();
-//   }
-
-//   onOutputReceived(output: MoneroWallet): void {
-//     this.state = {
-//       ...this.state,
-//       output: {
-//         ...this.state.output,
-//         received: output,
-//       },
-//     };
-
-//     this.notify();
-//   }
-
-//   onOutputSent(output: MoneroWallet) {
-//     this.state = {
-//       ...this.state,
-//       output: {
-//         ...this.state.output,
-//         sent: output,
-//       },
-//     };
-
-//     this.notify();
-//   }
-
-//   onSyncProgress(
-//     height: number,
-//     startHeight: number,
-//     endHeight: number,
-//     percentDone: number,
-//     message: string
-//   ): void {
-//     this.state = {
-//       ...this.state,
-//       syncProgress: {
-//         height: height,
-//         startHeight: startHeight,
-//         endHeight: endHeight,
-//         percentDone: percentDone,
-//         message: message,
-//       },
-//     };
-
-//     this.notify();
-//   }
-// }
-
 interface Store {
   balance: {
     locked: bigint;
@@ -335,66 +189,33 @@ function useWallet<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //   useEffect(() => {
-  // const unsubscribe = onSubscribe();
-  // return () => unsubscribe();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
-
-  //   const subscribe = (onStoreChange) => {
-  //     return store.subscribe(onStoreChange);
-  //   };
-
-  //   const getSnapshot = () => {
-  //     return selector(store.getState());
-  //   };
-
-  //   const getServerSnapshot = () => {
-  //     return selector(initialState);
-  //   };
-
   return useSyncExternalStore(
     store.subscribe,
     () => selector(store.getState()),
     () => selector(store.getState())
   );
-
-  //   return state;
-
-  // const state = useSyncExternalStore(
-  //   listener.subscribe,
-  //   () => listener.getState(),
-  //   () => listener.getState()
-  // );
-
-  // const onSubscribe = useEvent(() => {
-  //   instance.addListener(listener);
-  //   instance.startSyncing();
-
-  //   return () => {
-  //     instance.stopSyncing();
-  //     instance.removeListener(listener);
-  //   };
-  // });
-
-  // useEffect(() => {
-  //   const unsubscribe = onSubscribe();
-  //   return () => unsubscribe();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // return state;
 }
 
 export default useWallet;
 
 function createWalletStateListener() {
   function useStoreData() {
-    const get = () => {};
+    const store = useRef<Store>(initialState);
+    const subscribers = useRef(new Set<Callback>());
 
-    const set = () => {};
+    const get = useCallback(() => {
+      return store.current;
+    }, []);
 
-    const subscribe = () => {};
+    const set = useCallback((value: Partial<Store>) => {
+      store.current = { ...store.current, ...value };
+      subscribers.current.forEach((callback) => callback());
+    }, []);
+
+    const subscribe = (callback: Callback) => {
+      subscribers.current.add(callback);
+      return () => subscribers.current.delete(callback);
+    };
 
     return {
       get,
@@ -417,7 +238,7 @@ function createWalletStateListener() {
 
   function useStore<SelectorOutput>(
     selector: (store: Store) => SelectorOutput
-  ): [SelectorOutput, (value: Partial<Store>) => void] {
+  ): SelectorOutput {
     const store = useContext(WalletStateContext);
 
     if (!store) {
@@ -430,11 +251,35 @@ function createWalletStateListener() {
       () => selector(store.get())
     );
 
-    return [state, store.set];
+    return state;
   }
 
   return {
     Provider,
     useWalletStateListener: useStore,
+    // setWallet
   };
+
+  // function useStore<SelectorOutput>(
+  //   selector: (store: Store) => SelectorOutput
+  // ): [SelectorOutput, (value: Partial<Store>) => void] {
+  //   const store = useContext(WalletStateContext);
+
+  //   if (!store) {
+  //     throw Error("Store not found");
+  //   }
+
+  //   const state = useSyncExternalStore(
+  //     store.subscribe,
+  //     () => selector(store.get()),
+  //     () => selector(store.get())
+  //   );
+
+  //   return [state, store.set];
+  // }
+
+  // return {
+  //   Provider,
+  //   useWalletStateListener: useStore,
+  // };
 }
