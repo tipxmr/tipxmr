@@ -1,17 +1,17 @@
-# Linux AMD64
+# Linux ARMv8
 FROM ubuntu:22.04 AS build
       
-ENV MONERO_VERSION=0.18.1.2 MONERO_SHA256=7d51e7072351f65d0c7909e745827cfd3b00abe5e7c4cc4c104a3c9b526da07e
+ENV MONERO_VERSION=0.18.1.2 MONERO_SHA256=e1467fe289c98349be2b1c4c080e30a224eb3217c814fab0204241b2b19b9c6b
 
 RUN apt-get update && apt-get install -y curl bzip2
 
 WORKDIR /root
 
-RUN curl https://dlsrc.getmonero.org/cli/monero-linux-x64-v$MONERO_VERSION.tar.bz2 -O &&\
-  echo "$MONERO_SHA256  monero-linux-x64-v$MONERO_VERSION.tar.bz2" | sha256sum -c - &&\
-  tar -xvf monero-linux-x64-v$MONERO_VERSION.tar.bz2 &&\
-  rm monero-linux-x64-v$MONERO_VERSION.tar.bz2 &&\
-  cp ./monero-x86_64-linux-gnu-v$MONERO_VERSION/monerod . &&\
+RUN curl https://dlsrc.getmonero.org/cli/monero-linux-armv8-v$MONERO_VERSION.tar.bz2 -O &&\
+  echo "$MONERO_SHA256  monero-linux-armv8-v$MONERO_VERSION.tar.bz2" | sha256sum -c - &&\
+  tar -xvf monero-linux-armv8-v$MONERO_VERSION.tar.bz2 &&\
+  rm monero-linux-armv8-v$MONERO_VERSION.tar.bz2 &&\
+  cp ./monero-aarch64-linux-gnu-v$MONERO_VERSION/monerod . &&\
   rm -r monero-*
 
 FROM ubuntu:22.04

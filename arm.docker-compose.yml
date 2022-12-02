@@ -1,0 +1,48 @@
+version: "3"
+services:
+  db:
+    container_name: "tipxmr-db"
+    hostname: postgres
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=tipxmr
+      - POSTGRES_USER=tipxmr
+      - POSTGRES_PASSWORD=tipxmr
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: "tipxmr-pgadmin"
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    ports:
+      - 5555:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tipxmr.live
+      PGADMIN_DEFAULT_PASSWORD: tipxmr
+    restart: unless-stopped
+    logging:
+      driver: none
+
+  monero-node:
+    container_name: "monero-node"
+    platform: linux/arm64/v8
+    build:
+      context: ./monero
+      dockerfile: arm.Dockerfile
+    command: --non-interactive --config-file /home/monero/.bitmonero/stagenet.conf
+    ports:
+      - "38080:38080"
+      - "38081:38081"
+    volumes:
+      - ./monero/bitmonero:/home/monero/.bitmonero
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
