@@ -13,7 +13,7 @@ const alexStreamer: Streamer = {
 };
 
 const grischaStreamer: Streamer = {
-  id: "b8185a25bbe3b4206e490558ab50b0567deca446d15282e92c5c66fde6693399",
+  id: "268b7956d61",
   alias: "hundehausen",
   name: "hundehausen",
   socket: null,
