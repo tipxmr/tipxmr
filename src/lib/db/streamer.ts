@@ -32,7 +32,6 @@ export const createStreamer = (
     data: {
       id,
       ...data,
-      Account: { create: {} },
       wallet: { create: {} },
       donationSetting: { create: {} },
     },
