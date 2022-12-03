@@ -1,4 +1,4 @@
-import { Account, Streamer } from "@prisma/client";
+import type { Streamer } from "@prisma/client";
 
 // Streamer Table
 

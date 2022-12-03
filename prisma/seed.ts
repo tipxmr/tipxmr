@@ -1,10 +1,11 @@
-import { PrismaClient } from '@prisma/client'
-import { testStreamers, dummyDonations } from '../src/data/intialTables'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+import { dummyDonations, testStreamers } from "../src/data/intialTables";
+
+const prisma = new PrismaClient();
 
 // Helper functions
-const truncateHashedSeed = (hashedSeed: string) => hashedSeed.slice(0, 11)
+const truncateHashedSeed = (hashedSeed: string) => hashedSeed.slice(0, 11);
 
 // Seeding functions
 async function seedStreamers() {
@@ -18,35 +19,38 @@ async function seedStreamers() {
         alias: streamer.alias,
         socket: streamer.socket || null,
       },
-    })
-  })
-  return Promise.all(promises)
+    });
+  });
+  return Promise.all(promises);
 }
 
 async function seedDonations() {
-  const streamers = await prisma.streamer.findMany({})
+  const streamers = await prisma.streamer.findMany({});
   for (const streamer of streamers) {
-    const dummyData = dummyDonations.map((d) => ({ ...d, streamer: streamer.id }))
+    const dummyData = dummyDonations.map((d) => ({
+      ...d,
+      streamer: streamer.id,
+    }));
     await prisma.donation.createMany({
       data: dummyData,
       skipDuplicates: true,
-    })
+    });
   }
-  return
+  return;
 }
 
 const seed = async () => {
-  await seedStreamers()
-  await seedDonations()
-  console.log('seeded donation')
-  // await seedAccounts();
-}
+  await seedStreamers();
+  console.log("seeded streamers");
+  await seedDonations();
+  console.log("seeded donation");
+};
 
 seed()
   .catch((e) => {
-    console.error(e)
-    process.exit(1)
+    console.error(e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });
