@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { testStreamers } from "../src/data/intialTables";
+
+import { dummyDonations, testStreamers } from "../src/data/intialTables";
 
 const prisma = new PrismaClient();
 
@@ -23,9 +24,26 @@ async function seedStreamers() {
   return Promise.all(promises);
 }
 
+async function seedDonations() {
+  const streamers = await prisma.streamer.findMany({});
+  for (const streamer of streamers) {
+    const dummyData = dummyDonations.map((d) => ({
+      ...d,
+      streamer: streamer.id,
+    }));
+    await prisma.donation.createMany({
+      data: dummyData,
+      skipDuplicates: true,
+    });
+  }
+  return;
+}
+
 const seed = async () => {
   await seedStreamers();
-  // await seedAccounts();
+  console.log("seeded streamers");
+  await seedDonations();
+  console.log("seeded donation");
 };
 
 seed()

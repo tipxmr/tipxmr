@@ -1,16 +1,9 @@
-"use client";
-
 import { NextPage } from "next";
 
-import useUser from "~/lib/useUser";
+import DonationTable from "./donation-table";
 
 const History: NextPage = () => {
-  const { user } = useUser({ redirectTo: "/login" });
-  return (
-    <>
-      <p>Here will be a table of all the received transactions</p>
-    </>
-  );
+  return <DonationTable />;
 };
 
 export default History;

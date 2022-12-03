@@ -11,13 +11,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  streamer                   String   @id @db.VarChar(12)
-  createdAt                  DateTime @default(now()) @db.Timestamp(6)
-  status                     Status?
-  streamer_accountTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
 model Animation {
   id                           Int       @id @default(autoincrement())
   streamer                     String?   @db.VarChar(12)
@@ -35,7 +28,7 @@ model Category {
 }
 
 model Donation {
-  id                          Int       @id @default(autoincrement())
+  id                          String    @id @default(uuid())
   isPaid                      Boolean   @default(false) @db.Boolean
   streamer                    String?   @db.VarChar(12)
   amount                      Float     @default(0)
@@ -88,6 +81,7 @@ model Streamer {
   name            String           @unique @db.VarChar(20)
   alias           String           @unique @db.VarChar(24)
   socket          String?          @unique @db.VarChar(20)
+  createdAt       DateTime         @default(now()) @db.Timestamp(6)
   updatedAt       DateTime         @default(now()) @updatedAt
   isOnline        Boolean          @default(false) @db.Boolean
   status          Status?
@@ -98,7 +92,6 @@ model Streamer {
   invoice         Invoice[]
   stream          Stream?
   wallet          Wallet?
-  Account         Account[]
 }
 
 model Wallet {
