@@ -1,4 +1,4 @@
-import type { Streamer } from "@prisma/client";
+import type { Donation, Streamer } from "@prisma/client";
 
 // Streamer Table
 
@@ -38,7 +38,7 @@ const pronasStreamer: Streamer = {
 export const testStreamers = [alexStreamer, grischaStreamer, pronasStreamer];
 
 // Dummy Donations
-const donation1 = {
+const donation1: Partial<Donation> = {
   isPaid: true,
   amount: 123,
   message: "Hello world",
@@ -46,7 +46,7 @@ const donation1 = {
   donor: "Timothy",
 };
 
-const donation2 = {
+const donation2: Partial<Donation> = {
   isPaid: true,
   amount: 3123,
   message: "Hello world 2",
@@ -54,7 +54,7 @@ const donation2 = {
   donor: "May",
 };
 
-const donation3 = {
+const donation3: Partial<Donation> = {
   isPaid: true,
   amount: 1337,
   message: "Arise",
@@ -62,7 +62,7 @@ const donation3 = {
   donor: "Julian",
 };
 
-const donation4 = {
+const donation4: Partial<Donation> = {
   isPaid: false,
   amount: 2.123213,
   message:
