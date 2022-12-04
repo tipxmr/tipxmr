@@ -13,7 +13,7 @@ import useUser from "~/lib/useUser";
 const Home: NextPage = () => {
   useStreamerSocket();
 
-  const { user: session } = useUser({ redirectTo: "/login" });
+  const { user } = useUser({ redirectTo: "/login" });
 
   const foobar = useQuery({
     queryKey: streamerKeys.subaddress(),
@@ -25,16 +25,16 @@ const Home: NextPage = () => {
     console.log({ foobar: foobar.data });
   }, [foobar.data]);
 
-  if (session && session.isLoggedIn) {
+  if (user && user.isLoggedIn) {
     return (
       <div className="container">
         <Head>
           <title>Dashboard</title>
         </Head>
 
-        <h4>Welcome, {session.alias}</h4>
-        <h5>Your ID: {session.id}</h5>
-        <IsOnlineBadge isOnline={!!session?.isOnline} />
+        <h4>Welcome, {user.alias}</h4>
+        <h5>Your ID: {user.id}</h5>
+        <IsOnlineBadge isOnline={!!user?.isOnline} />
       </div>
     );
   }
