@@ -1,5 +1,6 @@
 "use client";
 
+import { Streamer } from "@prisma/client";
 import { useSetAtom } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -18,9 +19,10 @@ interface FullWalletFormValues {
 
 interface FullWalletInputProps {
   handleStepChange?: (mode: RegistrationMode, step: number) => void;
+  login: (id: Streamer["id"]) => void;
 }
 
-const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
+const FullWalletInput = ({ handleStepChange, login }: FullWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
 
   const {
@@ -29,11 +31,6 @@ const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
     formState: { isValid, isDirty },
   } = useForm<FullWalletFormValues>({
     mode: "onChange",
-  });
-
-  const { mutate: mutateUser } = useUser({
-    redirectTo: "/dashboard",
-    redirectIfFound: true,
   });
 
   const createWallet: SubmitHandler<FullWalletFormValues> = async (
@@ -50,15 +47,15 @@ const FullWalletInput = ({ handleStepChange }: FullWalletInputProps) => {
       privateViewKey
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    login(id);
+    signIn(id);
     setWallet(wallet);
     handleStepChange?.("fullWallet", 2);
     return wallet;
   };
 
-  const login = (id: string) => {
+  const signIn = (id: string) => {
     try {
-      mutateUser(id);
+      login(id);
     } catch (reason) {
       if (reason instanceof FetchError) {
         console.error(reason);

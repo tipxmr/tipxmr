@@ -17,6 +17,12 @@ async function loginUser(id?: Streamer["id"]) {
   });
 }
 
+async function logoutUser() {
+  return fetchJson<User>("/api/logout", {
+    method: "POST",
+  });
+}
+
 export default function useUser({
   redirectTo = "",
   redirectIfFound = false,
@@ -32,7 +38,14 @@ export default function useUser({
   }, [error]);
 
   const queryClient = useQueryClient();
-  const mutation = useMutation(loginUser, {
+
+  const loginMutation = useMutation(loginUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
+
+  const logoutMutation = useMutation(logoutUser, {
     onSuccess: () => {
       queryClient.invalidateQueries(["user"]);
     },
@@ -53,5 +66,9 @@ export default function useUser({
     }
   }, [user, redirectIfFound, redirectTo, router]);
 
-  return { user, mutate: mutation.mutate };
+  return {
+    user,
+    login: loginMutation.mutate,
+    logout: logoutMutation.mutate,
+  };
 }

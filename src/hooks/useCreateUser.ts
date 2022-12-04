@@ -19,20 +19,14 @@ async function createStreamer({ id, alias, name }: NewUserData) {
 }
 
 export default function useCreateUser() {
-  const { mutate: mutateUser } = useUser({
+  const { login } = useUser({
     redirectIfFound: true,
     redirectTo: "/dashboard",
   });
 
   return useMutation<Streamer, FetchError, NewUserData>(createStreamer, {
     onSuccess: async ({ id }) => {
-      await fetchJson(`/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: { id },
-      });
-
-      mutateUser(id);
+      login(id);
     },
   });
 }
