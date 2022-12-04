@@ -1,3 +1,5 @@
+"use client";
+
 import type { DonationSetting } from "@prisma/client";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
