@@ -5,7 +5,7 @@ import useDonationSettings from "~/hooks/useDonationSettings";
 import TipxmrLogo from "~/img/logo.png";
 import { User } from "~/lib/config";
 
-import StreamingUrl from "./StreamingAddress";
+import StreamingUrl from "./StreamingUrl";
 
 const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {
   const { data: donationSettings } = useDonationSettings(name);
