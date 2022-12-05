@@ -9,11 +9,11 @@ import StreamingUrl from "./StreamingUrl";
 
 const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {
   const { data: donationSettings } = useDonationSettings(name);
-  console.log({ donationSettings });
+
   // TODO plug in the avatar URL
   return (
     <>
-      <div className="relative mx-auto mt-6 mb-6 mt-16 w-full min-w-0 max-w-md break-words rounded-xl bg-white shadow-lg md:max-w-2xl">
+      <div className="relative mx-auto mb-6 mt-16 w-full min-w-0 max-w-md break-words rounded-xl bg-white shadow-lg md:max-w-2xl">
         <div className="px-6">
           <div className="flex flex-wrap justify-center">
             <div className="flex w-full justify-center">
@@ -37,7 +37,9 @@ const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {
                 </div>
                 <div className="p-3 text-center">
                   <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                    {isOnline || <span className="text-xs">Error</span>}
+                    {isOnline?.toString() || (
+                      <span className="text-xs">Error</span>
+                    )}
                   </span>
                   <span className="text-sm text-slate-400">Online Status</span>
                 </div>
