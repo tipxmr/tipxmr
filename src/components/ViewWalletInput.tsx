@@ -1,5 +1,6 @@
 "use client";
 
+import { Streamer } from "@prisma/client";
 import { useSetAtom } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -19,9 +20,10 @@ interface ViewWalletFormValues {
 
 interface ViewWalletInputProps {
   handleStepChange?: (mode: RegistrationMode, step: number) => void;
+  login: (id: Streamer["id"]) => void;
 }
 
-const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
+const ViewWalletInput = ({ handleStepChange, login }: ViewWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
 
   const {
@@ -30,11 +32,6 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
     formState: { isValid, isDirty },
   } = useForm<ViewWalletFormValues>({
     mode: "onChange",
-  });
-
-  const { mutate: mutateUser } = useUser({
-    redirectTo: "/dashboard",
-    redirectIfFound: true,
   });
 
   const createWallet: SubmitHandler<ViewWalletFormValues> = async (
@@ -48,15 +45,15 @@ const ViewWalletInput = ({ handleStepChange }: ViewWalletInputProps) => {
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    login(id);
+    signIn(id);
     setWallet(wallet);
     handleStepChange?.("viewOnlyWallet", 2);
     return wallet;
   };
 
-  const login = (id: string) => {
+  const signIn = (id: string) => {
     try {
-      mutateUser(id);
+      login(id);
     } catch (reason) {
       if (reason instanceof FetchError) {
         console.error(reason);

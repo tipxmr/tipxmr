@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import FullWalletInput from "~/components/FullWalletInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
+import useUser from "~/lib/useUser";
 
 import { RegistrationMode } from "../registration/page";
 
@@ -16,6 +17,11 @@ const LoginPage: NextPage = () => {
   const handleStepChange = (mode: LoginMode) => {
     setLoginMode(mode);
   };
+
+  const { login } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   return (
     <div className="container max-w-md text-center">
@@ -37,8 +43,8 @@ const LoginPage: NextPage = () => {
           </button>
         </div>
       )}
-      {loginMode === "viewOnlyWallet" && <ViewWalletInput />}
-      {loginMode === "fullWallet" && <FullWalletInput />}
+      {loginMode === "viewOnlyWallet" && <ViewWalletInput login={login} />}
+      {loginMode === "fullWallet" && <FullWalletInput login={login} />}
       {loginMode !== null && (
         <button
           className="btn-primary mt-2 w-full"

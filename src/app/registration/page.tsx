@@ -7,6 +7,7 @@ import FullWalletCreation from "~/components/FullWalletCreation";
 import FullWalletInput from "~/components/FullWalletInput";
 import UsernameDisplaynameInput from "~/components/UsernameDisplaynameInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
+import useUser from "~/lib/useUser";
 
 export type RegistrationMode =
   | "fullWalletCreation"
@@ -22,6 +23,11 @@ const RegistrationPage: NextPage = () => {
     setRegistrationMode(step === 0 ? null : mode);
     setRegistrationStep(step);
   };
+
+  const { login } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
   return (
     <div className="container max-w-md text-center">
@@ -53,10 +59,10 @@ const RegistrationPage: NextPage = () => {
         <FullWalletCreation handleStepChange={handleStepChange} />
       )}
       {registrationMode === "viewOnlyWallet" && registrationStep === 1 && (
-        <ViewWalletInput handleStepChange={handleStepChange} />
+        <ViewWalletInput handleStepChange={handleStepChange} login={login} />
       )}
       {registrationMode === "fullWallet" && registrationStep === 1 && (
-        <FullWalletInput handleStepChange={handleStepChange} />
+        <FullWalletInput handleStepChange={handleStepChange} login={login} />
       )}
       {registrationStep === 2 && <UsernameDisplaynameInput />}
       {registrationStep > 0 && (

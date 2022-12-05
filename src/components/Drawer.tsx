@@ -11,8 +11,6 @@ import clsx from "clsx";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 
-import { User } from "~/lib/config";
-import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
 const MenuItem = ({ href, Icon, text, ...props }) => {
@@ -32,13 +30,10 @@ const MenuItem = ({ href, Icon, text, ...props }) => {
 };
 
 function Drawer() {
-  const { mutate: mutateUser } = useUser();
+  const { logout } = useUser();
 
-  const signOut = async () => {
-    await fetchJson<User>("/api/logout", {
-      method: "POST",
-    });
-    mutateUser(undefined);
+  const signOut = () => {
+    logout();
   };
 
   return (
@@ -64,7 +59,7 @@ function Drawer() {
 
         <NavigationMenu.Item
           className="cursor-pointer rounded px-4 py-2 hover:bg-gray-200"
-          onClick={() => signOut()}
+          onClick={signOut}
         >
           <Icon className="mr-2 inline h-4 w-4 align-middle" />
           Logout
