@@ -2,7 +2,9 @@ import DonationAnimation from "~/components/DonationAnimation";
 import prisma from "~/lib/prisma";
 
 interface AnimationProps {
-  url: string;
+  params: {
+    url: string;
+  };
 }
 
 const donationList = [
@@ -15,9 +17,9 @@ const donationList = [
   },
 ];
 
-async function Animation({ url }: AnimationProps) {
+async function Animation({ params }: AnimationProps) {
   const animationSettings = await prisma.donationSetting.findFirstOrThrow({
-    where: { url: url },
+    where: { url: params.url },
   });
 
   return (
