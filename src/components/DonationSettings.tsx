@@ -13,7 +13,12 @@ import Input from "./Input";
 
 const DonationSettingsForm: FC = () => {
   const { user } = useUser({ redirectTo: "/login" });
-  const { data: donationSettings } = useDonationSettings(user?.name);
+  const {
+    data: donationSettings,
+    isLoading,
+    isError,
+    error,
+  } = useDonationSettings(user?.name);
   const { mutate: updateDonationSetting } = useAddDonationSetting();
   const {
     control,
@@ -29,8 +34,12 @@ const DonationSettingsForm: FC = () => {
     reset(donationSettings);
   }, [donationSettings, reset]);
 
-  if (!donationSettings || !user) {
+  if (isLoading || !user) {
     return <span>Loading Donation Settings</span>;
+  }
+
+  if (isError) {
+    return <span>Error while loading DonationSettings: {error.message}</span>;
   }
 
   const handleDonationSettingsSubmit: SubmitHandler<
