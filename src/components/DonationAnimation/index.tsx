@@ -1,15 +1,14 @@
 "use client";
 import { Donation, DonationSetting } from "@prisma/client";
-import { useEffect, useState } from "react";
-import { animated, config, useSpring, useTransition } from "react-spring";
+import { useState } from "react";
+import { animated, useSpring, useTransition } from "react-spring";
 import useMeasure from "react-use-measure";
 
-interface Props extends Partial<DonationSetting> {
+interface Props extends DonationSetting {
   donations: Partial<Donation>[];
 }
 
 function DonationAnimation({
-  /* message = "Hey man, I really like your stream and hope that this tip is supporting you!", */
   donations,
   goal = 0,
   goalProgress = 0,
@@ -26,18 +25,16 @@ function DonationAnimation({
     leave: { opacity: 0 },
     onRest: () => setTimeout(() => setDonation(undefined), 10000),
   });
-  useEffect(() => setDonation(dummyDonation), []);
 
   const progressPercentage =
     (goal && goalProgress && Math.floor((goalProgress / goal) * 100)) || 0;
 
   const [ref, { width }] = useMeasure();
-  const props = useSpring({ width: (goalProgress / goal) * width });
-  const dummyDonation = donations?.at(0);
+  const props = useSpring({ width: (goalProgress ?? 0 / (goal ?? 1)) * width });
 
   return (
     <div className="tip-border m-4 h-64 border-dotted text-white">
-      <button onClick={() => setDonation(dummyDonation)}>
+      <button onClick={() => setDonation(donations[0])}>
         Toggle animation
       </button>
       {/* Goal */}
@@ -58,25 +55,25 @@ function DonationAnimation({
           </animated.div>
         </div>
       </div>
-      {transition((style, msg) => (
+      {transition((style, donation) => (
         <animated.div style={style}>
           {/* Message */}
           <div className="m-4">
-            {msg?.message && (
+            {donation?.message && (
               <div className="break-words text-center font-mono">
-                {msg.message}
+                {donation.message}
               </div>
             )}
             <div className="m-2">
-              {msg?.donor && (
-                <p className="text-right font-mono">- {msg.donor}</p>
+              {donation?.donor && (
+                <p className="text-right font-mono">- {donation.donor}</p>
               )}
             </div>
           </div>
           {/* Donation */}
-          {msg?.amount && (
+          {donation?.amount && (
             <div className="flex flex-col  text-center">
-              <p className="font-mono text-xl">{msg.amount} XMR</p>
+              <p className="font-mono text-xl">{donation.amount} XMR</p>
             </div>
           )}
         </animated.div>

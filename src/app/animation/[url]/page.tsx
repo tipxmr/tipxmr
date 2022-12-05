@@ -1,10 +1,8 @@
 import DonationAnimation from "~/components/DonationAnimation";
 import prisma from "~/lib/prisma";
 
-interface Props {
-  params: {
-    url: string;
-  };
+interface AnimationProps {
+  url: string;
 }
 
 const donationList = [
@@ -17,18 +15,14 @@ const donationList = [
   },
 ];
 
-async function Animation({ params }: Props) {
-  const { url } = params;
-
+async function Animation({ url }: AnimationProps) {
   const animationSettings = await prisma.donationSetting.findFirstOrThrow({
     where: { url: url },
   });
 
-  const animationProps = animationSettings;
-
   return (
     <div className="bg-transparent">
-      <DonationAnimation donations={donationList} {...animationProps} />
+      <DonationAnimation donations={donationList} {...animationSettings} />
     </div>
   );
 }
