@@ -18,7 +18,7 @@ const donationList = [
 ];
 
 async function Animation({ params }: AnimationProps) {
-  const animationSettings = await prisma.donationSetting.findFirstOrThrow({
+  const animationSettings = await prisma.donationSetting.findUniqueOrThrow({
     where: { url: params.url },
   });
 

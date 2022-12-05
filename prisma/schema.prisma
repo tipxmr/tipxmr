@@ -47,7 +47,7 @@ model DonationSetting {
   goalProgress  Float?   @default(0) @db.Real
   goalReached   Boolean? @default(false)
   // animation
-  url           String?  @default(uuid())
+  url           String   @unique @default(uuid())
   size          Int?
   color         String?  @db.VarChar(10)
 
