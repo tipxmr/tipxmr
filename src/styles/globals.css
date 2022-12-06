@@ -20,7 +20,7 @@
   }
 
   .btn-primary {
-    @apply rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400;
+    @apply rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400 cursor-pointer disabled:pointer-events-none disabled:opacity-50;
   }
 
   /* Custom aliases */

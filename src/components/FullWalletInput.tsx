@@ -88,7 +88,7 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
           type="submit"
           value={pathname?.includes("registration") ? "Next step" : "Login"}
           disabled={!isDirty || !isValid}
-          className="btn-primary my-4"
+          className="btn-primary my-4 cursor-pointer"
         />
       </form>
     </>
