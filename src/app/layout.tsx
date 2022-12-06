@@ -4,6 +4,7 @@ import "~/styles/globals.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
 import Layout from "~/components/Layout";
@@ -11,14 +12,20 @@ import Layout from "~/components/Layout";
 export const queryClient = new QueryClient();
 
 function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   return (
-    <html lang="en" className={`h-full bg-gray-100`}>
+    <html lang="en" className={`h-full`}>
       <body className="h-full">
         <QueryClientProvider client={queryClient}>
-          <Layout>
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </Layout>
+          {pathname?.startsWith("/animation") ? (
+            children
+          ) : (
+            <Layout>
+              <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+            </Layout>
+          )}
+
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>
     </html>

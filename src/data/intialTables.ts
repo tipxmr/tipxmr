@@ -3,7 +3,7 @@ import type { Donation, Streamer } from "@prisma/client";
 // Streamer Table
 
 const alexStreamer: Streamer = {
-  id: "f4d63073a23a9bdf441dc2d2a0d00643a766a37d9ce549739a95536876bdffa2",
+  id: "f4d63073a23a",
   alias: "AlexAnarcho",
   name: "alexanarcho",
   socket: null,
@@ -14,7 +14,7 @@ const alexStreamer: Streamer = {
 };
 
 const grischaStreamer: Streamer = {
-  id: "268b7956d61",
+  id: "268b7956d61c",
   alias: "hundehausen",
   name: "hundehausen",
   socket: null,

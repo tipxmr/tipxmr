@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 generator erd {
@@ -9,14 +10,6 @@ generator erd {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model Animation {
-  id                           Int       @id @default(autoincrement())
-  streamer                     String?   @db.VarChar(12)
-  size                         Int?
-  color                        String?   @db.VarChar(10)
-  streamer_animationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Category {
@@ -39,19 +32,25 @@ model Donation {
   giphyUrl                    String?   @default("") @db.VarChar(100)
   donor                       String?   @default("") @db.VarChar(24)
   timestamp                   DateTime? @default(now()) @db.Timestamp(6)
+  played                      DateTime?
   streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model DonationSetting {
-  streamer                             String   @id @db.VarChar(12)
-  secondPrice                          Int?     @default(0)
-  charPrice                            Float?   @default(0)
-  charLimit                            Int?     @default(140)
-  minAmount                            Int?     @default(0)
-  gifsMinAmount                        Float?   @default(0)
-  goal                                 Float?   @default(0)
-  goalProgress                         Float?   @default(0) @db.Real
-  goalReached                          Boolean? @default(false)
+  streamer      String   @id @db.VarChar(12)
+  secondPrice   Int?     @default(0)
+  charPrice     Float?   @default(0)
+  charLimit     Int?     @default(140)
+  minAmount     Int?     @default(0)
+  gifsMinAmount Float?   @default(0)
+  goal          Float?   @default(0)
+  goalProgress  Float?   @default(0) @db.Real
+  goalReached   Boolean? @default(false)
+  // animation
+  url           String   @unique @default(uuid())
+  size          Int?
+  color         String?  @db.VarChar(10)
+
   streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -85,7 +84,6 @@ model Streamer {
   updatedAt       DateTime         @default(now()) @updatedAt
   isOnline        Boolean          @default(false) @db.Boolean
   status          Status?
-  animation       Animation[]
   category        Category[]
   donation        Donation[]
   donationSetting DonationSetting?

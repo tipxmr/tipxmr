@@ -4,17 +4,14 @@ import { dummyDonations, testStreamers } from "../src/data/intialTables";
 
 const prisma = new PrismaClient();
 
-// Helper functions
-const truncateHashedSeed = (hashedSeed: string) => hashedSeed.slice(0, 11);
-
 // Seeding functions
 async function seedStreamers() {
-  const promises = testStreamers.map(async (streamer) => {
+  const promises = testStreamers.map((streamer) => {
     return prisma.streamer.upsert({
-      where: { id: truncateHashedSeed(streamer.id) },
+      where: { id: streamer.id },
       update: {},
       create: {
-        id: truncateHashedSeed(streamer.id),
+        id: streamer.id,
         name: streamer.name,
         alias: streamer.alias,
         socket: streamer.socket || null,
@@ -39,11 +36,41 @@ async function seedDonations() {
   return;
 }
 
+async function seedDonationSettings() {
+  const streamers = await prisma.streamer.findMany({});
+  const donationSettingPromises = streamers.map((streamer) =>
+    prisma.donationSetting.create({
+      data: {
+        streamer: streamer.id,
+      },
+    })
+  );
+  return Promise.all(donationSettingPromises);
+}
+
+async function seedWalletSettings() {
+  const streamers = await prisma.streamer.findMany({});
+  const donationSettingPromises = streamers.map((streamer) =>
+    prisma.wallet.create({
+      data: {
+        streamer: streamer.id,
+        restoreHeight: 0,
+        lastSyncHeight: 0,
+      },
+    })
+  );
+  return Promise.all(donationSettingPromises);
+}
+
 const seed = async () => {
   await seedStreamers();
-  console.log("seeded streamers");
+  console.log("seeded streamers 🎙️");
   await seedDonations();
-  console.log("seeded donation");
+  console.log("seeded donations 💸");
+  await seedDonationSettings();
+  console.log("seeded DonationSettings ⚙️");
+  await seedWalletSettings();
+  console.log("seeded WalletSettings 👛");
 };
 
 seed()

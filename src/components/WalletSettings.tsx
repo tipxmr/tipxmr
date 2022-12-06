@@ -13,7 +13,12 @@ import Input from "./Input";
 
 const WalletSettingsForm = () => {
   const { user } = useUser({ redirectTo: "/login" });
-  const { data: walletSettings } = useWalletSettings(user?.id);
+  const {
+    data: walletSettings,
+    isLoading,
+    isError,
+    error,
+  } = useWalletSettings(user?.id);
   const {
     control,
     handleSubmit,
@@ -26,8 +31,12 @@ const WalletSettingsForm = () => {
     reset(walletSettings);
   }, [walletSettings, reset]);
 
-  if (!user || !walletSettings) {
-    return <span>Wallet settings loading</span>;
+  if (isLoading || !user) {
+    return <span>Loading Wallet Settings</span>;
+  }
+
+  if (isError) {
+    return <span>Error while loading WalletSettings: {error.message}</span>;
   }
 
   const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = async (
