@@ -6,18 +6,14 @@ import {
 } from "@radix-ui/react-icons";
 import { PrimitiveAtom, useAtom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { RegistrationMode } from "~/app/registration/page";
 import LanguageSelector from "~/components/LanguageSelector";
 import { createWalletFromScratch } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 
-interface FullWalletCreationProps {
-  handleStepChange: (mode: RegistrationMode, step: number) => void;
-}
-
-const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
+const FullWalletCreation = () => {
   const [seedLang, setSeedLang] = useState<string>("English");
   const [wallet, setWallet] = useAtom<MoneroWalletFull>(
     walletAtom as PrimitiveAtom<MoneroWalletFull>
@@ -109,12 +105,9 @@ const FullWalletCreation = ({ handleStepChange }: FullWalletCreationProps) => {
           </span>
         </li>
       </ul>
-      <button
-        className="btn-primary mt-4"
-        onClick={() => handleStepChange("fullWalletCreation", 2)}
-      >
-        Next step
-      </button>
+      <Link href="/registration/username">
+        <button className="btn-primary mt-4 w-full">Next step</button>
+      </Link>
     </div>
   );
 };
