@@ -1,61 +1,51 @@
 "use client";
 
-import { useAtom } from "jotai";
-import type { MoneroSubaddress } from "monero-javascript";
-import { NextPage } from "next";
-import { Suspense, useEffect, useState } from "react";
+import { useAtomValue } from "jotai";
+import { useMemo, useState } from "react";
 
 import Subaddress from "~/components/Subaddress";
-import TipxmrWallet from "~/components/wallet";
-import useBalanceListener from "~/hooks/useBalanceListener";
-import useSyncListener from "~/hooks/useSyncListener";
-import useTransactionListener from "~/hooks/useTransactionListener";
-import useXmrWallet from "~/hooks/useXMRWallet";
-import useWallet from "~/lib/hooks/xmr/new-use-wallet";
-import useUser from "~/lib/useUser";
-import { isSyncRunningAtom, walletAtom } from "~/store";
+import { createWalletStateListener } from "~/lib/hooks/xmr/wallet";
+import { walletAtom } from "~/store";
 
-const WalletPage: NextPage = () => {
-  // const { user } = useUser({ redirectTo: "/login" });
-  const [wallet] = useAtom(walletAtom);
-  const [isSyncing] = useAtom(isSyncRunningAtom);
-  const [currentAddress, setCurrentAddress] = useState<
-    MoneroSubaddress | string
-  >("");
+const {
+  Provider: PrimaryWalletStateProvider,
+  useWalletStateListener: usePrimaryWalletStateListener,
+  useSetWallet: useSetPrimaryWallet,
+} = createWalletStateListener();
 
-  // console.log({ wallet });
+const Page = () => {
+  const wallet = useAtomValue(walletAtom);
 
-  const percentDone = useWallet(wallet, (x) => x.sync.percentDone);
+  useSetPrimaryWallet(wallet);
 
-  useEffect(() => {
-    console.log(percentDone);
-  }, [percentDone]);
+  const percentDone = usePrimaryWalletStateListener((state) => {
+    return state.sync.percentDone;
+  });
 
-  // useXmrWallet();
-  // useSyncListener();
-  // useTransactionListener();
-  // useBalanceListener();
+  const isDone = useMemo(() => percentDone === 100, [percentDone]);
+
+  const [currentAddress, setCurrentAddress] = useState("");
+
+  const disabled = useMemo(() => {
+    return (wallet ?? false) && !isDone;
+  }, [wallet, isDone]);
 
   const generateAddress = async () => {
     if (!wallet) return;
+
     const addr = await wallet.createSubaddress(0, "test");
     const subaddress = await addr.getAddress();
-    console.log(
-      "🚀 ~ file: page.tsx ~ line 36 ~ generateAddress ~ subaddress",
-      subaddress
-    );
+
     setCurrentAddress(subaddress);
   };
 
   return (
     <>
-      {/* <Suspense fallback="Loading...">
-        {user && user.isLoggedIn && <TipxmrWallet />}
-      </Suspense> */}
+      <div>Progress: {percentDone}%</div>
       <button
         role="button"
         className="btn-primary"
-        disabled={!wallet && !isSyncing}
+        disabled={disabled}
         onClick={generateAddress}
       >
         Generate new Subaddress
@@ -65,4 +55,12 @@ const WalletPage: NextPage = () => {
   );
 };
 
-export default WalletPage;
+function PageWithWallet() {
+  return (
+    <PrimaryWalletStateProvider>
+      <Page />
+    </PrimaryWalletStateProvider>
+  );
+}
+
+export default PageWithWallet;
