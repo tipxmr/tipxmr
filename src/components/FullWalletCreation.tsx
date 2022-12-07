@@ -7,6 +7,7 @@ import {
 import { PrimitiveAtom, useAtom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import LanguageSelector from "~/components/LanguageSelector";
@@ -14,6 +15,7 @@ import { createWalletFromScratch } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 
 const FullWalletCreation = () => {
+  const router = useRouter();
   const [seedLang, setSeedLang] = useState<string>("English");
   const [wallet, setWallet] = useAtom<MoneroWalletFull>(
     walletAtom as PrimitiveAtom<MoneroWalletFull>
@@ -105,11 +107,13 @@ const FullWalletCreation = () => {
           </span>
         </li>
       </ul>
-      <Link href="/registration/username">
-        <button className="btn-primary mt-4 w-full" disabled={!seed}>
-          Next step
-        </button>
-      </Link>
+      <button
+        className="btn-primary mt-4 w-full"
+        disabled={!seed}
+        onClick={() => router.push("/registration/username")}
+      >
+        Next step
+      </button>
     </div>
   );
 };
