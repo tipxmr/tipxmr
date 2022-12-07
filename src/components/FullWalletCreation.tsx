@@ -106,7 +106,9 @@ const FullWalletCreation = () => {
         </li>
       </ul>
       <Link href="/registration/username">
-        <button className="btn-primary mt-4 w-full">Next step</button>
+        <button className="btn-primary mt-4 w-full" disabled={!seed}>
+          Next step
+        </button>
       </Link>
     </div>
   );
