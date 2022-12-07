@@ -6,7 +6,6 @@ import {
 } from "@radix-ui/react-icons";
 import { PrimitiveAtom, useAtom } from "jotai";
 import { MoneroWalletFull } from "monero-javascript";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
