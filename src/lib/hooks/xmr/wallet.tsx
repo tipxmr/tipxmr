@@ -160,6 +160,7 @@ function useCreateWalletListener() {
   };
 }
 
+// FIXME: MoneroWallet in xmr.d.ts
 // type MoneroWallet = MoneroWalletFull | MoneroWalletKeys | null;
 
 export function createWalletStateListener() {
