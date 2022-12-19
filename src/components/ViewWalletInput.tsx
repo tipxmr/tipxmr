@@ -2,12 +2,12 @@
 
 import { Streamer } from "@prisma/client";
 import { useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { RegistrationMode } from "~/app/registration/page";
 import { FetchError } from "~/lib/fetchJson";
 import { primaryStagenetAddress } from "~/lib/regex";
-import useUser from "~/lib/useUser";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 
@@ -19,12 +19,13 @@ interface ViewWalletFormValues {
 }
 
 interface ViewWalletInputProps {
-  handleStepChange?: (mode: RegistrationMode, step: number) => void;
   login: (id: Streamer["id"]) => void;
 }
 
-const ViewWalletInput = ({ handleStepChange, login }: ViewWalletInputProps) => {
+const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const {
     handleSubmit,
@@ -47,7 +48,7 @@ const ViewWalletInput = ({ handleStepChange, login }: ViewWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);
     setWallet(wallet);
-    handleStepChange?.("viewOnlyWallet", 2);
+    router.push("/registration/username");
     return wallet;
   };
 
@@ -109,7 +110,7 @@ const ViewWalletInput = ({ handleStepChange, login }: ViewWalletInputProps) => {
         ></Input>
         <input
           type="submit"
-          value="Next step"
+          value={pathname?.includes("registration") ? "Next step" : "Login"}
           disabled={!isDirty || !isValid}
           className="btn-primary my-4"
         />

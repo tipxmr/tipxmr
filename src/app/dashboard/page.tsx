@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
-import Head from "next/head";
 import { useEffect } from "react";
 
 import IsOnlineBadge from "~/components/IsOnlineBadge";
@@ -28,10 +27,6 @@ const Home: NextPage = () => {
   if (user && user.isLoggedIn) {
     return (
       <div className="container">
-        <Head>
-          <title>Dashboard</title>
-        </Head>
-
         <h4>Welcome, {user.alias}</h4>
         <h5>Your ID: {user.id}</h5>
         <IsOnlineBadge isOnline={!!user?.isOnline} />

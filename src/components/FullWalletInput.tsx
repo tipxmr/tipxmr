@@ -2,12 +2,12 @@
 
 import { Streamer } from "@prisma/client";
 import { useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { RegistrationMode } from "~/app/registration/page";
 import { FetchError } from "~/lib/fetchJson";
 import { seedWordCount } from "~/lib/regex";
-import useUser from "~/lib/useUser";
 import { buildIdentifierHash, open } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 
@@ -18,12 +18,13 @@ interface FullWalletFormValues {
 }
 
 interface FullWalletInputProps {
-  handleStepChange?: (mode: RegistrationMode, step: number) => void;
   login: (id: Streamer["id"]) => void;
 }
 
-const FullWalletInput = ({ handleStepChange, login }: FullWalletInputProps) => {
+const FullWalletInput = ({ login }: FullWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const {
     handleSubmit,
@@ -49,7 +50,7 @@ const FullWalletInput = ({ handleStepChange, login }: FullWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);
     setWallet(wallet);
-    handleStepChange?.("fullWallet", 2);
+    router.push("/registration/username");
     return wallet;
   };
 
@@ -85,7 +86,7 @@ const FullWalletInput = ({ handleStepChange, login }: FullWalletInputProps) => {
         />
         <input
           type="submit"
-          value="Next step"
+          value={pathname?.includes("registration") ? "Next step" : "Login"}
           disabled={!isDirty || !isValid}
           className="btn-primary my-4"
         />
