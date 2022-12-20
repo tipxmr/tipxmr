@@ -1,12 +1,26 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import prisma from "~/lib/prisma";
+
 export const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
+    jwt({ token, user }) {
+      if (user) {
+        token.user = user;
       }
+
+      return token;
+    },
+    session({ session, user, token }) {
+      if (token.user) {
+        session.user = token.user;
+      }
+
       return session;
     },
   },
@@ -22,9 +36,9 @@ export const authOptions = {
       credentials: {
         identifierHash: { label: "Identifier Hash", type: "text" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
-        const user = prisma?.streamer.findUnique({
+        const user = await prisma?.streamer.findUnique({
           where: {
             id: credentials?.identifierHash,
           },
