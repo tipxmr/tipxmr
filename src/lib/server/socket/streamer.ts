@@ -1,11 +1,8 @@
 import { ServerResponse } from "node:http";
 
 import { PrismaClient } from "@prisma/client";
-import { getIronSession } from "iron-session";
 import type { Server } from "socket.io";
 import invariant from "tiny-invariant";
-
-import { ironOptions } from "~/lib/config";
 
 import { Namespaces } from "./nsp";
 
@@ -68,7 +65,7 @@ function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
     socket.on("disconnect", (reason) => {
       console.error(reason);
     });
-  });
+  }); */
 }
 
 export default setupStreamer;
