@@ -2,7 +2,6 @@
 
 import { Streamer } from "@prisma/client";
 import { useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -23,7 +22,6 @@ interface FullWalletInputProps {
 
 const FullWalletInput = ({ login }: FullWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
-  const router = useRouter();
   const pathname = usePathname();
 
   const {
@@ -34,9 +32,7 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
     mode: "onChange",
   });
 
-  const createWallet: SubmitHandler<FullWalletFormValues> = async (
-    data: FullWalletFormValues
-  ) => {
+  const createWallet: SubmitHandler<FullWalletFormValues> = async (data) => {
     console.log(data);
     if (!isValid) return;
     const wallet = await open(data.seed);
@@ -50,7 +46,6 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);
     setWallet(wallet);
-    router.push("/registration/username");
     return wallet;
   };
 

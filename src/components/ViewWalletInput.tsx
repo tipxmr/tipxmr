@@ -2,7 +2,6 @@
 
 import { Streamer } from "@prisma/client";
 import { useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -24,7 +23,6 @@ interface ViewWalletInputProps {
 
 const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
-  const router = useRouter();
   const pathname = usePathname();
 
   const {
@@ -35,9 +33,7 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     mode: "onChange",
   });
 
-  const createWallet: SubmitHandler<ViewWalletFormValues> = async (
-    data: ViewWalletFormValues
-  ) => {
+  const createWallet: SubmitHandler<ViewWalletFormValues> = async (data) => {
     if (!isValid) return;
     const wallet = await createViewOnlyWallet(
       data.privateViewKey,
@@ -48,7 +44,6 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);
     setWallet(wallet);
-    router.push("/registration/username");
     return wallet;
   };
 
