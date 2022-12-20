@@ -1,8 +1,11 @@
-import { ServerResponse } from "node:http";
+// import { ServerResponse } from "node:http";
 
 import { PrismaClient } from "@prisma/client";
+import { unstable_getServerSession } from "next-auth/next";
 import type { Server } from "socket.io";
 import invariant from "tiny-invariant";
+
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 import { Namespaces } from "./nsp";
 
@@ -11,10 +14,14 @@ const prisma = new PrismaClient();
 function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
   streamerNsp.use(async (socket, next) => {
     // TODO: Is this recommended?
-    const session = await getIronSession(
+
+    // TODO: Does this work?
+    const session = await unstable_getServerSession(
       socket.request,
-      { headersSent: false } as ServerResponse,
-      ironOptions
+      { getHeader() {}, setCookie() {}, setHeader() {} },
+      // socket.response,
+      // { headersSent: false } as ServerResponse,
+      authOptions
     );
 
     if (session?.user ?? false) {
@@ -65,7 +72,7 @@ function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
     socket.on("disconnect", (reason) => {
       console.error(reason);
     });
-  }); */
+  });
 }
 
 export default setupStreamer;
