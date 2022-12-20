@@ -1,8 +1,9 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth/next";
 
 import { updateWalletSettings } from "~/lib/db/wallet";
-import { withSessionRoute } from "~/lib/withSession";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -16,9 +17,9 @@ const handler: NextApiHandler = async (req, res) => {
 };
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
-  const user = request.session.user;
+  const user = await unstable_getServerSession(request, response, authOptions);
 
-  if (!user || user.isLoggedIn === false) {
+  if (!user) {
     response.status(401).json({
       message: "Not Authorized",
     });
@@ -44,4 +45,4 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
   }
 }
 
-export default withSessionRoute(handler);
+export default handler;
