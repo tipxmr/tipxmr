@@ -6,6 +6,7 @@ import { Provider as TooltipProvider } from "@radix-ui/react-tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { usePathname } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 import { Suspense } from "react";
 
 import Layout from "~/components/Layout";
@@ -17,19 +18,23 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`h-full`}>
       <body className="h-full">
-        <QueryClientProvider client={queryClient}>
-          {pathname?.startsWith("/animation") ? (
-            children
-          ) : (
-            <Layout>
-              <TooltipProvider>
-                <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-              </TooltipProvider>
-            </Layout>
-          )}
+        <SessionProvider>
+          <QueryClientProvider client={queryClient}>
+            {pathname?.startsWith("/animation") ? (
+              children
+            ) : (
+              <Layout>
+                <TooltipProvider>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    {children}
+                  </Suspense>
+                </TooltipProvider>
+              </Layout>
+            )}
 
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );
