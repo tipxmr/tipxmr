@@ -1,9 +1,7 @@
-import { DefaultSession } from "next-auth";
+import { Streamer } from "@prisma/client";
 
 declare module "next-auth" {
   interface Session {
-    user?: {
-      id: string;
-    } & DefaultSession["user"];
+    user?: Streamer;
   }
 }
