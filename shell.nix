@@ -5,7 +5,7 @@ pkgs.mkShell {
     bashInteractive
   ];
   buildInputs = with pkgs; [
-    nodejs-18_x
+    nodejs-16_x
     nodePackages.prisma
   ];
   shellHook = with pkgs; ''
