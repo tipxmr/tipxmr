@@ -1,15 +1,21 @@
-import NextAuth from "next-auth";
+import type { Streamer } from "@prisma/client";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import prisma from "~/lib/prisma";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },
   callbacks: {
     jwt({ token, user }) {
+      console.log(
+        "🚀 ~ file: [...nextauth].ts:13 ~ jwt ~ token, user",
+        token,
+        user
+      );
       if (user) {
         token.user = user;
       }
@@ -17,8 +23,15 @@ export const authOptions = {
       return token;
     },
     session({ session, user, token }) {
+      console.log(
+        "🚀 ~ file: [...nextauth].ts:20 ~ session ~ session, user, token",
+        session,
+        user,
+        token
+      );
+
       if (token.user) {
-        session.user = token.user;
+        session.user = token.user as Streamer;
       }
 
       return session;
@@ -37,6 +50,10 @@ export const authOptions = {
         identifierHash: { label: "Identifier Hash", type: "text" },
       },
       async authorize(credentials) {
+        console.log(
+          "🚀 ~ file: [...nextauth].ts:52 ~ authorize ~ credentials",
+          credentials
+        );
         // Add logic here to look up the user from the credentials supplied
         const user = await prisma?.streamer.findUnique({
           where: {
