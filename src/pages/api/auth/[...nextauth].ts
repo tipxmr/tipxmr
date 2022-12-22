@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt({ token, user }) {
       console.log(
-        "🚀 ~ file: [...nextauth].ts:13 ~ jwt ~ token, user",
+        "🚀 ~ file: [...nextauth].ts:15 ~ jwt ~ token, user",
         token,
         user
       );
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
     },
     session({ session, user, token }) {
       console.log(
-        "🚀 ~ file: [...nextauth].ts:20 ~ session ~ session, user, token",
+        "🚀 ~ file: [...nextauth].ts:27 ~ session ~ session, user, token",
         session,
         user,
         token
@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         console.log(
-          "🚀 ~ file: [...nextauth].ts:52 ~ authorize ~ credentials",
+          "🚀 ~ file: [...nextauth].ts:54 ~ authorize ~ credentials",
           credentials
         );
         // Add logic here to look up the user from the credentials supplied
