@@ -1,8 +1,10 @@
 "use client";
 
 import { Streamer } from "@prisma/client";
+import { UpdateIcon } from "@radix-ui/react-icons";
 import { useSetAtom } from "jotai";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { FetchError } from "~/lib/fetchJson";
@@ -23,6 +25,7 @@ interface FullWalletInputProps {
 const FullWalletInput = ({ login }: FullWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
   const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -33,8 +36,8 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
   });
 
   const createWallet: SubmitHandler<FullWalletFormValues> = async (data) => {
-    console.log(data);
     if (!isValid) return;
+    setIsLoading(true);
     const wallet = await open(data.seed);
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
@@ -46,6 +49,7 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);
     setWallet(wallet);
+    setIsLoading(false);
     return wallet;
   };
 
@@ -79,10 +83,16 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
           }}
           control={control}
         />
+        {isLoading && (
+          <>
+            <UpdateIcon className="mx-auto my-8 h-12 w-12 animate-spin" />
+            This can take some time
+          </>
+        )}
         <input
           type="submit"
           value={pathname?.includes("registration") ? "Next step" : "Login"}
-          disabled={!isDirty || !isValid}
+          disabled={!isDirty || !isValid || isLoading}
           className="btn-primary my-4"
         />
       </form>
