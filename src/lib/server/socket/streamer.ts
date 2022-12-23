@@ -1,6 +1,7 @@
 // import { ServerResponse } from "node:http";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Streamer } from "@prisma/client";
+import { Session } from "next-auth";
 import { unstable_getServerSession } from "next-auth/next";
 import type { Server } from "socket.io";
 import invariant from "tiny-invariant";
@@ -11,7 +12,17 @@ import { Namespaces } from "./nsp";
 
 const prisma = new PrismaClient();
 
-function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
+declare module "http" {
+  interface IncomingMessage {
+    session:
+      | (Session & {
+          user?: Streamer;
+        })
+      | null;
+  }
+}
+
+async function setupStreamer({ streamerNsp }: Namespaces, io: Server) {
   streamerNsp.use(async (socket, next) => {
     // TODO: Is this recommended?
 
@@ -34,7 +45,7 @@ function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
 
   streamerNsp.on("connection", (socket) => {
     socket.on("online", async (socketId) => {
-      invariant(socket.request.session.user, "Expected user to be logged in");
+      invariant(socket.request.session?.user, "Expected user to be logged in");
 
       const { id } = socket.request.session.user;
 
@@ -50,7 +61,7 @@ function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
     });
 
     socket.on("offline", async () => {
-      invariant(socket.request.session.user, "Expected user to be logged in");
+      invariant(socket.request.session?.user, "Expected user to be logged in");
 
       const { id } = socket.request.session.user;
 
