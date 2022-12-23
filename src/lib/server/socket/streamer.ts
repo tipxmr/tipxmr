@@ -28,8 +28,9 @@ async function setupStreamer({ streamerNsp }: Namespaces, io: Server) {
 
     // TODO: Does this work?
     const session = await unstable_getServerSession(
-      socket.request,
-      { getHeader() {}, setCookie() {}, setHeader() {} },
+      // Can we omit all these params and only pass authOptions?
+      // socket.request,
+      // { getHeader() {}, setCookie() {}, setHeader() {} },
       // socket.response,
       // { headersSent: false } as ServerResponse,
       authOptions
