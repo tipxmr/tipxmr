@@ -9,7 +9,8 @@ import React from "react";
 
 import useUser from "~/lib/useUser";
 
-import Logo from "../img/logo.png";
+/* import Logo from "../img/logo.png"; */
+import Logo from "../img/tipxmr-logo.svg";
 
 type Pages = { page: string; href: string }[];
 
