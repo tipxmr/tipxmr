@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import { Provider as TooltipProvider } from "@radix-ui/react-tooltip";
 
 import Layout from "~/components/Layout";
 
@@ -21,7 +22,9 @@ function RootLayout({ children }: { children: React.ReactNode }) {
             children
           ) : (
             <Layout>
-              <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+              <TooltipProvider>
+                <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+              </TooltipProvider>
             </Layout>
           )}
 

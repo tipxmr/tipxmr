@@ -2,8 +2,8 @@
   "name": "tipxmr",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "NODE_OPTIONS='--max_old_space_size=4096' next dev",
+    "build": "next build ",
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
@@ -31,6 +31,7 @@
     "@radix-ui/react-progress": "^1.0.1",
     "@radix-ui/react-select": "1.1.2",
     "@radix-ui/react-toast": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.0.2",
     "@tanstack/react-query": "^4.19.1",
     "@tanstack/react-table": "^8.7.0",
     "@types/crypto-js": "^4.1.1",
