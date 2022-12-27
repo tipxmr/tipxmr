@@ -224,6 +224,8 @@ export function createWalletStateListener() {
     const store = useContext(WalletStateContext);
 
     if (!store || !instance) {
+      // FIXME: A returning user with an existing session won't be able to use his wallet
+      // because the wallet will be closed after a (hot-)reload and needs to be opened first.
       throw Error("No hot-reload for you, sorry");
     }
 
