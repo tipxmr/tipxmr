@@ -1,4 +1,4 @@
-import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-tooltip";
+import { Arrow,Content, Portal, Root, Trigger } from "@radix-ui/react-tooltip";
 interface Props {
   tooltip: JSX.Element;
   children: any;

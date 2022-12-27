@@ -3,8 +3,8 @@
 import Link from "next/link";
 import type { NextPage } from "next/types";
 
-import useUser from "~/lib/useUser";
 import Tooltip from "~/components/Tooltip";
+import useUser from "~/lib/useUser";
 
 const RegistrationPage: NextPage = () => {
   useUser({
