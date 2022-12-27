@@ -1,9 +1,9 @@
 import { Arrow, Content, Portal, Root, Trigger } from "@radix-ui/react-tooltip";
-interface Props {
-  tooltip: JSX.Element;
+interface TooltipProps {
+  content: JSX.Element;
   children: any;
 }
-function Tooltip({ tooltip, children }: Props) {
+function Tooltip({ content, children }: TooltipProps) {
   return (
     <Root>
       <Trigger>{children}</Trigger>
@@ -14,7 +14,7 @@ function Tooltip({ tooltip, children }: Props) {
           sideOffset={5}
         >
           <>
-            {tooltip}
+            {content}
             <Arrow className="TooltipArrow" />
           </>
         </Content>
