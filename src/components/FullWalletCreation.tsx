@@ -34,6 +34,9 @@ const FullWalletCreation = () => {
   }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {
+    setSeed(null);
+    setPrimaryAddress(null);
+    setPrivateViewKey(null);
     setSeedLang(language);
   };
 
