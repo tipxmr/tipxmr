@@ -39,6 +39,13 @@ sh setup.sh
 
 - ⚠️ As the project develops, the database models change. Therefore, sometimes it may be necessary to ~migrate~ the changes (~npm run migrate -- dev~)
 
+
+*** If the app keeps running out of memory
+Run the development server with the following command:
+#+begin_src bash
+NODE_OPTIONS='--max_old_space_size=4096' next dev
+#+end_src
+
 * TipXMR - The Livestream Tipping Service for OBS
 
 
