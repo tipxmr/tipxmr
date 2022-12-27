@@ -7,6 +7,7 @@ import useCreateUser from "~/hooks/useCreateUser";
 import { truncatedHashIdAtom } from "~/store";
 
 import Input from "./Input";
+import Tooltip from "./Tooltip";
 
 interface UsernameDisplaynameValues {
   username: string;
@@ -41,40 +42,44 @@ const UsernameDisplaynameInput = () => {
         onSubmit={handleSubmit(handleAccountCreation)}
         className="mx-auto flex flex-col gap-2"
       >
-        <Input
-          label="Username"
-          name="username"
-          type="text"
-          control={control}
-          rules={{
-            required: { value: true, message: "Username is required" },
-            minLength: {
-              value: 4,
-              message: "Your username has less than 4 characters",
-            },
-            maxLength: {
-              value: 20,
-              message: "Your username has more than 20 characters",
-            },
-          }}
-        ></Input>
-        <Input
-          label="Displayname"
-          name="displayname"
-          type="text"
-          control={control}
-          rules={{
-            required: { value: true, message: "Displayname is required" },
-            minLength: {
-              value: 4,
-              message: "Displayname has less than 4 characters",
-            },
-            maxLength: {
-              value: 24,
-              message: "Displayname has more than 24 characters",
-            },
-          }}
-        ></Input>
+        <Tooltip tooltip={UsernameTooltip()}>
+          <Input
+            label="Username"
+            name="username"
+            type="text"
+            control={control}
+            rules={{
+              required: { value: true, message: "Username is required" },
+              minLength: {
+                value: 4,
+                message: "Your username has less than 4 characters",
+              },
+              maxLength: {
+                value: 20,
+                message: "Your username has more than 20 characters",
+              },
+            }}
+          ></Input>
+        </Tooltip>
+        <Tooltip tooltip={DisplayTooltip()}>
+          <Input
+            label="Displayname"
+            name="displayname"
+            type="text"
+            control={control}
+            rules={{
+              required: { value: true, message: "Displayname is required" },
+              minLength: {
+                value: 4,
+                message: "Displayname has less than 4 characters",
+              },
+              maxLength: {
+                value: 24,
+                message: "Displayname has more than 24 characters",
+              },
+            }}
+          ></Input>
+        </Tooltip>
         <input
           type="submit"
           value="Create Account"
@@ -87,3 +92,17 @@ const UsernameDisplaynameInput = () => {
 };
 
 export default UsernameDisplaynameInput;
+
+const UsernameTooltip = () => (
+  <>
+    This name will be used by donators to find you on TipXMR (for example in the
+    URL). Your username is unique and cannot be changed later on.
+  </>
+);
+
+const DisplayTooltip = () => (
+  <>
+    How your name will be shown on the site. Here you can use 🤠 emojis and also
+    tweak it later.
+  </>
+);
