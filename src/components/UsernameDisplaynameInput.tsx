@@ -42,7 +42,7 @@ const UsernameDisplaynameInput = () => {
         onSubmit={handleSubmit(handleAccountCreation)}
         className="mx-auto flex flex-col gap-2"
       >
-        <Tooltip content={UsernameTooltip()}>
+        <Tooltip content={<UsernameTooltip />}>
           <Input
             label="Username"
             name="username"
@@ -61,7 +61,7 @@ const UsernameDisplaynameInput = () => {
             }}
           ></Input>
         </Tooltip>
-        <Tooltip content={DisplayTooltip()}>
+        <Tooltip content={<DisplayTooltip />}>
           <Input
             label="Displayname"
             name="displayname"

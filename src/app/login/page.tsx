@@ -7,14 +7,10 @@ import FullWalletInput from "~/components/FullWalletInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
 import useUser from "~/lib/useUser";
 
-import { RegistrationMode } from "../registration/page";
-
-export type LoginMode = Exclude<RegistrationMode, "fullWalletCreation">;
-
 const LoginPage: NextPage = () => {
-  const [loginMode, setLoginMode] = useState<LoginMode | null>(null);
+  const [loginMode, setLoginMode] = useState<string | null>(null);
 
-  const handleStepChange = (mode: LoginMode) => {
+  const handleStepChange = (mode: string) => {
     setLoginMode(mode);
   };
 

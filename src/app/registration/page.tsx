@@ -18,21 +18,21 @@ const RegistrationPage: NextPage = () => {
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
 
       <div className="mx-auto my-8 flex w-72 flex-col gap-4">
-        <Tooltip content={NewWalletTooltip()}>
+        <Tooltip content={<NewWalletTooltip />}>
           <Link href="/registration/new">
             <button className="btn-primary w-full">
               Register with new wallet
             </button>
           </Link>
         </Tooltip>
-        <Tooltip content={ViewKeyTooltip()}>
+        <Tooltip content={<ViewKeyTooltip />}>
           <Link href="/registration/view-only">
             <button className="btn-primary w-full">
               Register with existing private view key
             </button>
           </Link>
         </Tooltip>
-        <Tooltip content={ExistingSeedTooltip()}>
+        <Tooltip content={<ExistingSeedTooltip />}>
           <Link href="/registration/existing">
             <button className="btn-primary w-full">
               Register with existing seed
