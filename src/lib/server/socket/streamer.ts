@@ -1,8 +1,9 @@
-// import { ServerResponse } from "node:http";
-
 import { PrismaClient, Streamer } from "@prisma/client";
+import cookie from "cookie";
+import { IncomingMessage } from "http";
+import { NextApiResponse } from "next";
 import { Session } from "next-auth";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import type { Server } from "socket.io";
 import invariant from "tiny-invariant";
 
@@ -22,21 +23,32 @@ declare module "http" {
   }
 }
 
-async function setupStreamer({ streamerNsp }: Namespaces, io: Server) {
+type Cookies = Partial<{ [key: string]: string }>;
+
+async function setupStreamer(
+  { streamerNsp, donationNsp }: Namespaces,
+  io: Server
+) {
   streamerNsp.use(async (socket, next) => {
-    // TODO: Is this recommended?
+    const request = {
+      headers: socket.request.headers,
+      cookies: cookie.parse(socket.request.headers.cookie ?? ""),
+    } as IncomingMessage & { cookies: Cookies };
 
-    // TODO: Does this work?
-    const session = await unstable_getServerSession(
-      // Can we omit all these params and only pass authOptions?
-      // socket.request,
-      // { getHeader() {}, setCookie() {}, setHeader() {} },
-      // socket.response,
-      // { headersSent: false } as ServerResponse,
-      authOptions
-    );
+    const response = {} as NextApiResponse;
 
-    if (session?.user ?? false) {
+    response.getHeader = function getHeader() {
+      return undefined;
+    };
+
+    response.setHeader = function setHeader() {
+      return {} as NextApiResponse<any>;
+    };
+
+    // FIXME: Temporary solution to get NextAuth and Socket.IO working together
+    const session = await getServerSession(request, response, authOptions);
+
+    if (session?.user) {
       socket.request.session = session;
       next();
     } else {
