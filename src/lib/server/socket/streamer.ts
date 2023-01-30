@@ -11,7 +11,7 @@ import { Namespaces } from "./nsp";
 
 const prisma = new PrismaClient();
 
-function setupStreamer({ streamerNsp }: Namespaces, io: Server) {
+function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
   streamerNsp.use(async (socket, next) => {
     // TODO: Is this recommended?
     const session = await getIronSession(
@@ -59,6 +59,10 @@ function setupStreamer({ streamerNsp }: Namespaces, io: Server) {
       });
 
       console.log(result);
+    });
+
+    socket.on("fetched", ({ donaterSocketId, subaddress }) => {
+      donationNsp.to(donaterSocketId).emit("created", subaddress);
     });
 
     socket.on("disconnect", (reason) => {

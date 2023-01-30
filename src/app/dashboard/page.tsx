@@ -8,7 +8,6 @@ import IsOnlineBadge from "~/components/IsOnlineBadge";
 import streamerKeys from "~/features/streamer/queries";
 import { useStreamerSocket } from "~/hooks/socket/use-socket";
 import useUser from "~/lib/useUser";
-
 const Home: NextPage = () => {
   useStreamerSocket();
 
@@ -33,6 +32,7 @@ const Home: NextPage = () => {
       </div>
     );
   }
+
   return <h2>Please log in</h2>;
 };
 

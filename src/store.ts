@@ -25,3 +25,5 @@ export const syncStartHeightAtom = atom(1102410);
 export const isSyncRunningAtom = atom(false);
 export const userNameAtom = atom("");
 export const displayNameAtom = atom("");
+
+export const transactionAddressAtom = atom("");

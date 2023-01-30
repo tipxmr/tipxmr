@@ -1,10 +1,11 @@
-import type { Streamer } from "@prisma/client";
+// import type { Streamer } from "@prisma/client";
 import type { Namespace } from "socket.io";
 import type { Socket } from "socket.io-client";
 
 export interface StreamerClientToServerEvents {
   online: (socketId: string) => void;
   offline: () => void;
+  fetched: (payload: { donaterSocketId: string; subaddress: string }) => void;
 }
 
 export interface StreamerServerToClientEvents {
@@ -22,7 +23,7 @@ export interface StreamerServerToClientEvents {
 
 export interface DonationClientToServerEvents {
   create: (streamerId: string) => void;
-  fetched: (subaddress: Streamer) => void;
+  // fetched: (subaddress: Streamer) => void;
 }
 
 export interface DonationServerToClientEvents {
