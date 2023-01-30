@@ -36,6 +36,7 @@
     "@tanstack/react-table": "^8.7.8",
     "@types/crypto-js": "^4.1.1",
     "clsx": "^1.2.1",
+    "cookie": "^0.5.0",
     "crypto-js": "^4.1.1",
     "jotai": "^1.13.1",
     "monero-javascript": "^0.7.6",
