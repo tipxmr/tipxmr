@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 
 import { updateWalletSettings } from "~/lib/db/wallet";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
@@ -17,7 +17,7 @@ const handler: NextApiHandler = async (req, res) => {
 };
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
-  const user = await unstable_getServerSession(request, response, authOptions);
+  const user = await getServerSession(request, response, authOptions);
 
   if (!user) {
     response.status(401).json({

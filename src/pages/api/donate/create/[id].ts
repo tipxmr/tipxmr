@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 
 import { createBlankDonation } from "~/lib/db/donation";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
@@ -20,11 +20,7 @@ const handlePost = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
-  const session = await unstable_getServerSession(
-    request,
-    response,
-    authOptions
-  );
+  const session = await getServerSession(request, response, authOptions);
 
   if (!session) {
     response.status(401).json({

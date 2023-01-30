@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { clamp } from "ramda";
 
 import prisma from "~/lib/prisma";
@@ -21,7 +21,7 @@ async function getDonationHistory(
   request: Omit<NextApiRequest, "body">,
   response: NextApiResponse
 ) {
-  const user = await unstable_getServerSession(request, response, authOptions);
+  const user = await getServerSession(request, response, authOptions);
 
   // TODO: Build middleware to check if user is logged in
   if (!user || user.isLoggedIn === false) {

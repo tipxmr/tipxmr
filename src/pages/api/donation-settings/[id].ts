@@ -1,7 +1,7 @@
 import { DonationSetting } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 
 import {
   DonationSettingUpdate,
@@ -24,11 +24,7 @@ async function updateStreamerSettings(
   request: Omit<NextApiRequest, "body"> & { body: DonationSettingUpdate },
   response: NextApiResponse
 ) {
-  const session = await unstable_getServerSession(
-    request,
-    response,
-    authOptions
-  );
+  const session = await getServerSession(request, response, authOptions);
 
   // TODO: Build middleware to check if user is logged in
   if (!session) {
