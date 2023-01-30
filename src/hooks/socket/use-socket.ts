@@ -1,6 +1,5 @@
 import { Streamer } from "@prisma/client";
-import { useAtom } from "jotai";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
