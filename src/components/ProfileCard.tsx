@@ -1,13 +1,13 @@
+import type { Streamer } from "@prisma/client";
 import Image from "next/image";
 import { FC } from "react";
 
 import useDonationSettings from "~/hooks/useDonationSettings";
 import TipxmrLogo from "~/img/logo.png";
-import { User } from "~/lib/config";
 
 import StreamingUrl from "./StreamingUrl";
 
-const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {
+const ProfileCard: FC<Streamer> = ({ id, alias, name, isOnline, socket }) => {
   const { data: donationSettings } = useDonationSettings(name);
 
   // TODO plug in the avatar URL
@@ -31,13 +31,13 @@ const ProfileCard: FC<User> = ({ id, alias, name, isOnline, socket }) => {
               <div className="flex justify-center pt-8 pb-0 lg:pt-4">
                 <div className="p-3 text-center">
                   <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                    {socket || <span className="text-xs">Error</span>}
+                    {socket ?? <span className="text-xs">Error</span>}
                   </span>
                   <span className="text-sm text-slate-400">SocketID</span>
                 </div>
                 <div className="p-3 text-center">
                   <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
-                    {isOnline?.toString() || (
+                    {isOnline?.toString() ?? (
                       <span className="text-xs">Error</span>
                     )}
                   </span>
