@@ -1,26 +1,54 @@
-import { ServerResponse } from "node:http";
-
-import { PrismaClient } from "@prisma/client";
-import { getIronSession } from "iron-session";
+import { PrismaClient, Streamer } from "@prisma/client";
+import cookie from "cookie";
+import { IncomingMessage } from "http";
+import { NextApiResponse } from "next";
+import { Session } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import type { Server } from "socket.io";
 import invariant from "tiny-invariant";
 
-import { ironOptions } from "~/lib/config";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 import { Namespaces } from "./nsp";
 
 const prisma = new PrismaClient();
 
-function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
-  streamerNsp.use(async (socket, next) => {
-    // TODO: Is this recommended?
-    const session = await getIronSession(
-      socket.request,
-      { headersSent: false } as ServerResponse,
-      ironOptions
-    );
+declare module "http" {
+  interface IncomingMessage {
+    session:
+      | (Session & {
+          user?: Streamer;
+        })
+      | null;
+  }
+}
 
-    if (session?.user ?? false) {
+type Cookies = Partial<{ [key: string]: string }>;
+
+async function setupStreamer(
+  { streamerNsp, donationNsp }: Namespaces,
+  io: Server
+) {
+  streamerNsp.use(async (socket, next) => {
+    const request = {
+      headers: socket.request.headers,
+      cookies: cookie.parse(socket.request.headers.cookie ?? ""),
+    } as IncomingMessage & { cookies: Cookies };
+
+    const response = {} as NextApiResponse;
+
+    response.getHeader = function getHeader() {
+      return undefined;
+    };
+
+    response.setHeader = function setHeader() {
+      return {} as NextApiResponse<any>;
+    };
+
+    // FIXME: Temporary solution to get NextAuth and Socket.IO working together
+    const session = await getServerSession(request, response, authOptions);
+
+    if (session?.user) {
       socket.request.session = session;
       next();
     } else {
@@ -30,7 +58,7 @@ function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
 
   streamerNsp.on("connection", (socket) => {
     socket.on("online", async (socketId) => {
-      invariant(socket.request.session.user, "Expected user to be logged in");
+      invariant(socket.request.session?.user, "Expected user to be logged in");
 
       const { id } = socket.request.session.user;
 
@@ -46,7 +74,7 @@ function setupStreamer({ streamerNsp, donationNsp }: Namespaces, io: Server) {
     });
 
     socket.on("offline", async () => {
-      invariant(socket.request.session.user, "Expected user to be logged in");
+      invariant(socket.request.session?.user, "Expected user to be logged in");
 
       const { id } = socket.request.session.user;
 

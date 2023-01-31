@@ -35,7 +35,7 @@ const useTransactionListener = () => {
     return () => {
       xmrWallet?.removeListener(listener);
     };
-  }, []);
+  }, [xmrWallet]);
   return xmrWallet;
 };
 

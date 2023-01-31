@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
 
-import { withSessionRoute } from "~/lib/withSession";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
-export default withSessionRoute(sessionRoute);
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getServerSession(req, res, authOptions);
 
-async function sessionRoute(req: NextApiRequest, res: NextApiResponse) {
-  res.json({ session: req?.session });
+  res.json({ session });
 }
+
+export default handler;

@@ -1,12 +1,13 @@
 import { DonationSetting } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
 
 import {
   DonationSettingUpdate,
   updateDonationSettings,
 } from "~/lib/db/donationSettings";
-import { withSessionRoute } from "~/lib/withSession";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -23,10 +24,10 @@ async function updateStreamerSettings(
   request: Omit<NextApiRequest, "body"> & { body: DonationSettingUpdate },
   response: NextApiResponse
 ) {
-  const user = request.session.user;
+  const session = await getServerSession(request, response, authOptions);
 
   // TODO: Build middleware to check if user is logged in
-  if (!user || user.isLoggedIn === false) {
+  if (!session) {
     response.status(401).json({
       message: "Not Authorized",
     });
@@ -48,4 +49,4 @@ async function updateStreamerSettings(
   }
 }
 
-export default withSessionRoute(handler);
+export default handler;

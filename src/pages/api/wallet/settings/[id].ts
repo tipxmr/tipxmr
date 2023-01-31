@@ -2,7 +2,6 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 import { getWallet } from "~/lib/db/wallet";
-import { withSessionRoute } from "~/lib/withSession";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -43,4 +42,4 @@ const getWalletInfo = async (
   }
 };
 
-export default withSessionRoute(handler);
+export default handler;

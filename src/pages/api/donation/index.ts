@@ -1,9 +1,10 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
 import { clamp } from "ramda";
 
 import prisma from "~/lib/prisma";
-import { withSessionRoute } from "~/lib/withSession";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -20,7 +21,7 @@ async function getDonationHistory(
   request: Omit<NextApiRequest, "body">,
   response: NextApiResponse
 ) {
-  const user = request.session.user;
+  const user = await getServerSession(request, response, authOptions);
 
   // TODO: Build middleware to check if user is logged in
   if (!user || user.isLoggedIn === false) {
@@ -71,4 +72,4 @@ async function getDonationHistory(
   }
 }
 
-export default withSessionRoute(handler);
+export default handler;

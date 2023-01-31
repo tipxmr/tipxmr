@@ -1,8 +1,9 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
 
 import { createBlankDonation } from "~/lib/db/donation";
-import { withSessionRoute } from "~/lib/withSession";
+import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -19,9 +20,9 @@ const handlePost = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
-  const user = request.session.user;
+  const session = await getServerSession(request, response, authOptions);
 
-  if (!user || user.isLoggedIn === false) {
+  if (!session) {
     response.status(401).json({
       message: "Not Authorized",
     });
@@ -55,4 +56,4 @@ const handlePost = async (
   }
 };
 
-export default withSessionRoute(handler);
+export default handler;

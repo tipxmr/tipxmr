@@ -1,9 +1,10 @@
 "use client";
 
 import { Streamer } from "@prisma/client";
+import { UpdateIcon } from "@radix-ui/react-icons";
 import { useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { FetchError } from "~/lib/fetchJson";
@@ -24,8 +25,8 @@ interface ViewWalletInputProps {
 
 const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
-  const router = useRouter();
   const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -35,10 +36,9 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     mode: "onChange",
   });
 
-  const createWallet: SubmitHandler<ViewWalletFormValues> = async (
-    data: ViewWalletFormValues
-  ) => {
+  const createWallet: SubmitHandler<ViewWalletFormValues> = async (data) => {
     if (!isValid) return;
+    setIsLoading(true);
     const wallet = await createViewOnlyWallet(
       data.privateViewKey,
       data.primaryAddress
@@ -48,7 +48,7 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);
     setWallet(wallet);
-    router.push("/registration/username");
+    setIsLoading(false);
     return wallet;
   };
 
@@ -108,10 +108,16 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
             },
           }}
         ></Input>
+        {isLoading && (
+          <>
+            <UpdateIcon className="mx-auto my-8 h-12 w-12 animate-spin" />
+            This can take some time
+          </>
+        )}
         <input
           type="submit"
           value={pathname?.includes("registration") ? "Next step" : "Login"}
-          disabled={!isDirty || !isValid}
+          disabled={!isDirty || !isValid || isLoading}
           className="btn-primary my-4"
         />
       </form>
