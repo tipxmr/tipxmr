@@ -3,16 +3,12 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 
-import {
-  DonationSettingUpdate,
-  updateDonationSettings,
-} from "~/lib/db/donationSettings";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "PUT":
-      updateStreamerSettings(req, res);
+      updateDonationSettings(req, res);
       break;
     default:
       res.setHeader("Allow", ["PUT"]);
@@ -20,14 +16,13 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
-async function updateStreamerSettings(
-  request: Omit<NextApiRequest, "body"> & { body: DonationSettingUpdate },
+async function updateDonationSettings(
+  request: Omit<NextApiRequest, "body"> & { body: Partial<DonationSetting> },
   response: NextApiResponse
 ) {
   const session = await getServerSession(request, response, authOptions);
 
-  // TODO: Build middleware to check if user is logged in
-  if (!session) {
+  if (!session?.user) {
     response.status(401).json({
       message: "Not Authorized",
     });
@@ -36,7 +31,12 @@ async function updateStreamerSettings(
 
   try {
     const { body } = request;
-    const result = await updateDonationSettings(String(user.id), body);
+    const result = await prisma?.donationSetting.update({
+      where: {
+        streamer: session.user?.id,
+      },
+      data: body,
+    });
     response.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -44,7 +44,7 @@ async function updateStreamerSettings(
       const { message } = error;
       response
         .status(500)
-        .json({ error: `failed to create streamer, ${message}` });
+        .json({ error: `failed to update donation settings, ${message}` });
     }
   }
 }
