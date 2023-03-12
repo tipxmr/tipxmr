@@ -1,6 +1,7 @@
+import { Donation } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { createDonation, getDonation } from "~/lib/db/donation";
+import prisma from "../../../lib/prisma";
 
 const handler: NextApiHandler = async (req, res) => {
   console.log(req.query);
@@ -22,19 +23,48 @@ const donationGetHandler = async (
   res: NextApiResponse
 ) => {
   const { name } = req.query;
-  const result = await getDonation(String(name));
+  if (!name) {
+    res.status(400).json({ error: "Missing name on request query" });
+    return;
+  }
 
+  const result = await prisma.donation.findFirstOrThrow({
+    where: { streamer_donationTostreamer: { name: String(name) } },
+  });
   res.json(result);
 };
 
 const donationPostHandler = async (
-  req: NextApiRequest,
+  req: Omit<NextApiRequest, "body"> & {
+    body: Pick<Donation, "socketDonor" | "subaddress">;
+  },
   res: NextApiResponse
 ) => {
-  const { name: id } = req.query;
-  const { data } = req.body;
-  console.log("subaddres before donation: ", data?.subaddress);
-  const result = await createDonation(String(id), data);
+  const { name } = req.query;
+  const { socketDonor, subaddress } = req.body; // subaddress, socketDonor
+
+  if (!name) {
+    res.status(400).json({ error: "Missing name on request query" });
+    return;
+  }
+
+  if (!socketDonor || !subaddress) {
+    res.status(400).json({ error: "Missing data on request body" });
+    return;
+  }
+
+  const streamer = await prisma.streamer.findFirstOrThrow({
+    where: { name: String(name) },
+  });
+
+  console.log("subaddres before donation: ", subaddress);
+  const result = await prisma?.donation.create({
+    data: {
+      streamer: streamer.id,
+      subaddress: subaddress,
+      socketDonor: socketDonor,
+    },
+  });
 
   res.json(result);
 };

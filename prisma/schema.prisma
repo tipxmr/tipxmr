@@ -23,11 +23,12 @@ model Category {
 model Donation {
   id                          String    @id @default(uuid())
   isPaid                      Boolean   @default(false) @db.Boolean
-  streamer                    String?   @db.VarChar(12)
+  streamer                    String    @db.VarChar(12)
+  socketDonor                 String?   @db.VarChar(20)
   amount                      Float     @default(0)
   message                     String?   @default("") @db.VarChar(256)
   displayTimeSeconds          Int?      @default(0)
-  subaddress                  String?   @db.VarChar(95)
+  subaddress                  String    @db.VarChar(95)
   confirmations               Int?      @default(0)
   giphyUrl                    String?   @default("") @db.VarChar(100)
   donor                       String?   @default("") @db.VarChar(24)
@@ -90,6 +91,8 @@ model Streamer {
   invoice         Invoice[]
   stream          Stream?
   wallet          Wallet?
+
+  @@index([name], name: "streamer_name")
 }
 
 model Wallet {
