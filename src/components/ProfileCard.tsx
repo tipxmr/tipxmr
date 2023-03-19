@@ -1,13 +1,17 @@
 import type { Streamer } from "@prisma/client";
 import Image from "next/image";
-import { FC } from "react";
 
 import useDonationSettings from "~/hooks/useDonationSettings";
 import TipxmrLogo from "~/img/logo.png";
 
 import StreamingUrl from "./StreamingUrl";
 
-const ProfileCard: FC<Streamer> = ({ id, alias, name, isOnline, socket }) => {
+interface ProfileCardProps {
+  streamer: Streamer;
+}
+
+const ProfileCard = ({ streamer }: ProfileCardProps) => {
+  const { id, name, alias, socket, isOnline } = streamer;
   const { data: donationSettings } = useDonationSettings(name);
 
   // TODO plug in the avatar URL

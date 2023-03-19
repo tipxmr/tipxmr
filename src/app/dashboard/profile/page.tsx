@@ -1,5 +1,3 @@
-"use client";
-
 import { NextPage } from "next";
 
 import ProfileCard from "~/components/ProfileCard";
@@ -10,8 +8,9 @@ const Profile: NextPage = () => {
   // Creation Date
   // username and display name
   // status
-  const { user } = useUser({ redirectTo: "/login" });
-  return <>{user && <ProfileCard {...user} />}</>;
+  const { user: streamer } = useUser({ redirectTo: "/login" });
+  if (!streamer) return <div>No user found</div>;
+  return <ProfileCard streamer={streamer} />;
 };
 
 export default Profile;

@@ -1,10 +1,7 @@
 import { Streamer } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { createStreamer, getStreamers } from "~/lib/db/streamer";
-
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.query);
   switch (req.method) {
     case "GET":
       streamerGetHandler(req, res);
@@ -23,11 +20,11 @@ const streamerGetHandler = async (
   res: NextApiResponse
 ) => {
   try {
-    const streamers = await getStreamers();
-    res.status(200).json(streamers);
+    const allStreamers = await prisma?.streamer.findMany();
+    res.status(200).json(allStreamers);
   } catch (reason) {
     console.warn(reason);
-    res.status(500).json({ error: "failed to load data" });
+    res.status(500).json({ message: `failed to load streamers`, reason });
   }
 };
 
@@ -39,16 +36,19 @@ const streamerPostHandler = async (
 ) => {
   const { id, name, alias } = req.body;
   try {
-    const result = await createStreamer(id, {
-      name,
-      alias,
-      socket: `${Date.now()}`,
+    const newStreamer = await prisma?.streamer.create({
+      data: {
+        id,
+        name,
+        alias,
+        socket: `${Date.now()}`,
+      },
     });
 
-    res.json({ isLoggedIn: true, ...result });
+    res.json({ isLoggedIn: true, ...newStreamer });
   } catch (error) {
-    console.warn(error);
-    res.status(500).json({ error: "failed to load data" });
+    console.error(error);
+    res.status(500).json({ message: "Failed to create new streamer", error });
   }
 };
 

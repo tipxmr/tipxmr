@@ -6,7 +6,7 @@ import fetchJson from "~/lib/fetchJson";
 async function fetchWalletSettings(
   id: Streamer["id"] | undefined
 ): Promise<Wallet> {
-  const { data } = await fetchJson<any>(`/api/wallet/settings/${id}`);
+  const { data } = await fetchJson<any>(`/api/wallet/${id}`);
   return data;
 }
 

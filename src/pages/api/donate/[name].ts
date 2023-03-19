@@ -4,7 +4,6 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.query);
   switch (req.method) {
     case "GET":
       donationGetHandler(req, res);
@@ -23,6 +22,7 @@ const donationGetHandler = async (
   res: NextApiResponse
 ) => {
   const { name } = req.query;
+
   if (!name) {
     res.status(400).json({ error: "Missing name on request query" });
     return;
@@ -41,7 +41,7 @@ const donationPostHandler = async (
   res: NextApiResponse
 ) => {
   const { name } = req.query;
-  const { socketDonor, subaddress } = req.body; // subaddress, socketDonor
+  const { socketDonor, subaddress } = req.body;
 
   if (!name) {
     res.status(400).json({ error: "Missing name on request query" });
@@ -57,7 +57,6 @@ const donationPostHandler = async (
     where: { name: String(name) },
   });
 
-  console.log("subaddres before donation: ", subaddress);
   const result = await prisma?.donation.create({
     data: {
       streamer: streamer.id,

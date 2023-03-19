@@ -40,7 +40,7 @@
     "crypto-js": "^4.1.1",
     "jotai": "^1.13.1",
     "monero-javascript": "^0.7.6",
-    "next": "^13.1.6",
+    "next": "^13.2.4",
     "next-auth": "^4.19.0",
     "qrcode": "^1.5.1",
     "ramda": "^0.28.0",
