@@ -44,6 +44,9 @@ const donation1: Partial<Donation> = {
   message: "Hello world",
   displayTimeSeconds: 123,
   donor: "Timothy",
+  subaddress:
+    "84H6qm4apZhg4jTvjyanfRfcmd1TtTjkpYMX7MFdPFxQPGsPmmFPYwte2hWBh9EyMQdCTeEpEhfGpTkN3W6ovWAwBrKckBL",
+  socketDonor: "ojIckSD2jqNzOqIrAGzL",
 };
 
 const donation2: Partial<Donation> = {
@@ -52,6 +55,9 @@ const donation2: Partial<Donation> = {
   message: "Hello world 2",
   displayTimeSeconds: 3123,
   donor: "May",
+  subaddress:
+    "84H6qm4apZhg4jTvjyanfRfcmd1TtTjkpYMX7MFdPFxQPGsPmmFPYwte2hWBh9EyMQdCTeEpEhfGpTkN3W6ovWAwBrKckBL",
+  socketDonor: "ojIckSD2jqNzOqIrAGzL",
 };
 
 const donation3: Partial<Donation> = {
@@ -60,6 +66,9 @@ const donation3: Partial<Donation> = {
   message: "Arise",
   displayTimeSeconds: 1337,
   donor: "Julian",
+  subaddress:
+    "84H6qm4apZhg4jTvjyanfRfcmd1TtTjkpYMX7MFdPFxQPGsPmmFPYwte2hWBh9EyMQdCTeEpEhfGpTkN3W6ovWAwBrKckBL",
+  socketDonor: "ojIckSD2jqNzOqIrAGzL",
 };
 
 const donation4: Partial<Donation> = {
@@ -69,6 +78,9 @@ const donation4: Partial<Donation> = {
     "Hey man, really lovin the stream and all, but lately you just have not been as good as usally. Therefore only a tiny donation. Do better.",
   displayTimeSeconds: 7,
   donor: "Anonymous",
+  subaddress:
+    "84H6qm4apZhg4jTvjyanfRfcmd1TtTjkpYMX7MFdPFxQPGsPmmFPYwte2hWBh9EyMQdCTeEpEhfGpTkN3W6ovWAwBrKckBL",
+  socketDonor: "ojIckSD2jqNzOqIrAGzL",
 };
 
 export const dummyDonations = [donation1, donation2, donation3, donation4];

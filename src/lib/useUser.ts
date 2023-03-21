@@ -27,7 +27,7 @@ export default function useUser({
     await signOut();
   }
 
-  const user = {
+  const user = session?.user && {
     isLoggedIn: Boolean(session),
     ...(session?.user ?? {}),
   };

@@ -24,7 +24,8 @@ export default function useCreateUser() {
     redirectTo: "/dashboard",
   });
 
-  return useMutation<Streamer, FetchError, NewUserData>(createStreamer, {
+  return useMutation<Streamer, FetchError, NewUserData>({
+    mutationFn: createStreamer,
     onSuccess: async ({ id }) => {
       login(id);
     },

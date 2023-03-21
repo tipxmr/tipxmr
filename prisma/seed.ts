@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Donation, PrismaClient } from "@prisma/client";
 
 import { dummyDonations, testStreamers } from "../src/data/intialTables";
 
@@ -27,7 +27,7 @@ async function seedDonations() {
     const dummyData = dummyDonations.map((d) => ({
       ...d,
       streamer: streamer.id,
-    }));
+    })) as Donation[];
     await prisma.donation.createMany({
       data: dummyData,
       skipDuplicates: true,

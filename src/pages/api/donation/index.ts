@@ -21,15 +21,16 @@ async function getDonationHistory(
   request: Omit<NextApiRequest, "body">,
   response: NextApiResponse
 ) {
-  const user = await getServerSession(request, response, authOptions);
+  const session = await getServerSession(request, response, authOptions);
 
-  // TODO: Build middleware to check if user is logged in
-  if (!user || user.isLoggedIn === false) {
+  if (!session?.user) {
     response.status(401).json({
       message: "Not Authorized",
     });
     return;
   }
+
+  const { user } = session;
 
   try {
     const limitParam = parseInt(request.query.limit as string);

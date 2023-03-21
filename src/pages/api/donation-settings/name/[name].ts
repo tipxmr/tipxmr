@@ -1,8 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { getDonationSettings } from "~/lib/db/donationSettings";
-
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -18,12 +16,17 @@ const getStreamerDonationSettings = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
-  const name = request.query.name as string;
+  const { name } = request.query;
 
-  if (!name) throw Error("Provide a streamer name");
+  if (!name) {
+    response.status(400).json({ error: "Missing name on request query" });
+    throw Error("Provide a streamer name");
+  }
 
   try {
-    const donationSettings = await getDonationSettings(name);
+    const donationSettings = await prisma?.donationSetting.findFirst({
+      where: { streamer_donation_settingsTostreamer: { name: String(name) } },
+    });
 
     if (donationSettings) {
       response.status(200).json(donationSettings);

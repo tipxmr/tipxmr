@@ -2,7 +2,6 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 
-import { updateWalletSettings } from "~/lib/db/wallet";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -17,12 +16,14 @@ const handler: NextApiHandler = async (req, res) => {
 };
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
-  const user = await getServerSession(request, response, authOptions);
+  const session = await getServerSession(request, response, authOptions);
+  const user = session?.user;
 
   if (!user) {
     response.status(401).json({
-      message: "Not Authorized",
+      message: "Not Authenticated",
     });
+    console.log("Not Authenticated", session);
     return;
   }
 
@@ -31,7 +32,10 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
 
     const { data } = body?.walletSettings;
 
-    const result = await updateWalletSettings(String(user.id), data);
+    const result = await prisma?.wallet.update({
+      where: { streamer: user.id },
+      data,
+    });
 
     response.status(200).json({ result });
   } catch (error) {

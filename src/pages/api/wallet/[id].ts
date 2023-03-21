@@ -1,12 +1,10 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { getWallet } from "~/lib/db/wallet";
-
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
-      getWalletInfo(req, res);
+      getWallet(req, res);
       break;
     default:
       res.setHeader("Allow", ["GET"]);
@@ -14,29 +12,27 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
-const getWalletInfo = async (
+const getWallet = async (
   request: NextApiRequest,
   response: NextApiResponse
 ) => {
   const { id } = request.query;
 
-  if (!id) throw new Error("Provide a streamer id");
+  if (!id) {
+    response.status(400).json({ error: "Missing id on request query" });
+    throw Error("Provide a wallet id");
+  }
 
   try {
-    const walletSettings = await getWallet(String(id));
-    console.log("Got wallet settings", walletSettings);
+    const walletSettings = await prisma?.wallet.findUnique({
+      where: { streamer: String(id) },
+    });
 
-    if (walletSettings) {
-      response.status(200).json({ data: walletSettings });
-    }
-
-    throw new Error("This user does not exist");
+    response.status(200).json(walletSettings);
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
-      response
-        .status(500)
-        .json({ error: `failed to create streamer, ${message}` });
+      response.status(500).json({ error: message });
     }
     console.error(error);
   }

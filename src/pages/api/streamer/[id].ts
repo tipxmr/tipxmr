@@ -1,9 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { getStreamer, removeStreamer, updateStreamer } from "~/lib/db/streamer";
-
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.query);
   switch (req.method) {
     case "GET":
       streamerGetHandler(req, res);
@@ -26,7 +23,9 @@ const streamerGetHandler = async (
 ) => {
   try {
     const id = req.query.id as string;
-    const streamer = await getStreamer(id);
+    const streamer = await prisma?.streamer.findUniqueOrThrow({
+      where: { id },
+    });
 
     res.status(200).json(streamer);
   } catch (reason) {
@@ -35,25 +34,24 @@ const streamerGetHandler = async (
   }
 };
 
-/* const streamerPostHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const id  = req.query.id as string;
-  const { name, alias, socket } = req.body;
-  const result = await createStreamer(id, { name, alias, socket });
-
-  res.json(result);
-}; */
-
 const streamerDeleteHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   const id = req.query.id as string;
-  const result = await removeStreamer(id);
 
-  res.json(result);
+  if (!id) {
+    res.status(400).json({ error: "Missing id on request query" });
+    throw Error("Provide a streamer id to delete");
+  }
+
+  try {
+    const result = await prisma?.streamer.delete({ where: { id } });
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: `Streamer could not be deleted`, error });
+  }
 };
 
 const streamerPutHandler = async (
@@ -61,10 +59,23 @@ const streamerPutHandler = async (
   res: NextApiResponse
 ) => {
   const id = req.query.id as string;
-  const { name, alias, socket } = req.body;
-  const result = await updateStreamer(id, { name, alias, socket });
 
-  res.json(result);
+  if (!id) {
+    res.status(400).json({ error: "Missing id on request query" });
+    throw Error("Provide a streamer id");
+  }
+
+  try {
+    const { name, alias, socket } = req.body;
+    const updatedStreamer = await prisma?.streamer.update({
+      where: { id },
+      data: { name, alias, socket },
+    });
+    res.json(updatedStreamer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: `Streamer could not be updated`, error });
+  }
 };
 
 export default handler;

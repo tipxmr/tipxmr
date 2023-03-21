@@ -1,7 +1,5 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { getStreamerByName } from "~/lib/db/streamer";
-
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -19,11 +17,19 @@ const streamerGetHandler = async (
 ) => {
   try {
     const { name } = req.query;
-    const streamer = await getStreamerByName(String(name));
 
-    res.status(200).json({ data: streamer });
+    if (!name) {
+      res.status(400).json({ error: "Missing name on request query" });
+      throw Error("Provide a streamer name");
+    }
+
+    const streamer = await prisma?.streamer.findUniqueOrThrow({
+      where: { name: String(name) },
+    });
+
+    res.status(200).json(streamer);
   } catch (reason) {
-    res.status(500).json({ error: "failed to load" });
+    res.status(500).json({ error: "Streamer could not be fetched", reason });
   }
 };
 
