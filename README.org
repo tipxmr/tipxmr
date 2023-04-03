@@ -14,7 +14,6 @@ Donations additional to the CCS are always welcome
 #+begin_src bash
 git clone https://github.com/tipxmr/tipxmr.git
 cd tipxmr
-sh setup.sh
 #+end_src
 
 
@@ -33,9 +32,6 @@ sh setup.sh
 
 ** Development
 - ~npm run dev~ : bring up the tipxmr webapp (~localhost:3000~)
-
-- ~npm run storybook~ : bring up storybook for components
-
 
 - ⚠️ As the project develops, the database models change. Therefore, sometimes it may be necessary to ~migrate~ the changes (~npm run migrate -- dev~)
 
