@@ -9,7 +9,9 @@ const useAddWalletSetting = () => {
   const { user } = useUser();
   return useMutation({
     mutationFn: (walletSettings: Partial<Wallet>) =>
-      axios.put(`/api/wallet/${user?.id}`, walletSettings),
+      axios
+        .put(`/api/wallet/${user?.id}`, walletSettings)
+        .then((res) => res.data),
 
     onMutate: async (settings: Partial<Wallet>) => {
       await queryClient.cancelQueries(["streamer", user?.id]);

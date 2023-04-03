@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Donation } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-
-import fetchJson from "~/lib/fetchJson";
+import axios from "axios";
 
 interface Options {
   limit?: number;
@@ -15,8 +14,13 @@ interface History {
 }
 
 async function fetchDonations(options: Options): Promise<History> {
-  const query = new URLSearchParams(Object.entries(options));
-  return fetchJson(`/api/donation?${query}`);
+  const res = await axios.get(`/api/donation`, {
+    params: {
+      limit: options.limit,
+      index: options.index,
+    },
+  });
+  return res.data;
 }
 
 export default function useTxHistory({ limit = 1, index = 0 }: Options) {
@@ -25,6 +29,9 @@ export default function useTxHistory({ limit = 1, index = 0 }: Options) {
   return useQuery<History, Error>({
     queryKey: ["donationHistory", options],
     queryFn: () => fetchDonations(options),
+    onError(err) {
+      console.error(err);
+    },
     keepPreviousData: true,
   });
 }

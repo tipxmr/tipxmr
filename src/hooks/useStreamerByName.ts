@@ -1,20 +1,15 @@
 import { Streamer } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-
-import fetchJson from "~/lib/fetchJson";
-
-async function fetchStreamerByName(name: Streamer["name"]) {
-  const { data } = await fetchJson<{ data: Streamer }>(
-    `/api/streamer/name/${name}`
-  );
-
-  return data;
-}
+import axios, { AxiosError } from "axios";
 
 export default function useStreamerByName(name: Streamer["name"]) {
-  return useQuery({
+  return useQuery<Streamer, AxiosError>({
     queryKey: ["streamer", name],
-    queryFn: () => fetchStreamerByName(name ?? ""),
+    queryFn: () =>
+      axios.get(`/api/streamer/name/${name}`).then((res) => res.data),
     enabled: Boolean(name ?? ""),
+    onError(err) {
+      console.error(err);
+    },
   });
 }

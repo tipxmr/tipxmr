@@ -1,12 +1,10 @@
 import { Streamer } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-
-import fetchJson from "~/lib/fetchJson";
-
-async function fetchStreamers() {
-  return fetchJson<Streamer[]>(`/api/streamer`);
-}
+import axios, { AxiosError } from "axios";
 
 export default function useStreamers() {
-  return useQuery(["streamers"], fetchStreamers);
+  return useQuery<Streamer, AxiosError>({
+    queryKey: ["streamers"],
+    queryFn: () => axios.get(`/api/streamer`).then((res) => res.data),
+  });
 }

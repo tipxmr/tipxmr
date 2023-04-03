@@ -10,7 +10,9 @@ const useAddDonationSetting = () => {
 
   return useMutation({
     mutationFn: (donationSetting: Partial<DonationSetting>) =>
-      axios.put(`/api/donation-settings/${user?.id}`, donationSetting),
+      axios
+        .put(`/api/donation-settings/${user?.id}`, donationSetting)
+        .then((res) => res.data),
 
     onMutate: async (donationSetting: Partial<DonationSetting>) => {
       await queryClient.cancelQueries(["streamer", user?.name]);
