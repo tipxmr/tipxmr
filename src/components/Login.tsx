@@ -52,7 +52,7 @@ const Login = ({ handleSubmit }: LoginProps) => {
             </div>
 
             <div className="flex flex-row items-center justify-between">
-              <button className="btn-primary mt-3 mb-2 block" type="submit">
+              <button className="btn-primary mb-2 mt-3 block" type="submit">
                 Let&apos;s go!
               </button>
               <Link href="/register">Don&apos;t have an account yet?</Link>

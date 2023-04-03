@@ -32,7 +32,7 @@ const ProfileCard = ({ streamer }: ProfileCardProps) => {
               </div>
             </div>
             <div className="mt-20 w-full text-center">
-              <div className="flex justify-center pt-8 pb-0 lg:pt-4">
+              <div className="flex justify-center pb-0 pt-8 lg:pt-4">
                 <div className="p-3 text-center">
                   <span className="block text-xl font-bold uppercase tracking-wide text-slate-700">
                     {socket ?? <span className="text-xs">Error</span>}
@@ -54,7 +54,7 @@ const ProfileCard = ({ streamer }: ProfileCardProps) => {
             <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">
               {alias}
             </h3>
-            <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
+            <div className="mb-2 mt-0 text-xs font-bold uppercase text-slate-400">
               <i className="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>
               ID: {id}
             </div>
