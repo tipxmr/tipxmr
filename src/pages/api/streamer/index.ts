@@ -1,4 +1,5 @@
 import { Streamer } from "@prisma/client";
+import * as monerojs from "monero-javascript";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -44,6 +45,36 @@ const streamerPostHandler = async (
         socket: `${Date.now()}`,
       },
     });
+
+    if (!newStreamer) {
+      res.status(500).json({ message: "Failed to create new streamer" });
+      return;
+    }
+
+    const donationSettings = await prisma?.donationSetting.create({
+      data: {
+        streamer: newStreamer.id,
+      },
+    });
+
+    const daemon = await monerojs.connectToDaemonRpc({
+      uri: "http://node.sethforprivacy.com:38089",
+    });
+
+    const lastBlockHeight = await daemon.getHeight();
+
+    const walletSettings = await prisma?.wallet.create({
+      data: {
+        streamer: newStreamer.id,
+        restoreHeight: lastBlockHeight - 20 || 0,
+        lastSyncHeight: 0,
+      },
+    });
+
+    if (!donationSettings || !walletSettings) {
+      res.status(500).json({ message: "Failed to create new streamer" });
+      return;
+    }
 
     res.json({ isLoggedIn: true, ...newStreamer });
   } catch (error) {
