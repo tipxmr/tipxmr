@@ -36,7 +36,7 @@ const useSyncListener = () => {
         console.info("Set wallet sucessfully");
 
         await xmrWallet.addListener(listener);
-        await xmrWallet.setSyncHeight(startHeight);
+        await xmrWallet.setRestoreHeight(startHeight);
         await xmrWallet.startSyncing();
 
         console.log("From useXmrWallet - listener is set: ", { xmrWallet });

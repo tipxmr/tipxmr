@@ -231,7 +231,7 @@ export function createWalletStateListener() {
 
     const subscribe = useEvent(() => {
       instance.addListener(store.listener);
-      instance.setSyncHeight(1230000);
+      instance.setRestoreHeight(1230000);
       instance.startSyncing();
 
       return () => {

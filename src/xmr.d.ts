@@ -61,7 +61,7 @@ declare module "monero-javascript" {
     async isConnectedToDaemon(): Promise<boolean>;
     async isViewOnly(): Promise<boolean>;
     async removeListener(listener: MoneroWalletListener);
-    async setSyncHeight(height: number);
+    async setRestoreHeight(height: number);
     async startSyncing();
     async stopSyncing();
   }
