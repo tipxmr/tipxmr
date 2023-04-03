@@ -39,9 +39,10 @@ const getStreamerDonationSettings = async (
     console.error(error);
     if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
-      response
-        .status(500)
-        .json({ error: `DontationSettings could not be fetched ${message}` });
+      response.status(500).json({
+        message: `DontationSettings could not be fetched: ${message}`,
+        error,
+      });
     }
   }
 };
