@@ -34,7 +34,6 @@ const getStreamerDonationSettings = async (
     }
 
     response.status(404).json({ error: "DontationSettings not found by name" });
-    throw new Error("DontationSettings not found by name");
   } catch (error) {
     console.error(error);
     if (error instanceof PrismaClientKnownRequestError) {
