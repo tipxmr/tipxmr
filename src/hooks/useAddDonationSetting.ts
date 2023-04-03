@@ -1,6 +1,6 @@
 import type { DonationSetting } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import useUser from "~/lib/useUser";
 
@@ -8,13 +8,13 @@ const useAddDonationSetting = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
-  return useMutation({
-    mutationFn: (donationSetting: Partial<DonationSetting>) =>
+  return useMutation<DonationSetting, AxiosError, Partial<DonationSetting>>({
+    mutationFn: (donationSetting) =>
       axios
         .put(`/api/donation-settings/${user?.id}`, donationSetting)
         .then((res) => res.data),
 
-    onMutate: async (donationSetting: Partial<DonationSetting>) => {
+    onMutate: async (donationSetting) => {
       await queryClient.cancelQueries(["streamer", user?.name]);
       const previousSettings = queryClient.getQueryData<DonationSetting>([
         "streamer",
@@ -31,16 +31,10 @@ const useAddDonationSetting = () => {
 
       return { previousSettings };
     },
-    onError: (err, variables, context) => {
+    onError: (err) => {
       console.error(err);
-      if (context?.previousSettings) {
-        queryClient.setQueryData<DonationSetting>(
-          ["streamer", user?.name],
-          context.previousSettings
-        );
-      }
     },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries(["streamer", user?.name]);
     },
   });

@@ -1,19 +1,19 @@
 import type { Wallet } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import useUser from "~/lib/useUser";
 
 const useAddWalletSetting = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
-  return useMutation({
-    mutationFn: (walletSettings: Partial<Wallet>) =>
+  return useMutation<Wallet, AxiosError, Partial<Wallet>>({
+    mutationFn: (walletSettings) =>
       axios
         .put(`/api/wallet/${user?.id}`, walletSettings)
         .then((res) => res.data),
 
-    onMutate: async (settings: Partial<Wallet>) => {
+    onMutate: async (settings) => {
       await queryClient.cancelQueries(["streamer", user?.id]);
       const previousSettings = queryClient.getQueryData<Wallet>([
         "streamer",
@@ -30,14 +30,8 @@ const useAddWalletSetting = () => {
 
       return { previousSettings };
     },
-    onError: (err, variables, context) => {
+    onError: (err) => {
       console.error(err);
-      if (context?.previousSettings) {
-        queryClient.setQueryData<Wallet>(
-          ["streamer", user?.id],
-          context.previousSettings
-        );
-      }
     },
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries(["streamer", user?.id]);

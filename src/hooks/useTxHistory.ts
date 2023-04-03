@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Donation } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface Options {
   limit?: number;
@@ -26,12 +26,10 @@ async function fetchDonations(options: Options): Promise<History> {
 export default function useTxHistory({ limit = 1, index = 0 }: Options) {
   const options = { limit, index };
 
-  return useQuery<History, Error>({
+  return useQuery<History, AxiosError>({
     queryKey: ["donationHistory", options],
     queryFn: () => fetchDonations(options),
-    onError(err) {
-      console.error(err);
-    },
+    onError: (err) => console.error(err),
     keepPreviousData: true,
   });
 }
