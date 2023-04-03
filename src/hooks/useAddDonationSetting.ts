@@ -1,33 +1,25 @@
 import type { DonationSetting } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
-import fetchJson from "~/lib/fetchJson";
 import useUser from "~/lib/useUser";
 
-type UpdateObject = {
-  streamer?: string;
-  data: Partial<DonationSetting>;
-};
 const useAddDonationSetting = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
   return useMutation({
-    mutationFn: (donationSetting: UpdateObject) => {
-      const body = { donationSetting };
-      return fetchJson(`/api/donation-settings/${user?.id}`, {
-        method: "PUT",
-        body,
-      });
-    },
-    onMutate: async (settings: UpdateObject) => {
+    mutationFn: (donationSetting: Partial<DonationSetting>) =>
+      axios.put(`/api/donation-settings/${user?.id}`, donationSetting),
+
+    onMutate: async (donationSetting: Partial<DonationSetting>) => {
       await queryClient.cancelQueries(["streamer", user?.name]);
       const previousSettings = queryClient.getQueryData<DonationSetting>([
         "streamer",
         user?.name,
       ]);
 
-      console.log({ settings });
+      console.log({ donationSetting });
 
       if (previousSettings) {
         queryClient.setQueryData<DonationSetting>(["streamer", user?.name], {
@@ -38,6 +30,7 @@ const useAddDonationSetting = () => {
       return { previousSettings };
     },
     onError: (err, variables, context) => {
+      console.error(err);
       if (context?.previousSettings) {
         queryClient.setQueryData<DonationSetting>(
           ["streamer", user?.name],
