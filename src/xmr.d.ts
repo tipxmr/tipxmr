@@ -6,7 +6,7 @@ declare module "monero-javascript" {
     UNIMPORTANT: 1,
     NORMAL: 2,
     ELEVATED: 3,
-  } as const
+  } as const;
 
   export interface MoneroTxConfig {
     accountIndex: number;
@@ -75,7 +75,8 @@ declare module "monero-javascript" {
 
   declare class MoneroWalletFull
     extends MoneroWalletKeys
-    implements MoneroWallet {
+    implements MoneroWallet
+  {
     async getMnemonic(): Promise<string>;
   }
 
