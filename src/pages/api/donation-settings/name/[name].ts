@@ -1,4 +1,4 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -34,14 +34,14 @@ const getStreamerDonationSettings = async (
     }
 
     response.status(404).json({ error: "DontationSettings not found by name" });
-    throw new Error("DontationSettings not found by name");
   } catch (error) {
     console.error(error);
     if (error instanceof PrismaClientKnownRequestError) {
       const { message } = error;
-      response
-        .status(500)
-        .json({ error: `DontationSettings could not be fetched ${message}` });
+      response.status(500).json({
+        message: `DontationSettings could not be fetched: ${message}`,
+        error,
+      });
     }
   }
 };

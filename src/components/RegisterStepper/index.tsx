@@ -162,11 +162,11 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
 
         <h2 className="mt-2 text-center">Register</h2>
 
-        <Stepper activeStep={activeStep} className="pt-3 pb-5" />
+        <Stepper activeStep={activeStep} className="pb-5 pt-3" />
 
         <div className="flex justify-end">
           {activeStep >= 1 && (
-            <button className="btn-primary mt-3 ml-1" onClick={handleBack}>
+            <button className="btn-primary ml-1 mt-3" onClick={handleBack}>
               Back
             </button>
           )}
@@ -182,7 +182,7 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
 
           {activeStep == 1 && (
             <button
-              className="btn-primary mt-3 ml-1"
+              className="btn-primary ml-1 mt-3"
               disabled={activeStep == 1 && seedWritten}
               onClick={handleNext}
             >
@@ -191,7 +191,7 @@ const Register: FC<RegisterProps> = ({ handleSubmit }) => {
           )}
           {activeStep == 2 && (
             <button
-              className="btn-primary mt-3 ml-1"
+              className="btn-primary ml-1 mt-3"
               disabled={activeStep == 2 && accountUnderstood}
               onClick={handleNext}
             >

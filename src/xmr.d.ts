@@ -1,12 +1,12 @@
 // https://github.com/woodser/monero-deposit-scanner/blob/f9362e5594b87d6817b53d111818f51869fc9914/src/main/moduleDeclaration.d.ts
 
 declare module "monero-javascript" {
-  export enum MoneroTxPriority {
-    DEFAULT = 0,
-    UNIMPORTANT = 1,
-    NORMAL = 2,
-    ELEVATED = 3,
-  }
+  export const MoneroTxPriority = {
+    DEFAULT: 0,
+    UNIMPORTANT: 1,
+    NORMAL: 2,
+    ELEVATED: 3,
+  } as const;
 
   export interface MoneroTxConfig {
     accountIndex: number;
@@ -35,6 +35,13 @@ declare module "monero-javascript" {
     privateViewKey: string;
   }
 
+  export interface MoneroDaemonRpcConfig {
+    uri: string;
+    username?: string;
+    password?: string;
+    rejectUnauthorized?: boolean;
+  }
+
   declare class MoneroSubaddress {
     async getAddress(): Promise<string>;
   }
@@ -61,7 +68,7 @@ declare module "monero-javascript" {
     async isConnectedToDaemon(): Promise<boolean>;
     async isViewOnly(): Promise<boolean>;
     async removeListener(listener: MoneroWalletListener);
-    async setSyncHeight(height: number);
+    async setRestoreHeight(height: number);
     async startSyncing();
     async stopSyncing();
   }
@@ -73,6 +80,10 @@ declare module "monero-javascript" {
     async getMnemonic(): Promise<string>;
   }
 
+  declare class MoneroDaemonRpc {
+    async getHeight(): Promise<number>;
+  }
+
   export async function createWalletFull(
     config: MoneroWalletConfig
   ): Promise<MoneroWalletFull>;
@@ -80,6 +91,10 @@ declare module "monero-javascript" {
   export async function createWalletKeys(
     config: MoneroWalletKeysConfig
   ): Promise<MoneroWalletKeys>;
+
+  export async function connectToDaemonRpc(
+    config: MoneroDaemonRpcConfig
+  ): Promise<MoneroDaemonRpc>;
 
   export type SyncProgressListener = (
     height: number,

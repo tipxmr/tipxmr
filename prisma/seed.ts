@@ -50,7 +50,7 @@ async function seedDonationSettings() {
 
 async function seedWalletSettings() {
   const streamers = await prisma.streamer.findMany({});
-  const donationSettingPromises = streamers.map((streamer) =>
+  const walletSettingPromises = streamers.map((streamer) =>
     prisma.wallet.create({
       data: {
         streamer: streamer.id,
@@ -59,7 +59,7 @@ async function seedWalletSettings() {
       },
     })
   );
-  return Promise.all(donationSettingPromises);
+  return Promise.all(walletSettingPromises);
 }
 
 const seed = async () => {

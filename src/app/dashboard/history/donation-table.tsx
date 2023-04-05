@@ -128,7 +128,7 @@ function DonationTable() {
                   key={cell.id}
                   className="relative block w-full border border-b p-3 text-center text-gray-800 lg:static lg:table-cell lg:w-auto"
                 >
-                  <span className="absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase lg:hidden">
+                  <span className="absolute left-0 top-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase lg:hidden">
                     ID
                   </span>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

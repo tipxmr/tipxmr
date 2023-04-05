@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import useAddDonationSetting from "~/hooks/useAddDonationSetting";
 import useDonationSettings from "~/hooks/useDonationSettings";
-import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
 import useUser from "~/lib/useUser";
 
 import Input from "./Input";
@@ -44,14 +43,17 @@ const DonationSettingsForm: FC = () => {
 
   const handleDonationSettingsSubmit: SubmitHandler<
     Partial<DonationSetting>
-  > = async (data) => {
+  > = async (formData) => {
     if (!user || !isValid) return;
-    const donationSettingUpdateRequest = constructRequestBodyFromForm(
-      data,
-      user.id
-    );
-
-    updateDonationSetting(donationSettingUpdateRequest);
+    const data = {
+      streamer: formData.streamer,
+      secondPrice: Number(formData.secondPrice),
+      charPrice: Number(formData.charPrice),
+      charLimit: Number(formData.charLimit),
+      minAmount: Number(formData.minAmount),
+      gifsMinAmount: Number(formData.gifsMinAmount),
+    };
+    updateDonationSetting(data);
   };
 
   return (

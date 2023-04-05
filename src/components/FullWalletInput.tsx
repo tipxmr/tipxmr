@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { FetchError } from "~/lib/fetchJson";
 import { seedWordCount } from "~/lib/regex";
 import { buildIdentifierHash, open } from "~/lib/xmr";
 import { walletAtom } from "~/store";
@@ -57,11 +56,7 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
     try {
       login(id);
     } catch (reason) {
-      if (reason instanceof FetchError) {
-        console.error(reason);
-      } else {
-        console.error("An unexpected error happened:", reason);
-      }
+      console.error("An unexpected error happened:", reason);
     }
   };
 

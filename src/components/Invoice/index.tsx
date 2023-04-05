@@ -33,7 +33,7 @@ const Invoice: FC = () => {
 
   const orderNo = "#2001539";
   return (
-    <div className="tip-border rounded-lg py-5 px-2">
+    <div className="tip-border rounded-lg px-2 py-5">
       <div className="flex flex-row justify-center space-x-5">
         {steps.map((label) => (
           <div key={label}>
@@ -55,11 +55,11 @@ const Invoice: FC = () => {
           {getStepContent(activeStep)}
           <div className="flex flex-col">
             {activeStep !== 0 && (
-              <button className="btn-primary mt-3 ml-1" onClick={handleBack}>
+              <button className="btn-primary ml-1 mt-3" onClick={handleBack}>
                 Back
               </button>
             )}
-            <button className="btn-primary mt-3 ml-1" onClick={handleNext}>
+            <button className="btn-primary ml-1 mt-3" onClick={handleNext}>
               {activeStep === steps.length - 1 ? "Place order" : "Next"}
             </button>
           </div>

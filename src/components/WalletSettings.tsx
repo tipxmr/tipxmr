@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import useAddWalletSetting from "~/hooks/useAddWalletSetting";
 import useWalletSettings from "~/hooks/useWalletSettings";
-import { constructRequestBodyFromForm } from "~/lib/ramdaHelpers";
 import useUser from "~/lib/useUser";
 
 import Input from "./Input";
@@ -39,16 +38,16 @@ const WalletSettingsForm = () => {
     return <span>Error while loading WalletSettings: {error.message}</span>;
   }
 
-  const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = async (
-    data
+  const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = (
+    formData
   ) => {
     if (!user || !isValid) return;
-
-    const walletSettingUpdateRequest = constructRequestBodyFromForm(
-      data,
-      user.id
-    );
-    updateWalletSetting(walletSettingUpdateRequest);
+    const data = {
+      streamer: formData.streamer,
+      restoreHeight: Number(formData.restoreHeight),
+      lastSyncHeight: Number(formData.lastSyncHeight),
+    };
+    updateWalletSetting(data);
   };
 
   return (

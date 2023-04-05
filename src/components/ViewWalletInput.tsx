@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { FetchError } from "~/lib/fetchJson";
 import { primaryStagenetAddress } from "~/lib/regex";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
 import { walletAtom } from "~/store";
@@ -56,11 +55,7 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     try {
       login(id);
     } catch (reason) {
-      if (reason instanceof FetchError) {
-        console.error(reason);
-      } else {
-        console.error("An unexpected error happened:", reason);
-      }
+      console.error("An unexpected error happened:", reason);
     }
   };
 
