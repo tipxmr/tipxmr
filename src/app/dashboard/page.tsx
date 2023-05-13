@@ -4,7 +4,6 @@ import IsOnlineBadge from "~/components/IsOnlineBadge";
 import { useStreamerSocket } from "~/hooks/socket/use-socket";
 import useUser from "~/lib/useUser";
 
-
 const DashboardPage = () => {
   useStreamerSocket();
 

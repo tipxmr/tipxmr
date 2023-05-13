@@ -49,7 +49,10 @@ function Drawer() {
   };
 
   return (
-    <NavigationMenu.Root className="mr-2 shrink-0 p-2" aria-label="Left navigation">
+    <NavigationMenu.Root
+      className="mr-2 shrink-0 p-2"
+      aria-label="Left navigation"
+    >
       <NavigationMenu.List>
         <MenuItem href="/dashboard" Icon={DashboardIcon} text="Dashboard" />
 

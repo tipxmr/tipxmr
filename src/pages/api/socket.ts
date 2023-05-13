@@ -16,7 +16,7 @@ const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
     res.socket.server.io = io;
 
     setupSocket(io);
-  } 
+  }
   res.end();
 };
 
