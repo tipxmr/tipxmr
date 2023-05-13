@@ -16,10 +16,7 @@ const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
     res.socket.server.io = io;
 
     setupSocket(io);
-  } else {
-    console.log("Socket is already running");
-  }
-
+  } 
   res.end();
 };
 
