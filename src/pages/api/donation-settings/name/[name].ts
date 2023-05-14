@@ -1,6 +1,8 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
+import prisma from "~/lib/prisma";
+
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":

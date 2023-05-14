@@ -2,6 +2,8 @@ import { Streamer } from "@prisma/client";
 import * as monerojs from "monero-javascript";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
+import prisma from "~/lib/prisma";
+
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -42,7 +44,6 @@ const streamerPostHandler = async (
         id,
         name,
         alias,
-        socket: `${Date.now()}`,
       },
     });
 

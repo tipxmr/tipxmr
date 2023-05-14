@@ -1,7 +1,7 @@
 import { Donation } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import prisma from "../../../lib/prisma";
+import prisma from "~/lib/prisma";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
