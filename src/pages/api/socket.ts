@@ -5,19 +5,23 @@ import { Server as ServerIO } from "socket.io";
 import { NextApiResponseWithSocket } from "../../types/next";
 
 const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
-  if (!res.socket.server.io) {
-    const httpServer = res.socket.server;
+  const socketServer = res.socket.server;
 
-    const io = new ServerIO(httpServer, {
-      path: "/api/socket",
-      serveClient: false,
-    });
-
-    res.socket.server.io = io;
-
-    setupSocket(io);
+  if (socketServer.io) {
+    console.log("socket.io already initialized, skipping");
+    res.end();
+    return;
   }
-  res.end();
+
+  const io = new ServerIO(socketServer, {
+    path: "/api/socket",
+    serveClient: false,
+    addTrailingSlash: false,
+  });
+
+  res.socket.server.io = io;
+
+  setupSocket(io);
 };
 
 export default socketHandler;

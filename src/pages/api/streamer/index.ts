@@ -58,16 +58,16 @@ const streamerPostHandler = async (
       },
     });
 
-    const daemon = await monerojs.connectToDaemonRpc({
+    /* const daemon = await monerojs.connectToDaemonRpc({
       uri: "http://node.sethforprivacy.com:38089",
     });
 
-    const lastBlockHeight = await daemon.getHeight();
+    const lastBlockHeight = await daemon.getHeight(); */
 
     const walletSettings = await prisma?.wallet.create({
       data: {
         streamer: newStreamer.id,
-        restoreHeight: lastBlockHeight - 20 || 0,
+        restoreHeight: 1000,
         lastSyncHeight: 0,
       },
     });
