@@ -62,15 +62,13 @@ async function setupStreamer(
 
       const { id } = socket.request.session.user;
 
-      const result = await prisma.streamer.update({
+      await prisma.streamer.update({
         where: { id },
         data: {
           isOnline: true,
           socket: socketId,
         },
       });
-
-      console.log(result);
     });
 
     socket.on("offline", async () => {
@@ -78,15 +76,13 @@ async function setupStreamer(
 
       const { id } = socket.request.session.user;
 
-      const result = await prisma.streamer.update({
+      await prisma.streamer.update({
         where: { id },
         data: {
           isOnline: false,
-          socket: "",
+          socket: null,
         },
       });
-
-      console.log(result);
     });
 
     socket.on("fetched", ({ donaterSocketId, subaddress }) => {
