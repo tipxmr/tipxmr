@@ -5,7 +5,7 @@ import { buildIdentifierHash } from "./lib/xmr";
 
 // --- ATOMS
 export const walletAtom = atom<MoneroWalletFull | MoneroWalletKeys | null>(
-  null
+  null,
 );
 
 export const truncatedHashIdAtom = atom(async (get) => {

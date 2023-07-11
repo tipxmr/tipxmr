@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   const isLoggedIn = useMemo(
     () => user?.isLoggedIn ?? false,
-    [user?.isLoggedIn]
+    [user?.isLoggedIn],
   );
 
   if (!isLoggedIn) {

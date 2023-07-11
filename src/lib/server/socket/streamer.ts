@@ -27,7 +27,7 @@ type Cookies = Partial<{ [key: string]: string }>;
 
 async function setupStreamer(
   { streamerNsp, donationNsp }: Namespaces,
-  io: Server
+  io: Server,
 ) {
   streamerNsp.use(async (socket, next) => {
     const request = {

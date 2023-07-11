@@ -26,7 +26,7 @@ const UsernameDisplaynameInput = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
 
   const handleAccountCreation: SubmitHandler<UsernameDisplaynameValues> = (
-    data: UsernameDisplaynameValues
+    data: UsernameDisplaynameValues,
   ) => {
     if (!truncatedHashId) return;
     createUser.mutate({

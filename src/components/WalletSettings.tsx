@@ -39,7 +39,7 @@ const WalletSettingsForm = () => {
   }
 
   const handleWalletSettingsSubmit: SubmitHandler<Partial<Wallet>> = (
-    formData
+    formData,
   ) => {
     if (!user || !isValid) return;
     const data = {

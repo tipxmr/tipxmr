@@ -40,7 +40,7 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     setIsLoading(true);
     const wallet = await createViewOnlyWallet(
       data.privateViewKey,
-      data.primaryAddress
+      data.primaryAddress,
     );
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();

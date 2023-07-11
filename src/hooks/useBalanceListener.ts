@@ -19,7 +19,7 @@ const useBalanceListener = () => {
           newBalance: newBalance.toString(),
           newUnlockedBalance: newUnlockedBalance.toString(),
         });
-      }
+      },
     );
 
     async function sync() {

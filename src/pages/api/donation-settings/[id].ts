@@ -19,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 async function updateDonationSettings(
   request: Omit<NextApiRequest, "body"> & { body: Partial<DonationSetting> },
-  response: NextApiResponse
+  response: NextApiResponse,
 ) {
   const session = await getServerSession(request, response, authOptions);
 

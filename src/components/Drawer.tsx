@@ -31,7 +31,7 @@ const MenuItem = ({ href, Icon, text }: MenuItemProps) => {
       <NavigationMenu.Item
         className={clsx(
           "rounded px-4 py-2 hover:bg-gray-200",
-          isActive && "underline"
+          isActive && "underline",
         )}
       >
         <Icon className="mr-2 inline h-4 w-4 align-middle" />

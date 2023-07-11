@@ -37,7 +37,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const getWallet = async (
   request: NextApiRequest,
-  response: NextApiResponse
+  response: NextApiResponse,
 ) => {
   const { id } = request.query;
 
@@ -58,7 +58,7 @@ const getWallet = async (
 
 const updateWallet = async (
   request: NextApiRequest,
-  response: NextApiResponse
+  response: NextApiResponse,
 ) => {
   const { id } = request.query;
 

@@ -47,7 +47,7 @@ const Navbar = () => {
               <NavigationMenu.Item
                 className={clsx(
                   "w-40 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400",
-                  pathname === href && "bg-orange-400"
+                  pathname === href && "bg-orange-400",
                 )}
               >
                 {page}

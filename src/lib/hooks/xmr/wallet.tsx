@@ -100,7 +100,7 @@ function useCreateWalletListener() {
     return new (class Listener extends MoneroWalletListener {
       onBalancesChanged(
         newBalance: BigInteger,
-        newUnlockedBalance: BigInteger
+        newUnlockedBalance: BigInteger,
       ): void {
         const locked = BigInt(newBalance.valueOf());
         const unlocked = BigInt(newUnlockedBalance.valueOf());
@@ -138,7 +138,7 @@ function useCreateWalletListener() {
         startHeight: number,
         endHeight: number,
         percentDone: number,
-        message: string
+        message: string,
       ): void {
         setState({
           sync: {
@@ -171,7 +171,7 @@ export function createWalletStateListener() {
       (wallet: MoneroWalletKeys | undefined | null) => {
         walletRef.current = wallet;
       },
-      []
+      [],
     );
 
     const getWallet = useCallback(() => {
@@ -204,7 +204,7 @@ export function createWalletStateListener() {
   }
 
   function useStore<SelectorOutput>(
-    selector: (store: Store) => SelectorOutput
+    selector: (store: Store) => SelectorOutput,
   ) {
     const store = useContext(WalletStateContext);
 
@@ -216,7 +216,7 @@ export function createWalletStateListener() {
       store.subscribe,
       store.getState,
       store.getState,
-      selector
+      selector,
     );
   }
 

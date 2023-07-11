@@ -13,7 +13,7 @@ interface InputProps {
 }
 
 const Textarea = <T extends FieldValues>(
-  props: InputProps & UseControllerProps<T>
+  props: InputProps & UseControllerProps<T>,
 ): ReactElement => {
   const { field, fieldState } = useController(props);
   const outerClassName = props.className ?? "";

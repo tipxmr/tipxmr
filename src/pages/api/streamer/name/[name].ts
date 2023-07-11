@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const streamerGetHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   try {
     const { name } = req.query;

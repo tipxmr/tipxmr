@@ -20,7 +20,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const streamerGetHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   try {
     const allStreamers = await prisma?.streamer.findMany();
@@ -35,7 +35,7 @@ const streamerPostHandler = async (
   req: Omit<NextApiRequest, "body"> & {
     body: Pick<Streamer, "id" | "alias" | "name">;
   },
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const { id, name, alias } = req.body;
   try {

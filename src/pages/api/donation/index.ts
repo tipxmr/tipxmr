@@ -19,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 async function getDonationHistory(
   request: Omit<NextApiRequest, "body">,
-  response: NextApiResponse
+  response: NextApiResponse,
 ) {
   const session = await getServerSession(request, response, authOptions);
 

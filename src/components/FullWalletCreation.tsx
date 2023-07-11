@@ -17,7 +17,7 @@ const FullWalletCreation = () => {
   const router = useRouter();
   const [seedLang, setSeedLang] = useState<string>("English");
   const [wallet, setWallet] = useAtom<MoneroWalletFull>(
-    walletAtom as PrimitiveAtom<MoneroWalletFull>
+    walletAtom as PrimitiveAtom<MoneroWalletFull>,
   );
   const [seed, setSeed] = useState<string | null>(null);
   const [primaryAddress, setPrimaryAddress] = useState<string | null>(null);

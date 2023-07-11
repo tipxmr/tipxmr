@@ -26,12 +26,12 @@ const stagenetNode = {
 export const hashSha256 = (seed: string) => Hex.stringify(sha256(seed));
 export const buildIdentifierHash = (
   privateViewKey: string,
-  primaryAddress: string
+  primaryAddress: string,
 ) => hashSha256(`${privateViewKey}${primaryAddress}`).slice(0, 12);
 
 // --- Wallet stuff
 export const createWalletFromScratch = async (
-  lang = "English"
+  lang = "English",
 ): Promise<MoneroWalletFull> => {
   const walletFull = await createWalletFull({
     // mnemonic omitted => generate random wallet
@@ -43,7 +43,7 @@ export const createWalletFromScratch = async (
 
 export const createViewOnlyWallet = async (
   privateViewKey: string,
-  primaryAddress: string
+  primaryAddress: string,
 ): Promise<MoneroWalletKeys> => {
   const walletFull = await createWalletKeys({
     networkType: "stagenet",
@@ -84,7 +84,7 @@ export const createMoneroTransactionUri = ({
 
 // --- Listeners
 export const createSyncProgressListener = (
-  onSyncProgress: SyncProgressListener
+  onSyncProgress: SyncProgressListener,
 ) =>
   new (class extends MoneroWalletListener {
     onSyncProgress(
@@ -92,14 +92,14 @@ export const createSyncProgressListener = (
       startHeight: number,
       endHeight: number,
       percentDone: number,
-      message: string
+      message: string,
     ) {
       onSyncProgress(height, startHeight, endHeight, percentDone, message);
     }
   })() as MoneroWalletListener;
 
 export const createBalancesChangedListener = (
-  onBalancesChanged: BalancesChangedListener
+  onBalancesChanged: BalancesChangedListener,
 ) =>
   new (class extends MoneroWalletListener {
     onBalancesChanged(newBalance: BigInteger, newUnlockedBalance: BigInteger) {
@@ -108,7 +108,7 @@ export const createBalancesChangedListener = (
   })() as MoneroWalletListener;
 
 export const createOutputReceivedListener = (
-  onOutputReceived: OutputReceivedListener
+  onOutputReceived: OutputReceivedListener,
 ) =>
   new (class extends MoneroWalletListener {
     onOutputReceived(output: any) {

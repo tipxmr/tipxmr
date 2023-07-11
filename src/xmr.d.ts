@@ -57,7 +57,7 @@ declare module "monero-javascript" {
     async close();
     async createSubaddress(
       accountIdx: number,
-      label: string
+      label: string,
     ): Promise<MoneroSubaddress>;
     async createTx(config: MoneroTxConfig): Promise<MoneroTxWallet>;
     async getDaemonConnection(): Promise<unknown>;
@@ -85,15 +85,15 @@ declare module "monero-javascript" {
   }
 
   export async function createWalletFull(
-    config: MoneroWalletConfig
+    config: MoneroWalletConfig,
   ): Promise<MoneroWalletFull>;
 
   export async function createWalletKeys(
-    config: MoneroWalletKeysConfig
+    config: MoneroWalletKeysConfig,
   ): Promise<MoneroWalletKeys>;
 
   export async function connectToDaemonRpc(
-    config: MoneroDaemonRpcConfig
+    config: MoneroDaemonRpcConfig,
   ): Promise<MoneroDaemonRpc>;
 
   export type SyncProgressListener = (
@@ -101,11 +101,11 @@ declare module "monero-javascript" {
     startHeight: number,
     endHeight: number,
     percentDone: number,
-    message: string
+    message: string,
   ) => void;
   export type BalancesChangedListener = (
     newBalance: BigInteger,
-    newUnlockedBalance: BigInteger
+    newUnlockedBalance: BigInteger,
   ) => void;
   export type OutputReceivedListener = (output: MoneroWallet) => void;
 
@@ -114,14 +114,14 @@ declare module "monero-javascript" {
 
     async onBalancesChanged(
       newBalance: BigInteger,
-      newUnlockedBalance: BigInteger
+      newUnlockedBalance: BigInteger,
     ): void;
     async onSyncProgress(
       height: number,
       startHeight: number,
       endHeight: number,
       percentDone: number,
-      message: string
+      message: string,
     ): void;
     async onNewBlock(height: number): void;
     async onOutputReceived(output: MoneroWallet): void;

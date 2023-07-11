@@ -43,7 +43,7 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
     console.log(
       "primaryAddress, privateViewKey:",
       primaryAddress,
-      privateViewKey
+      privateViewKey,
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
     signIn(id);

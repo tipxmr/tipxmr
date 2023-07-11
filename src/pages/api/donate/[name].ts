@@ -19,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const donationGetHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const { name } = req.query;
 
@@ -38,7 +38,7 @@ const donationPostHandler = async (
   req: Omit<NextApiRequest, "body"> & {
     body: Pick<Donation, "socketDonor" | "subaddress">;
   },
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const { name } = req.query;
   const { socketDonor, subaddress } = req.body;

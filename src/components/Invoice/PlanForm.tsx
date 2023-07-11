@@ -48,7 +48,7 @@ const PlanForm: FC = ({}) => {
                 <button className="btn-primary mt-2">{buttonText}</button>
               </div>
             </div>
-          )
+          ),
         )}
       </div>
     </main>

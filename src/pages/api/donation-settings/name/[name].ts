@@ -16,7 +16,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const getStreamerDonationSettings = async (
   request: NextApiRequest,
-  response: NextApiResponse
+  response: NextApiResponse,
 ) => {
   const { name } = request.query;
 

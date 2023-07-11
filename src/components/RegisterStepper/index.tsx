@@ -47,7 +47,7 @@ function Step({ icon, label, done = false, disabled = false }) {
         <span
           className={clsx(
             "inline-flex h-6 w-6 items-center justify-center rounded-full text-white",
-            disabled ? "bg-gray-400" : "bg-blue-500"
+            disabled ? "bg-gray-400" : "bg-blue-500",
           )}
         >
           {done ? <CheckIcon /> : icon}
