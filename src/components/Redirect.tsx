@@ -1,10 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { UrlObject } from "url";
 
-type Url = UrlObject | string;
-
-const Redirect = ({ to }: { to: Url }) => {
+const Redirect = ({ to }: { to: string }) => {
   const router = useRouter();
 
   useEffect(() => {

@@ -31,6 +31,19 @@ function useEvent<T extends Function>(handler: T) {
   }, []);
 }
 
+function uint8ArrayToBigInt(uint8Array: Uint8Array): bigint {
+  const buffer = uint8Array.buffer;
+  const dataView = new DataView(buffer);
+
+  let value = 0n;
+
+  for (let i = 0; i < uint8Array.length; i++) {
+    value = (value << 8n) + BigInt(dataView.getUint8(i));
+  }
+
+  return value;
+}
+
 interface Store {
   balance: {
     locked: bigint;
@@ -102,8 +115,8 @@ function useCreateWalletListener() {
         newBalance: BigInteger,
         newUnlockedBalance: BigInteger,
       ): void {
-        const locked = BigInt(newBalance.valueOf());
-        const unlocked = BigInt(newUnlockedBalance.valueOf());
+        const locked = uint8ArrayToBigInt(newBalance);
+        const unlocked = uint8ArrayToBigInt(newUnlockedBalance);
 
         setState({
           balance: {
