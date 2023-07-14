@@ -1,12 +1,12 @@
 // https://github.com/woodser/monero-deposit-scanner/blob/f9362e5594b87d6817b53d111818f51869fc9914/src/main/moduleDeclaration.d.ts
 
 declare module "monero-javascript" {
-  export enum MoneroTxPriority {
-    DEFAULT = 0,
-    UNIMPORTANT = 1,
-    NORMAL = 2,
-    ELEVATED = 3,
-  }
+  export const MoneroTxPriority = {
+    DEFAULT: 0,
+    UNIMPORTANT: 1,
+    NORMAL: 2,
+    ELEVATED: 3,
+  } as const;
 
   export interface MoneroTxConfig {
     accountIndex: number;
