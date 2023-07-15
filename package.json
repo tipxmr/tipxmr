@@ -9,7 +9,7 @@
     "generate": "prisma generate",
     "seed": "prisma db seed",
     "studio": "prisma studio",
-    "migrate": "prisma migrate",
+    "migrate": "prisma migrate dev",
     "postinstall": "cp node_modules/monero-javascript/dist/* public/",
     "eslint": "eslint \"src/**/*.+(js|jsx|ts|tsx)\"",
     "eslint:fix": "eslint --fix \"src/**/*.+(js|jsx|ts|tsx)\"",
