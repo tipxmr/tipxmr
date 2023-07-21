@@ -29,7 +29,7 @@ const LoginPage: NextPage = () => {
     <div className="container max-w-md text-center">
       <h1 className="mb-2 text-3xl">Login to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
-      {loginMode === 'initial' && (
+      {loginMode === LoginMode.Initial && (
         <div className="mx-auto my-8 flex w-72 flex-col gap-4">
           <button
             className="btn-primary"
@@ -45,7 +45,9 @@ const LoginPage: NextPage = () => {
           </button>
         </div>
       )}
-      {loginMode === LoginMode.ViewOnlyWallet && <ViewWalletInput login={login} />}
+      {loginMode === LoginMode.ViewOnlyWallet && (
+        <ViewWalletInput login={login} />
+      )}
       {loginMode === LoginMode.FullWallet && <FullWalletInput login={login} />}
       {loginMode !== LoginMode.Initial && (
         <button
