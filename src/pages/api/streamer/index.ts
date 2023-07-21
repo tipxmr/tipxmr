@@ -67,7 +67,7 @@ const streamerPostHandler = async (
     const walletSettings = await prisma?.wallet.create({
       data: {
         streamer: newStreamer.id,
-        restoreHeight: 1000,
+        restoreHeight: 1400159, // lastBlockHeight - 20 || 0,
         lastSyncHeight: 0,
       },
     });
