@@ -58,7 +58,7 @@
     "@react-spring/types": "^9.7.3",
     "@tailwindcss/forms": "^0.5.4",
     "@tanstack/react-query-devtools": "^4.32.0",
-    "@types/node": "^20.4.2",
+    "@types/node": "^20.4.4",
     "@types/qrcode": "^1.5.1",
     "@types/ramda": "^0.29.3",
     "@types/react": "^18.2.15",
