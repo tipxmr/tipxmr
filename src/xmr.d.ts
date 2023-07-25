@@ -17,7 +17,7 @@ declare module "monero-javascript" {
   }
 
   export interface MoneroWalletConfig {
-    mnemonic?: string;
+    seed?: string;
     networkType: string;
     password: string;
     serverUri: string;
@@ -28,7 +28,7 @@ declare module "monero-javascript" {
   }
 
   export interface MoneroWalletKeysConfig {
-    mnemonic?: string;
+    seed?: string;
     networkType: string;
     language?: string;
     primaryAddress: string;
@@ -77,7 +77,7 @@ declare module "monero-javascript" {
     extends MoneroWalletKeys
     implements MoneroWallet
   {
-    async getMnemonic(): Promise<string>;
+    async getSeed(): Promise<string>;
   }
 
   declare class MoneroDaemonRpc {

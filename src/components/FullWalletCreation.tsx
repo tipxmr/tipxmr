@@ -28,7 +28,7 @@ const FullWalletCreation = () => {
   }, [seedLang, setWallet]);
 
   useEffect(() => {
-    wallet?.getMnemonic().then(setSeed);
+    wallet?.getSeed().then(setSeed);
     wallet?.getPrimaryAddress().then(setPrimaryAddress);
     wallet?.getPrivateViewKey().then(setPrivateViewKey);
   }, [wallet]);

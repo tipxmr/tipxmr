@@ -34,7 +34,7 @@ export const createWalletFromScratch = async (
   lang = "English",
 ): Promise<MoneroWalletFull> => {
   const walletFull = await createWalletFull({
-    // mnemonic omitted => generate random wallet
+    // seed omitted => generate random wallet
     language: lang,
     ...stagenetNode,
   });
@@ -53,9 +53,9 @@ export const createViewOnlyWallet = async (
   return walletFull;
 };
 
-export const open = async (mnemonic: string) => {
+export const open = async (seed: string) => {
   return createWalletFull({
-    mnemonic,
+    seed,
     ...stagenetNode,
   });
 };
