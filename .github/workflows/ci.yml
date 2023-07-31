@@ -1,5 +1,5 @@
 name: CI
-on: [push, pull_request]
+on: pull_request
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
