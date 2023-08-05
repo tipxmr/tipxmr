@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
-import { queryClient } from "~/app/layout";
+import { queryClient } from "~/app/provider";
 import streamerKeys from "~/features/streamer/queries";
 import { DonationSocket, StreamerSocket } from "~/lib/server/socket/nsp";
 import { transactionAddressAtom, walletAtom } from "~/store";
@@ -84,5 +84,5 @@ export function useDonationSocket(streamerId: Streamer["id"]) {
     return () => {
       socket.disconnect();
     };
-  }, [streamerId]);
+  }, [setTransactionAddress, streamerId]);
 }

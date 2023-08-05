@@ -1,40 +1,32 @@
-"use client";
-
 import "~/styles/globals.css";
 
-import { Provider as TooltipProvider } from "@radix-ui/react-tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { usePathname } from "next/navigation";
-import { SessionProvider } from "next-auth/react";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import Layout from "~/components/Layout";
 
-export const queryClient = new QueryClient();
+import Provider from "./provider";
+
+export const metadata: Metadata = {
+  title: "TipXMR - Monero Tipping Service",
+  description:
+    "TipXMR is a Monero Tipping Service. Tip your favorite content creators with Monero! Earn Monero by going live!",
+  robots: "index, follow",
+  keywords:
+    "monero, xmr, tip, tipping, service, livestream, stream, live, tipxmr, monero obs, obs, streamlabs",
+};
 
 function RootLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   return (
-    <html lang="en" className={`h-full`}>
+    <html lang="en" className="h-full">
       <body className="h-full">
-        <SessionProvider>
-          <QueryClientProvider client={queryClient}>
-            {pathname?.startsWith("/animation") ? (
-              children
-            ) : (
-              <Layout>
-                <TooltipProvider>
-                  <Suspense fallback={<div>Loading...</div>}>
-                    {children}
-                  </Suspense>
-                </TooltipProvider>
-              </Layout>
-            )}
-
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </SessionProvider>
+        <Provider>
+          <Layout>
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </Layout>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Provider>
       </body>
     </html>
   );
