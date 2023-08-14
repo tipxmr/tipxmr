@@ -3,6 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 
+import prisma from "~/lib/prisma";
 import { authOptions } from "~/pages/api/auth/[...nextauth]";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -18,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 async function updateDonationSettings(
   request: Omit<NextApiRequest, "body"> & { body: Partial<DonationSetting> },
-  response: NextApiResponse
+  response: NextApiResponse,
 ) {
   const session = await getServerSession(request, response, authOptions);
 

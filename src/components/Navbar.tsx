@@ -37,14 +37,17 @@ const Navbar = () => {
 
   return (
     <div className="mt-4 flex flex-col items-center justify-around md:flex-row ">
-      <NavigationMenu.Root className="start relative flex flex-row items-center p-2">
+      <NavigationMenu.Root
+        className="start relative flex flex-row items-center p-2"
+        aria-label="Top navigation"
+      >
         <NavigationMenu.List className="flex list-none flex-row flex-wrap justify-center gap-4 rounded-md text-lg">
           {menuItems.map(({ page, href }) => (
             <Link key={page} href={href}>
               <NavigationMenu.Item
                 className={clsx(
                   "w-40 rounded-md border-2 border-solid border-gray-700 px-4 py-2 text-center hover:bg-gray-700 hover:text-orange-400",
-                  pathname === href && "bg-orange-400"
+                  pathname === href && "bg-orange-400",
                 )}
               >
                 {page}

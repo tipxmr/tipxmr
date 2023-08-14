@@ -1,5 +1,7 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
+import prisma from "~/lib/prisma";
+
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -19,7 +21,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const streamerGetHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   try {
     const id = req.query.id as string;
@@ -36,7 +38,7 @@ const streamerGetHandler = async (
 
 const streamerDeleteHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const id = req.query.id as string;
 
@@ -56,7 +58,7 @@ const streamerDeleteHandler = async (
 
 const streamerPutHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const id = req.query.id as string;
 

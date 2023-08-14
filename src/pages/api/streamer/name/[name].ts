@@ -1,5 +1,7 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
+import prisma from "~/lib/prisma";
+
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -13,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const streamerGetHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   try {
     const { name } = req.query;

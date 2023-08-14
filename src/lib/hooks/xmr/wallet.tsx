@@ -31,6 +31,19 @@ function useEvent<T extends Function>(handler: T) {
   }, []);
 }
 
+function uint8ArrayToBigInt(uint8Array: Uint8Array): bigint {
+  const buffer = uint8Array.buffer;
+  const dataView = new DataView(buffer);
+
+  let value = 0n;
+
+  for (let i = 0; i < uint8Array.length; i++) {
+    value = (value << 8n) + BigInt(dataView.getUint8(i));
+  }
+
+  return value;
+}
+
 interface Store {
   balance: {
     locked: bigint;
@@ -100,10 +113,10 @@ function useCreateWalletListener() {
     return new (class Listener extends MoneroWalletListener {
       onBalancesChanged(
         newBalance: BigInteger,
-        newUnlockedBalance: BigInteger
+        newUnlockedBalance: BigInteger,
       ): void {
-        const locked = BigInt(newBalance.valueOf());
-        const unlocked = BigInt(newUnlockedBalance.valueOf());
+        const locked = uint8ArrayToBigInt(newBalance);
+        const unlocked = uint8ArrayToBigInt(newUnlockedBalance);
 
         setState({
           balance: {
@@ -138,7 +151,7 @@ function useCreateWalletListener() {
         startHeight: number,
         endHeight: number,
         percentDone: number,
-        message: string
+        message: string,
       ): void {
         setState({
           sync: {
@@ -171,7 +184,7 @@ export function createWalletStateListener() {
       (wallet: MoneroWalletKeys | undefined | null) => {
         walletRef.current = wallet;
       },
-      []
+      [],
     );
 
     const getWallet = useCallback(() => {
@@ -204,7 +217,7 @@ export function createWalletStateListener() {
   }
 
   function useStore<SelectorOutput>(
-    selector: (store: Store) => SelectorOutput
+    selector: (store: Store) => SelectorOutput,
   ) {
     const store = useContext(WalletStateContext);
 
@@ -216,7 +229,7 @@ export function createWalletStateListener() {
       store.subscribe,
       store.getState,
       store.getState,
-      selector
+      selector,
     );
   }
 

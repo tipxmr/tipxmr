@@ -1,13 +1,18 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC } from "react";
 
 interface NumberInputProps {
   label?: string;
   unit?: string;
+  amount: number;
+  setAmount: (amount: number) => void;
 }
 
-const NumberInput: FC<NumberInputProps> = ({ label, unit = "XMR" }) => {
-  const [amount, setAmount] = useState(0);
-
+const NumberInput: FC<NumberInputProps> = ({
+  label,
+  unit = "XMR",
+  amount,
+  setAmount,
+}) => {
   const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
     setAmount(event.target.valueAsNumber);
   };

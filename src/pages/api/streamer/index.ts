@@ -2,6 +2,8 @@ import { Streamer } from "@prisma/client";
 import * as monerojs from "monero-javascript";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
+import prisma from "~/lib/prisma";
+
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -18,7 +20,7 @@ const handler: NextApiHandler = async (req, res) => {
 
 const streamerGetHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   try {
     const allStreamers = await prisma?.streamer.findMany();
@@ -33,7 +35,7 @@ const streamerPostHandler = async (
   req: Omit<NextApiRequest, "body"> & {
     body: Pick<Streamer, "id" | "alias" | "name">;
   },
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const { id, name, alias } = req.body;
   try {
@@ -42,7 +44,6 @@ const streamerPostHandler = async (
         id,
         name,
         alias,
-        socket: `${Date.now()}`,
       },
     });
 
@@ -57,16 +58,16 @@ const streamerPostHandler = async (
       },
     });
 
-    const daemon = await monerojs.connectToDaemonRpc({
+    /* const daemon = await monerojs.connectToDaemonRpc({
       uri: "http://node.sethforprivacy.com:38089",
     });
 
-    const lastBlockHeight = await daemon.getHeight();
+    const lastBlockHeight = await daemon.getHeight(); */
 
     const walletSettings = await prisma?.wallet.create({
       data: {
         streamer: newStreamer.id,
-        restoreHeight: lastBlockHeight - 20 || 0,
+        restoreHeight: 1400159, // lastBlockHeight - 20 || 0,
         lastSyncHeight: 0,
       },
     });

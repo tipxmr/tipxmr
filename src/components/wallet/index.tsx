@@ -27,15 +27,14 @@ const TipxmrWallet: FC = () => {
   const [endHeight] = useAtom(syncEndHeightAtom);
 
   // TODO handle the withdraw to address from db
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (address: string, amount: number) => {
     const txs = xmrWallet?.getTxs();
     console.info({ txs });
     const transaction = {
-      address:
-        "73a4nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn",
+      address: address,
       accountIndex: 0,
       subaddressIndex: 1,
-      amount: 1n,
+      amount: amount as unknown as bigint,
       relay: true,
       priority: MoneroTxPriority.UNIMPORTANT,
     } as MoneroTxConfig;
@@ -82,7 +81,7 @@ const TipxmrWallet: FC = () => {
         </Progress.Root>
 
         <WithdrawDialog
-          address={process.env.PRIMARY_TEST_ADDRESS}
+          address={process.env.PRIMARY_TEST_ADDRESS || ""}
           handleWithdraw={handleWithdraw}
         />
       </div>

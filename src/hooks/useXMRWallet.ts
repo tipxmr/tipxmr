@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { open } from "~/lib/xmr";
 import { walletAtom } from "~/store";
 
-const useXmrWallet = () => {
+const useXmrWallet = (seedPhrase: string) => {
   const [xmrWallet, setXmrWallet] = useAtom(walletAtom);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const useXmrWallet = () => {
     return () => {
       xmrWallet?.close();
     };
-  }, [setXmrWallet, xmrWallet]);
+  }, [seedPhrase, setXmrWallet, xmrWallet]);
 };
 
 export default useXmrWallet;

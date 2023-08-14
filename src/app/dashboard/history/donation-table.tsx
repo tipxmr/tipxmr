@@ -65,7 +65,7 @@ function DonationTable() {
       pageIndex,
       pageSize,
     }),
-    [pageIndex, pageSize]
+    [pageIndex, pageSize],
   );
 
   const { data, isFetching, isLoading } = useTxHistory({
@@ -106,7 +106,7 @@ function DonationTable() {
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </th>
               ))}

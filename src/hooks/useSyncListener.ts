@@ -28,7 +28,7 @@ const useSyncListener = () => {
         setEndHeight(endHeight);
         setStartHeight(startHeight);
         setIsSyncing(message === "Synchronizing"); // TODO better handeling for messages
-      }
+      },
     );
 
     async function sync() {

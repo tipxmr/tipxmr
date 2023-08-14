@@ -75,7 +75,7 @@ const LanguageSelector = ({ language, onChange }: LanguageSelectorProps) => {
                 value={language}
               >
                 <Select.ItemText>{`${convertFlag(
-                  language
+                  language,
                 )} ${language}`}</Select.ItemText>
                 <Select.ItemIndicator>
                   <CheckIcon />

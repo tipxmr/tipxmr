@@ -31,7 +31,7 @@ const MenuItem = ({ href, Icon, text }: MenuItemProps) => {
       <NavigationMenu.Item
         className={clsx(
           "rounded px-4 py-2 hover:bg-gray-200",
-          isActive && "underline"
+          isActive && "underline",
         )}
       >
         <Icon className="mr-2 inline h-4 w-4 align-middle" />
@@ -49,7 +49,10 @@ function Drawer() {
   };
 
   return (
-    <NavigationMenu.Root className="mr-2 shrink-0 p-2">
+    <NavigationMenu.Root
+      className="mr-2 shrink-0 p-2"
+      aria-label="Left navigation"
+    >
       <NavigationMenu.List>
         <MenuItem href="/dashboard" Icon={DashboardIcon} text="Dashboard" />
 

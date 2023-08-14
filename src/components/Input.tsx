@@ -15,7 +15,7 @@ interface InputProps<T extends FieldValues> {
 }
 
 const Input = <T extends FieldValues>(
-  props: InputProps<T> & UseControllerProps<T>
+  props: InputProps<T> & UseControllerProps<T>,
 ): ReactElement => {
   const { field, fieldState } = useController(props);
   const outerClassName = props.className ?? "";

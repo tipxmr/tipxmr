@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
       console.log(
         "🚀 ~ file: [...nextauth].ts:15 ~ jwt ~ token, user",
         token,
-        user
+        user,
       );
       if (user) {
         token.user = user;
@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
         "🚀 ~ file: [...nextauth].ts:27 ~ session ~ session, user, token",
         session,
         user,
-        token
+        token,
       );
 
       if (token.user) {
@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         console.log(
           "🚀 ~ file: [...nextauth].ts:54 ~ authorize ~ credentials",
-          credentials
+          credentials,
         );
         // Add logic here to look up the user from the credentials supplied
         const user = await prisma?.streamer.findUnique({

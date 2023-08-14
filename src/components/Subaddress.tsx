@@ -25,7 +25,7 @@ const Subaddress = ({ address }: SubaddressProps) => {
     () => {
       setOpen(false);
     },
-    open ? 3000 : undefined
+    open ? 3000 : undefined,
   );
 
   return (
