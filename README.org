@@ -31,9 +31,9 @@ cd tipxmr
 
 
 ** Development
-- ~npm run dev~ : bring up the tipxmr webapp (~localhost:3000~)
+- ~pnpm run dev~ : bring up the tipxmr webapp (~localhost:3000~)
 
-- ⚠️ As the project develops, the database models change. Therefore, sometimes it may be necessary to ~migrate~ the changes (~npm run migrate -- dev~)
+- ⚠️ As the project develops, the database models change. Therefore, sometimes it may be necessary to ~migrate~ the changes (~pnpm run migrate -- dev~)
 
 
 *** If the app keeps running out of memory

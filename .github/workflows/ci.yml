@@ -6,11 +6,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install modules
-      run: npm ci
+      run: pnpm install
     - name: Run ESLint
-      run: npm run eslint
+      run: pnpm run eslint
     - name: Run Prettier
-      run: npm run prettier
+      run: pnpm run prettier
 
   build:
     runs-on: ubuntu-latest
@@ -34,8 +34,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run generate
-      - run: npm run migrate
-      - run: npm run seed
-      - run: npm run build --if-present
+      - run: pnpm ci
+      - run: pnpm run generate
+      - run: pnpm run migrate
+      - run: pnpm run seed
+      - run: pnpm run build --if-present
