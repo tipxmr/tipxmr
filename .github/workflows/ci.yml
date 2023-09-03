@@ -44,4 +44,4 @@ jobs:
       - run: pnpm run generate
       - run: pnpm run migrate
       - run: pnpm run seed
-      - run: pnpm run build --if-present
+      - run: pnpm run build
