@@ -1,6 +1,6 @@
 import * as Progress from "@radix-ui/react-progress";
 import { useAtom } from "jotai";
-import { MoneroTxConfig, MoneroTxPriority } from "monero-javascript";
+import { MoneroTxConfig, MoneroTxPriority } from "monero-ts";
 import { FC } from "react";
 
 import {

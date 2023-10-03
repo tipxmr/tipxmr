@@ -61,7 +61,7 @@ In the end, TipXMR will be an open source techstack for hosters to provide an OB
 
 *** Creating a non-custodial yet easy to use web-based experience:
 
-Thanks to the awesome [[https://github.com/monero-ecosystem/monero-javascript][monero-javascript]] library of [[https://github.com/woodser/][woodser]] that includes a *Monero WASM wallet*, we can provide users with a non-custodial Monero wallet in their local browser. We are able to write the logic, interface and features beforehand and let our users utilize them themselves. With the Web Assembly Wallet, the hoster of the service is at no time in control of the keys of the users.
+Thanks to the awesome [[https://github.com/monero-ecosystem/monero-ts][monero-ts]] library of [[https://github.com/woodser/][woodser]] that includes a *Monero WASM wallet*, we can provide users with a non-custodial Monero wallet in their local browser. We are able to write the logic, interface and features beforehand and let our users utilize them themselves. With the Web Assembly Wallet, the hoster of the service is at no time in control of the keys of the users.
 
 *** Typical process for streamers
 - 💡 A streamer chooses to monetize their stream with TipXMR.live.

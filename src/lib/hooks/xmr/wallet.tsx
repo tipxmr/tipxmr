@@ -1,8 +1,10 @@
 import {
+  MoneroOutputWallet,
   MoneroWallet,
+  MoneroWalletFull,
   MoneroWalletKeys,
   MoneroWalletListener,
-} from "monero-javascript";
+} from "monero-ts";
 import React, {
   createContext,
   useCallback,
@@ -31,19 +33,6 @@ function useEvent<T extends Function>(handler: T) {
   }, []);
 }
 
-function uint8ArrayToBigInt(uint8Array: Uint8Array): bigint {
-  const buffer = uint8Array.buffer;
-  const dataView = new DataView(buffer);
-
-  let value = 0n;
-
-  for (let i = 0; i < uint8Array.length; i++) {
-    value = (value << 8n) + BigInt(dataView.getUint8(i));
-  }
-
-  return value;
-}
-
 interface Store {
   balance: {
     locked: bigint;
@@ -59,7 +48,7 @@ interface Store {
     percentDone: number;
     message: string;
   };
-  received?: MoneroWallet;
+  received?: MoneroOutputWallet;
   sent?: MoneroWallet;
 }
 
@@ -110,13 +99,13 @@ function useCreateWalletListener() {
   }, []);
 
   const listener = useMemo(() => {
-    return new (class Listener extends MoneroWalletListener {
-      onBalancesChanged(
-        newBalance: BigInteger,
-        newUnlockedBalance: BigInteger,
-      ): void {
-        const locked = uint8ArrayToBigInt(newBalance);
-        const unlocked = uint8ArrayToBigInt(newUnlockedBalance);
+    return new (class extends MoneroWalletListener {
+      async onBalancesChanged(
+        newBalance: bigint,
+        newUnlockedBalance: bigint,
+      ): Promise<void> {
+        const locked = newBalance;
+        const unlocked = newUnlockedBalance;
 
         setState({
           balance: {
@@ -126,7 +115,7 @@ function useCreateWalletListener() {
         });
       }
 
-      onNewBlock(height: number): void {
+      async onNewBlock(height: number): Promise<void> {
         setState({
           block: {
             height,
@@ -134,25 +123,25 @@ function useCreateWalletListener() {
         });
       }
 
-      onOutputReceived(output: MoneroWallet): void {
+      async onOutputReceived(output: MoneroOutputWallet): Promise<void> {
         setState({
           received: output,
         });
       }
 
-      onOutputSent(output: MoneroWallet) {
+      async onOutputSent(output: MoneroWallet) {
         setState({
           sent: output,
         });
       }
 
-      onSyncProgress(
+      async onSyncProgress(
         height: number,
         startHeight: number,
         endHeight: number,
         percentDone: number,
         message: string,
-      ): void {
+      ): Promise<void> {
         setState({
           sync: {
             height: height,
@@ -244,7 +233,9 @@ export function createWalletStateListener() {
 
     const subscribe = useEvent(() => {
       instance.addListener(store.listener);
-      instance.setRestoreHeight(1230000);
+      if (instance instanceof MoneroWalletFull) {
+        instance.setRestoreHeight(1230000);
+      }
       instance.startSyncing();
 
       return () => {

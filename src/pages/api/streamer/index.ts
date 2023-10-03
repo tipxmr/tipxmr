@@ -1,5 +1,5 @@
 import { Streamer } from "@prisma/client";
-import * as monerojs from "monero-javascript";
+import * as monerojs from "monero-ts";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "~/lib/prisma";
