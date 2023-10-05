@@ -1,5 +1,5 @@
 import { Streamer } from "@prisma/client";
-import * as monerojs from "monero-ts";
+//import { connectToDaemonRpc } from "monero-ts";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "~/lib/prisma";
@@ -58,7 +58,7 @@ const streamerPostHandler = async (
       },
     });
 
-    /* const daemon = await monerojs.connectToDaemonRpc({
+    /* const daemon = await connectToDaemonRpc({
       uri: "http://node.sethforprivacy.com:38089",
     });
 
