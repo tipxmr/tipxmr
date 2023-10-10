@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { MoneroWalletFull, MoneroWalletKeys } from "monero-javascript";
+import type { MoneroWalletFull, MoneroWalletKeys } from "monero-ts";
 
 import { buildIdentifierHash } from "./lib/xmr";
 

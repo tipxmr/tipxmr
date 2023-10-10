@@ -28,8 +28,8 @@ services:
     logging:
       driver: none
 
-  monero-node:
-    container_name: "monero-node"
+  monerod:
+    container_name: "tipxmr-monerod"
     platform: linux/arm64/v8
     build:
       context: ./monero

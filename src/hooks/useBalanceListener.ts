@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
+import { MoneroWalletListener } from "monero-ts";
 import { useEffect } from "react";
 
-import { createBalancesChangedListener } from "~/lib/xmr";
 import { balanceAtom, lockedBalanceAtom, walletAtom } from "~/store";
 
 const useBalanceListener = () => {
@@ -10,8 +10,11 @@ const useBalanceListener = () => {
   const [lockedBalance, setLockedBalance] = useAtom(lockedBalanceAtom);
 
   useEffect(() => {
-    const listener = createBalancesChangedListener(
-      (newBalance: BigInteger, newUnlockedBalance: BigInteger) => {
+    const balanceListener = new (class extends MoneroWalletListener {
+      async onBalancesChanged(
+        newBalance: bigint,
+        newUnlockedBalance: bigint,
+      ): Promise<void> {
         setBalance(Number(newUnlockedBalance));
         setLockedBalance(Number(newBalance));
 
@@ -19,12 +22,12 @@ const useBalanceListener = () => {
           newBalance: newBalance.toString(),
           newUnlockedBalance: newUnlockedBalance.toString(),
         });
-      },
-    );
+      }
+    })();
 
     async function sync() {
       if (xmrWallet !== undefined) {
-        await xmrWallet?.addListener(listener);
+        await xmrWallet?.addListener(balanceListener);
 
         console.log("From useBalanceListener - listener is set: ", {
           xmrWallet,
@@ -35,7 +38,7 @@ const useBalanceListener = () => {
     sync();
 
     return () => {
-      xmrWallet?.removeListener(listener);
+      xmrWallet?.removeListener(balanceListener);
     };
   }, []);
   return xmrWallet;

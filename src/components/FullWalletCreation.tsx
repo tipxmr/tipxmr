@@ -5,7 +5,7 @@ import {
   UpdateIcon,
 } from "@radix-ui/react-icons";
 import { PrimitiveAtom, useAtom } from "jotai";
-import { MoneroWalletFull } from "monero-javascript";
+import type { MoneroWalletFull } from "monero-ts";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

@@ -25,7 +25,7 @@ const grischaStreamer: Streamer = {
 };
 
 const pronasStreamer: Streamer = {
-  id: "",
+  id: "268b7956d61d",
   alias: "Pronas",
   name: "pronas",
   socket: null,
