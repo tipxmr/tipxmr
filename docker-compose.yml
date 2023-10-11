@@ -5,7 +5,7 @@ services:
     image: postgres:15-alpine
     restart: unless-stopped
     volumes:
-      - ./postgresql:/var/lib/postgresql/data
+      - tipxmr-db:/var/lib/postgresql/data
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_DB=tipxmr
@@ -13,20 +13,6 @@ services:
       - POSTGRES_PASSWORD=tipxmr
     ports:
       - 5432:5432
-
-  pgadmin:
-    container_name: "tipxmr-pgadmin"
-    image: dpage/pgadmin4
-    depends_on:
-      - db
-    ports:
-      - 5555:80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@tipxmr.live
-      PGADMIN_DEFAULT_PASSWORD: tipxmr
-    restart: unless-stopped
-    logging:
-      driver: none
 
   monerod:
     container_name: "tipxmr-monerod"
@@ -44,3 +30,6 @@ services:
       options:
         max-size: 10m
         max-file: "3"
+
+volumes:
+  tipxmr-db:
