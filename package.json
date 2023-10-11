@@ -10,7 +10,7 @@
     "seed": "prisma db seed",
     "studio": "prisma studio",
     "migrate": "prisma migrate dev",
-    "postinstall": "cp node_modules/monero-ts/dist/dist/* public/",
+    "postinstall": "cp node_modules/monero-ts/dist/monero* public/",
     "eslint": "eslint \"src/**/*.+(js|jsx|ts|tsx)\"",
     "eslint:fix": "eslint --fix \"src/**/*.+(js|jsx|ts|tsx)\"",
     "prettier": "prettier --check \"src/**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
