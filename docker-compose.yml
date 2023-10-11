@@ -16,20 +16,20 @@ services:
 
   monerod:
     container_name: "tipxmr-monerod"
-    platform: linux/amd64
-    build:
-      context: ./monero
-    command: --non-interactive --config-file /home/monero/.bitmonero/stagenet.conf
+    image: sethsimmons/simple-monerod:latest
+    restart: unless-stopped
+    command: --config-file /home/monero/.bitmonero/stagenet.conf
     ports:
-      - "38080:38080"
       - "38081:38081"
     volumes:
-      - ./monero/bitmonero:/home/monero/.bitmonero
+      - bitmonero:/home/monero/.bitmonero
+      - ./monero/stagenet.conf:/home/monero/.bitmonero/stagenet.conf
     logging:
       driver: "json-file"
       options:
-        max-size: 10m
-        max-file: "3"
+        max-size: 4m
+        max-file: "1"
 
 volumes:
   tipxmr-db:
+  bitmonero:

@@ -10,8 +10,8 @@ const stagenetNode = {
   networkType: "stagenet",
   password: "pass123",
   serverUri: "http://localhost:38081",
-  serverUsername: "superuser",
-  serverPassword: "abctesting123",
+  serverUsername: process.env["MONERO_DAEMON_USER"] || "tipxmr",
+  serverPassword: process.env["MONERO_DAEMON_PASSWORD"] || "tipxmr",
   rejectUnauthorized: false, // e.g. local development
 };
 
