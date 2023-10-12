@@ -33,6 +33,10 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     formState: { isValid, isDirty },
   } = useForm<ViewWalletFormValues>({
     mode: "onChange",
+    defaultValues: {
+      primaryAddress: "",
+      privateViewKey: "",
+    },
   });
 
   const createWallet: SubmitHandler<ViewWalletFormValues> = async (data) => {

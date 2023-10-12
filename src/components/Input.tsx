@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { HTMLInputTypeAttribute, ReactElement, useId } from "react";
 import {
   Control,
@@ -18,11 +19,10 @@ const Input = <T extends FieldValues>(
   props: InputProps<T> & UseControllerProps<T>,
 ): ReactElement => {
   const { field, fieldState } = useController(props);
-  const outerClassName = props.className ?? "";
   const id = useId();
 
   return (
-    <div className={`w-full ${outerClassName}`}>
+    <div className={clsx(`w-full`, props?.className)}>
       <label htmlFor={id} className="block text-left">
         {props.label}
       </label>

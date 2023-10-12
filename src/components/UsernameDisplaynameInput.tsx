@@ -21,6 +21,10 @@ const UsernameDisplaynameInput = () => {
     formState: { isValid, isDirty },
   } = useForm<UsernameDisplaynameValues>({
     mode: "onChange",
+    defaultValues: {
+      username: "",
+      displayname: "",
+    },
   });
   const createUser = useCreateUser();
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);

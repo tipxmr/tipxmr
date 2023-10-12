@@ -32,6 +32,9 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
     formState: { isValid, isDirty },
   } = useForm<FullWalletFormValues>({
     mode: "onChange",
+    defaultValues: {
+      seed: "",
+    },
   });
 
   const createWallet: SubmitHandler<FullWalletFormValues> = async (data) => {
