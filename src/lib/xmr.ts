@@ -3,16 +3,17 @@ import sha256 from "crypto-js/sha256";
 import {
   createWalletFull,
   createWalletKeys,
+  MoneroWalletConfig,
   MoneroWalletFull,
 } from "monero-ts";
 
-const stagenetNode = {
+const stagenetNode: Partial<MoneroWalletConfig> = {
   networkType: "stagenet",
-  password: "pass123",
-  serverUri: "http://localhost:38081",
-  serverUsername: process.env["MONERO_DAEMON_USER"] || "tipxmr",
-  serverPassword: process.env["MONERO_DAEMON_PASSWORD"] || "tipxmr",
-  rejectUnauthorized: false, // e.g. local development
+  server: {
+    uri: process.env["MONERO_DAEMON_URL"] || "http://localhost:38081",
+    username: process.env["MONERO_DAEMON_USER"] || "tipxmr",
+    password: process.env["MONERO_DAEMON_PASSWORD"] || "tipxmr",
+  },
 };
 
 // --- Helper
@@ -27,6 +28,7 @@ export const createWalletFromScratch = async (lang = "English") => {
   const walletFull = await createWalletFull({
     // seed omitted => generate random wallet
     language: lang,
+    password: "pass123",
     ...stagenetNode,
   });
   return walletFull;
