@@ -34,6 +34,9 @@ services:
     image: sethsimmons/simple-monero-wallet-rpc:latest
     restart: unless-stopped
     container_name: "tipxmr-monero-wallet-rpc"
+    depends_on:
+      - monerod
+    user: ${UID:-1000}:${GID:-1000}
     ports:
       - 127.0.0.1:38082:38082
     volumes:
@@ -42,7 +45,6 @@ services:
       - "--daemon-address=monerod:38081"
       - "--trusted-daemon"
       - "--stagenet"
-      - "--rpc-bind-ip=0.0.0.0"
       - "--wallet-dir=/home/monero/wallet"
       - "--rpc-bind-port=38082"
       - "--disable-rpc-login"
