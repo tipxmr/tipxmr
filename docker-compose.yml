@@ -42,6 +42,8 @@ services:
       - "--daemon-address=monerod:38081"
       - "--trusted-daemon"
       - "--stagenet"
+      - "--rpc-bind-ip=0.0.0.0"
+      - "--wallet-dir=/home/monero/wallet"
       - "--rpc-bind-port=38082"
       - "--disable-rpc-login"
 
