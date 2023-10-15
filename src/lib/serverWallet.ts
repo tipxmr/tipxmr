@@ -1,52 +1,51 @@
 import {
-  openWalletFull,
   MoneroWalletFull,
-  MoneroRpcConnection,
   MoneroWalletListener,
-  createWalletFull,
+  MoneroWalletRpc,
+  connectToWalletRpc,
 } from "monero-ts";
 import { stagenetNode } from "./xmr";
 
-// import {
-//   convertBigIntToXmrFloat,
-//   createSyncProgressListener,
-//   createOutputReceivedListener,
-// } from 'src/lib/xmr'
-import { prisma } from "~/lib/prisma";
-import path from "path";
-
 export class Wallet {
-  private static instance: MoneroWalletFull;
+  private static instance: MoneroWalletRpc;
 
   private constructor() {
     return Wallet.init();
   }
   static async init() {
     // sanity check
-    const serverWalletFilePath = process.env.SERVER_WALLET_FILE_PATH;
+    const serverWalletFileName = process.env.SERVER_WALLET_FILE_NAME;
     const serverWalletPassword = process.env.SERVER_WALLET_PASSWORD;
+    const serverRpcUri = process.env.SERVER_WALLET_RPC_URI;
 
-    if (!serverWalletFilePath || !serverWalletPassword)
+    if (!serverWalletFileName || !serverWalletPassword)
       throw Error("Missing server secrets");
 
     console.log({
-      serverWalletFilePath,
+      serverWalletFileName,
       serverWalletPassword,
+      serverRpcUri,
     });
 
-    // Open the wallet and init the listeners
-    const wallet = await openWalletFull({
-      ...stagenetNode,
-
-      path: serverWalletFilePath,
+    // Connect to Wallet RPC
+    const walletRpc = await connectToWalletRpc({ uri: serverRpcUri });
+    const wallet = await walletRpc.openWallet({
       password: serverWalletPassword,
-    }).catch((err) => {
-      console.error(err);
-      throw new Error(
-        "Cannot open server wallet, check your .env and monero/[walletFile] setup.",
-        err,
-      );
+      path: serverWalletFileName,
     });
+    // Open the wallet and init the listeners
+    // const wallet = await openWalletFull({
+    //   ...stagenetNode,
+
+    //   path: serverWalletFilePath,
+    //   password: serverWalletPassword,
+    // }).catch((err) => {
+    //   console.error(err);
+    //   throw new Error(
+    //     "Cannot open server wallet, check your .env and monero/[walletFile] setup.",
+    //     err,
+    //   );
+    // });
 
     Wallet.instance = wallet;
 
