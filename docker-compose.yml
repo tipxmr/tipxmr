@@ -37,14 +37,13 @@ services:
     ports:
       - 127.0.0.1:38082:38082
     volumes:
-      - ./monero/server-wallet:/home/monero
+      - ./monero/server-wallet:/home/monero/wallet
     command:
-      - --daemon-address=monerod:38081
-      - --trusted-daemon
-      - --stagenet
-      - --rpc-bind-port=38082
-      - --wallet-dir /home/monero
-      - --disable-rpc-login
+      - "--daemon-address=monerod:38081"
+      - "--trusted-daemon"
+      - "--stagenet"
+      - "--rpc-bind-port=38082"
+      - "--disable-rpc-login"
 
 volumes:
   tipxmr-db:
