@@ -4,13 +4,15 @@ import { Wallet } from "~/lib/serverWallet";
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
+      console.time("start");
       await Wallet.getInstance();
       const addr = await Wallet.createNewAddress(1);
 
       res.status(201).json({
         message: "Wallet initializing",
         time: new Date(),
-        newAddr: addr.getAddress(),
+        newAddr: addr.getAddress().slice(0, 5).at(0),
+        timeElapsed: console.timeEnd("start"),
       });
       break;
     default:
