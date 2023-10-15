@@ -7,7 +7,7 @@ import {
   MoneroWalletFull,
 } from "monero-ts";
 
-const stagenetNode: Partial<MoneroWalletConfig> = {
+export const stagenetNode: Partial<MoneroWalletConfig> = {
   networkType: "stagenet",
   server: {
     uri: process.env["MONERO_DAEMON_URL"] || "http://localhost:38081",
