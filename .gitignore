@@ -49,3 +49,4 @@ yarn-error.log*
 # .envrc
 /wallet
 monero/*
+/monero-wallet-rpc.log

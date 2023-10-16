@@ -1,10 +1,8 @@
 import {
-  MoneroWalletFull,
   MoneroWalletListener,
   MoneroWalletRpc,
   connectToWalletRpc,
 } from "monero-ts";
-import { stagenetNode } from "./xmr";
 
 export class Wallet {
   private static instance: MoneroWalletRpc;
@@ -21,35 +19,16 @@ export class Wallet {
     if (!serverWalletFileName || !serverWalletPassword)
       throw Error("Missing server secrets");
 
-    console.log({
-      serverWalletFileName,
-      serverWalletPassword,
-      serverRpcUri,
-    });
-
     // Connect to Wallet RPC
     const walletRpc = await connectToWalletRpc({ uri: serverRpcUri });
     const wallet = await walletRpc.openWallet({
       password: serverWalletPassword,
       path: serverWalletFileName,
     });
-    // Open the wallet and init the listeners
-    // const wallet = await openWalletFull({
-    //   ...stagenetNode,
-
-    //   path: serverWalletFilePath,
-    //   password: serverWalletPassword,
-    // }).catch((err) => {
-    //   console.error(err);
-    //   throw new Error(
-    //     "Cannot open server wallet, check your .env and monero/[walletFile] setup.",
-    //     err,
-    //   );
-    // });
 
     Wallet.instance = wallet;
 
-    wallet.addListener(
+    Wallet.instance.addListener(
       new (class extends MoneroWalletListener {
         async onSyncProgress(
           height: number,
@@ -63,19 +42,18 @@ export class Wallet {
 
           const percentage = Math.floor(percentDone * 100);
           if (percentage === 100) {
-            await wallet.save();
+            await Wallet.instance.save();
           }
         }
       })(),
     );
-    // await wallet.addListener(syncProgressListener);
-    await wallet.sync(20000);
+    await Wallet.instance.startSyncing();
     console.log("starting sync");
 
     return wallet;
   }
 
-  static async getInstance(): Promise<MoneroWalletFull> {
+  static async getInstance(): Promise<MoneroWalletRpc> {
     if (!Wallet.instance) {
       Wallet.instance = await Wallet.init();
     }

@@ -1,7 +1,7 @@
-version: "3"
+version: '3'
 services:
   db:
-    container_name: "tipxmr-db"
+    container_name: 'tipxmr-db'
     image: postgres:15-alpine
     restart: unless-stopped
     volumes:
@@ -15,39 +15,42 @@ services:
       - 5432:5432
 
   monerod:
-    container_name: "tipxmr-monerod"
+    container_name: 'tipxmr-monerod'
     image: sethsimmons/simple-monerod:latest
     restart: unless-stopped
     command: --config-file /home/monero/.bitmonero/stagenet.conf
     ports:
-      - "38081:38081"
+      - '38081:38081'
     volumes:
       - bitmonero:/home/monero/.bitmonero
       - ./monero/stagenet.conf:/home/monero/.bitmonero/stagenet.conf
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
         max-size: 4m
-        max-file: "1"
+        max-file: '1'
 
-  monero-wallet-rpc:
-    image: sethsimmons/simple-monero-wallet-rpc:latest
-    restart: unless-stopped
-    container_name: "tipxmr-monero-wallet-rpc"
-    depends_on:
-      - monerod
-    user: ${UID:-1000}:${GID:-1000}
-    ports:
-      - 127.0.0.1:38082:38082
-    volumes:
-      - ./monero/server-wallet:/home/monero/wallet
-    command:
-      - "--daemon-address=monerod:38081"
-      - "--trusted-daemon"
-      - "--stagenet"
-      - "--wallet-dir=/home/monero/wallet"
-      - "--rpc-bind-port=38082"
-      - "--disable-rpc-login"
+  # NOTE: Does not seem to work with the host wallets
+  # https://github.com/sethforprivacy/simple-monero-wallet-rpc-docker/issues/33
+  #
+  # monero-wallet-rpc:
+  #   image: sethsimmons/simple-monero-wallet-rpc:latest
+  #   restart: unless-stopped
+  #   container_name: 'tipxmr-monero-wallet-rpc'
+  #   depends_on:
+  #     - monerod
+  #   # user: ${UID:-1000}:${GID:-1000}
+  #   ports:
+  #     - 127.0.0.1:38082:38082
+  #   volumes:
+  #     - ./monero/server-wallet:/home/monero/wallet
+  #   command:
+  #     - '--daemon-address=monerod:38081'
+  #     - '--trusted-daemon'
+  #     - '--stagenet'
+  #     - '--wallet-dir=/home/monero/wallet'
+  #     - '--rpc-bind-port=38082'
+  #     - '--disable-rpc-login'
 
 volumes:
   tipxmr-db:
