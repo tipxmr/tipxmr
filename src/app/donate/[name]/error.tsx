@@ -17,9 +17,9 @@ export default function Error({
   //   return <Redirect to="/donate" />;
 
   return (
-    <div>
+    <main>
       <p>Something went wrong!</p>
       <button onClick={() => reset()}>Reset error boundary</button>
-    </div>
+    </main>
   );
 }

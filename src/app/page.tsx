@@ -5,7 +5,7 @@ import HeroUnit from "~/components/HeroUnit";
 
 const Home: NextPage = () => {
   return (
-    <>
+    <main>
       <HeroUnit title="TipXMR" text="Monetize your streams with Monero!" />
 
       <Link
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
       >
         Want to donate? Follow me
       </Link>
-    </>
+    </main>
   );
 };
 

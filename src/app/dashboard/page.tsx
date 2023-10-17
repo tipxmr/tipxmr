@@ -11,16 +11,20 @@ const DashboardPage = () => {
 
   if (user && user.isLoggedIn) {
     return (
-      <div className="mx-auto">
+      <main className="mx-auto">
         <p>Welcome, {user.alias}</p>
         <p>Your Id: {user.id}</p>
         <p>Your Socket Id: {user.socket}</p>
         <IsOnlineBadge isOnline={!!user?.isOnline} />
-      </div>
+      </main>
     );
   }
 
-  return <h2>Please log in</h2>;
+  return (
+    <main>
+      <p>Please log in</p>
+    </main>
+  );
 };
 
 export default DashboardPage;

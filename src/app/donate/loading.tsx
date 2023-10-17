@@ -3,5 +3,9 @@
 import { UpdateIcon } from "@radix-ui/react-icons";
 
 export default function Loading() {
-  return <UpdateIcon className="animate-spin" />;
+  return (
+    <main>
+      <UpdateIcon className="animate-spin" />
+    </main>
+  );
 }

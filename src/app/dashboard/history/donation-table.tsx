@@ -92,7 +92,7 @@ function DonationTable() {
   }
 
   return (
-    <>
+    <section>
       <table className="w-full border-collapse">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -200,7 +200,7 @@ function DonationTable() {
         </select>
         {isFetching ? "Loading..." : null}
       </div>
-    </>
+    </section>
   );
 }
 

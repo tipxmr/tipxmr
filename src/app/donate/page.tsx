@@ -10,7 +10,7 @@ async function Donate() {
   const streamers = await prisma.streamer.findMany();
 
   return (
-    <div className="container">
+    <main className="container">
       <h1 className="text-3xl font-bold tracking-tight">
         Here are all streamers
       </h1>
@@ -27,7 +27,7 @@ async function Donate() {
           </div>
         ))}
       </div>
-    </div>
+    </main>
   );
 }
 

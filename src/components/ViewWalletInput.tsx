@@ -64,63 +64,61 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
   };
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit(createWallet)}
-        className="mx-auto flex flex-col gap-2"
-      >
-        <Input
-          label="Private View Key"
-          name="privateViewKey"
-          type="text"
-          control={control}
-          rules={{
-            required: { value: true, message: "Private View Key is required" },
-            minLength: {
-              value: 64,
-              message: "Your Private View Key has less than 64 characters",
-            },
-            maxLength: {
-              value: 64,
-              message: "Your Private View Key has more than 64 characters",
-            },
-          }}
-        ></Input>
-        <Input
-          label="Primary Address"
-          name="primaryAddress"
-          type="text"
-          control={control}
-          rules={{
-            required: { value: true, message: "Primary Address is required" },
-            minLength: {
-              value: 95,
-              message: "Primary Address has less than 95 characters",
-            },
-            maxLength: {
-              value: 95,
-              message: "Primary Address has more than 95 characters",
-            },
-            pattern: {
-              value: primaryStagenetAddress,
-              message: "Address does not match moneros address schema",
-            },
-          }}
-        ></Input>
-        {isLoading && (
-          <>
-            <UpdateIcon className="mx-auto my-8 h-12 w-12 animate-spin" />
-            This can take some time
-          </>
-        )}
-        <input
-          type="submit"
-          value={pathname?.includes("registration") ? "Next step" : "Login"}
-          disabled={!isDirty || !isValid || isLoading}
-          className="btn-primary my-4"
-        />
-      </form>
-    </>
+    <form
+      onSubmit={handleSubmit(createWallet)}
+      className="mx-auto flex flex-col gap-2"
+    >
+      <Input
+        label="Private View Key"
+        name="privateViewKey"
+        type="text"
+        control={control}
+        rules={{
+          required: { value: true, message: "Private View Key is required" },
+          minLength: {
+            value: 64,
+            message: "Your Private View Key has less than 64 characters",
+          },
+          maxLength: {
+            value: 64,
+            message: "Your Private View Key has more than 64 characters",
+          },
+        }}
+      ></Input>
+      <Input
+        label="Primary Address"
+        name="primaryAddress"
+        type="text"
+        control={control}
+        rules={{
+          required: { value: true, message: "Primary Address is required" },
+          minLength: {
+            value: 95,
+            message: "Primary Address has less than 95 characters",
+          },
+          maxLength: {
+            value: 95,
+            message: "Primary Address has more than 95 characters",
+          },
+          pattern: {
+            value: primaryStagenetAddress,
+            message: "Address does not match moneros address schema",
+          },
+        }}
+      ></Input>
+      {isLoading && (
+        <>
+          <UpdateIcon className="mx-auto my-8 h-12 w-12 animate-spin" />
+          This can take some time
+        </>
+      )}
+      <input
+        type="submit"
+        value={pathname?.includes("registration") ? "Next step" : "Login"}
+        disabled={!isDirty || !isValid || isLoading}
+        className="btn-primary my-4"
+      />
+    </form>
   );
 };
 

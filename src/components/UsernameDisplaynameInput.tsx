@@ -41,57 +41,55 @@ const UsernameDisplaynameInput = () => {
   };
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit(handleAccountCreation)}
-        className="mx-auto flex flex-col gap-2"
-      >
-        <Tooltip content={<UsernameTooltip />}>
-          <Input
-            label="Username"
-            name="username"
-            type="text"
-            control={control}
-            rules={{
-              required: { value: true, message: "Username is required" },
-              minLength: {
-                value: 4,
-                message: "Your username has less than 4 characters",
-              },
-              maxLength: {
-                value: 20,
-                message: "Your username has more than 20 characters",
-              },
-            }}
-          ></Input>
-        </Tooltip>
-        <Tooltip content={<DisplayTooltip />}>
-          <Input
-            label="Displayname"
-            name="displayname"
-            type="text"
-            control={control}
-            rules={{
-              required: { value: true, message: "Displayname is required" },
-              minLength: {
-                value: 4,
-                message: "Displayname has less than 4 characters",
-              },
-              maxLength: {
-                value: 24,
-                message: "Displayname has more than 24 characters",
-              },
-            }}
-          ></Input>
-        </Tooltip>
-        <input
-          type="submit"
-          value="Create Account"
-          disabled={!isDirty || !isValid}
-          className="btn-primary my-4"
-        />
-      </form>
-    </>
+    <form
+      onSubmit={handleSubmit(handleAccountCreation)}
+      className="mx-auto flex flex-col gap-2"
+    >
+      <Tooltip content={<UsernameTooltip />}>
+        <Input
+          label="Username"
+          name="username"
+          type="text"
+          control={control}
+          rules={{
+            required: { value: true, message: "Username is required" },
+            minLength: {
+              value: 4,
+              message: "Your username has less than 4 characters",
+            },
+            maxLength: {
+              value: 20,
+              message: "Your username has more than 20 characters",
+            },
+          }}
+        ></Input>
+      </Tooltip>
+      <Tooltip content={<DisplayTooltip />}>
+        <Input
+          label="Displayname"
+          name="displayname"
+          type="text"
+          control={control}
+          rules={{
+            required: { value: true, message: "Displayname is required" },
+            minLength: {
+              value: 4,
+              message: "Displayname has less than 4 characters",
+            },
+            maxLength: {
+              value: 24,
+              message: "Displayname has more than 24 characters",
+            },
+          }}
+        ></Input>
+      </Tooltip>
+      <input
+        type="submit"
+        value="Create Account"
+        disabled={!isDirty || !isValid}
+        className="btn-primary my-4"
+      />
+    </form>
   );
 };
 

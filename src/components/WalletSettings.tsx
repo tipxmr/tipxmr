@@ -55,7 +55,7 @@ const WalletSettingsForm = () => {
       className="flex flex-col items-center gap-y-2 p-4"
       onSubmit={handleSubmit(handleWalletSettingsSubmit)}
     >
-      <h3 className="text-center text-3xl">Wallet Settings</h3>
+      <h2 className="text-center text-3xl">Wallet Settings</h2>
       <Input
         label="Restore height"
         name="restoreHeight"

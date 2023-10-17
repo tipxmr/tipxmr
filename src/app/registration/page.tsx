@@ -13,11 +13,11 @@ const RegistrationPage: NextPage = () => {
   });
 
   return (
-    <div className="container max-w-md text-center">
+    <main className="container max-w-md text-center">
       <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
-      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
+      <p>You don't need to provide any personal data to use TipXMR.</p>
 
-      <div className="mx-auto my-8 flex w-72 flex-col gap-4">
+      <section className="mx-auto my-8 flex w-72 flex-col gap-4">
         <Tooltip content={<NewWalletTooltip />}>
           <Link href="/registration/new">
             <button className="btn-primary w-full">
@@ -39,8 +39,8 @@ const RegistrationPage: NextPage = () => {
             </button>
           </Link>
         </Tooltip>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

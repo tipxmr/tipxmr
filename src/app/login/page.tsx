@@ -26,11 +26,11 @@ const LoginPage: NextPage = () => {
   });
 
   return (
-    <div className="container max-w-md text-center">
+    <main className="container max-w-md text-center">
       <h1 className="mb-2 text-3xl">Login to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
       {loginMode === LoginMode.Initial && (
-        <div className="mx-auto my-8 flex w-72 flex-col gap-4">
+        <section className="mx-auto my-8 flex w-72 flex-col gap-4">
           <button
             className="btn-primary"
             onClick={() => handleStepChange(LoginMode.FullWallet)}
@@ -43,7 +43,7 @@ const LoginPage: NextPage = () => {
           >
             Login with existing private view key
           </button>
-        </div>
+        </section>
       )}
       {loginMode === LoginMode.ViewOnlyWallet && (
         <ViewWalletInput login={login} />
@@ -57,7 +57,7 @@ const LoginPage: NextPage = () => {
           Go back
         </button>
       )}
-    </div>
+    </main>
   );
 };
 

@@ -11,8 +11,14 @@ const Profile: NextPage = () => {
   // username and display name
   // status
   const { user: streamer } = useUser({ redirectTo: "/login" });
-  if (!streamer) return <div>No user found</div>;
-  return <ProfileCard streamer={streamer} />;
+  if (!streamer) return <main>No user found</main>;
+
+  return (
+    <main>
+      {" "}
+      <ProfileCard streamer={streamer} />
+    </main>
+  );
 };
 
 export default Profile;

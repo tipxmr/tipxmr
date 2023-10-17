@@ -3,7 +3,11 @@ import type { NextPage } from "next";
 import DonationTable from "./donation-table";
 
 const History: NextPage = () => {
-  return <DonationTable />;
+  return (
+    <main>
+      <DonationTable />
+    </main>
+  );
 };
 
 export default History;

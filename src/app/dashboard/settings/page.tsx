@@ -5,10 +5,11 @@ import WalletSettingsForm from "~/components/WalletSettings";
 
 const Settings: NextPage = () => {
   return (
-    <div className="container grid grid-cols-2 gap-3">
+    <main className="container grid grid-cols-2 gap-3">
+      <h1>Update your settings here</h1>
       <DonationSettingsForm />
       <WalletSettingsForm />
-    </div>
+    </main>
   );
 };
 
