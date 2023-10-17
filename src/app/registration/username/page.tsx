@@ -19,24 +19,24 @@ const RegistrationUsernamePage: NextPage = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
   if (!truncatedHashId) {
     return (
-      <main>
-        <p>Return to registration</p>
+      <div>
+        <p>return to registration</p>
         <Link href="/registration">
           <button className="btn-primary mt-2 w-full">Go back</button>
         </Link>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container max-w-md text-center">
+    <div className="container max-w-md text-center">
       <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
-      <p>You don't need to provide any personal data to use TipXMR.</p>
+      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
       <UsernameDisplaynameInput />
       <button className="btn-primary mt-2 w-full" onClick={() => router.back()}>
         Go back
       </button>
-    </main>
+    </div>
   );
 };
 

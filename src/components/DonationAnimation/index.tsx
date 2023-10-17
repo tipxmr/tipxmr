@@ -33,7 +33,7 @@ function DonationAnimation({
   const props = useSpring({ width: (goalProgress ?? 0 / (goal ?? 1)) * width });
 
   return (
-    <section className="tip-border m-4 h-64 border-dotted text-slate-300">
+    <div className="tip-border m-4 h-64 border-dotted text-slate-300">
       <button onClick={() => setDonation(donations[0])}>
         Toggle animation
       </button>
@@ -78,7 +78,7 @@ function DonationAnimation({
           )}
         </animated.div>
       ))}
-    </section>
+    </div>
   );
 }
 

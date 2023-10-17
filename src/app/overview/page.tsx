@@ -11,15 +11,15 @@ async function Home() {
   });
 
   return (
-    <main className="flex flex-wrap gap-4 py-8">
+    <div className="flex flex-wrap gap-4 py-8">
       {!!streamers.length ? (
         streamers.map((streamer) => (
           <StreamerCard key={streamer.id} streamer={streamer} />
         ))
       ) : (
-        <p>There are no streamers online right now. Come back later!</p>
+        <h2>There are no streamers online right now. Come back later!</h2>
       )}
-    </main>
+    </div>
   );
 }
 

@@ -61,7 +61,7 @@ const DonationSettingsForm: FC = () => {
       className="flex flex-col items-center gap-y-2 p-4"
       onSubmit={handleSubmit(handleDonationSettingsSubmit)}
     >
-      <h2 className="text-center text-3xl">Dontation Settings</h2>
+      <h3 className="text-center text-3xl">Dontation Settings</h3>
       <Input
         label="XMR price per second of showtime"
         name="secondPrice"

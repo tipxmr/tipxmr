@@ -40,7 +40,7 @@ const Page = () => {
   };
 
   return (
-    <section>
+    <>
       <div>Progress: {percentDone}%</div>
       <button
         role="button"
@@ -51,17 +51,15 @@ const Page = () => {
         Generate new Subaddress
       </button>
       {currentAddress && <Subaddress address={String(currentAddress)} />}
-    </section>
+    </>
   );
 };
 
 function PageWithWallet() {
   return (
-    <main>
-      <PrimaryWalletStateProvider>
-        <Page />
-      </PrimaryWalletStateProvider>
-    </main>
+    <PrimaryWalletStateProvider>
+      <Page />
+    </PrimaryWalletStateProvider>
   );
 }
 

@@ -64,35 +64,37 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(createWallet)}
-      className="mx-auto flex flex-col gap-2"
-    >
-      <Textarea
-        name="seed"
-        label="Your seed (25 words)"
-        textareaClassName="font-mono h-24"
-        rules={{
-          pattern: {
-            value: seedWordCount,
-            message: "seed must contain 25 words",
-          },
-        }}
-        control={control}
-      />
-      {isLoading && (
-        <>
-          <UpdateIcon className="mx-auto my-8 h-12 w-12 animate-spin" />
-          This can take some time
-        </>
-      )}
-      <input
-        type="submit"
-        value={pathname?.includes("registration") ? "Next step" : "Login"}
-        disabled={!isDirty || !isValid || isLoading}
-        className="btn-primary my-4"
-      />
-    </form>
+    <>
+      <form
+        onSubmit={handleSubmit(createWallet)}
+        className="mx-auto flex flex-col gap-2"
+      >
+        <Textarea
+          name="seed"
+          label="Your seed (25 words)"
+          textareaClassName="font-mono h-24"
+          rules={{
+            pattern: {
+              value: seedWordCount,
+              message: "seed must contain 25 words",
+            },
+          }}
+          control={control}
+        />
+        {isLoading && (
+          <>
+            <UpdateIcon className="mx-auto my-8 h-12 w-12 animate-spin" />
+            This can take some time
+          </>
+        )}
+        <input
+          type="submit"
+          value={pathname?.includes("registration") ? "Next step" : "Login"}
+          disabled={!isDirty || !isValid || isLoading}
+          className="btn-primary my-4"
+        />
+      </form>
+    </>
   );
 };
 

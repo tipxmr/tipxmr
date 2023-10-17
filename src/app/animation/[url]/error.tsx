@@ -17,9 +17,9 @@ export default function Error({
   //   return <Redirect to="/overview" />;
 
   return (
-    <main>
+    <div>
       <p>Something went wrong!</p>
       <button onClick={() => reset()}>Reset error boundary</button>
-    </main>
+    </div>
   );
 }

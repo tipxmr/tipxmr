@@ -18,11 +18,7 @@ async function DonateTo({ params }: Props) {
     },
   });
 
-  return (
-    <main>
-      <NewDonation streamer={streamer} />
-    </main>
-  );
+  return <NewDonation streamer={streamer} />;
 }
 
 export default DonateTo;

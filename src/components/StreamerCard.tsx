@@ -6,7 +6,7 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
   const { alias, status, name } = streamer;
 
   return (
-    <section className="tip-border w-64 rounded-md bg-white p-4">
+    <div className="tip-border w-64 rounded-md bg-white p-4">
       <div className="relative my-2 h-32">
         <Image
           src="https://via.placeholder.com/350x200.png"
@@ -29,7 +29,7 @@ const StreamerCard = ({ streamer }: { streamer: Streamer }) => {
       <Link href={`/donate/${name}`}>
         <div className="btn-primary">watch {alias} now</div>
       </Link>
-    </section>
+    </div>
   );
 };
 
