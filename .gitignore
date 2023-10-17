@@ -50,3 +50,4 @@ yarn-error.log*
 /wallet
 monero/*
 /monero-wallet-rpc.log
+monero*.log

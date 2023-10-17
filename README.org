@@ -41,6 +41,14 @@ Run the development server with the following command:
 #+begin_src bash
 NODE_OPTIONS='--max_old_space_size=4096' next dev
 #+end_src
+** Starting the monero wallet rpc
+- TipXMR features a payment engine for the steamers to acitvate their account. For this to work (meaning ~src/lib/serverWallet~) you need to start a ~monero-wallet-rpc~.
+  - 💡 Make sure you have ~monero-wallet-rpc~ installed and in your ~$PATH~
+- You can start the ~monero-wallet-rpc~ with (from the project root):
+#+begin_src bash
+monero-wallet-rpc --config-file monero/walletRpc.conf
+#+end_src
+- To kickstart the wallet you can visit http://localhost:3000/api/initServerWallet
 
 * TipXMR - The Livestream Tipping Service for OBS
 

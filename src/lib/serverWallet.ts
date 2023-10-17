@@ -26,28 +26,26 @@ export class Wallet {
       path: serverWalletFileName,
     });
 
-    Wallet.instance = wallet;
+    // wallet.addListener(
+    //   new (class extends MoneroWalletListener {
+    //     async onSyncProgress(
+    //       height: number,
+    //       startHeight: number,
+    //       endHeight: number,
+    //       percentDone: number,
+    //       message: string,
+    //     ): Promise<void> {
+    //       // logic
+    //       console.log({ height });
 
-    Wallet.instance.addListener(
-      new (class extends MoneroWalletListener {
-        async onSyncProgress(
-          height: number,
-          startHeight: number,
-          endHeight: number,
-          percentDone: number,
-          message: string,
-        ): Promise<void> {
-          // logic
-          console.log({ height });
-
-          const percentage = Math.floor(percentDone * 100);
-          if (percentage === 100) {
-            await Wallet.instance.save();
-          }
-        }
-      })(),
-    );
-    await Wallet.instance.startSyncing();
+    //       const percentage = Math.floor(percentDone * 100);
+    //       if (percentage === 100) {
+    //         await wallet.save();
+    //       }
+    //     }
+    //   })(),
+    // );
+    // await wallet.startSyncing();
     console.log("starting sync");
 
     return wallet;

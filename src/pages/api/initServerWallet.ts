@@ -1,17 +1,38 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { MoneroWalletListener } from "monero-ts";
+import { NextApiHandler } from "next";
 import { Wallet } from "~/lib/serverWallet";
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "GET":
       const start = performance.now();
-      await Wallet.getInstance();
-      const addr = await Wallet.createNewAddress(1);
+      const wallet = await Wallet.getInstance();
+      const addr = (await wallet.createSubaddress(0)).getAddress();
+
+      await wallet.sync(
+        new (class extends MoneroWalletListener {
+          async onSyncProgress(
+            height: number,
+            startHeight: number,
+            endHeight: number,
+            percentDone: number,
+            message: string,
+          ) {
+            console.log({ height, startHeight });
+            // feed a progress bar?
+          }
+        })() as MoneroWalletListener,
+      );
+      const listeners = wallet.getListeners();
 
       res.status(201).json({
         message: "Wallet initializing",
         time: new Date(),
-        newAddr: addr.getAddress().slice(0, 5).at(0),
+        newAddr: `${addr.slice(0, 5)}...${addr.slice(
+          addr.length - 5,
+          addr.length,
+        )}`,
+        listeners: JSON.stringify(listeners),
         timeElapsed: performance.now() - start,
       });
       break;
