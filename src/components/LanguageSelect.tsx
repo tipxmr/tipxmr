@@ -58,8 +58,8 @@ function LanguageSelect({ language, onChange }: LanguageSelectorProps) {
       </SelectTrigger>
       <SelectContent>
         {languages.map((language) => (
-          <SelectItem value="light">
-            `${convertFlag(language)} ${language}`
+          <SelectItem value={language}>
+            {convertFlag(language)} {language}
           </SelectItem>
         ))}
       </SelectContent>

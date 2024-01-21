@@ -45,26 +45,12 @@ const FullWalletCreation = () => {
       <div>
         <h3 className="text-center">Your XMR wallet seedphrase</h3>
         {seed ? (
-          <div className="bg-white p-8 font-mono">{seed}</div>
+          <CredentialBox text={seed} label="Seed phrase" />
         ) : (
           <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
         )}
-        {primaryAddress && (
-          <>
-            <p>Primary Address</p>
-            <div className="break-words bg-white p-8 font-mono">
-              {primaryAddress}
-            </div>
-          </>
-        )}
-        {privateViewKey && (
-          <>
-            <p>Private View Key</p>
-            <div className="break-words bg-white p-8 font-mono">
-              {privateViewKey}
-            </div>
-          </>
-        )}
+        <CredentialBox text={privateViewKey} label="Private ViewKey" />
+        <CredentialBox text={primaryAddress} label="Primary Address" />
         <div className="mt-4 flex flex-col items-center">
           <LanguageSelect language={seedLang} onChange={handleSetSeedLang} />
         </div>
@@ -119,5 +105,23 @@ const FullWalletCreation = () => {
     </div>
   );
 };
+
+function CredentialBox({
+  text,
+  label,
+}: {
+  text: string | null;
+  label: string;
+}) {
+  if (!text) return null;
+  return (
+    <>
+      <p>{label}</p>
+      <div className="break-words border border-border p-8 font-mono">
+        {text}
+      </div>
+    </>
+  );
+}
 
 export default FullWalletCreation;
