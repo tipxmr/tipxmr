@@ -1,73 +1,182 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Category {
+  id                          Int             @id @default(autoincrement())
+  streamer                    String?         @db.VarChar(12)
+  name                        StreamCategory?
+  streamer_categoryTostreamer Streamer?       @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stream                      Stream[]
+}
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+model Donation {
+  id                          String    @id @default(uuid())
+  isPaid                      Boolean   @default(false) @db.Boolean
+  streamer                    String    @db.VarChar(12)
+  socketDonor                 String?   @db.VarChar(20)
+  amount                      Float     @default(0)
+  message                     String?   @default("") @db.VarChar(256)
+  displayTimeSeconds          Int?      @default(0)
+  subaddress                  String    @db.VarChar(95)
+  confirmations               Int?      @default(0)
+  giphyUrl                    String?   @default("") @db.VarChar(100)
+  donor                       String?   @default("") @db.VarChar(24)
+  timestamp                   DateTime? @default(now()) @db.Timestamp(6)
+  played                      DateTime?
+  streamer_donationTostreamer Streamer? @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
 
-    @@index([name])
+model DonationSetting {
+  streamer      String   @id @db.VarChar(12)
+  secondPrice   Int?     @default(0)
+  charPrice     Float?   @default(0)
+  charLimit     Int?     @default(140)
+  minAmount     Int?     @default(0)
+  gifsMinAmount Float?   @default(0)
+  goal          Float?   @default(0)
+  goalProgress  Float?   @default(0) @db.Real
+  goalReached   Boolean? @default(false)
+  // animation
+  url           String   @unique @default(uuid())
+  size          Int?
+  color         String?  @db.VarChar(10)
+
+  streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Invoice {
+  id                         Int         @id @default(autoincrement())
+  streamer                   String?     @db.VarChar(12)
+  startDate                  DateTime?   @db.Timestamp(6)
+  endDate                    DateTime?   @db.Timestamp(6)
+  planType                   PlanType?
+  paidStatus                 PaidStatus?
+  subaddress                 String?     @db.VarChar(95)
+  streamer_invoiceTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Stream {
+  streamer                  String    @id @db.VarChar(12)
+  url                       String?   @db.VarChar(100)
+  platform                  Platform?
+  language                  Language?
+  category                  Int?
+  category_categoryTostream Category? @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_streamTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Streamer {
+  id              String           @id @db.VarChar(12)
+  name            String           @unique @db.VarChar(20)
+  alias           String           @unique @db.VarChar(24)
+  socket          String?          @unique @db.VarChar(20)
+  createdAt       DateTime         @default(now()) @db.Timestamp(6)
+  updatedAt       DateTime         @default(now()) @updatedAt
+  isOnline        Boolean          @default(false) @db.Boolean
+  status          Status?
+  category        Category[]
+  donation        Donation[]
+  donationSetting DonationSetting?
+  invoice         Invoice[]
+  stream          Stream?
+  wallet          Wallet?
+
+  @@index([name], name: "streamer_name")
+}
+
+model Wallet {
+  streamer                  String   @id @db.VarChar(12)
+  restoreHeight             Int?     @default(0)
+  lastSyncHeight            Int?     @default(0)
+  streamer_streamerTowallet Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum StreamCategory {
+  gaming
+  learning
+  talk
+  erotics
+}
+
+enum Language {
+  english
+  german
+  french
+  italian
+}
+
+enum PaidStatus {
+  paid
+  unpaid
+  canceled
+}
+
+enum PlanType {
+  basic
+  premium
+}
+
+enum Platform {
+  youtube
+  twitch
+  chaturbate
+  selfhosted
+}
+
+enum Status {
+  active
+  closed
 }
 
 // Necessary for Next auth
-model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+// model Account {
+//     id                String  @id @default(cuid())
+//     userId            String
+//     type              String
+//     provider          String
+//     providerAccountId String
+//     refresh_token     String? // @db.Text
+//     access_token      String? // @db.Text
+//     expires_at        Int?
+//     token_type        String?
+//     scope             String?
+//     id_token          String? // @db.Text
+//     session_state     String?
+//     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
-}
+//     @@unique([provider, providerAccountId])
+// }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+// model Session {
+//     id           String   @id @default(cuid())
+//     sessionToken String   @unique
+//     userId       String
+//     expires      DateTime
+//     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
-}
+// model User {
+//     id            String    @id @default(cuid())
+//     name          String?
+//     email         String?   @unique
+//     emailVerified DateTime?
+//     image         String?
+//     accounts      Account[]
+//     sessions      Session[]
+//     posts         Post[]
+// }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+// model VerificationToken {
+//     identifier String
+//     token      String   @unique
+//     expires    DateTime
 
-    @@unique([identifier, token])
-}
+//     @@unique([identifier, token])
+// }
