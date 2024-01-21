@@ -7,10 +7,10 @@ import {
 } from "~/server/api/trpc";
 
 export const streamerRouter = createTRPCRouter({
-  getAllStreamers: publicProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.streamer.findMany();
   }),
-  getStreamerByName: publicProcedure
+  getByName: publicProcedure
     .input(
       z.object({
         name: z.string(),
@@ -20,7 +20,7 @@ export const streamerRouter = createTRPCRouter({
       return ctx.db.streamer.findUniqueOrThrow({ where: { name: input.name } });
     }),
 
-  getStreamerById: publicProcedure
+  getById: publicProcedure
     .input(
       z.object({
         id: z.string(),
@@ -30,7 +30,7 @@ export const streamerRouter = createTRPCRouter({
       return ctx.db.streamer.findUniqueOrThrow({ where: { name: input.id } });
     }),
   // TODO this probably should not be left unsecured
-  deleteStreamer: protectedProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -39,16 +39,20 @@ export const streamerRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.db.streamer.delete({ where: { name: input.id } });
     }),
-  create: protectedProcedure
+  create: publicProcedure
     .input(
-      z.object({ name: z.string().min(1), alias: z.string(), id: z.string() }),
+      z.object({
+        name: z.string().min(1),
+        alias: z.string(),
+        id: z.string().length(12),
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.streamer.create({
         data: input,
       });
     }),
-  updateStreamer: protectedProcedure
+  update: protectedProcedure
     .input(
       z.object({
         id: z.string(),
