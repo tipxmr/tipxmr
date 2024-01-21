@@ -10,6 +10,7 @@ import { headers } from "next/headers";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "~/components/ui/sonner";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import Provider from "./provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -102,21 +103,23 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`bg-background p-4 text-foreground`}>
-        <TRPCReactProvider>
-          <ThemeProvider
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            attribute="class"
-          >
-            <main className="relative flex min-h-screen flex-col">
-              {/* // TODO navbar */}
-              <ThemeToggle />
-              <div className="flex-1 flex-grow">{children}</div>
-            </main>
-            <Toaster />
-          </ThemeProvider>
-        </TRPCReactProvider>
+        <Provider>
+          <TRPCReactProvider>
+            <ThemeProvider
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              attribute="class"
+            >
+              <main className="relative flex min-h-screen flex-col">
+                {/* // TODO navbar */}
+                <ThemeToggle />
+                <div className="flex-1 flex-grow">{children}</div>
+              </main>
+              <Toaster />
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </Provider>
       </body>
     </html>
   );
