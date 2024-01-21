@@ -1,5 +1,4 @@
-import Hex from "crypto-js/enc-hex";
-import sha256 from "crypto-js/sha256";
+import { createHash } from "crypto";
 import {
   createWalletFull,
   createWalletKeys,
@@ -17,7 +16,8 @@ export const stagenetNode: Partial<MoneroWalletConfig> = {
 };
 
 // --- Helper
-export const hashSha256 = (seed: string) => Hex.stringify(sha256(seed));
+export const hashSha256 = (seed: string) =>
+  createHash("sha256").update(seed).digest("hex");
 export const buildIdentifierHash = (
   privateViewKey: string,
   primaryAddress: string,

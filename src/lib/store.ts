@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import type { MoneroWalletFull, MoneroWalletKeys } from "monero-ts";
 
-import { buildIdentifierHash } from "./lib/xmr";
+import { buildIdentifierHash } from "~/lib/xmr";
 
 // --- ATOMS
 export const walletAtom = atom<MoneroWalletFull | MoneroWalletKeys | null>(
