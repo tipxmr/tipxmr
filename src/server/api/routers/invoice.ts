@@ -17,7 +17,8 @@ export const invoiceRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const subaddress = await getFreshSubaddress(xmrWallet);
+      // FIXME not working
+      // const subaddress = await getFreshSubaddress(xmrWallet);
 
       const data = {
         ...input,
