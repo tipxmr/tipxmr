@@ -1,21 +1,31 @@
-import FundingGoal from "~/components/FundingGoal";
-import LogoutButton from "~/components/LogoutButton";
+import InvoiceCard from "~/components/InvoiceCard";
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
-import User from "~/components/User";
+import UserCard from "~/components/UserCard";
+import { Separator } from "~/components/ui/separator";
+import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/trpc/server";
 
 export default async function DashboardPage() {
+  const session = await getServerAuthSession();
+  if (!session?.user) return <>No session</>;
+
+  const mostRecentInvoice = await api.invoice.mostRecentInvoice.query({
+    streamerId: session.user?.id,
+  });
+
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
-      <h1 className="text-3xl">Dashboard</h1>
-      <User />
-      <FundingGoal
-        expectedAmount={1}
-        payedAmount={0.5}
-        subaddress={"123123"}
-        delta={0.5}
-        key={1}
-      />
-      <LogoutButton />
+      <section className="grid grid-cols-2">
+        {!!session?.user && <UserCard user={session.user} />}
+        {!!mostRecentInvoice ? (
+          <InvoiceCard invoice={mostRecentInvoice} />
+        ) : (
+          <div className="flex items-center justify-center">
+            <h1>Here should be the invoice 🏗</h1>
+          </div>
+        )}
+      </section>
+      <Separator />
     </MaxWidthWrapper>
   );
 }
