@@ -1,3 +1,5 @@
+/* This file handles the logic for the monero wallet running on the
+ * server and checking the income of transactions to pay invoices */
 import * as moneroTs from "monero-ts";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
@@ -13,8 +15,8 @@ async function initWallet() {
   // TODO set onBalanceReceived listener and credit the appropriate account
 
   const wallet = await walletRpc.openWallet({
-    path: "server-wallet",
-    password: "server-wallet",
+    path: env.MONERO_WALLET_PATH,
+    password: env.MONERO_WALLET_PW,
   });
   await wallet.addListener(
     new (class extends moneroTs.MoneroWalletListener {
