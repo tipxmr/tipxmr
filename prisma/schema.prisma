@@ -153,7 +153,7 @@ model Account {
   scope             String?
   id_token          String? // @db.Text
   session_state     String?
-  streamer          Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
+  user          Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -163,7 +163,7 @@ model Session {
   sessionToken String   @unique
   streamerId   String
   expires      DateTime
-  streamer     Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
+  user     Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
 }
 
 // model User {

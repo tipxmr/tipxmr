@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import type { Streamer } from "@prisma/client";
 
 import { db } from "~/server/db";
+import { DefaultSession } from "next-auth";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -13,8 +14,22 @@ import { db } from "~/server/db";
  */
 
 declare module "next-auth" {
-  interface Session {
-    user?: Streamer;
+  // interface Session {
+  //   user?: Streamer;
+  // }
+
+  interface Session extends DefaultSession {
+    user?: Streamer & DefaultSession["user"];
+  }
+
+  interface User {
+    id: string;
+    // accountNumber: string;
+    // isValid: boolean;
+    // validUntil?: Date;
+    // moneroSubaddress: string;
+    // ...other properties
+    // role: UserRole;
   }
 }
 /**
@@ -36,14 +51,14 @@ export const authOptions: NextAuthOptions = {
 
       return token;
     },
-    session({ session, user, token }) {
-      console.log(session, user, token);
+    session(args) {
+      console.log("in session: ", { args });
 
-      if (token.user) {
-        session.user = token.user as Streamer;
+      if (args.token.user) {
+        args.session.user = args.token.user as Streamer;
       }
 
-      return session;
+      return args.session;
     },
   },
   adapter: PrismaAdapter(db),
