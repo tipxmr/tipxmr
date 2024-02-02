@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { truncatedHashIdAtom } from "~/lib/store";
 import { useAtomValue } from "jotai";
+import { signIn } from "next-auth/react";
 
 const FormSchema = z.object({
   name: z
@@ -33,7 +34,12 @@ const FormSchema = z.object({
 const UsernameForm = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
 
-  const { mutate } = api.streamer.create.useMutation();
+  const { mutate } = api.streamer.create.useMutation({
+    onSuccess: () => {
+      console.log("signing in");
+      signIn("credentials", { identifierHash: truncatedHashId });
+    },
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,7 +47,7 @@ const UsernameForm = () => {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!truncatedHashId) return;
     mutate({ ...data, id: truncatedHashId });
-    toast("Submitted form!");
+    toast("Great, hold on a sec, while we create your account!");
   }
 
   return (
