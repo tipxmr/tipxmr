@@ -1,16 +1,17 @@
 "use client";
 
-import { useSetAtom } from "jotai";
-import { useState } from "react";
-
-import { buildIdentifierHash, open } from "~/lib/xmr";
-import { walletAtom } from "~/lib/store";
-
-/* import Textarea from "./Textarea"; */
-import { Textarea } from "./ui/textarea";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSetAtom } from "jotai";
+import { LightbulbIcon } from "lucide-react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
+import { walletAtom } from "~/lib/store";
+import { buildIdentifierHash, open } from "~/lib/xmr";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,12 +20,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { LightbulbIcon } from "lucide-react";
+} from "~/components/ui/form";
+import { Textarea } from "~/components/ui/textarea";
 
 const FormSchema = z.object({
   seed: z.string(),

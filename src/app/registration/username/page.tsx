@@ -1,5 +1,5 @@
 import BackButton from "~/components/BackButton";
-import UsernameForm from "./UsernameForm";
+import UsernameForm from "~/app/registration/username/UsernameForm";
 
 export default async function UsernamePage() {
   return (

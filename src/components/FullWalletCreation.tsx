@@ -1,22 +1,21 @@
 "use client";
 
-import { type PrimitiveAtom, useAtom } from "jotai";
+import { useAtom, type PrimitiveAtom } from "jotai";
+import {
+  LockKeyholeIcon,
+  PencilIcon,
+  RocketIcon,
+  ShellIcon,
+} from "lucide-react";
 import type { MoneroWalletFull } from "monero-ts";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import LanguageSelect from "~/components/LanguageSelect";
-import { createWalletFromScratch } from "~/lib/xmr";
+import { Button } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
 import { walletAtom } from "~/lib/store";
-import {
-  LockKeyholeIcon,
-  LucideIcon,
-  PencilIcon,
-  RocketIcon,
-  ShellIcon,
-} from "lucide-react";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
+import { createWalletFromScratch } from "~/lib/xmr";
 
 const FullWalletCreation = () => {
   const router = useRouter();

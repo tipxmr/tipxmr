@@ -1,9 +1,9 @@
 import Link from "next/link";
-import MaxWidthWrapper from "./MaxWidthWrapper";
-import { ThemeToggle } from "./ThemeToggle";
+import MaxWidthWrapper from "~/components/MaxWidthWrapper";
+import { ThemeToggle } from "~/components/ThemeToggle";
 import { getServerAuthSession } from "~/server/auth";
-import { buttonVariants } from "./ui/button";
-import LogoutButton from "./LogoutButton";
+import { buttonVariants } from "~/components/ui/button";
+import LogoutButton from "~/components/LogoutButton";
 
 export async function Navbar() {
   const session = await getServerAuthSession();
@@ -42,7 +42,15 @@ export async function Navbar() {
                   </Link>
                 </>
               ) : (
-                <LogoutButton />
+                <>
+                  <Link
+                    href="/dashboard"
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    Dashboard
+                  </Link>
+                  <LogoutButton />
+                </>
               )}
               <div className="ml-4 hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                 <ThemeToggle />

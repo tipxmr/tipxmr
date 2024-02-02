@@ -1,6 +1,6 @@
 "use client";
 
-import CopyableString from "./CopyableString";
+import CopyableString from "~/components/CopyableString";
 
 interface Props {
   uri?: string;

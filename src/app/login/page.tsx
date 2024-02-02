@@ -1,5 +1,5 @@
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
-import LoginForm from "./LoginForm";
+import LoginForm from "~/app/login/LoginForm";
 import { getServerAuthSession } from "~/server/auth";
 import { redirect } from "next/navigation";
 

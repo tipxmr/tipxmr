@@ -1,17 +1,14 @@
-import "~/styles/globals.css";
-
+import { type Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { TRPCReactProvider } from "~/trpc/react";
-import { type Metadata } from "next";
-import { env } from "~/env";
-import { cn } from "~/lib/utils";
-import { headers } from "next/headers";
+import Provider from "~/app/provider";
+import { Navbar } from "~/components/Navbar";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "~/components/ui/sonner";
-import { ThemeToggle } from "~/components/ThemeToggle";
-import Provider from "./provider";
-import { Navbar } from "~/components/Navbar";
+import { env } from "~/env";
+import { cn } from "~/lib/utils";
+import "~/styles/globals.css";
+import { TRPCReactProvider } from "~/trpc/react";
 
 const inter = Inter({
   subsets: ["latin"],
