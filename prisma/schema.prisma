@@ -51,15 +51,38 @@ model DonationSetting {
   streamer_donation_settingsTostreamer Streamer @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
+// Payment to the TipXMR provider
+model Transaction {
+  id             String   @id @default(cuid())
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  transactionKey String?  @unique
+  amount         Float?   @default(0)
+  isConfirmed    Boolean  @default(false)
+  isUnlocked     Boolean  @default(false)
+  invoice        Invoice? @relation(fields: [invoiceId], references: [id])
+  invoiceId      Int?
+}
+
 model Invoice {
-  id                         Int         @id @default(autoincrement())
-  streamer                   String?     @db.VarChar(12)
-  startDate                  DateTime?   @db.Timestamp(6)
-  endDate                    DateTime?   @db.Timestamp(6)
+  id        Int       @id @default(autoincrement())
+  streamer  String?   @db.VarChar(12)
+  startDate DateTime? @db.Timestamp(6)
+  endDate   DateTime? @db.Timestamp(6)
+
+  payedAmount    Float? @default(0)
+  expectedAmount Float? @default(0)
+
   planType                   PlanType?
   paidStatus                 PaidStatus?
-  subaddress                 String?     @db.VarChar(95)
-  streamer_invoiceTostreamer Streamer?   @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subaddress                 String?       @db.VarChar(95)
+  transaction                Transaction[]
+  streamer_invoiceTostreamer Streamer?     @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ServerXmrSetting {
+  id                     Int @id @default(autoincrement())
+  currentSubaddressIndex Int @default(1)
+  restoreHeight          Int @default(2000000)
 }
 
 model Stream {
@@ -153,7 +176,7 @@ model Account {
   scope             String?
   id_token          String? // @db.Text
   session_state     String?
-  user          Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
+  user              Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -163,7 +186,7 @@ model Session {
   sessionToken String   @unique
   streamerId   String
   expires      DateTime
-  user     Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
+  user         Streamer @relation(fields: [streamerId], references: [id], onDelete: Cascade)
 }
 
 // model User {

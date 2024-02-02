@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Invoice" ADD COLUMN     "expectedAmount" DOUBLE PRECISION DEFAULT 0,
+ADD COLUMN     "payedAmount" DOUBLE PRECISION DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "Transaction" ADD COLUMN     "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP;

@@ -30,6 +30,7 @@ export const env = createEnv({
     ),
     DOMAIN: z.string(),
     CORS_ORIGIN: z.string(),
+    MONERO_RPC_URI: z.string(),
   },
 
   /**
@@ -52,6 +53,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     DOMAIN: process.env.DOMAIN,
     CORS_ORIGIN: process.env.CORS_ORIGIN,
+    MONERO_RPC_URI: process.env.MONERO_RPC_URI,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
