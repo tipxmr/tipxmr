@@ -1,6 +1,6 @@
 "use client";
 
-import { Invoice } from "@prisma/client";
+import { type Invoice } from "@prisma/client";
 import FundingGoal from "~/components/FundingGoal";
 import {
   Card,

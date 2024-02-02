@@ -87,7 +87,7 @@ const FullWalletCreation = () => {
 
       <ul className="mt-4 flex flex-col gap-6 text-left">
         {infoPoints.map((point) => (
-          <li className="grid grid-cols-[auto_1fr] gap-x-3">
+          <li className="grid grid-cols-[auto_1fr] gap-x-3" key={point.heading}>
             <span className="row-span-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white">
               {<point.icon className="h-12 w-12 p-3" />}
             </span>

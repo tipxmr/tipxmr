@@ -35,9 +35,9 @@ const UsernameForm = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
 
   const { mutate } = api.streamer.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log("signing in");
-      signIn("credentials", { identifierHash: truncatedHashId });
+      await signIn("credentials", { identifierHash: truncatedHashId });
     },
   });
 

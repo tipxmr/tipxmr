@@ -1,11 +1,7 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
-import xmrWallet, { getFreshSubaddress } from "~/server/xmrWallet";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+// import xmrWallet, { getFreshSubaddress } from "~/server/xmrWallet";
 
 export const invoiceRouter = createTRPCRouter({
   // TODO protect these procedures!

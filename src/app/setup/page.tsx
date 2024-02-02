@@ -51,7 +51,7 @@ export default async function SetupPage() {
       </h1>
       <Accordion type="single" collapsible>
         {entries.map(({ heading, content }) => (
-          <AccordionItem value={heading}>
+          <AccordionItem value={heading} key={heading}>
             <AccordionTrigger className="text-xl">{heading}</AccordionTrigger>
             <AccordionContent>{content}</AccordionContent>
           </AccordionItem>

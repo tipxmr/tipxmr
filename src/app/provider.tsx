@@ -1,7 +1,6 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 
 export const queryClient = new QueryClient();

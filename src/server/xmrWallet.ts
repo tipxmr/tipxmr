@@ -2,7 +2,6 @@
  * server and checking the income of transactions to pay invoices */
 import * as moneroTs from "monero-ts";
 import { db } from "~/server/db";
-import { revalidatePath } from "next/cache";
 import { env } from "~/env";
 import { type Invoice } from "@prisma/client";
 

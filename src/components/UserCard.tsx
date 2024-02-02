@@ -1,6 +1,6 @@
 "use client";
 
-import { Streamer } from "@prisma/client";
+import { type Streamer } from "@prisma/client";
 import {
   Card,
   CardContent,
