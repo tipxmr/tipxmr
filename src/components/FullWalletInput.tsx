@@ -28,6 +28,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import useUser from "~/lib/useUser";
+import { signIn } from "next-auth/react";
 
 const FormSchema = z.object({
   seed: z.string(),
@@ -60,21 +61,11 @@ const FullWalletInput = () => {
       privateViewKey,
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-
-    const signIn = (id: string) => {
-      console.log("signing in");
-      try {
-        login(id);
-        console.log("signed in");
-      } catch (reason) {
-        console.log("error");
-        console.error("An unexpected error happened:", reason);
-      }
-    };
-    signIn(id);
     setWallet(wallet);
+
+    const res = await signIn("credentials", { identifierHash: id });
+    console.log({ res });
     setIsLoading(false);
-    return wallet;
   }
 
   return (

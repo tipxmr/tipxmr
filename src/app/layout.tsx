@@ -37,7 +37,8 @@ export const metadata: Metadata = {
   },
   icons: [{ rel: "icon", url: "/img/icon-192x192.png" }],
   description: APP_DESCRIPTION,
-  manifest: "/manifest.json",
+  /* TODO make it PWA */
+  /* manifest: "/manifest.json", */
   formatDetection: {
     telephone: false,
   },

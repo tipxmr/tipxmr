@@ -1,9 +1,12 @@
+import { redirect } from "next/navigation";
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import User from "~/components/User";
 import { getServerAuthSession } from "~/server/auth";
 
-const DashboardPage = () => {
-  const session = getServerAuthSession();
+export default async function DashboardPage() {
+  const session = await getServerAuthSession();
+  /* if (!session) redirect("/login"); */
+  console.log({ session });
   return (
     <MaxWidthWrapper>
       Dashboard
@@ -11,6 +14,4 @@ const DashboardPage = () => {
       <User />
     </MaxWidthWrapper>
   );
-};
-
-export default DashboardPage;
+}

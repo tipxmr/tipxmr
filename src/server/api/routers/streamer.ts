@@ -39,6 +39,7 @@ export const streamerRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.db.streamer.delete({ where: { name: input.id } });
     }),
+  // Registration
   create: publicProcedure
     .input(
       z.object({

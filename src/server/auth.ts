@@ -5,6 +5,7 @@ import type { Streamer } from "@prisma/client";
 
 import { db } from "~/server/db";
 import { DefaultSession } from "next-auth";
+import { env } from "~/env";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -19,7 +20,7 @@ declare module "next-auth" {
   // }
 
   interface Session extends DefaultSession {
-    user?: Streamer & DefaultSession["user"];
+    user?: Streamer;
   }
 
   interface User {
@@ -38,27 +39,36 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  jwt: {
+    secret: env.NEXTAUTH_SECRET,
+    maxAge: 3000,
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 3000,
+  },
+  secret: env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },
   callbacks: {
     jwt({ token, user }) {
-      console.log(token, user);
       if (user) {
         token.user = user;
+        token.accessToken = user.id;
       }
+      console.log({ token, user });
 
       return token;
     },
-    session(args) {
-      console.log("in session: ", { args });
+    session({ session, token, user }) {
+      console.log("in session: ", { session, token, user });
 
-      if (args.token.user) {
-        args.session.user = args.token.user as Streamer;
+      if (token.user) {
+        session.user = token.user as Streamer;
       }
 
-      return args.session;
+      return session;
     },
   },
   adapter: PrismaAdapter(db),
@@ -74,15 +84,12 @@ export const authOptions: NextAuthOptions = {
         identifierHash: { label: "Identifier Hash", type: "text" },
       },
       async authorize(credentials) {
-        console.log({ credentials });
         // Add logic here to look up the user from the credentials supplied
         const user = await db?.streamer?.findUnique({
           where: {
             id: credentials?.identifierHash,
           },
         });
-
-        console.log({ user });
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT

@@ -24,13 +24,13 @@ const FullWalletCreation = () => {
   const [privateViewKey, setPrivateViewKey] = useState<string | null>(null);
 
   useEffect(() => {
-    createWalletFromScratch(seedLang).then(setWallet);
+    createWalletFromScratch(seedLang).then(setWallet).finally();
   }, [seedLang, setWallet]);
 
   useEffect(() => {
-    wallet?.getSeed().then(setSeed);
-    wallet?.getPrimaryAddress().then(setPrimaryAddress);
-    wallet?.getPrivateViewKey().then(setPrivateViewKey);
+    wallet?.getSeed().then(setSeed).finally();
+    wallet?.getPrimaryAddress().then(setPrimaryAddress).finally();
+    wallet?.getPrivateViewKey().then(setPrivateViewKey).finally();
   }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {

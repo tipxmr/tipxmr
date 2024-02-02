@@ -8,89 +8,87 @@ import { truncatedHashIdAtom } from "~/store";
 
 import Input from "./Input";
 import Tooltip from "./Tooltip";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 
-interface UsernameDisplaynameValues {
-  username: string;
-  displayname: string;
-}
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+
+const FormSchema = z.object({
+  username: z.string(),
+  displayname: z.string(),
+});
 
 const UsernameDisplaynameInput = () => {
-  const {
-    handleSubmit,
-    control,
-    formState: { isValid, isDirty },
-  } = useForm<UsernameDisplaynameValues>({
-    mode: "onChange",
-    defaultValues: {
-      username: "",
-      displayname: "",
-    },
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
   });
   const createUser = useCreateUser();
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAccountCreation: SubmitHandler<UsernameDisplaynameValues> = (
-    data: UsernameDisplaynameValues,
-  ) => {
-    if (!truncatedHashId) return;
+  async function handleAccountCreation(data: z.infer<typeof FormSchema>) {
+    if (!form.formState.isValid) return;
+    setIsLoading(true);
+
     createUser.mutate({
       id: truncatedHashId,
       name: data.username,
       alias: data.displayname,
     });
-  };
+  }
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(handleAccountCreation)}
-        className="mx-auto flex flex-col gap-2"
-      >
-        <Tooltip content={<UsernameTooltip />}>
-          <Input
-            label="Username"
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleAccountCreation)}
+          className="mx-auto flex flex-col gap-2"
+        >
+          <FormField
+            control={form.control}
             name="username"
-            type="text"
-            control={control}
-            rules={{
-              required: { value: true, message: "Username is required" },
-              minLength: {
-                value: 4,
-                message: "Your username has less than 4 characters",
-              },
-              maxLength: {
-                value: 20,
-                message: "Your username has more than 20 characters",
-              },
-            }}
-          ></Input>
-        </Tooltip>
-        <Tooltip content={<DisplayTooltip />}>
-          <Input
-            label="Displayname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel></FormLabel>
+
+                <FormControl>
+                  <Input placeholder="primary Address" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Your primaryAddress for the streamer wallet on TipXMR
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="displayname"
-            type="text"
-            control={control}
-            rules={{
-              required: { value: true, message: "Displayname is required" },
-              minLength: {
-                value: 4,
-                message: "Displayname has less than 4 characters",
-              },
-              maxLength: {
-                value: 24,
-                message: "Displayname has more than 24 characters",
-              },
-            }}
-          ></Input>
-        </Tooltip>
-        <input
-          type="submit"
-          value="Create Account"
-          disabled={!isDirty || !isValid}
-          className="btn-primary my-4"
-        />
-      </form>
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel></FormLabel>
+
+                <FormControl>
+                  <Input placeholder="primary Address" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Your primaryAddress for the streamer wallet on TipXMR
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
     </>
   );
 };

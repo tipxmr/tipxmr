@@ -32,17 +32,18 @@ const FormSchema = z.object({
 
 const UsernameForm = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
-  console.log({ truncatedHashId });
+
+  const { mutate } = api.streamer.create.useMutation();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
-  const { mutate } = api.streamer.create.useMutation();
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log({ truncatedHashId });
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!truncatedHashId) return;
     mutate({ ...data, id: truncatedHashId });
     toast("Submitted form!");
   }
+
   return (
     <Form {...form}>
       <form
