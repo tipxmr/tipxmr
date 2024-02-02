@@ -23,6 +23,8 @@ import {
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { LightbulbIcon } from "lucide-react";
 
 const FormSchema = z.object({
   seed: z.string(),
@@ -53,22 +55,41 @@ const FullWalletInput = () => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col items-center justify-center space-y-6"
+        >
           <FormField
             control={form.control}
             name="seed"
             render={({ field }) => (
               <FormItem>
-                <FormLabel></FormLabel>
+                <FormLabel className="text-xl">Seed Login</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="your seed goes here"
+                    placeholder="lopped ladder voyage debut agreed taunts owed oneself linen..."
                     className="h-24 font-mono"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  Your seed for the streamer wallet on TipXMR
+                <FormDescription className="flex flex-row items-center">
+                  <LightbulbIcon
+                    className="mr-2 text-destructive-foreground"
+                    size={69}
+                  />
+                  <p>
+                    We highly recommend that you use the wallet for TipXMR
+                    exclusively for TipXMR and no other business. Entering a
+                    seed phrase into a browser is usually considered bad
+                    practice and can lead to a compromised seed phrase. <br />{" "}
+                    Read more about this in{" "}
+                    <Link
+                      className="underline hover:text-foreground"
+                      href="/setup"
+                    >
+                      the ideal setup for TipXMR.
+                    </Link>
+                  </p>
                 </FormDescription>
                 <FormMessage />
               </FormItem>

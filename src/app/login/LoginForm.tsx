@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import FullWalletInput from "~/components/FullWalletInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
+import { Button } from "~/components/ui/button";
 
 enum LoginMode {
   Initial = "initial",
@@ -19,36 +20,30 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="container max-w-md text-center">
-      <h1 className="mb-2 text-3xl">Login to TipXMR</h1>
-      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
+    <>
       {loginMode === LoginMode.Initial && (
-        <div className="mx-auto my-8 flex w-72 flex-col gap-4">
-          <button
-            className="btn-primary"
-            onClick={() => handleStepChange(LoginMode.FullWallet)}
-          >
+        <div className="flex flex-col items-center justify-center gap-4">
+          <Button onClick={() => handleStepChange(LoginMode.FullWallet)}>
             Login with your seed
-          </button>
-          <button
-            className="btn-primary"
-            onClick={() => handleStepChange(LoginMode.ViewOnlyWallet)}
-          >
+          </Button>
+          <Button onClick={() => handleStepChange(LoginMode.ViewOnlyWallet)}>
             Login with existing private view key
-          </button>
+          </Button>
         </div>
       )}
       {loginMode === LoginMode.ViewOnlyWallet && <ViewWalletInput />}
       {loginMode === LoginMode.FullWallet && <FullWalletInput />}
       {loginMode !== LoginMode.Initial && (
-        <button
-          className="btn-primary mt-2 w-full"
-          onClick={() => setLoginMode(LoginMode.Initial)}
-        >
-          Go back
-        </button>
+        <div className="mt-3">
+          <Button
+            variant="secondary"
+            onClick={() => setLoginMode(LoginMode.Initial)}
+          >
+            Go back
+          </Button>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
