@@ -15,7 +15,7 @@ export default async function DashboardPage() {
 
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
-      <section className="grid grid-cols-2">
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {!!session?.user && <UserCard user={session.user} />}
         {!!mostRecentInvoice ? (
           <InvoiceCard invoice={mostRecentInvoice} />
