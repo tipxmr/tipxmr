@@ -19,7 +19,6 @@ export const streamerRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.streamer.findUniqueOrThrow({ where: { name: input.name } });
     }),
-
   getById: publicProcedure
     .input(
       z.object({
@@ -27,7 +26,7 @@ export const streamerRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.streamer.findUniqueOrThrow({ where: { name: input.id } });
+      return ctx.db.streamer.findUniqueOrThrow({ where: { id: input.id } });
     }),
   // TODO this probably should not be left unsecured
   delete: protectedProcedure
@@ -68,4 +67,5 @@ export const streamerRouter = createTRPCRouter({
         data: { name: input.name, alias: input.alias, socket: input.socket },
       });
     }),
+  // TODO should this be protected?
 });

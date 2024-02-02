@@ -64,10 +64,10 @@ model Transaction {
 }
 
 model Invoice {
-  id        Int       @id @default(autoincrement())
-  streamer  String?   @db.VarChar(12)
-  startDate DateTime? @db.Timestamp(6)
-  endDate   DateTime? @db.Timestamp(6)
+  id         Int       @id @default(autoincrement())
+  streamerId String?   @db.VarChar(12)
+  startDate  DateTime? @db.Timestamp(6)
+  endDate    DateTime? @db.Timestamp(6)
 
   payedAmount    Float? @default(0)
   expectedAmount Float? @default(0)
@@ -76,7 +76,7 @@ model Invoice {
   paidStatus                 PaidStatus?
   subaddress                 String?       @db.VarChar(95)
   transaction                Transaction[]
-  streamer_invoiceTostreamer Streamer?     @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_invoiceTostreamer Streamer?     @relation(fields: [streamerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model ServerXmrSetting {

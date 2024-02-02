@@ -31,6 +31,8 @@ export const env = createEnv({
     DOMAIN: z.string(),
     CORS_ORIGIN: z.string(),
     MONERO_RPC_URI: z.string(),
+    MONERO_WALLET_PATH: z.string(),
+    MONERO_WALLET_PW: z.string(),
   },
 
   /**
@@ -54,6 +56,8 @@ export const env = createEnv({
     DOMAIN: process.env.DOMAIN,
     CORS_ORIGIN: process.env.CORS_ORIGIN,
     MONERO_RPC_URI: process.env.MONERO_RPC_URI,
+    MONERO_WALLET_PATH: process.env.MONERO_WALLET_PATH,
+    MONERO_WALLET_PW: process.env.MONERO_WALLET_PW,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

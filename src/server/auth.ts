@@ -1,11 +1,12 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { getServerSession, type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import type { Streamer } from "@prisma/client";
+import type { Invoice, Streamer } from "@prisma/client";
 
 import { db } from "~/server/db";
 import { DefaultSession } from "next-auth";
 import { env } from "~/env";
+import { api } from "~/trpc/server";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -21,6 +22,7 @@ declare module "next-auth" {
 
   interface Session extends DefaultSession {
     user?: Streamer;
+    invoice?: Invoice;
   }
 
   interface User {
@@ -52,18 +54,27 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, account }) {
+      if (account) {
+        // this will only evaluate on first login
+        token.accessToken = account.access_token;
         token.user = user;
-        token.accessToken = user.id;
+
+        const mostRecentInvoice = await api.invoice.mostRecentInvoice.query({
+          streamerId: user.id,
+        });
+        console.log({ mostRecentInvoice });
+
+        if (!mostRecentInvoice) {
+          // new streamer, does not have an invoice yet
+        }
+
+        token.invoice = mostRecentInvoice;
       }
-      console.log({ token, user });
 
       return token;
     },
-    session({ session, token, user }) {
-      console.log("in session: ", { session, token, user });
-
+    async session({ session, token }) {
       if (token.user) {
         session.user = token.user as Streamer;
       }
@@ -85,10 +96,8 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
-        const user = await db?.streamer?.findUnique({
-          where: {
-            id: credentials?.identifierHash,
-          },
+        const user = await api.streamer.getById.query({
+          id: credentials?.identifierHash || "",
         });
 
         if (user) {
