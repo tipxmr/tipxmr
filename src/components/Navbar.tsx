@@ -26,12 +26,21 @@ export async function Navbar() {
                 Home
               </Link>
               {!session?.user?.id ? (
-                <Link
-                  href="/login"
-                  className={buttonVariants({ variant: "link" })}
-                >
-                  Login
-                </Link>
+                <>
+                  <Link
+                    href="/login"
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    Login
+                  </Link>
+
+                  <Link
+                    href="/registration"
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    Sign up
+                  </Link>
+                </>
               ) : (
                 <LogoutButton />
               )}
