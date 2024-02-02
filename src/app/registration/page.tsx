@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { NextPage } from "next/types";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,

@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import type { Invoice, Streamer } from "@prisma/client";
 
 import { db } from "~/server/db";
-import { DefaultSession } from "next-auth";
+import { type DefaultSession } from "next-auth";
 import { env } from "~/env";
 import { api } from "~/trpc/server";
 
@@ -63,6 +63,7 @@ export const authOptions: NextAuthOptions = {
         const mostRecentInvoice = await api.invoice.mostRecentInvoice.query({
           streamerId: user.id,
         });
+
         console.log({ mostRecentInvoice });
 
         if (!mostRecentInvoice) {
@@ -97,7 +98,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
         const user = await api.streamer.getById.query({
-          id: credentials?.identifierHash || "",
+          id: credentials?.identifierHash ?? "",
         });
 
         if (user) {

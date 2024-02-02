@@ -2,16 +2,17 @@ import { createHash } from "crypto";
 import {
   createWalletFull,
   createWalletKeys,
-  MoneroWalletConfig,
-  MoneroWalletFull,
+  type MoneroWalletConfig,
+  type MoneroWalletFull,
 } from "monero-ts";
+import { env } from "~/env";
 
 export const stagenetNode: Partial<MoneroWalletConfig> = {
   networkType: "stagenet",
   server: {
-    uri: process.env["MONERO_DAEMON_URL"] || "http://localhost:38081",
-    username: process.env["MONERO_DAEMON_USER"] || "tipxmr",
-    password: process.env["MONERO_DAEMON_PASSWORD"] || "tipxmr",
+    uri: env.MONERO_DAEMON_URL,
+    username: env.MONERO_DAEMON_USER,
+    password: env.MONERO_DAEMON_PASSWORD,
   },
 };
 

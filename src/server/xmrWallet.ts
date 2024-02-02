@@ -2,7 +2,7 @@ import * as moneroTs from "monero-ts";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
 import { env } from "~/env";
-import { Invoice } from "@prisma/client";
+import { type Invoice } from "@prisma/client";
 
 async function initWallet() {
   const walletRpc = await moneroTs.connectToWalletRpc({
@@ -46,12 +46,10 @@ async function initWallet() {
             isConfirmed,
             isUnlocked: !isLocked,
             amount: Number(amount),
-            // feedItemId: relatedFeedItem?.id,
           },
         });
 
         if (existingTx) return;
-        // --- Update Feed Item
         await updateInvoiceWithTx(relatedFeedItem, amount);
 
         // --- Finishing up
@@ -63,7 +61,7 @@ async function initWallet() {
 }
 
 async function updateInvoiceWithTx(invoice: Invoice | null, amount: number) {
-  // new tx was received, update the amount of the feed item + unlocking logic
+  // new tx was received, update the amount of the invoice + unlocking logic
   if (!invoice) return;
 
   const newAmount = (invoice?.payedAmount ?? 0) + amount;

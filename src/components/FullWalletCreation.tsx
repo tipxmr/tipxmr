@@ -1,4 +1,4 @@
-import { PrimitiveAtom, useAtom } from "jotai";
+import { type PrimitiveAtom, useAtom } from "jotai";
 import type { MoneroWalletFull } from "monero-ts";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,13 +24,14 @@ const FullWalletCreation = () => {
   const [privateViewKey, setPrivateViewKey] = useState<string | null>(null);
 
   useEffect(() => {
-    createWalletFromScratch(seedLang).then(setWallet).finally();
+    createWalletFromScratch(seedLang).then(setWallet).catch(console.error);
   }, [seedLang, setWallet]);
 
   useEffect(() => {
-    wallet?.getSeed().then(setSeed).finally();
-    wallet?.getPrimaryAddress().then(setPrimaryAddress).finally();
-    wallet?.getPrivateViewKey().then(setPrivateViewKey).finally();
+    wallet?.getSeed().then(setSeed).catch(console.error);
+    wallet?.getPrimaryAddress().then(setPrimaryAddress).catch(console.error);
+
+    wallet?.getPrivateViewKey().then(setPrivateViewKey).catch(console.error);
   }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {

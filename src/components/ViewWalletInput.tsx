@@ -1,6 +1,6 @@
 "use client";
 
-import { Streamer } from "@prisma/client";
+import { type Streamer } from "@prisma/client";
 import { UpdateIcon } from "@radix-ui/react-icons";
 import { useSetAtom } from "jotai";
 import { usePathname } from "next/navigation";

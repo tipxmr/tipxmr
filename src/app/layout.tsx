@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { Metadata } from "next";
+import { type Metadata } from "next";
 import { env } from "~/env";
 import { cn } from "~/lib/utils";
 import { headers } from "next/headers";

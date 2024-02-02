@@ -1,5 +1,5 @@
 "use client";
-import { Invoice } from "@prisma/client";
+import { type Invoice } from "@prisma/client";
 import { Wallet2Icon } from "lucide-react";
 import Link from "next/link";
 import MoneroSubaddress from "~/components/MoneroSubaddress";
