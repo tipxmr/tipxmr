@@ -1,17 +1,13 @@
-import { redirect } from "next/navigation";
+import LogoutButton from "~/components/LogoutButton";
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import User from "~/components/User";
-import { getServerAuthSession } from "~/server/auth";
 
 export default async function DashboardPage() {
-  const session = await getServerAuthSession();
-  /* if (!session) redirect("/login"); */
-  console.log({ session });
   return (
-    <MaxWidthWrapper>
-      Dashboard
-      {JSON.stringify({ session })}
+    <MaxWidthWrapper className="my-6 flex flex-col gap-4">
+      <h1 className="text-3xl">Dashboard</h1>
       <User />
+      <LogoutButton />
     </MaxWidthWrapper>
   );
 }
