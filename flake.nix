@@ -1,33 +1,31 @@
 {
-  description = "T3 Stack with Monero Flake";
-  inputs = { nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small"; };
+  description =
+    "Run 'nix develop' to have a dev shell that has everything this project needs";
 
-  outputs = { nixpkgs, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      devShells.${system}.default = with pkgs;
-        mkShell {
-          nativeBuildInputs = [ bashInteractive ];
-          buildInputs = [
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
+
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        devShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
             nodejs_20
-            nodePackages.prisma
-            prisma-engines
-            nodePackages.yarn
+            nodePackages_latest.yarn
+            nodePackages_latest.prisma
+
             monero-cli
+            postgresql_15
             openssl
           ];
           shellHook = ''
-            export BROWSER=none
-            export NODE_OPTIONS="--no-experimental-fetch"
-            export PRISMA_QUERY_ENGINE_BINARY="${prisma-engines}/bin/query-engine"
-            export PRISMA_QUERY_ENGINE_LIBRARY="${prisma-engines}/lib/libquery_engine.node"
-            export PRISMA_INTROSPECTION_ENGINE_BINARY="${prisma-engines}/bin/introspection-engine"
-            export PRISMA_FMT_BINARY="${prisma-engines}/bin/prisma-fmt"
-            export PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING="true"
+            export PRISMA_QUERY_ENGINE_LIBRARY=${pkgs.prisma-engines}/lib/libquery_engine.node
+            export PRISMA_QUERY_ENGINE_BINARY=${pkgs.prisma-engines}/bin/query-engine
+            export PRISMA_SCHEMA_ENGINE_BINARY=${pkgs.prisma-engines}/bin/schema-engine
           '';
-          packages = [ bun ];
         };
-    };
+      });
 }
