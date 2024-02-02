@@ -10,9 +10,9 @@ import { env } from "~/env";
 export const stagenetNode: Partial<MoneroWalletConfig> = {
   networkType: "stagenet",
   server: {
-    uri: env.MONERO_DAEMON_URL,
-    username: env.MONERO_DAEMON_USER,
-    password: env.MONERO_DAEMON_PASSWORD,
+    uri: env.NEXT_PUBLIC_MONERO_DAEMON_URL,
+    username: env.NEXT_PUBLIC_MONERO_DAEMON_USER,
+    password: env.NEXT_PUBLIC_MONERO_DAEMON_PASSWORD,
   },
 };
 

@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import FullWalletInput from "~/components/FullWalletInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
-import useUser from "~/lib/useUser";
 
 enum LoginMode {
   Initial = "initial",
@@ -18,11 +17,6 @@ const LoginForm = () => {
   const handleStepChange = (mode: LoginMode) => {
     setLoginMode(mode);
   };
-
-  const { login } = useUser({
-    redirectTo: "/dashboard",
-    redirectIfFound: true,
-  });
 
   return (
     <div className="container max-w-md text-center">
@@ -44,10 +38,8 @@ const LoginForm = () => {
           </button>
         </div>
       )}
-      {loginMode === LoginMode.ViewOnlyWallet && (
-        <ViewWalletInput login={login} />
-      )}
-      {loginMode === LoginMode.FullWallet && <FullWalletInput login={login} />}
+      {loginMode === LoginMode.ViewOnlyWallet && <ViewWalletInput />}
+      {loginMode === LoginMode.FullWallet && <FullWalletInput />}
       {loginMode !== LoginMode.Initial && (
         <button
           className="btn-primary mt-2 w-full"

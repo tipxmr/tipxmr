@@ -45,6 +45,10 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
+
+    NEXT_PUBLIC_MONERO_DAEMON_URL: z.string().default("http://localhost:38081"),
+    NEXT_PUBLIC_MONERO_DAEMON_USER: z.string().default("tipxmr"),
+    NEXT_PUBLIC_MONERO_DAEMON_PASSWORD: z.string().default("tipxmr"),
   },
 
   /**
@@ -64,6 +68,10 @@ export const env = createEnv({
     MONERO_DAEMON_URL: process.env.MONERO_DAEMON_URL,
     MONERO_DAEMON_USER: process.env.MONERO_DAEMON_USER,
     MONERO_DAEMON_PASSWORD: process.env.MONERO_DAEMON_PASSWORD,
+
+    NEXT_PUBLIC_MONERO_DAEMON_URL: process.env.MONERO_DAEMON_URL,
+    NEXT_PUBLIC_MONERO_DAEMON_USER: process.env.MONERO_DAEMON_USER,
+    NEXT_PUBLIC_MONERO_DAEMON_PASSWORD: process.env.MONERO_DAEMON_PASSWORD,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

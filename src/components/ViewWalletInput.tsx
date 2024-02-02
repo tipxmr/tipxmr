@@ -1,11 +1,14 @@
 "use client";
 
-import { type Streamer } from "@prisma/client";
-import { UpdateIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useSetAtom } from "jotai";
-import { usePathname } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,45 +17,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-
-import { primaryStagenetAddress } from "~/lib/regex";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
 import { walletAtom } from "~/lib/store";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const FormSchema = z.object({
   primaryAddress: z.string(),
   privateViewKey: z.string(),
 });
 
-interface ViewWalletInputProps {
-  login: (id: Streamer["id"]) => void;
-}
-
-const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
+const ViewWalletInput = () => {
   const setWallet = useSetAtom(walletAtom);
-  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  const signIn = (id: string) => {
-    try {
-      login(id);
-    } catch (reason) {
-      console.error("An unexpected error happened:", reason);
-    }
-  };
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (!form.formState.isValid) return;
+    toast("Logging in & opening wallet...");
     setIsLoading(true);
+
     const wallet = await createViewOnlyWallet(
       data.privateViewKey,
       data.primaryAddress,
@@ -60,10 +46,10 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    signIn(id);
     setWallet(wallet);
+    await signIn(id);
+
     setIsLoading(false);
-    return wallet;
   }
 
   return (
@@ -106,7 +92,9 @@ const ViewWalletInput = ({ login }: ViewWalletInputProps) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button disabled={isLoading} variant="default" type="submit">
+            Log in
+          </Button>
         </form>
       </Form>
     </>
