@@ -11,6 +11,7 @@ import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "~/components/ui/sonner";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import Provider from "./provider";
+import { Navbar } from "~/components/Navbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -113,8 +114,7 @@ export default function RootLayout({
               attribute="class"
             >
               <main className="relative flex min-h-screen flex-col">
-                {/* // TODO navbar */}
-                <ThemeToggle />
+                <Navbar />
                 <div className="flex-1 flex-grow">{children}</div>
               </main>
               <Toaster />
