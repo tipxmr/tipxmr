@@ -1,11 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { Streamer } from "@prisma/client";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { Streamer } from "@prisma/client";
 
 import { db } from "~/server/db";
 
@@ -15,32 +11,23 @@ import { db } from "~/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
+
 declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+  interface Session {
+    user?: Streamer;
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
-
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
-    async signIn(args) {
-      console.log(args);
-      return true;
-    },
     jwt({ token, user }) {
       console.log(token, user);
       if (user) {
@@ -74,13 +61,14 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         console.log({ credentials });
         // Add logic here to look up the user from the credentials supplied
-        // const user = await db?.streamer?.findUnique({
-        //   where: {
-        //     id: credentials?.identifierHash,
-        //   },
-        // });
+        const user = await db?.streamer?.findUnique({
+          where: {
+            id: credentials?.identifierHash,
+          },
+        });
 
-        const user = { id: "5e5f1c0d865a" };
+        console.log({ user });
+
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
