@@ -10,10 +10,13 @@ import { createWalletFromScratch } from "~/lib/xmr";
 import { walletAtom } from "~/lib/store";
 import {
   LockKeyholeIcon,
+  LucideIcon,
   PencilIcon,
   RocketIcon,
   ShellIcon,
 } from "lucide-react";
+import { Button } from "./ui/button";
+import { Separator } from "./ui/separator";
 
 const FullWalletCreation = () => {
   const router = useRouter();
@@ -43,68 +46,72 @@ const FullWalletCreation = () => {
     setSeedLang(language);
   };
 
+  const infoPoints = [
+    {
+      icon: PencilIcon,
+      heading: "Note down your seed phrase",
+      content: "You need to to sign into TipXMR",
+    },
+
+    {
+      icon: LockKeyholeIcon,
+      heading: "Keep your seed secure",
+      content: "Don't lose it or show it to anybody. It is best kept offline.",
+    },
+    {
+      icon: RocketIcon,
+      heading: "These words hold your money!",
+      content: "It is the ultimate backup to your sweet Moneroj",
+    },
+  ];
+
   return (
-    <div className="mt-4 flex flex-col gap-2">
-      <div>
-        <h3 className="text-center">Your XMR wallet seedphrase</h3>
-        {seed ? (
-          <CredentialBox text={seed} label="Seed phrase" />
-        ) : (
-          <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
-        )}
-        <CredentialBox text={privateViewKey} label="Private ViewKey" />
-        <CredentialBox text={primaryAddress} label="Primary Address" />
+    <div className="my-4 flex flex-col gap-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div>
+          {seed ? (
+            <CredentialBox text={seed} label="Seed phrase" />
+          ) : (
+            <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
+          )}
+        </div>
+        <div>
+          <CredentialBox text={privateViewKey} label="Private ViewKey" />
+        </div>
+        <div>
+          <CredentialBox text={primaryAddress} label="Primary Address" />
+        </div>
         <div className="mt-4 flex flex-col items-center">
           <LanguageSelect language={seedLang} onChange={handleSetSeedLang} />
         </div>
       </div>
+
       <ul className="mt-4 flex flex-col gap-6 text-left">
-        <li className="grid grid-cols-[auto_1fr] gap-x-3">
-          <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
-            <PencilIcon className="h-12 w-12 p-3" />
-          </span>
+        {infoPoints.map((point) => (
+          <li className="grid grid-cols-[auto_1fr] gap-x-3">
+            <span className="row-span-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white">
+              {<point.icon className="h-12 w-12 p-3" />}
+            </span>
 
-          <span className="col-start-2 text-base text-slate-800">
-            Note down your seed phrase
-          </span>
-          <span className="col-start-2 text-sm text-slate-500">
-            You need to to sign into TipXMR
-          </span>
-        </li>
+            <span className="col-start-2 text-base text-slate-800">
+              {point.heading}
+            </span>
 
-        <li className="grid grid-cols-[auto_1fr] gap-x-3">
-          <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
-            <LockKeyholeIcon className="h-12 w-12 p-3" />
-          </span>
-
-          <span className="col-start-2 text-base text-slate-800">
-            Keep your seed secure
-          </span>
-          <span className="col-start-2 text-sm text-slate-500">
-            {`Don't lose it or show it to anybody. It is best kept offline.`}
-          </span>
-        </li>
-
-        <li className="grid grid-cols-[auto_1fr] gap-x-3">
-          <span className="row-span-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white">
-            <RocketIcon className="h-12 w-12 p-3" />
-          </span>
-
-          <span className="col-start-2 text-base text-slate-800">
-            These words hold your money!
-          </span>
-          <span className="col-start-2 text-sm text-slate-500">
-            It is the ultimate backup to your sweet Moneroj
-          </span>
-        </li>
+            <span className="col-start-2 text-sm text-slate-500">
+              {point.content}
+            </span>
+          </li>
+        ))}
       </ul>
-      <button
-        className="btn-primary mt-4 w-full"
-        disabled={!seed}
-        onClick={() => router.push("/registration/username")}
-      >
-        Next step
-      </button>
+      <div className="flex justify-center">
+        <Button
+          disabled={!seed}
+          onClick={() => router.push("/registration/username")}
+        >
+          Next step
+        </Button>
+      </div>
+      <Separator className="my-4" />
     </div>
   );
 };
@@ -118,12 +125,12 @@ function CredentialBox({
 }) {
   if (!text) return null;
   return (
-    <>
-      <p>{label}</p>
-      <div className="break-words border border-border p-8 font-mono">
-        {text}
-      </div>
-    </>
+    <div className="space-y-4 break-words rounded-md border border-border p-8 font-mono">
+      <p className="text-right lowercase tracking-tight text-muted-foreground">
+        your {label}
+      </p>
+      <p>{text}</p>
+    </div>
   );
 }
 
