@@ -39,6 +39,7 @@ const FullWalletInput = () => {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast("Logging in & opening wallet...");
     setIsLoading(true);
+
     const wallet = await open(data.seed);
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
