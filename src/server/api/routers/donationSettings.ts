@@ -4,7 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const dontationSettingsRouter = createTRPCRouter({
   getDonationSettings: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.donationSetting.findUnique({
+    return ctx.db.donationSetting?.findUnique({
       where: {
         streamer: ctx.session.user?.id,
       },

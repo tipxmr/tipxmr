@@ -7,7 +7,6 @@ import {
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { env } from "~/env";
 import { db } from "~/server/db";
 
 /**
@@ -38,6 +37,10 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    async signIn(args) {
+      console.log(args);
+      return true;
+    },
     jwt({ token, user }) {
       console.log(token, user);
       if (user) {
@@ -69,14 +72,15 @@ export const authOptions: NextAuthOptions = {
         identifierHash: { label: "Identifier Hash", type: "text" },
       },
       async authorize(credentials) {
-        console.log(credentials);
+        console.log({ credentials });
         // Add logic here to look up the user from the credentials supplied
-        const user = await db?.streamer.findUnique({
-          where: {
-            id: credentials?.identifierHash,
-          },
-        });
+        // const user = await db?.streamer?.findUnique({
+        //   where: {
+        //     id: credentials?.identifierHash,
+        //   },
+        // });
 
+        const user = { id: "5e5f1c0d865a" };
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;

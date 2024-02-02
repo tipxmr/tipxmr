@@ -11,10 +11,12 @@ export default function useUser({
   const { data: session } = useSession();
 
   async function login(identifierHash: string) {
+    console.log("signing in in login", identifierHash);
     const response = await signIn("credentials", {
       identifierHash,
       redirect: false,
     });
+    console.log("no error: ", response);
 
     if (response?.error) {
       router.push("/registration/username");

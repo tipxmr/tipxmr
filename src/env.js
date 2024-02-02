@@ -29,6 +29,7 @@ export const env = createEnv({
       process.env.VERCEL ? z.string() : z.string().url(),
     ),
     DOMAIN: z.string(),
+    CORS_ORIGIN: z.string(),
   },
 
   /**
@@ -50,6 +51,7 @@ export const env = createEnv({
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     DOMAIN: process.env.DOMAIN,
+    CORS_ORIGIN: process.env.CORS_ORIGIN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

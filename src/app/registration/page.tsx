@@ -1,10 +1,9 @@
 "use client";
 
-import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import type { NextPage } from "next/types";
 import { ReactNode } from "react";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,

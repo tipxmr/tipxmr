@@ -27,22 +27,19 @@ import {
 } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
+import useUser from "~/lib/useUser";
 
 const FormSchema = z.object({
   seed: z.string(),
 });
 
-interface FullWalletFormValues {
-  seed: string;
-}
+const FullWalletInput = () => {
+  const { login } = useUser({
+    redirectTo: "/dashboard",
+    redirectIfFound: true,
+  });
 
-interface FullWalletInputProps {
-  login: (id: Streamer["id"]) => void;
-}
-
-const FullWalletInput = ({ login }: FullWalletInputProps) => {
   const setWallet = useSetAtom(walletAtom);
-  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -50,8 +47,9 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log({ form, data, isValid: form.formState.isValid });
+    /* if (!form.formState.isValid) return; */
     toast("Submitted values");
-    if (!form.formState.isValid) return;
     setIsLoading(true);
     const wallet = await open(data.seed);
     const privateViewKey = await wallet.getPrivateViewKey();
@@ -62,19 +60,22 @@ const FullWalletInput = ({ login }: FullWalletInputProps) => {
       privateViewKey,
     );
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
+
+    const signIn = (id: string) => {
+      console.log("signing in");
+      try {
+        login(id);
+        console.log("signed in");
+      } catch (reason) {
+        console.log("error");
+        console.error("An unexpected error happened:", reason);
+      }
+    };
     signIn(id);
     setWallet(wallet);
     setIsLoading(false);
     return wallet;
   }
-
-  const signIn = (id: string) => {
-    try {
-      login(id);
-    } catch (reason) {
-      console.error("An unexpected error happened:", reason);
-    }
-  };
 
   return (
     <>
