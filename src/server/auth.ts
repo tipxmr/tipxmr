@@ -64,8 +64,6 @@ export const authOptions: NextAuthOptions = {
           streamerId: user.id,
         });
 
-        console.log({ mostRecentInvoice });
-
         if (!mostRecentInvoice) {
           // new streamer, does not have an invoice yet
         }
