@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import { getServerAuthSession } from "~/server/auth";
 
 export default async function RegistrationLayout({
@@ -9,5 +10,11 @@ export default async function RegistrationLayout({
   const session = await getServerAuthSession();
   if (session?.user?.id) redirect("/dashboard");
 
-  return <>{children}</>;
+  return (
+    <MaxWidthWrapper className="mt-6">
+      <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
+      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
+      {children}
+    </MaxWidthWrapper>
+  );
 }

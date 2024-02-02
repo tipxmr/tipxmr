@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { type ReactNode } from "react";
-import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import { buttonVariants } from "~/components/ui/button";
 import {
   Tooltip,
@@ -17,28 +16,23 @@ export default async function RegistrationPage() {
   if (session?.user?.id) redirect("/dashboard");
 
   return (
-    <MaxWidthWrapper className="mt-6">
-      <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
-      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
-
-      <div className="mx-auto my-8 flex w-72 flex-col gap-4">
-        <RegistrationTooltip
-          link="/registration/new"
-          title="Register with new wallet"
-          content={<NewWalletTooltip />}
-        />
-        <RegistrationTooltip
-          link="/registration/view-only"
-          title="Register with existing private view key"
-          content={<ViewKeyTooltip />}
-        />
-        <RegistrationTooltip
-          link="/registration/existing"
-          title="Register with existing seed"
-          content={<ExistingSeedTooltip />}
-        />
-      </div>
-    </MaxWidthWrapper>
+    <div className="mx-auto my-8 flex w-72 flex-col gap-4">
+      <RegistrationTooltip
+        link="/registration/new"
+        title="Register with new wallet"
+        content={<NewWalletTooltip />}
+      />
+      <RegistrationTooltip
+        link="/registration/view-only"
+        title="Register with existing private view key"
+        content={<ViewKeyTooltip />}
+      />
+      <RegistrationTooltip
+        link="/registration/existing"
+        title="Register with existing seed"
+        content={<ExistingSeedTooltip />}
+      />
+    </div>
   );
 }
 
