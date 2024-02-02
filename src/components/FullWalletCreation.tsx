@@ -1,3 +1,5 @@
+"use client";
+
 import { type PrimitiveAtom, useAtom } from "jotai";
 import type { MoneroWalletFull } from "monero-ts";
 import { useRouter } from "next/navigation";
