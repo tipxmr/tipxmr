@@ -1,7 +1,13 @@
+import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { ThemeToggle } from "./ThemeToggle";
+import { getServerAuthSession } from "~/server/auth";
+import { buttonVariants } from "./ui/button";
+import LogoutButton from "./LogoutButton";
 
-export function Navbar() {
+export async function Navbar() {
+  const session = await getServerAuthSession();
+
   return (
     <div className="sticky inset-x-0 top-0 z-50 h-16">
       <header className="relative  border-b  border-border bg-background">
@@ -16,6 +22,19 @@ export function Navbar() {
             </div>
             {/* Sign up/Logged in  Menu - may not be needed */}
             <div className="ml-auto flex items-center ">
+              <Link href="/" className={buttonVariants({ variant: "link" })}>
+                Home
+              </Link>
+              {!session?.user?.id ? (
+                <Link
+                  href="/login"
+                  className={buttonVariants({ variant: "link" })}
+                >
+                  Login
+                </Link>
+              ) : (
+                <LogoutButton />
+              )}
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                 <ThemeToggle />
               </div>
