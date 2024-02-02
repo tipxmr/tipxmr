@@ -4,6 +4,7 @@ import UserCard from "~/components/UserCard";
 import { Separator } from "~/components/ui/separator";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import InvoiceButton from "./InvoiceButton";
 
 export default async function DashboardPage() {
   const session = await getServerAuthSession();
@@ -22,6 +23,7 @@ export default async function DashboardPage() {
         ) : (
           <div className="flex items-center justify-center">
             <h1>Here should be the invoice 🏗</h1>
+            <InvoiceButton streamerId={session.user.id} planType="basic" />
           </div>
         )}
       </section>
