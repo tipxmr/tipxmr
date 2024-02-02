@@ -35,7 +35,7 @@ export async function Navbar() {
               ) : (
                 <LogoutButton />
               )}
-              <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+              <div className="ml-4 hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                 <ThemeToggle />
               </div>
             </div>
