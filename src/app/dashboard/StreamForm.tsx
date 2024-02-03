@@ -63,7 +63,9 @@ const StreamForm = () => {
                   <Input placeholder="https://..." {...field} />
                 </FormControl>
                 <FormDescription>
-                  The URL where your stream is viewable
+                  The URL where your stream is viewable. On your public TipXMR
+                  stream page we will link to your stream and try to embed the
+                  video!
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -93,7 +95,8 @@ const StreamForm = () => {
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  What language is spoken on your stream
+                  What language is spoken on your stream. This allows TipXMR
+                  donators to discover your stream more easily.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -119,10 +122,16 @@ const StreamForm = () => {
                     <SelectItem value="youtube">YouTube</SelectItem>
                     <SelectItem value="twitch">Twitch</SelectItem>
                     <SelectItem value="chaturbate">Chaturbate</SelectItem>
-                    <SelectItem value="selfhosted">Selfhosted</SelectItem>
+                    <SelectItem value="selfhosted">
+                      Self-hosted (or other)
+                    </SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>Where do you stream?</FormDescription>
+                <FormDescription>
+                  Where do you stream? If you provide this information it will
+                  be easier for us to embed the video. If you are self-hosting
+                  your stream, this may not work.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
