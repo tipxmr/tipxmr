@@ -51,7 +51,6 @@ const FullWalletCreation = () => {
       heading: "Note down your seed phrase",
       content: "You need to to sign into TipXMR",
     },
-
     {
       icon: LockKeyholeIcon,
       heading: "Keep your seed secure",
@@ -66,42 +65,43 @@ const FullWalletCreation = () => {
 
   return (
     <div className="my-4 flex flex-col gap-2">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div>
+      <div className="grid grid-flow-row grid-cols-1 items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="md:col-span-2 lg:col-span-1">
           {seed ? (
             <CredentialBox text={seed} label="Seed phrase" />
           ) : (
             <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
           )}
         </div>
-        <div>
-          <CredentialBox text={privateViewKey} label="Private ViewKey" />
-        </div>
-        <div>
-          <CredentialBox text={primaryAddress} label="Primary Address" />
-        </div>
-        <div className="mt-4 flex flex-col items-center">
-          <LanguageSelect language={seedLang} onChange={handleSetSeedLang} />
-        </div>
+        <CredentialBox text={privateViewKey} label="Private ViewKey" />
+        <CredentialBox text={primaryAddress} label="Primary Address" />
       </div>
 
-      <ul className="mt-4 flex flex-col gap-6 text-left">
-        {infoPoints.map((point) => (
-          <li className="grid grid-cols-[auto_1fr] gap-x-3" key={point.heading}>
-            <span className="row-span-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white">
-              {<point.icon className="h-12 w-12 p-3" />}
-            </span>
+      <div className="mt-4 flex flex-col items-center">
+        <LanguageSelect language={seedLang} onChange={handleSetSeedLang} />
+      </div>
+      <div className="w-md mx-auto my-4">
+        <ul className="mt-4 flex flex-col justify-center gap-6 text-left">
+          {infoPoints.map((point) => (
+            <li
+              className="grid grid-cols-[auto_1fr] gap-x-3"
+              key={point.heading}
+            >
+              <span className="row-span-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white">
+                {<point.icon className="h-12 w-12 p-3" />}
+              </span>
 
-            <span className="col-start-2 text-base text-slate-800">
-              {point.heading}
-            </span>
+              <span className="col-start-2 text-base text-slate-800">
+                {point.heading}
+              </span>
 
-            <span className="col-start-2 text-sm text-slate-500">
-              {point.content}
-            </span>
-          </li>
-        ))}
-      </ul>
+              <span className="col-start-2 text-sm text-slate-500">
+                {point.content}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="flex justify-center">
         <Button
           disabled={!seed}
@@ -124,7 +124,7 @@ function CredentialBox({
 }) {
   if (!text) return null;
   return (
-    <div className="space-y-4 break-words rounded-md border border-border p-8 font-mono">
+    <div className="flex h-full flex-col space-y-4 break-words rounded-md border border-border p-8 font-mono">
       <p className="text-right lowercase tracking-tight text-muted-foreground">
         your {label}
       </p>
