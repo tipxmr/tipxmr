@@ -13,7 +13,7 @@ import {
 import LogoutButton from "~/components/LogoutButton";
 import { MenuIcon } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { Streamer } from "@prisma/client";
+import { type Streamer } from "@prisma/client";
 import { MENU_ITEMS, SHOW_STATE } from "~/config/menu";
 
 interface Props {
@@ -34,7 +34,7 @@ const MobileNav = ({ user }: Props) => {
               {MENU_ITEMS.filter(
                 (item) => item.showState === SHOW_STATE.ALWAYS,
               ).map(({ href, title, description }) => (
-                <ListItem href={href} title={title}>
+                <ListItem key={title} href={href} title={title}>
                   {description}
                 </ListItem>
               ))}

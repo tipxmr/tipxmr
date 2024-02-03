@@ -34,12 +34,8 @@ export default async function DashboardPage() {
       <Separator />
       {/* Stream Settings */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {dashboardInfo?.stream ? (
-          <StreamForm streamerId={session.user.id} />
-        ) : null}
-        {dashboardInfo?.donationSetting ? (
-          <DonationSettingForm streamerId={session.user.id} />
-        ) : null}
+        {dashboardInfo?.stream ? <StreamForm /> : null}
+        {dashboardInfo?.donationSetting ? <DonationSettingForm /> : null}
       </div>
       <Separator />
     </MaxWidthWrapper>

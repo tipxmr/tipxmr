@@ -21,7 +21,6 @@ import {
 import { Input } from "~/components/ui/input";
 import { walletAtom } from "~/lib/store";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
-import { Separator } from "./ui/separator";
 
 const FormSchema = z.object({
   primaryAddress: z.string(),

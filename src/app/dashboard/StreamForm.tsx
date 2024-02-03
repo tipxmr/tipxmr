@@ -10,7 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { z } from "zod";
+import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
 import {

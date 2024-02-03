@@ -10,16 +10,9 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { z } from "zod";
+import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { Separator } from "~/components/ui/separator";
@@ -81,7 +74,7 @@ const DonationSettingForm = () => {
                 <FormDescription>
                   You can set an price per character in the donation message. 0
                   disables this functionality, then donators can send messages
-                  as long as the set with the "Character limit"
+                  as long as the set with the &quot;character limit&quot;
                 </FormDescription>
                 <FormMessage />
               </FormItem>

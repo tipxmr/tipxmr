@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/navigation-menu";
 
 import LogoutButton from "~/components/LogoutButton";
-import { Streamer } from "@prisma/client";
+import { type Streamer } from "@prisma/client";
 import Link from "next/link";
 import { MENU_ITEMS, SHOW_STATE } from "~/config/menu";
 
@@ -25,7 +25,7 @@ const DesktopNav = ({ user }: Props) => {
         {/* Show always menu items */}
         {MENU_ITEMS.filter((item) => item.showState === SHOW_STATE.ALWAYS).map(
           ({ href, title }) => (
-            <NavigationMenuItem>
+            <NavigationMenuItem key={href}>
               <Link href={href} legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   {title}
@@ -40,7 +40,7 @@ const DesktopNav = ({ user }: Props) => {
           MENU_ITEMS.filter(
             (item) => item.showState === SHOW_STATE.LOGGED_OUT,
           ).map(({ href, title }) => (
-            <NavigationMenuItem>
+            <NavigationMenuItem key={href}>
               <Link href={href} legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   {title}
@@ -54,7 +54,7 @@ const DesktopNav = ({ user }: Props) => {
             {MENU_ITEMS.filter(
               (item) => item.showState === SHOW_STATE.LOGGED_IN,
             ).map(({ href, title }) => (
-              <NavigationMenuItem>
+              <NavigationMenuItem key={href}>
                 <Link href={href} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     {title}

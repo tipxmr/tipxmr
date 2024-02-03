@@ -1,6 +1,6 @@
 "use client";
 
-import { PlanType, Streamer } from "@prisma/client";
+import { type PlanType, type Streamer } from "@prisma/client";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 
