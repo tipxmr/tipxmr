@@ -5,7 +5,11 @@ import { Button } from "~/components/ui/button";
 
 const BackButton = () => {
   const router = useRouter();
-  return <Button onClick={() => router.back()}>Go back</Button>;
+  return (
+    <Button variant={"secondary"} onClick={() => router.back()}>
+      Go back
+    </Button>
+  );
 };
 
 export default BackButton;

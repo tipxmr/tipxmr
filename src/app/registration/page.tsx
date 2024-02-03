@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { cn } from "~/lib/utils";
 
 import { getServerAuthSession } from "~/server/auth";
 
@@ -16,7 +17,7 @@ export default async function RegistrationPage() {
   if (session?.user?.id) redirect("/dashboard");
 
   return (
-    <div className="mx-auto my-8 flex w-72 flex-col gap-4">
+    <div className="mx-auto my-8 flex w-1/2 flex-col gap-4">
       <RegistrationTooltip
         link="/registration/new"
         title="Register with new wallet"
@@ -48,8 +49,11 @@ function RegistrationTooltip({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>
-          <Link href={link} className={buttonVariants({ variant: "default" })}>
+        <TooltipTrigger className="flex">
+          <Link
+            href={link}
+            className={cn(buttonVariants({ variant: "default" }), "flex-1")}
+          >
             {title}
           </Link>
         </TooltipTrigger>

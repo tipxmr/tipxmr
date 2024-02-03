@@ -21,6 +21,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { walletAtom } from "~/lib/store";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
+import { Separator } from "./ui/separator";
 
 const FormSchema = z.object({
   primaryAddress: z.string(),
@@ -55,10 +56,7 @@ const ViewWalletInput = () => {
   return (
     <>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
             control={form.control}
             name="primaryAddress"
@@ -92,9 +90,12 @@ const ViewWalletInput = () => {
               </FormItem>
             )}
           />
-          <Button disabled={isLoading} variant="default" type="submit">
-            Log in
-          </Button>
+          <div className="flex justify-center">
+            {" "}
+            <Button disabled={isLoading} variant="default" type="submit">
+              Log in
+            </Button>
+          </div>
         </form>
       </Form>
     </>

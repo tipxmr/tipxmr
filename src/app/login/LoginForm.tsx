@@ -5,6 +5,7 @@ import { useState } from "react";
 import FullWalletInput from "~/components/FullWalletInput";
 import ViewWalletInput from "~/components/ViewWalletInput";
 import { Button } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
 
 enum LoginMode {
   Initial = "initial",
@@ -22,17 +23,24 @@ const LoginForm = () => {
   return (
     <>
       {loginMode === LoginMode.Initial && (
-        <div className="flex flex-col items-center justify-center gap-4">
-          <Button onClick={() => handleStepChange(LoginMode.FullWallet)}>
+        <div className="mx-auto flex w-1/2 flex-col items-center justify-center gap-4">
+          <Button
+            onClick={() => handleStepChange(LoginMode.FullWallet)}
+            className="w-full"
+          >
             Login with your seed
           </Button>
-          <Button onClick={() => handleStepChange(LoginMode.ViewOnlyWallet)}>
+          <Button
+            onClick={() => handleStepChange(LoginMode.ViewOnlyWallet)}
+            className="w-full"
+          >
             Login with existing private view key
           </Button>
         </div>
       )}
       {loginMode === LoginMode.ViewOnlyWallet && <ViewWalletInput />}
       {loginMode === LoginMode.FullWallet && <FullWalletInput />}
+      <Separator className="my-4" />
       {loginMode !== LoginMode.Initial && (
         <div className="mt-3">
           <Button
