@@ -1,7 +1,8 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { streamerRouter } from "~/server/api/routers/streamer";
 import { donationRouter } from "~/server/api/routers/donation";
-import { dontationSettingsRouter } from "~/server/api/routers/donationSettings";
+import { dontationSettingRouter } from "~/server/api/routers/donationSetting";
+
 import { invoiceRouter } from "~/server/api/routers/invoice";
 import { streamRouter } from "./routers/stream";
 
@@ -14,7 +15,7 @@ export const appRouter = createTRPCRouter({
   streamer: streamerRouter,
   stream: streamRouter,
   donation: donationRouter,
-  donationSettings: dontationSettingsRouter,
+  donationSettings: dontationSettingRouter,
   invoice: invoiceRouter,
   // TODO impolement these routers if applicable
   // wallet: walletRouter,
