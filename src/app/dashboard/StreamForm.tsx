@@ -78,7 +78,7 @@ const StreamForm = ({ streamerId }: Props) => {
               </FormItem>
             )}
           />
-          <Separator />
+          <Separator className="my-2" />
           <FormField
             control={form.control}
             name="language"
@@ -108,7 +108,7 @@ const StreamForm = ({ streamerId }: Props) => {
               </FormItem>
             )}
           />
-          <Separator />
+          <Separator className="my-2" />
           <FormField
             control={form.control}
             name="platform"
