@@ -15,7 +15,7 @@ export const appRouter = createTRPCRouter({
   streamer: streamerRouter,
   stream: streamRouter,
   donation: donationRouter,
-  donationSettings: dontationSettingRouter,
+  donationSetting: dontationSettingRouter,
   invoice: invoiceRouter,
   // TODO impolement these routers if applicable
   // wallet: walletRouter,

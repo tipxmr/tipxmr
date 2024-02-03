@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { UpdateDonationSetting } from "~/schemas";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -12,7 +12,7 @@ export const dontationSettingRouter = createTRPCRouter({
   }),
 
   update: protectedProcedure
-    .input(z.object({}))
+    .input(UpdateDonationSetting)
     .query(async ({ ctx, input }) => {
       return ctx.db.donationSetting.update({
         where: {
