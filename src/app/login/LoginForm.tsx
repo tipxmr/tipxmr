@@ -40,16 +40,18 @@ const LoginForm = () => {
       )}
       {loginMode === LoginMode.ViewOnlyWallet && <ViewWalletInput />}
       {loginMode === LoginMode.FullWallet && <FullWalletInput />}
-      <Separator className="my-4" />
       {loginMode !== LoginMode.Initial && (
-        <div className="mt-3">
-          <Button
-            variant="secondary"
-            onClick={() => setLoginMode(LoginMode.Initial)}
-          >
-            Go back
-          </Button>
-        </div>
+        <>
+          <Separator className="my-4" />
+          <div className="mt-3">
+            <Button
+              variant="secondary"
+              onClick={() => setLoginMode(LoginMode.Initial)}
+            >
+              Go back
+            </Button>
+          </div>
+        </>
       )}
     </>
   );

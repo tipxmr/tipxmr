@@ -65,17 +65,19 @@ const FullWalletCreation = () => {
 
   return (
     <div className="my-4 flex flex-col gap-2">
-      <div className="grid grid-flow-row grid-cols-1 items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div className="md:col-span-2 lg:col-span-1">
-          {seed ? (
+      {seed ? (
+        <div className="grid grid-flow-row grid-cols-1 items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="md:col-span-2 lg:col-span-1">
             <CredentialBox text={seed} label="Seed phrase" />
-          ) : (
-            <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
-          )}
+          </div>
+
+          <CredentialBox text={privateViewKey} label="Private ViewKey" />
+
+          <CredentialBox text={primaryAddress} label="Primary Address" />
         </div>
-        <CredentialBox text={privateViewKey} label="Private ViewKey" />
-        <CredentialBox text={primaryAddress} label="Primary Address" />
-      </div>
+      ) : (
+        <ShellIcon className="mx-auto my-12 h-12 w-12 w-full animate-spin" />
+      )}
 
       <div className="mt-4 flex flex-col items-center">
         <LanguageSelect language={seedLang} onChange={handleSetSeedLang} />
