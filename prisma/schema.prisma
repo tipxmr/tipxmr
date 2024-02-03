@@ -86,13 +86,13 @@ model ServerXmrSetting {
 }
 
 model Stream {
-  streamer                  String    @id @db.VarChar(12)
+  streamerId                  String    @id @db.VarChar(12)
   url                       String?   @db.VarChar(100)
   platform                  Platform?
   language                  Language?
   category                  Int?
   category_categoryTostream Category? @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  streamer_streamTostreamer Streamer  @relation(fields: [streamer], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  streamer_streamTostreamer Streamer  @relation(fields: [streamerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Streamer {

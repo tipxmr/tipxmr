@@ -25,6 +25,12 @@ export const streamerRouter = createTRPCRouter({
       include: { stream: true },
     });
   }),
+  dashboard: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.streamer.findUnique({
+      where: { id: ctx.session.user.id },
+      include: { stream: true, donationSetting: true },
+    });
+  }),
   getById: publicProcedure
     .input(
       z.object({
@@ -55,7 +61,14 @@ export const streamerRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.streamer.create({
-        data: input,
+        data: {
+          ...input,
+          stream: {
+            create: {},
+          },
+          donationSetting: { create: {} },
+        },
+        include: { stream: true },
       });
     }),
   update: protectedProcedure

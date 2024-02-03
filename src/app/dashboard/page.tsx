@@ -5,6 +5,7 @@ import { Separator } from "~/components/ui/separator";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import InvoiceButton from "./InvoiceButton";
+import StreamForm from "./StreamForm";
 
 export default async function DashboardPage() {
   const session = await getServerAuthSession();
@@ -13,6 +14,8 @@ export default async function DashboardPage() {
   const mostRecentInvoice = await api.invoice.mostRecentInvoice.query({
     streamerId: session.user?.id,
   });
+
+  const dashboardInfo = await api.streamer.dashboard.query();
 
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
@@ -28,6 +31,11 @@ export default async function DashboardPage() {
         )}
       </section>
       <Separator />
+      {/* Stream Settings */}
+      {dashboardInfo?.stream ? (
+        <StreamForm streamerId={session.user.id} />
+      ) : null}
+      {dashboardInfo?.donationSetting ? <></> : null}
     </MaxWidthWrapper>
   );
 }
