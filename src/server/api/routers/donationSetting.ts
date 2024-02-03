@@ -13,7 +13,7 @@ export const dontationSettingRouter = createTRPCRouter({
 
   update: protectedProcedure
     .input(UpdateDonationSetting)
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.donationSetting.update({
         where: {
           streamer: ctx.session.user?.id,

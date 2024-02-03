@@ -60,6 +60,9 @@ const StreamForm = ({ streamerId }: Props) => {
 
   return (
     <div className="rounded-md border border-border p-4">
+      <h2 className="text-right text-xl font-semibold tracking-tight">
+        Stream settings
+      </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -136,10 +139,12 @@ const StreamForm = ({ streamerId }: Props) => {
               </FormItem>
             )}
           />
-
-          <Button disabled={isLoading} variant="default" type="submit">
-            Update settings
-          </Button>
+          <Separator className="my-2" />
+          <div className="flex flex-1  justify-center">
+            <Button disabled={isLoading} variant="default" type="submit">
+              Update stream settings
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

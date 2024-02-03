@@ -6,6 +6,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import InvoiceButton from "./InvoiceButton";
 import StreamForm from "./StreamForm";
+import DonationSettingForm from "./DonationSettingForm";
 
 export default async function DashboardPage() {
   const session = await getServerAuthSession();
@@ -32,10 +33,15 @@ export default async function DashboardPage() {
       </section>
       <Separator />
       {/* Stream Settings */}
-      {dashboardInfo?.stream ? (
-        <StreamForm streamerId={session.user.id} />
-      ) : null}
-      {dashboardInfo?.donationSetting ? <></> : null}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {dashboardInfo?.stream ? (
+          <StreamForm streamerId={session.user.id} />
+        ) : null}
+        {dashboardInfo?.donationSetting ? (
+          <DonationSettingForm streamerId={session.user.id} />
+        ) : null}
+      </div>
+      <Separator />
     </MaxWidthWrapper>
   );
 }
