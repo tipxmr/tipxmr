@@ -24,6 +24,7 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { Separator } from "~/components/ui/separator";
 import { Streamer } from "@prisma/client";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   url: z
@@ -43,14 +44,22 @@ const StreamForm = ({ streamerId }: Props) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
-  const { mutate, isLoading } = api.stream.update.useMutation({});
+  const { mutate, isLoading } = api.stream.update.useMutation({
+    onSuccess: async () => {
+      toast("Successfully updated stream settings");
+    },
+    onError: async (error) => {
+      console.error(error);
+      toast("Something went wrong!");
+    },
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     mutate({ ...data, id: streamerId });
   }
 
   return (
-    <>
+    <div className="rounded-md border border-border p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -133,7 +142,7 @@ const StreamForm = ({ streamerId }: Props) => {
           </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 
