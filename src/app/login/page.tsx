@@ -9,7 +9,7 @@ export default async function LoginPage() {
 
   return (
     <MaxWidthWrapper className="my-6">
-      <h1 className="mb-2 text-3xl">Login to TipXMR</h1>
+      <h1 className="tip-h1 mb-2">Login to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
 
       <MaxWidthWrapper className="flex flex-col items-center justify-center py-8">

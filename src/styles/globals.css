@@ -76,8 +76,8 @@
 }
 
 /* NOTE: Here we can add custom styles that repeat throught the app */
-/* @layer components { */
-/*   .tip-h1 { */
-/*     @apply text-3xl  */
-/*   } */
-/* } */
+@layer components {
+  .tip-h1 {
+    @apply text-3xl font-semibold tracking-tighter;
+  }
+}

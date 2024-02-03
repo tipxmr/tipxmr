@@ -46,7 +46,7 @@ export default async function SetupPage() {
   ];
   return (
     <MaxWidthWrapper className="my-6">
-      <h1 className="text-3xl font-semibold">
+      <h1 className="tip-h1">
         Learn more about how to use TipXMR as savely as possible!
       </h1>
       <Accordion type="single" collapsible>

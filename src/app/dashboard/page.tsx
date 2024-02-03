@@ -25,7 +25,7 @@ export default async function DashboardPage() {
         {!!mostRecentInvoice ? (
           <InvoiceCard invoice={mostRecentInvoice} />
         ) : (
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-4">
             <h1>Here should be the invoice 🏗</h1>
             <InvoiceButton streamerId={session.user.id} planType="basic" />
           </div>

@@ -12,7 +12,7 @@ export default async function RegistrationLayout({
 
   return (
     <MaxWidthWrapper className="mt-6">
-      <h1 className="mb-2 text-3xl">Register to TipXMR</h1>
+      <h1 className="tip-h1 mb-2">Register to TipXMR</h1>
       <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
       {children}
     </MaxWidthWrapper>

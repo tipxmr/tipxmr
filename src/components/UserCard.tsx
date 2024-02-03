@@ -1,13 +1,17 @@
 "use client";
 
 import { type Streamer } from "@prisma/client";
+import Link from "next/link";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { buttonVariants } from "./ui/button";
+import { cn } from "~/lib/utils";
 
 interface Props {
   user: Streamer;
@@ -66,6 +70,14 @@ const UserCard = ({ user }: Props) => {
             </li>
           </ul>
         </CardContent>
+        <CardFooter className="justify-end">
+          <Link
+            href="/dashboard/tx-history"
+            className={cn(buttonVariants({ variant: "link" }), "text-xl")}
+          >
+            Go to donation history &rarr;
+          </Link>
+        </CardFooter>
       </CardHeader>
     </Card>
   );
