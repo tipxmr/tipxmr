@@ -25,6 +25,12 @@ export async function Navbar() {
               <Link href="/" className={buttonVariants({ variant: "link" })}>
                 Home
               </Link>
+              <Link
+                href="/streams"
+                className={buttonVariants({ variant: "link" })}
+              >
+                Streams
+              </Link>
               {!session?.user?.id ? (
                 <>
                   <Link
