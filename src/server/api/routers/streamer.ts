@@ -20,7 +20,10 @@ export const streamerRouter = createTRPCRouter({
       return ctx.db.streamer.findUniqueOrThrow({ where: { name: input.name } });
     }),
   online: publicProcedure.query(({ ctx }) => {
-    return ctx.db.streamer.findMany({ where: { isOnline: true } });
+    return ctx.db.streamer.findMany({
+      where: { isOnline: true },
+      include: { stream: true },
+    });
   }),
   getById: publicProcedure
     .input(

@@ -1,9 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
+import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { buttonVariants } from "~/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -19,7 +22,16 @@ export default async function StreamsPage() {
           <div className="" key={streamer.id}>
             <Card>
               <CardHeader>
+                <AspectRatio ratio={16 / 9} className="rounded-md">
+                  <Image
+                    src="https://via.placeholder.com/350x200.png"
+                    className="rounded-md object-contain"
+                    alt={`${streamer.alias}-thumbnail`}
+                    fill
+                  />
+                </AspectRatio>
                 <CardTitle>{streamer.name}</CardTitle>
+                <CardDescription>{streamer.stream?.category}</CardDescription>
               </CardHeader>
               <CardContent></CardContent>
               <CardFooter>
