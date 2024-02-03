@@ -18,38 +18,33 @@ cd tipxmr
 
 
 * Starting the TipXMR project for development
-- To start the TipXMR, please run thru the Installation first.
-- Start the docker service on your computer (linux: ~sudo systemctl start docker~)
-- From the project root, start the database container with ~docker-compose up~
-
-
-- 💡 If you start actively developing on TipXMR, it may be useful to create a [[https://linuxize.com/post/how-to-create-bash-aliases/][bash alias]] for bringing up the docker container.
-  - Here is an example for your ~.bashrc~ or ~.zshrc~ (make sure to adjust the path to the project root path):
-    #+begin_src bash
-    alias tipxmrdb="sudo systemctl start docker; cd ~/PATH/TO/tipxmr; docker-compose up"
-    #+end_src
-
-
-** Development
-- ~npm run dev~ : bring up the tipxmr webapp (~localhost:3000~)
-
-- ⚠️ As the project develops, the database models change. Therefore, sometimes it may be necessary to ~migrate~ the changes (~npm run migrate -- dev~)
-
-
-*** If the app keeps running out of memory
-Run the development server with the following command:
-#+begin_src bash
-NODE_OPTIONS='--max_old_space_size=4096' next dev
+Here are some common commands that you will need when first starting the project. But also when developing on it.
+#+begin_src sh
+docker compose up -d # start the pg-db in docker
+yarn # install dependencies
+prisma migrate dev # migrate db
+yarn moneroRpc # start the monero wallet rpc (see Server Wallet)
+yarn dev # start the dev server
+yarn lint --fix # run linter + automatic fixer
+yarn build # build the project
+yarn start # start the built project
 #+end_src
-** Starting the monero wallet rpc
-- TipXMR features a payment engine for the steamers to acitvate their account. For this to work (meaning ~src/lib/serverWallet~) you need to start a ~monero-wallet-rpc~.
-  - 💡 Make sure you have ~monero-wallet-rpc~ installed and in your ~$PATH~
+
+** Server Wallet
+- TipXMR features a payment engine for the steamers to activate their account. You will need a monero wallet on the server that generates subaddresses for the streamer invoices. This wallet will be generated once and then be opened by the long running process of the ~monero-wallet-rpc~. The wallet-rpc will inform the application about received payments.
+  - 💡 Make sure you have ~monero-wallet-cli~ installed and in your ~$PATH~
+*** Creating your server wallet
+- Generate the server wallet once. Create it with a strong password. Write down your seed. Keep your credentials private and secure.
+    #+begin_src sh
+    cd monero/ # switch into the monero directory
+    monero-wallet-cli # call the monero wallet cli and run through the setup process
+    #+end_src
+  - The generated secrets from the server wallet need to be input into your ~.env~
+*** Starting the monero wallet rpc
 - You can start the ~monero-wallet-rpc~ with (from the project root):
 #+begin_src bash
-monero-wallet-rpc --config-file monero/walletRpc.conf
+yarn moneroRpc
 #+end_src
-- To kickstart the wallet you can visit http://localhost:3000/api/initServerWallet
-
 * TipXMR - The Livestream Tipping Service for OBS
 
 
