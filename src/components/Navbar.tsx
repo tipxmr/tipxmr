@@ -4,6 +4,8 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { getServerAuthSession } from "~/server/auth";
 import { buttonVariants } from "~/components/ui/button";
 import LogoutButton from "~/components/LogoutButton";
+import Image from "next/image";
+import { AspectRatio } from "./ui/aspect-ratio";
 
 export async function Navbar() {
   const session = await getServerAuthSession();
@@ -13,7 +15,18 @@ export async function Navbar() {
       <header className="relative  border-b  border-border bg-background">
         <MaxWidthWrapper>
           <div className="flex h-16 flex-grow items-center">
-            <div className="flex lg:ml-0">{/* SiteLogo */}</div>
+            <div className="flex lg:ml-0">
+              <div className="w-[110px] md:w-[220px]">
+                <AspectRatio ratio={5 / 1}>
+                  <Image
+                    src="/logo.png"
+                    alt="TipXMR logo"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 50px) 50vw, 33vw"
+                  />
+                </AspectRatio>
+              </div>
+            </div>
 
             <div className="flex flex-grow lg:hidden" />
             {/* MobileNav */}

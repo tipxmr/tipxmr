@@ -17,6 +17,7 @@ export default async function StreamsPage() {
   const onlineStreamers = await api.streamer.online.query();
   return (
     <MaxWidthWrapper className="my-6">
+      <h1 className="tip-h1">Currently streaming</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {onlineStreamers.map((streamer) => (
           <div className="" key={streamer.id}>
