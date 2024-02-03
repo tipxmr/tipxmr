@@ -6,7 +6,8 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { buttonVariants } from "~/components/ui/button";
 import { getServerAuthSession } from "~/server/auth";
 import { AspectRatio } from "./ui/aspect-ratio";
-import CustomNavigationMenu from "./CustomNavigationMenu";
+import MobileNav from "./MobileNav";
+import DesktopNav from "./DesktopNav";
 
 export async function Navbar() {
   const session = await getServerAuthSession();
@@ -16,7 +17,7 @@ export async function Navbar() {
       <header className="relative  border-b  border-border bg-background">
         <MaxWidthWrapper>
           <div className="flex h-16 flex-grow items-center">
-            <div className="flex flex-1 lg:ml-0 lg:flex-shrink">
+            <div className="flex md:flex-1 lg:ml-0 lg:flex-shrink">
               <Link href="/" className={buttonVariants({ variant: "link" })}>
                 <div className="w-[110px] md:w-[220px]">
                   <AspectRatio ratio={5 / 1}>
@@ -31,7 +32,8 @@ export async function Navbar() {
               </Link>
             </div>
             {/* MobileNav */}
-            <CustomNavigationMenu user={session?.user} />
+            <MobileNav user={session?.user} />
+            <DesktopNav user={session?.user} />
             <div className="z-50 hidden lg:ml-8 lg:block lg:self-stretch">
               {/* DesktopNav */}
             </div>
