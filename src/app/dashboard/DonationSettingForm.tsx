@@ -23,16 +23,12 @@ import {
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { Separator } from "~/components/ui/separator";
-import { Streamer } from "@prisma/client";
 import { toast } from "sonner";
 import { UpdateDonationSetting } from "~/schemas";
 
 const FormSchema = UpdateDonationSetting;
 
-interface Props {
-  streamerId: Streamer["id"];
-}
-const DonationSettingForm = ({ streamerId }: Props) => {
+const DonationSettingForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -43,7 +39,7 @@ const DonationSettingForm = ({ streamerId }: Props) => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    mutate({ ...data, id: streamerId });
+    mutate(data);
   }
 
   return (

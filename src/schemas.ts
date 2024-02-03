@@ -13,3 +13,15 @@ export const UpdateDonationSetting = z.object({
   size: z.coerce.number().min(0, { message: "Minimum is 0" }).optional(),
   color: z.string().optional(),
 });
+
+export const UpdateStream = z.object({
+  id: z.string(),
+  url: z
+    .string()
+    .max(100, { message: "Maximum 100 characters allowed" })
+    .optional(),
+  platform: z
+    .enum(["youtube", "twitch", "chaturbate", "selfhosted"])
+    .optional(),
+  language: z.enum(["english", "german", "french", "italian"]).optional(),
+});

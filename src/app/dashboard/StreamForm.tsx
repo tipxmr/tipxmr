@@ -23,24 +23,12 @@ import {
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { Separator } from "~/components/ui/separator";
-import { Streamer } from "@prisma/client";
 import { toast } from "sonner";
+import { UpdateStream } from "~/schemas";
 
-const FormSchema = z.object({
-  url: z
-    .string()
-    .max(100, { message: "Maximum 100 characters allowed" })
-    .optional(),
-  platform: z
-    .enum(["youtube", "twitch", "chaturbate", "selfhosted"])
-    .optional(),
-  language: z.enum(["english", "german", "french", "italian"]).optional(),
-});
+const FormSchema = UpdateStream;
 
-interface Props {
-  streamerId: Streamer["id"];
-}
-const StreamForm = ({ streamerId }: Props) => {
+const StreamForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -55,7 +43,7 @@ const StreamForm = ({ streamerId }: Props) => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    mutate({ ...data, id: streamerId });
+    mutate(data);
   }
 
   return (
