@@ -24,13 +24,7 @@ const InvoiceCard = ({ invoice }: Props) => {
           {invoice.paidStatus === "paid" ? (
             <>You are all paid up and ready to go!</>
           ) : (
-            <FundingGoal
-              expectedAmount={1}
-              payedAmount={0.5}
-              subaddress={"123123"}
-              delta={0.5}
-              key={1}
-            />
+            <FundingGoal {...invoice} />
           )}
         </CardContent>
       </CardHeader>

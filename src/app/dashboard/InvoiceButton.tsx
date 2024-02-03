@@ -1,6 +1,7 @@
 "use client";
 
 import { type PlanType, type Streamer } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 
@@ -19,6 +20,7 @@ const InvoiceButton = ({ streamerId, planType }: Props) => {
       planType,
     });
 
+    revalidatePath("/");
     console.log({ invoice });
   };
 

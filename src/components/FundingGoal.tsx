@@ -1,4 +1,5 @@
 "use client";
+
 import { type Invoice } from "@prisma/client";
 import { Wallet2Icon } from "lucide-react";
 import Link from "next/link";

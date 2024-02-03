@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-// import xmrWallet from "~/server/xmrWallet";
+import xmrWallet from "~/server/xmrWallet";
 
 export const invoiceRouter = createTRPCRouter({
   // TODO protect these procedures!
@@ -14,12 +14,12 @@ export const invoiceRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       // FIXME not working
-      // const subaddress = (await xmrWallet.createSubaddress(0)).getAddress();
-      // console.log({ subaddress });
+      const subaddress = (await xmrWallet.createSubaddress(0)).getAddress();
+      console.log({ subaddress });
 
       const data = {
         ...input,
-        // subaddress,
+        subaddress,
       };
       return ctx.db.invoice.create({
         data,
