@@ -33,6 +33,7 @@
     "@trpc/server": "^10.43.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "critters": "^0.0.20",
     "crypto-js": "^4.2.0",
     "jotai": "^2.6.2",
     "lucide-react": "^0.312.0",
