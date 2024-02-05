@@ -1,9 +1,8 @@
-
 import {
-  MoneroOutputWallet,
-  MoneroWallet,
+  type MoneroOutputWallet,
+  type MoneroWallet,
   MoneroWalletFull,
-  MoneroWalletKeys,
+  type MoneroWalletKeys,
   MoneroWalletListener,
 } from "monero-ts";
 import React, {
