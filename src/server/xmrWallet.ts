@@ -1,12 +1,17 @@
 /* This file handles the logic for the monero wallet running on the
  * server and checking the income of transactions to pay invoices */
-import * as moneroTs from "monero-ts";
+import {
+  connectToWalletRpc,
+  type MoneroWalletRpc,
+  MoneroWalletListener,
+  type MoneroOutputWallet,
+} from "monero-ts";
 import { db } from "~/server/db";
 import { env } from "~/env";
 import { type Invoice } from "@prisma/client";
 
 async function initWallet() {
-  const walletRpc = await moneroTs.connectToWalletRpc({
+  const walletRpc = await connectToWalletRpc({
     uri: env.MONERO_RPC_URI,
     rejectUnauthorized: false,
   });
@@ -18,8 +23,8 @@ async function initWallet() {
     password: env.MONERO_WALLET_PW,
   });
   await wallet.addListener(
-    new (class extends moneroTs.MoneroWalletListener {
-      async onOutputReceived(output: moneroTs.MoneroOutputWallet) {
+    new (class extends MoneroWalletListener {
+      async onOutputReceived(output: MoneroOutputWallet) {
         // --- Parse the transaction
         const targetAddressIndex = output.getSubaddressIndex();
         const subaddress = (
@@ -82,7 +87,7 @@ async function updateInvoiceWithTx(invoice: Invoice | null, amount: number) {
 }
 
 export async function getFreshSubaddress(
-  moneroWallet: moneroTs.MoneroWalletRpc,
+  moneroWallet: MoneroWalletRpc,
 ): Promise<string> {
   const { currentSubaddressIndex } = await db.serverXmrSetting.findFirstOrThrow(
     {
@@ -108,7 +113,7 @@ export function convertBigIntToXmrFloat(amount: bigint) {
 }
 
 const globalForXmrWallet = globalThis as unknown as {
-  xmrWallet: moneroTs.MoneroWalletRpc;
+  xmrWallet: MoneroWalletRpc;
 };
 
 export function calculateDeltaToGoal(amount = 0, goal: number | null) {
