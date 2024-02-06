@@ -7,6 +7,7 @@ import { api } from "~/trpc/server";
 import InvoiceButton from "./InvoiceButton";
 import StreamForm from "./StreamForm";
 import DonationSettingForm from "./DonationSettingForm";
+import xmrWallet from "~/server/xmrWallet";
 
 export default async function DashboardPage() {
   const session = await getServerAuthSession();
@@ -17,7 +18,14 @@ export default async function DashboardPage() {
   });
 
   const dashboardInfo = await api.streamer.dashboard.query();
+  const subaddress = (await xmrWallet.createSubaddress(0)).getAddress();
+  console.log({ subaddress });
+  /* const invoice = await api.invoice.create.mutate({
+*   streamerId: session.user.id,
+*   planType: "basic",
+* });
 
+* console.log("in dashboard", invoice); */
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">

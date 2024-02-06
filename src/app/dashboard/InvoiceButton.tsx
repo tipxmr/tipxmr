@@ -11,7 +11,7 @@ interface Props {
 }
 
 const InvoiceButton = ({ streamerId, planType }: Props) => {
-  const { mutate } = api.invoice.create.useMutation({});
+  /* const { mutate } = api.invoice.create.useMutation({}); */
 
   const handleClick = () => {
     console.log("clicked");
