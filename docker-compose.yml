@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     container_name: 'tipxmr-db'
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     restart: unless-stopped
     volumes:
       - tipxmr-db:/var/lib/postgresql/data

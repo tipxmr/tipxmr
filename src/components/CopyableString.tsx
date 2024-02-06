@@ -7,29 +7,40 @@ import {
   shortenMoneroSubaddress,
 } from "~/lib/utils";
 
-const FormattedStringTypes = {
+export const FormattedStringConstants = {
   SUBADDRESS: "subaddress",
   ACCOUNT_NUMBER: "accountNumber",
 } as const;
 
-interface Props {
+export type FormattedStringType =
+  (typeof FormattedStringConstants)[keyof typeof FormattedStringConstants];
+
+interface CopyableStringProps {
   input?: string;
-  stringType: "subaddress" | "accountNumber";
+  stringType: FormattedStringType;
 }
 
-export default function CopyableString({ input, stringType }: Props) {
-  if (!input) return <div>Loading...</div>;
+const formatString = ({ input, stringType }: CopyableStringProps) => {
+  if (!input) return "";
 
-  let formattedString;
   switch (stringType) {
-    case FormattedStringTypes.ACCOUNT_NUMBER:
-      formattedString = addHyphensTo16CharacterString(input);
-    case FormattedStringTypes.SUBADDRESS:
-      formattedString = shortenMoneroSubaddress(
+    case FormattedStringConstants.ACCOUNT_NUMBER:
+      return addHyphensTo16CharacterString(input);
+    case FormattedStringConstants.SUBADDRESS:
+      return shortenMoneroSubaddress(
         input,
         window?.screen?.availWidth < 700 ? 4 : 10,
       );
   }
+};
+
+export default function CopyableString({
+  input,
+  stringType,
+}: CopyableStringProps) {
+  if (!input) return <div>Loading...</div>;
+
+  const formattedString = formatString({ input, stringType });
 
   return (
     <button
