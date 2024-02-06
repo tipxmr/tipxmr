@@ -125,7 +125,7 @@ export function calculateDeltaToGoal(amount = 0, goal: number | null) {
   );
 }
 
-// helper for develop?
+// helper for develop, see https://github.com/woodser/monero-ts/issues/181
 export const xmrWallet = globalForXmrWallet.xmrWallet ?? (await initWallet());
 
 if (env.NODE_ENV !== "production") globalForXmrWallet.xmrWallet = xmrWallet;
