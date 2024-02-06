@@ -27,12 +27,11 @@ const config = {
         bufferutil: "bufferutil",
         "utf-8-validate": "utf-8-validate",
       };
+    } else {
+      config.externals = {
+        "web-worker": "web-worker",
+      };
     }
-    // else {
-    //   config.externals = {
-    //     "web-worker": "webWorker",
-    //   };
-    // }
 
     return config;
   },
