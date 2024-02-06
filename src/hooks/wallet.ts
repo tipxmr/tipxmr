@@ -1,4 +1,3 @@
-
 import {
   MoneroOutputWallet,
   MoneroWallet,
@@ -199,11 +198,11 @@ export function createWalletStateListener() {
   function Provider({ children }: { children: React.ReactNode }) {
     const value = useStoreData();
 
-    return (
-      <WalletStateContext.Provider value={value}>
-        {children}
-      </WalletStateContext.Provider>
-    );
+    // return (
+    //   <WalletStateContext.Provider value={value}>
+    //     {children}
+    //   </WalletStateContext.Provider>
+    // );
   }
 
   function useStore<SelectorOutput>(
