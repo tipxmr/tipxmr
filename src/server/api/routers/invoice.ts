@@ -15,7 +15,6 @@ export const invoiceRouter = createTRPCRouter({
       const subaddress = (
         await ctx.serverWallet.createSubaddress(0)
       ).getAddress();
-      console.log({ subaddress });
 
       const data = {
         ...input,

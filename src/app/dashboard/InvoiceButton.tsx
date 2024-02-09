@@ -13,18 +13,19 @@ interface Props {
 const InvoiceButton = ({ streamerId, planType }: Props) => {
   /* const { mutate } = api.invoice.create.useMutation({}); */
 
-  const handleClick = () => {
-    console.log("clicked");
-    const invoice = mutate({
-      streamerId,
-      planType,
-    });
+  /* const handleClick = () => {
+*   console.log("clicked");
+*   const invoice = mutate({
+*     streamerId,
+*     planType,
+*   });
 
-    revalidatePath("/");
-    console.log({ invoice });
-  };
+*   revalidatePath("/");
+*   console.log({ invoice });
+* }; */
 
-  return <Button onClick={handleClick}>Get Invoice</Button>;
+  return <></>;
+  /* return <Button onClick={handleClick}>Get Invoice</Button>; */
 };
 
 export default InvoiceButton;

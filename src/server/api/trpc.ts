@@ -13,7 +13,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
-import xmrWallet from "~/server/xmrWallet";
+import { ServerWallet } from "~/server/xmrWallet";
 
 /**
  * 1. CONTEXT
@@ -29,11 +29,14 @@ import xmrWallet from "~/server/xmrWallet";
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await getServerAuthSession();
-  const serverWallet = xmrWallet; // pass in the opened wallet in the trpc context
+
+  const serverWallet = await ServerWallet.getInstance();
+
+  // const serverWallet = xmrWallet.wallet; // pass in the opened wallet in the trpc context
 
   return {
     db,
-    serverWallet,
+    serverWallet: serverWallet,
     session,
     ...opts,
   };
