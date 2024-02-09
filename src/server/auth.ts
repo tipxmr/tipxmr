@@ -60,8 +60,15 @@ export const authOptions: NextAuthOptions = {
         token.accessToken = account.access_token;
         token.user = user;
 
-        const mostRecentInvoice = await api.invoice.mostRecentInvoice.query({
-          streamerId: user.id,
+        const mostRecentInvoice = await db.invoice.findFirst({
+          where: {
+            streamerId: user?.id,
+          },
+          orderBy: { endDate: "desc" },
+          take: 1,
+          include: {
+            transaction: true,
+          },
         });
 
         if (!mostRecentInvoice) {

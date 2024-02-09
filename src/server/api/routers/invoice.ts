@@ -1,6 +1,11 @@
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const invoiceRouter = createTRPCRouter({
   // TODO protect these procedures!
@@ -20,38 +25,28 @@ export const invoiceRouter = createTRPCRouter({
         ...input,
         subaddress,
       };
-      return ctx.db.invoice.create({
+      const invoice = await ctx.db.invoice.create({
         data,
       });
+      revalidatePath("/dashboard");
+      return invoice;
     }),
 
-  getAll: publicProcedure
-    .input(
-      z.object({
-        streamerId: z.string(),
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.db.invoice.findMany({
-        where: { streamerId: input.streamerId },
-      });
-    }),
-  mostRecentInvoice: publicProcedure
-    .input(
-      z.object({
-        streamerId: z.string(),
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.db.invoice.findFirst({
-        where: {
-          streamerId: input.streamerId,
-        },
-        orderBy: { endDate: "desc" },
-        take: 1,
-        include: {
-          transaction: true,
-        },
-      });
-    }),
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.invoice.findMany({
+      where: { streamerId: ctx.session?.user?.id },
+    });
+  }),
+  mostRecentInvoice: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.invoice.findFirst({
+      where: {
+        streamerId: ctx.session?.user?.id,
+      },
+      orderBy: { endDate: "desc" },
+      take: 1,
+      include: {
+        transaction: true,
+      },
+    });
+  }),
 });

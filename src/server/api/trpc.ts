@@ -13,7 +13,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
-import { ServerWallet } from "~/server/xmrWallet";
+import { initWallet } from "~/server/xmrWallet";
 
 /**
  * 1. CONTEXT
@@ -30,13 +30,15 @@ import { ServerWallet } from "~/server/xmrWallet";
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await getServerAuthSession();
 
-  const serverWallet = await ServerWallet.getInstance();
-
-  // const serverWallet = xmrWallet.wallet; // pass in the opened wallet in the trpc context
+  // Here we create the wallet file for our server
+  // The wallet is only an RPC (service runs externally)
+  // and informs us about new payments
+  // as well as provides us with new subaddresses for invoices
+  const serverWallet = await initWallet();
 
   return {
     db,
-    serverWallet: serverWallet,
+    serverWallet,
     session,
     ...opts,
   };

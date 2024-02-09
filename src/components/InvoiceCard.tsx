@@ -1,6 +1,6 @@
 "use client";
 
-import { type Invoice } from "@prisma/client";
+import InvoiceButton from "~/app/dashboard/InvoiceButton";
 import FundingGoal from "~/components/FundingGoal";
 import {
   Card,
@@ -9,12 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { api } from "~/trpc/react";
 
-interface Props {
-  invoice: Invoice;
-}
-
-const InvoiceCard = ({ invoice }: Props) => {
+const InvoiceCard = ({ id }: { id?: string }) => {
+  const { data: invoice } = api.invoice.mostRecentInvoice.useQuery();
+  if (!id) return null;
+  if (!invoice) return <InvoiceButton streamerId={id} planType="basic" />;
   return (
     <Card>
       <CardHeader>

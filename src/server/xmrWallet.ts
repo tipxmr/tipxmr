@@ -10,19 +10,7 @@ import { db } from "~/server/db";
 import { env } from "~/env";
 import { type Invoice } from "@prisma/client";
 
-export class ServerWallet {
-  static wallet: MoneroWalletRpc;
-
-  static async getInstance() {
-    console.log("fetching instance");
-    if (!ServerWallet.wallet) {
-      ServerWallet.wallet = await initWallet();
-    }
-    return ServerWallet.wallet;
-  }
-}
-
-async function initWallet() {
+export async function initWallet() {
   const walletRpc = await connectToWalletRpc({
     uri: env.MONERO_RPC_URI,
     rejectUnauthorized: false,
@@ -130,14 +118,3 @@ export function calculateDeltaToGoal(amount = 0, goal: number | null) {
     ),
   );
 }
-
-// helper for develop, see https://github.com/woodser/monero-ts/issues/181
-// const globalForXmrWallet = globalThis as unknown as {
-//   xmrWallet: typeof ServerWallet;
-// };
-
-// export const xmrWallet =
-//   globalForXmrWallet.xmrWallet ?? (await ServerWallet.getInstance());
-
-// if (env.NODE_ENV !== "production") globalForXmrWallet.xmrWallet = xmrWallet;
-// export default xmrWallet;

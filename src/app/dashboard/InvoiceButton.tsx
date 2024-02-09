@@ -1,7 +1,6 @@
 "use client";
 
 import { type PlanType, type Streamer } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 
@@ -11,21 +10,19 @@ interface Props {
 }
 
 const InvoiceButton = ({ streamerId, planType }: Props) => {
-  /* const { mutate } = api.invoice.create.useMutation({}); */
+  const utils = api.useUtils();
+  const { mutate } = api.invoice.create.useMutation({
+    onSuccess: () => utils.invoice.mostRecentInvoice.invalidate(),
+  });
 
-  /* const handleClick = () => {
-*   console.log("clicked");
-*   const invoice = mutate({
-*     streamerId,
-*     planType,
-*   });
+  const handleClick = () => {
+    mutate({
+      streamerId,
+      planType,
+    });
+  };
 
-*   revalidatePath("/");
-*   console.log({ invoice });
-* }; */
-
-  return <></>;
-  /* return <Button onClick={handleClick}>Get Invoice</Button>; */
+  return <Button onClick={handleClick}>Get Invoice</Button>;
 };
 
 export default InvoiceButton;
