@@ -26,7 +26,7 @@ const QrCode = ({ moneroUri }: Props) => {
   }, [moneroUri]);
 
   return (
-    <div className="mx-auto w-2/3 lg:w-1/2">
+    <div className="mx-auto w-[200px] lg:w-[300px]">
       <AspectRatio ratio={1 / 1}>
         <Image
           src={generatedQR}

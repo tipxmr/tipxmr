@@ -5,9 +5,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function constructMoneroUri(subaddress: string) {
-  const description = "AlexAnarcho Donation";
-  return `monero:${subaddress}?tx_description=${description}`;
+export function constructMoneroUri(
+  subaddress: string,
+  description: string,
+  amount: number,
+) {
+  return `monero:${subaddress}?tx_description=${description}&tx_amount=${amount}`;
 }
 
 export function addHyphensTo16CharacterString(inputString: string) {

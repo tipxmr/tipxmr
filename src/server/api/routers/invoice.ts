@@ -1,18 +1,12 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const invoiceRouter = createTRPCRouter({
-  // TODO protect these procedures!
-  create: publicProcedure
+  create: protectedProcedure
     .input(
       z.object({
-        streamerId: z.string(),
         planType: z.enum(["basic", "premium"]),
       }),
     )
@@ -23,6 +17,7 @@ export const invoiceRouter = createTRPCRouter({
 
       const data = {
         ...input,
+        streamerId: ctx.session.user.id,
         subaddress,
       };
       const invoice = await ctx.db.invoice.create({

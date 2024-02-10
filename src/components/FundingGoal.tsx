@@ -8,17 +8,17 @@ import QrCode from "~/components/QrCode";
 import { buttonVariants } from "~/components/ui/button";
 import { constructMoneroUri } from "~/lib/utils";
 
-type FundingGoalProps = { delta?: number } & Pick<
+type InvoiceTabProps = { delta?: number } & Pick<
   Invoice,
   "payedAmount" | "expectedAmount" | "subaddress"
 >;
 
-const FundingGoal = ({
+const InvoiceTab = ({
   payedAmount,
   subaddress,
   expectedAmount,
   delta,
-}: FundingGoalProps) => {
+}: InvoiceTabProps) => {
   if (
     typeof expectedAmount !== "number" ||
     !subaddress ||
@@ -27,13 +27,11 @@ const FundingGoal = ({
     return null;
 
   const percentPayed = (payedAmount / expectedAmount) * 100;
-  const moneroUri = constructMoneroUri(subaddress);
+  const moneroUri = constructMoneroUri(subaddress, "test", expectedAmount);
   return (
     <>
       <div className="flex-row text-3xl font-bold sm:text-5xl">
-        {payedAmount} <span className="text-2xl tracking-tight">XMR</span>
-        <span className="text-xl font-bold tracking-tight">{delta} XMR</span> to
-        reach goal {percentPayed}%
+        {expectedAmount} XMR per month
       </div>
       <div className="mt-6 flex flex-col justify-center gap-4">
         <MoneroSubaddress uri={moneroUri} subaddress={subaddress} />
@@ -50,4 +48,4 @@ const FundingGoal = ({
   );
 };
 
-export default FundingGoal;
+export default InvoiceTab;
