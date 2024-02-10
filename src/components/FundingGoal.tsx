@@ -1,6 +1,6 @@
 "use client";
 
-import { type Invoice } from "@prisma/client";
+import { type PlanType, type Invoice } from "@prisma/client";
 import { Wallet2Icon } from "lucide-react";
 import Link from "next/link";
 import MoneroSubaddress from "~/components/MoneroSubaddress";
@@ -30,9 +30,6 @@ const InvoiceTab = ({
   const moneroUri = constructMoneroUri(subaddress, "test", expectedAmount);
   return (
     <>
-      <div className="flex-row text-3xl font-bold sm:text-5xl">
-        {expectedAmount} XMR per month
-      </div>
       <div className="mt-6 flex flex-col justify-center gap-4">
         <MoneroSubaddress uri={moneroUri} subaddress={subaddress} />
 

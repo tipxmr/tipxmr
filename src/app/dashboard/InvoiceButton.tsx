@@ -1,23 +1,16 @@
 "use client";
 
-import { type PlanType } from "@prisma/client";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 
-interface Props {
-  planType: PlanType;
-}
-
-const InvoiceButton = ({ planType }: Props) => {
+const InvoiceButton = () => {
   const utils = api.useUtils();
-  const { mutate } = api.invoice.create.useMutation({
-    onSuccess: () => utils.invoice.mostRecentInvoice.invalidate(),
+  const { mutate } = api.invoice.createBlank.useMutation({
+    onSuccess: () => utils.invoice.mostRecent.invalidate(),
   });
 
   const handleClick = () => {
-    mutate({
-      planType,
-    });
+    mutate();
   };
 
   return <Button onClick={handleClick}>Get Invoice</Button>;

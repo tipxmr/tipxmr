@@ -16,6 +16,8 @@ export default async function DashboardPage() {
 
   const dashboardInfo = await api.streamer.dashboard.query();
 
+  const invoice = api.invoice.mostRecent.query();
+
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
       <InvoiceCard id={session.user.id ?? "123"} />
