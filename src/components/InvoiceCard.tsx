@@ -6,13 +6,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
 } from "~/components/ui/card";
 import { api } from "~/trpc/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
-  CheckCheckIcon,
   CheckIcon,
   CloverIcon,
   FileCogIcon,
@@ -80,9 +78,8 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
   const [isPickComplete, setIsPickComplete] = useState(
     !!invoice?.expectedAmount,
   );
-  const { mutate } = api.invoice.userConfirm.useMutation({
-    onSuccess: () => {},
-  });
+  const [chosenPlanType, setChosenPlanType] = useState(invoice?.planType);
+
   if (!invoice) return <InvoiceButton />;
   return (
     <>
@@ -91,7 +88,13 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
           <CardHeader>
             <CardDescription className="text-left">
               {isPickComplete ? (
-                <p>Waiting for payment...</p>
+                <p>
+                  <span className="font-semibold">
+                    You chose the {chosenPlanType} plan
+                  </span>
+                  . We are currently waiting for payment to confirm in a
+                  block...
+                </p>
               ) : (
                 <p>
                   Select the account type that you want to use, and then confirm
@@ -104,6 +107,7 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
                 value="basic"
                 disabled={isPickComplete}
                 className="grow"
+                onClick={() => setChosenPlanType("basic")}
               >
                 Basic
               </TabsTrigger>
@@ -111,6 +115,7 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
                 value="premium"
                 disabled={isPickComplete}
                 className="grow"
+                onClick={() => setChosenPlanType("premium")}
               >
                 Premium
               </TabsTrigger>
@@ -126,15 +131,12 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
               <FundingGoal {...invoice} expectedAmount={0.001} />
 
               <div className="mt-8 flex justify-center">
-                <Button
-                  onClick={() => {
-                    setIsPickComplete(true);
-                    mutate({ planType: "premium", id: invoice.id });
-                  }}
-                  className="mx-auto"
-                >
-                  <CheckCheckIcon className="mr-2" />I sent the payment
-                </Button>
+                <UserConfirmButton
+                  planType="basic"
+                  invoiceId={invoice.id}
+                  disabled={isPickComplete}
+                  setDisabled={setIsPickComplete}
+                />
               </div>
             </TabsContent>
             <TabsContent value="premium">
@@ -146,19 +148,12 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
               <FundingGoal {...invoice} expectedAmount={0.1} />
 
               <div className="mt-8 flex justify-center">
-                <Button
+                <UserConfirmButton
+                  planType="premium"
+                  invoiceId={invoice.id}
                   disabled={isPickComplete}
-                  onClick={() => {
-                    toast(
-                      "Thank you! Your account will activate as soon as your transaction confirms",
-                    );
-                    setIsPickComplete(true);
-                    mutate({ planType: "premium", id: invoice.id });
-                  }}
-                  className="mx-auto"
-                >
-                  <CheckIcon className="mr-2" />I sent the payment
-                </Button>
+                  setDisabled={setIsPickComplete}
+                />
               </div>
             </TabsContent>
           </CardContent>
@@ -192,5 +187,38 @@ function Benefits({ benefits }: BenefitsProps) {
         </div>
       ))}
     </div>
+  );
+}
+
+type UserConfirmButtonProps = {
+  disabled: boolean;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  planType: "basic" | "premium";
+  invoiceId: number;
+};
+
+function UserConfirmButton({
+  disabled,
+  setDisabled,
+  planType,
+  invoiceId,
+}: UserConfirmButtonProps) {
+  const { mutate } = api.invoice.userConfirm.useMutation({
+    onSuccess: () => {
+      toast("We are now awaiting your payment");
+    },
+  });
+  return (
+    <Button
+      disabled={disabled}
+      onClick={() => {
+        toast(`You chose the ${planType} plan.`);
+        setDisabled(true);
+        mutate({ planType, id: invoiceId });
+      }}
+      className="mx-auto"
+    >
+      <CheckIcon className="mr-2" />I sent the payment
+    </Button>
   );
 }
