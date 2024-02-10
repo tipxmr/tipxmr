@@ -1,6 +1,8 @@
 import { MoneroWalletRpc } from "monero-ts";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { PRICE_BASIC, PRICE_PREMIUM } from "~/config/constants";
+import { add } from "date-fns";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -13,16 +15,29 @@ export const invoiceRouter = createTRPCRouter({
     revalidatePath("/dashboard");
     return invoice;
   }),
-  confirm: protectedProcedure
+  userConfirm: protectedProcedure
     .input(
       z.object({
         id: z.number(),
+        planType: z.enum(["basic", "premium"]),
       }),
     )
     .mutation(({ ctx, input }) => {
+      const { planType } = input;
+
+      const expectedAmount = planType === "basic" ? PRICE_BASIC : PRICE_PREMIUM;
+
+      const startDate = new Date();
+      const endDate = add(startDate, { months: 1 });
+
       return ctx.db.invoice.update({
         where: { id: input.id, streamerId: ctx.session.user.id },
-        data: {},
+        data: {
+          planType,
+          startDate,
+          endDate,
+          expectedAmount,
+        },
       });
     }),
   getAll: protectedProcedure.query(({ ctx }) => {
