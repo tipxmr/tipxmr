@@ -74,7 +74,7 @@ model Invoice {
 
   planType                   PlanType?
   paidStatus                 PaidStatus?
-  subaddress                 String?       @db.VarChar(95)
+  subaddress                 String       @db.VarChar(95)
   transaction                Transaction[]
   streamer_invoiceTostreamer Streamer?     @relation(fields: [streamerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -86,7 +86,7 @@ model ServerXmrSetting {
 }
 
 model Stream {
-  streamerId                  String    @id @db.VarChar(12)
+  streamerId                String    @id @db.VarChar(12)
   url                       String?   @db.VarChar(100)
   platform                  Platform?
   language                  Language?
