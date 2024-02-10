@@ -17,7 +17,7 @@ export default async function RegistrationPage() {
   if (session?.user?.id) redirect("/dashboard");
 
   return (
-    <div className="mx-auto my-8 flex w-1/2 flex-col gap-4">
+    <div className="my-8 flex w-full flex-col gap-4 md:mx-auto md:w-1/2">
       <RegistrationTooltip
         link="/registration/new"
         title="Register with new wallet"
