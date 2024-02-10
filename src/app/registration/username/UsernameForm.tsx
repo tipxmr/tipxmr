@@ -34,10 +34,13 @@ const FormSchema = z.object({
 const UsernameForm = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
 
-  const { mutate } = api.streamer.create.useMutation({
+  const { mutate, isLoading, error } = api.streamer.create.useMutation({
     onSuccess: async () => {
-      console.log("signing in");
       await signIn("credentials", { identifierHash: truncatedHashId });
+    },
+    onError: () => {
+      console.error({ error });
+      toast(error?.message);
     },
   });
 
@@ -90,7 +93,9 @@ const UsernameForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          Submit
+        </Button>
       </form>
     </Form>
   );
