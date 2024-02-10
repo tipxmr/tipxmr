@@ -114,7 +114,7 @@ export default function RootLayout({
                 <Navbar />
                 <div className="flex-1 flex-grow">{children}</div>
               </main>
-              <Toaster />
+              <Toaster position="top-left" />
             </ThemeProvider>
           </TRPCReactProvider>
         </Provider>

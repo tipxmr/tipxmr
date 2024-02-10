@@ -102,20 +102,18 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
                 </p>
               )}
             </CardDescription>
-            <TabsList className="justify-around">
+            <TabsList className="h-16 justify-around">
               <TabsTrigger
                 value="basic"
                 disabled={isPickComplete}
-                className="grow"
-                onClick={() => setChosenPlanType("basic")}
+                className="h-14 grow text-xl font-semibold"
               >
                 Basic
               </TabsTrigger>
               <TabsTrigger
                 value="premium"
                 disabled={isPickComplete}
-                className="grow"
-                onClick={() => setChosenPlanType("premium")}
+                className="h-14 grow text-xl font-semibold"
               >
                 Premium
               </TabsTrigger>
@@ -123,8 +121,7 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
           </CardHeader>
           <CardContent>
             <TabsContent value="basic">
-              <div className="flex-row text-3xl font-bold sm:text-5xl">
-                <span className="capitalize tracking-tight">Basic</span>:{" "}
+              <div className="w-full text-center text-3xl font-bold lg:text-5xl">
                 {0.001} XMR per month
               </div>
               <Benefits benefits={basicBenefits} />
@@ -136,12 +133,12 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
                   invoiceId={invoice.id}
                   disabled={isPickComplete}
                   setDisabled={setIsPickComplete}
+                  setPlanType={setChosenPlanType}
                 />
               </div>
             </TabsContent>
             <TabsContent value="premium">
-              <div className="flex-row text-3xl font-bold sm:text-5xl">
-                <span className="capitalize tracking-tight">premium</span>:{" "}
+              <div className="w-full text-center text-3xl font-bold lg:text-5xl">
                 {0.1} XMR per month
               </div>
               <Benefits benefits={premiumBenefits} />
@@ -153,6 +150,7 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
                   invoiceId={invoice.id}
                   disabled={isPickComplete}
                   setDisabled={setIsPickComplete}
+                  setPlanType={setChosenPlanType}
                 />
               </div>
             </TabsContent>
@@ -193,6 +191,9 @@ function Benefits({ benefits }: BenefitsProps) {
 type UserConfirmButtonProps = {
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlanType: React.Dispatch<
+    React.SetStateAction<"basic" | "premium" | null | undefined>
+  >;
   planType: "basic" | "premium";
   invoiceId: number;
 };
@@ -202,10 +203,11 @@ function UserConfirmButton({
   setDisabled,
   planType,
   invoiceId,
+  setPlanType,
 }: UserConfirmButtonProps) {
   const { mutate } = api.invoice.userConfirm.useMutation({
     onSuccess: () => {
-      toast("We are now awaiting your payment");
+      toast("We are now awaiting your payment to confirm");
     },
   });
   return (
@@ -214,6 +216,7 @@ function UserConfirmButton({
       onClick={() => {
         toast(`You chose the ${planType} plan.`);
         setDisabled(true);
+        setPlanType(planType);
         mutate({ planType, id: invoiceId });
       }}
       className="mx-auto"
