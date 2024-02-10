@@ -20,30 +20,51 @@ cd tipxmr
 * Starting the TipXMR project for development
 Here are some common commands that you will need when first starting the project. But also when developing on it.
 #+begin_src sh
+# --- run these commands at least once for initializing the project
 docker compose up -d # start the pg-db in docker
 yarn # install dependencies
-prisma migrate dev # migrate db
+prisma migrate dev # migrate db to the shape of the schema.prisma
+cp .env.example .env # create your personal .env file
+
+# --- commands needed for developmnet
 yarn moneroRpc # start the monero wallet rpc (see Server Wallet)
 yarn dev # start the dev server
+
+# --- commands needed for deployment
 yarn lint --fix # run linter + automatic fixer
 yarn build # build the project
 yarn start # start the built project
 #+end_src
 
-** Server Wallet
-- TipXMR features a payment engine for the steamers to activate their account. You will need a monero wallet on the server that generates subaddresses for the streamer invoices. This wallet will be generated once and then be opened by the long running process of the ~monero-wallet-rpc~. The wallet-rpc will inform the application about received payments.
-  - 💡 Make sure you have ~monero-wallet-cli~ installed and in your ~$PATH~
-*** Creating your server wallet
-- Generate the server wallet once. Create it with a strong password. Write down your seed. Keep your credentials private and secure.
-    #+begin_src sh
-    cd monero/ # switch into the monero directory
-    monero-wallet-cli # call the monero wallet cli and run through the setup process
-    #+end_src
-  - The generated secrets from the server wallet need to be input into your ~.env~
-*** Starting the monero wallet rpc
-- You can start the ~monero-wallet-rpc~ with (from the project root):
+** Filling in the .env variables
+- The ~.env.example~ contains all the keys that are required to run the project.
+- Some of the values are already set to work for local development
+- When deploying the application to a production server, you should create a separate ~.env~ file that will only be present on the production server.
+*** Creating you serverWallet
+- TipXMR features a payment engine for the steamers to activate their account. *You will need a monero wallet on the server that generates subaddresses for the streamer invoices.*
+- This wallet will be generated once and then be opened by the long running process of the ~monero-wallet-rpc~. The wallet-rpc will inform the application about received payments and provide the TipXMR application with fresh subaddresses so streams can pay their dues.
+- 💡 Make sure you have ~monero-wallet-cli~ installed and in your ~$PATH~
+#+begin_src sh
+# --- Generate the server wallet once.
+# Create it with a strong password. Write down your seed. Keep your credentials private and secure.
+
+cd monero/ # switch into the monero directory
+monero-wallet-cli # call the monero wallet cli and run through the setup process
+#+end_src
+- The interactive wallet creation with ~monero-wallet-cli~ will spit out the required secrets for our serverWallet.
+- The generated secrets from the server wallet need to be input into your ~.env~
 #+begin_src bash
+# --- You can start the ~monero-wallet-rpc~ with (from the project root):
 yarn moneroRpc
+#+end_src
+** Running typescript for database
+- Sometimes we want to execute scripts that access the database.
+- Use the dev-dependency ~tsx~ for this.
+- Simply write your code in typescript and place it anywhere in the project.
+  - You can import the ~db~ or whatever you want in the script
+#+begin_src bash
+# --- Exectue your typescript file
+yarn tsx path/to/script.ts
 #+end_src
 * TipXMR - The Livestream Tipping Service for OBS
 
