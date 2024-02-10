@@ -41,11 +41,11 @@ export default async function Home() {
           </li>
           <li>
             <span className="font-semibold">🎉 Profit:</span> That&apos;s it.
-            It&apos;s that simple
+            It&apos;s that simple.
           </li>
         </ul>
       </div>
-      <div className="flex flex-col">
+      <div className="mt-6 flex flex-col">
         <Link href="/streams" className={buttonVariants({ variant: "link" })}>
           See who&apos;s streaming &rarr;
         </Link>
