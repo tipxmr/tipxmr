@@ -9,9 +9,6 @@ export default async function LoginPage() {
 
   return (
     <MaxWidthWrapper className="my-6">
-      <h1 className="tip-h1 mb-2">Login to TipXMR</h1>
-      <p>{`You don't need to provide any personal data to use TipXMR.`}</p>
-
       <LoginForm />
     </MaxWidthWrapper>
   );
