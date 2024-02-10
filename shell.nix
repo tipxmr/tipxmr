@@ -1,19 +1,20 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [ bashInteractive ];
   buildInputs = with pkgs; [
     nodejs_20
-    nodePackages_latest.prisma
-    prisma-engines
     nodePackages_latest.yarn
+    nodePackages_latest.prisma
+
+    monero-cli
+    postgresql_15
+    openssl
   ];
-  shellHook = with pkgs; ''
-    export BROWSER=none
-    export PRISMA_SCHEMA_ENGINE_BINARY="${prisma-engines}/bin/migration-engine"
-    export PRISMA_QUERY_ENGINE_BINARY="${prisma-engines}/bin/query-engine"
-    export PRISMA_QUERY_ENGINE_LIBRARY="${prisma-engines}/lib/libquery_engine.node"
-    export PRISMA_INTROSPECTION_ENGINE_BINARY="${prisma-engines}/bin/introspection-engine"
-    export PRISMA_FMT_BINARY="${prisma-engines}/bin/prisma-fmt"
+  shellHook = ''
+    export PRISMA_QUERY_ENGINE_LIBRARY=${pkgs.prisma-engines}/lib/libquery_engine.node
+    export PRISMA_QUERY_ENGINE_BINARY=${pkgs.prisma-engines}/bin/query-engine
+    export PRISMA_SCHEMA_ENGINE_BINARY=${pkgs.prisma-engines}/bin/schema-engine
   '';
 }
