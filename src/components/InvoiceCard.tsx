@@ -8,6 +8,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "~/components/ui/card";
 import { api } from "~/trpc/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
@@ -16,11 +17,14 @@ import {
   CloverIcon,
   FileCogIcon,
   LightbulbIcon,
+  MinimizeIcon,
   SearchCheckIcon,
   StarHalfIcon,
+  TestTube2Icon,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { Invoice } from "@prisma/client";
 
 const basicBenefits = [
   {
@@ -38,6 +42,14 @@ const basicBenefits = [
     content:
       "You can show donations in your stream, but are limited with customizability",
   },
+
+  {
+    id: 3,
+    icon: <MinimizeIcon />,
+    title: "Minimalistic",
+    content:
+      "Best plan if you just want to receive donations for your live streams, without the fuzz",
+  },
 ];
 
 const premiumBenefits = [
@@ -48,7 +60,6 @@ const premiumBenefits = [
     content:
       "The premium account offers you all the functionality TipXMR can offer",
   },
-
   {
     id: 2,
     icon: <FileCogIcon />,
@@ -56,25 +67,27 @@ const premiumBenefits = [
     content:
       "Take control of your stream monero-tization by fine-tuning parameters for donations",
   },
+  {
+    id: 3,
+    icon: <TestTube2Icon />,
+    title: "Bleeding edge",
+    content:
+      "Be the first to experience new features of TipXMR, like moderators for your donations and much more!",
+  },
 ];
 
-const InvoiceCard = ({ id }: { id?: string }) => {
+const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
   const [isPickComplete, setIsPickComplete] = useState(false);
-  const { data: invoice } = api.invoice.mostRecent.useQuery();
-  if (!id) return null;
   if (!invoice) return <InvoiceButton />;
   return (
     <>
       <Tabs defaultValue="premium">
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-center">
-              <LightbulbIcon className="mr-2" size={20} />
-              <CardDescription className="">
-                Select the account type that you want to use, and press the
-                button when you have sent your payment.
-              </CardDescription>
-            </div>
+            <CardDescription className="text-left">
+              Select the account type that you want to use, and then confirm
+              your payment
+            </CardDescription>
             <TabsList className="justify-around">
               <TabsTrigger
                 value="basic"
