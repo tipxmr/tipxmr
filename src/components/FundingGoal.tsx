@@ -34,7 +34,10 @@ const InvoiceTab = ({
         <MoneroSubaddress uri={moneroUri} subaddress={subaddress} />
 
         <div className="flex justify-center">
-          <Link href={moneroUri} className={buttonVariants()}>
+          <Link
+            href={moneroUri}
+            className={buttonVariants({ variant: "secondary" })}
+          >
             <Wallet2Icon className="mr-2" />
             Click to open wallet
           </Link>

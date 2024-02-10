@@ -8,15 +8,14 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "~/components/ui/card";
 import { api } from "~/trpc/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
   CheckCheckIcon,
+  CheckIcon,
   CloverIcon,
   FileCogIcon,
-  LightbulbIcon,
   MinimizeIcon,
   SearchCheckIcon,
   StarHalfIcon,
@@ -25,6 +24,7 @@ import {
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Invoice } from "@prisma/client";
+import { toast } from "sonner";
 
 const basicBenefits = [
   {
@@ -77,7 +77,12 @@ const premiumBenefits = [
 ];
 
 const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
-  const [isPickComplete, setIsPickComplete] = useState(false);
+  const [isPickComplete, setIsPickComplete] = useState(
+    !!invoice?.expectedAmount,
+  );
+  const { mutate } = api.invoice.userConfirm.useMutation({
+    onSuccess: () => {},
+  });
   if (!invoice) return <InvoiceButton />;
   return (
     <>
@@ -85,8 +90,14 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
         <Card>
           <CardHeader>
             <CardDescription className="text-left">
-              Select the account type that you want to use, and then confirm
-              your payment
+              {isPickComplete ? (
+                <p>Waiting for payment...</p>
+              ) : (
+                <p>
+                  Select the account type that you want to use, and then confirm
+                  your payment
+                </p>
+              )}
             </CardDescription>
             <TabsList className="justify-around">
               <TabsTrigger
@@ -113,6 +124,18 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
               </div>
               <Benefits benefits={basicBenefits} />
               <FundingGoal {...invoice} expectedAmount={0.001} />
+
+              <div className="mt-8 flex justify-center">
+                <Button
+                  onClick={() => {
+                    setIsPickComplete(true);
+                    mutate({ planType: "premium", id: invoice.id });
+                  }}
+                  className="mx-auto"
+                >
+                  <CheckCheckIcon className="mr-2" />I sent the payment
+                </Button>
+              </div>
             </TabsContent>
             <TabsContent value="premium">
               <div className="flex-row text-3xl font-bold sm:text-5xl">
@@ -121,18 +144,24 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
               </div>
               <Benefits benefits={premiumBenefits} />
               <FundingGoal {...invoice} expectedAmount={0.1} />
+
+              <div className="mt-8 flex justify-center">
+                <Button
+                  disabled={isPickComplete}
+                  onClick={() => {
+                    toast(
+                      "Thank you! Your account will activate as soon as your transaction confirms",
+                    );
+                    setIsPickComplete(true);
+                    mutate({ planType: "premium", id: invoice.id });
+                  }}
+                  className="mx-auto"
+                >
+                  <CheckIcon className="mr-2" />I sent the payment
+                </Button>
+              </div>
             </TabsContent>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button
-              onClick={() => {
-                setIsPickComplete(true);
-                // TODO update the invoice with the selected plan
-              }}
-            >
-              <CheckCheckIcon className="mr-2" />I sent the payment
-            </Button>
-          </CardFooter>
         </Card>
       </Tabs>
     </>
