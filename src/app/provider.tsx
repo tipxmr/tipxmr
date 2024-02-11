@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
+import { WalletProvider } from "~/context/useWalletContext";
 
 export const queryClient = new QueryClient();
 
@@ -10,10 +11,12 @@ function Provider({ children }: { children: React.ReactNode }) {
   /* const pathname = usePathname(); */
   return (
     <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        {/* {pathname?.startsWith("/animation") ? children : { ( <>children</> ) }} */}
-        {children}
-      </QueryClientProvider>
+      <WalletProvider>
+        <QueryClientProvider client={queryClient}>
+          {/* {pathname?.startsWith("/animation") ? children : { ( <>children</> ) }} */}
+          {children}
+        </QueryClientProvider>
+      </WalletProvider>
     </SessionProvider>
   );
 }

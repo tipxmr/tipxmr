@@ -33,9 +33,21 @@ const FullWalletCreation = () => {
 
   useEffect(() => {
     wallet?.getSeed().then(setSeed).catch(console.error);
-    wallet?.getPrimaryAddress().then(setPrimaryAddress).catch(console.error);
+    wallet
+      ?.getPrimaryAddress()
+      .then((address) => {
+        localStorage.setItem("primaryAddress", address);
+        setPrimaryAddress(address);
+      })
+      .catch(console.error);
 
-    wallet?.getPrivateViewKey().then(setPrivateViewKey).catch(console.error);
+    wallet
+      ?.getPrivateViewKey()
+      .then((key) => {
+        localStorage.setItem("privateViewKey", key);
+        setPrivateViewKey(key);
+      })
+      .catch(console.error);
   }, [wallet]);
 
   const handleSetSeedLang = (language: string) => {

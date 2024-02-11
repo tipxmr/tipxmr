@@ -8,6 +8,7 @@ import DonationSettingForm from "./DonationSettingForm";
 import StreamForm from "./StreamForm";
 import { PartyPopperIcon } from "lucide-react";
 import { Suspense } from "react";
+import TinyWallet from "./TinyWallet";
 
 export default async function DashboardPage() {
   const session = await getServerAuthSession();
@@ -19,6 +20,7 @@ export default async function DashboardPage() {
 
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
+      <TinyWallet />
       {invoice.paidStatus !== "paid" ? (
         <Alert>
           <AlertTitle className="text-3xl font-bold tracking-tight">
