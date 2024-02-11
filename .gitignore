@@ -41,6 +41,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 /.direnv/
-monero/server-wallet/
+monero/server-wallet/*
+!monero/server-wallet/.gitkeep
 
 .vscode/
