@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { truncatedHashIdAtom } from "~/lib/store";
 import { useAtomValue } from "jotai";
 import { signIn } from "next-auth/react";
+import { generateUsername } from "unique-username-generator";
 
 const FormSchema = z.object({
   name: z
@@ -33,6 +34,7 @@ const FormSchema = z.object({
 
 const UsernameForm = () => {
   const truncatedHashId = useAtomValue(truncatedHashIdAtom);
+  const randomUsername = generateUsername();
 
   const { mutate, isLoading, error } = api.streamer.create.useMutation({
     onSuccess: async () => {
@@ -46,7 +48,12 @@ const UsernameForm = () => {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: randomUsername,
+      alias: randomUsername,
+    },
   });
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!truncatedHashId) return;
     mutate({ ...data, id: truncatedHashId });
