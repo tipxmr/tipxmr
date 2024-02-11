@@ -36,29 +36,28 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
   // The wallet is only an RPC (service runs externally)
   // and informs us about new payments
   // as well as provides us with new subaddresses for invoices
-  let serverWallet;
-  try {
-    serverWallet = await initWallet();
-  } catch (err) {
-    console.error(err);
+  const serverWallet = await initWallet();
+  // try {
+  // } catch (err) {
+  //   console.error(err);
 
-    // create a new wallet if ther is none
-    const walletRpc = await connectToWalletRpc({
-      uri: env.MONERO_RPC_URI,
-      rejectUnauthorized: false,
-    });
+  //   // create a new wallet if ther is none
+  //   const walletRpc = await connectToWalletRpc({
+  //     uri: env.MONERO_RPC_URI,
+  //     rejectUnauthorized: false,
+  //   });
 
-    serverWallet = await walletRpc.createWallet({
-      path: env.MONERO_WALLET_PATH,
-      password: env.MONERO_WALLET_PW,
-      seed: env.MONERO_WALLET_SEED,
-    });
+  //   serverWallet = await walletRpc.createWallet({
+  //     path: env.MONERO_WALLET_PATH,
+  //     password: env.MONERO_WALLET_PW,
+  //     seed: env.MONERO_WALLET_SEED,
+  //   });
 
-    const seed = await serverWallet.getSeed();
+  //   const seed = await serverWallet.getSeed();
 
-    console.log("Created new server-wallet: ", serverWallet);
-    console.log({ seed });
-  }
+  //   console.log("Created new server-wallet: ", serverWallet);
+  //   console.log({ seed });
+  // }
 
   return {
     db,
