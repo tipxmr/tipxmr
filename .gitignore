@@ -41,6 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 /.direnv/
-monero/*
+monero/server-wallet/
 
 .vscode/
