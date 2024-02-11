@@ -8,7 +8,7 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
-import { connectToWalletRpc, MoneroNetworkType } from "monero-ts";
+import { connectToWalletRpc } from "monero-ts";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import { env } from "~/env";
@@ -51,8 +51,11 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
     serverWallet = await walletRpc.createWallet({
       path: env.MONERO_WALLET_PATH,
       password: env.MONERO_WALLET_PW,
+      seed: env.MONERO_WALLET_SEED,
     });
+
     const seed = await serverWallet.getSeed();
+
     console.log("Created new server-wallet: ", serverWallet);
     console.log({ seed });
   }
