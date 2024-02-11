@@ -11,7 +11,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "moneroRpc": "cd monero/ && monero-wallet-rpc --config walletRpc.conf"
+    "moneroRpc": "cd monero/ && monero-wallet-rpc --config baremetal-wallet-rpc.conf"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

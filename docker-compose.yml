@@ -1,7 +1,7 @@
-version: '3'
+version: "3"
 services:
   db:
-    container_name: 'tipxmr-db'
+    container_name: "tipxmr-db"
     image: postgres:16-alpine
     restart: unless-stopped
     volumes:
@@ -15,33 +15,35 @@ services:
       - 5432:5432
 
   monerod:
-    container_name: 'tipxmr-monerod'
+    container_name: "tipxmr-monerod"
     image: sethsimmons/simple-monerod:latest
     restart: unless-stopped
     command: --config-file /home/monero/.bitmonero/stagenet.conf
     ports:
-      - '38081:38081'
+      - "38081:38081"
     volumes:
       - bitmonero:/home/monero/.bitmonero
       - ./monero/stagenet.conf:/home/monero/.bitmonero/stagenet.conf
     logging:
-      driver: 'json-file'
+      driver: "json-file"
       options:
         max-size: 4m
-        max-file: '1'
-  
-  monero-wallet-rpc:
-    image: sethsimmons/simple-monero-wallet-rpc:latest
-    restart: unless-stopped
-    container_name: 'tipxmr-monero-wallet-rpc'
-    depends_on:
-      - monerod
-    ports:
-      - 127.0.0.1:38082:38082
-    volumes:
-      - ./monero/server-wallet:/home/monero/wallet
-      - ./monero/wallet-rpc.conf:/home/monero/.bitmonero/wallet-rpc.conf
-    command: --config-file /home/monero/.bitmonero/wallet-rpc.conf
+        max-file: "1"
+
+  # FIXME leads to issue on Nixos with wallet not being able to be saved
+  # monero-wallet-rpc:
+  #   image: sethsimmons/simple-monero-wallet-rpc:latest
+  #   restart: unless-stopped
+  #   container_name: "tipxmr-monero-wallet-rpc"
+  #   depends_on:
+  #     - monerod
+  #   user: 1000:100
+  #   ports:
+  #     - 127.0.0.1:38082:38082
+  #   volumes:
+  #     - ./monero/server-wallet:/home/monero/wallet
+  #     - ./monero/wallet-rpc.conf:/home/monero/.bitmonero/wallet-rpc.conf
+  #   command: --config-file /home/monero/.bitmonero/wallet-rpc.conf
 
 volumes:
   tipxmr-db:
