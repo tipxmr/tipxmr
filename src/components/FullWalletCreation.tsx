@@ -6,6 +6,7 @@ import {
   RocketIcon,
   ShellIcon,
 } from "lucide-react";
+import { MoneroNetworkType, createWalletFull } from "monero-ts";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -25,27 +26,48 @@ const FullWalletCreation = () => {
   const walletContext = useWallet();
 
   useEffect(() => {
-    createWalletFromScratch(seedLang)
-      .then((wallet) => {
-        walletContext.wallet = wallet;
-        wallet.getSeed().then(setSeed).catch(console.error);
-        wallet
-          .getPrimaryAddress()
-          .then((address) => {
-            localStorage.setItem("primaryAddress", address);
-            setPrimaryAddress(address);
-          })
-          .catch(console.error);
+    const primaryAddress = localStorage.getItem("primaryAddress");
+    const privateViewKey = localStorage.getItem("privateViewKey");
 
-        wallet
-          .getPrivateViewKey()
-          .then((key) => {
-            localStorage.setItem("privateViewKey", key);
-            setPrivateViewKey(key);
-          })
-          .catch(console.error);
-      })
-      .catch(console.error);
+    const signIntoExistingWallet = async () => {
+      if (!primaryAddress || !privateViewKey) return;
+
+      const wallet = await createWalletFull({
+        primaryAddress,
+        privateViewKey,
+        networkType: MoneroNetworkType.STAGENET,
+        server: {
+          uri: "stagenet.community.rino.io:38081",
+        },
+      });
+
+      walletContext.wallet = wallet;
+      setSeed("no seed");
+      setPrimaryAddress(primaryAddress);
+      setPrivateViewKey(privateViewKey);
+    };
+
+    const createNewWallet = async () => {
+      const wallet = await createWalletFromScratch(seedLang);
+      const seed = await wallet.getSeed();
+      const address = await wallet.getPrimaryAddress();
+
+      const key = await wallet.getPrivateViewKey();
+
+      localStorage.setItem("address", address);
+      localStorage.setItem("key", key);
+
+      walletContext.wallet = wallet;
+      setSeed(seed);
+      setPrimaryAddress(address);
+      setPrivateViewKey(key);
+    };
+
+    if (primaryAddress && privateViewKey) {
+      signIntoExistingWallet().catch(console.error);
+    } else {
+      createNewWallet().catch(console.error);
+    }
   }, [seedLang, walletContext]);
 
   const handleSetSeedLang = (language: string) => {
