@@ -20,7 +20,9 @@ export default async function DashboardPage() {
 
   return (
     <MaxWidthWrapper className="my-6 flex flex-col gap-4">
-      <TinyWallet />
+      <Suspense fallback={"Loading wallet..."}>
+        <TinyWallet />
+      </Suspense>
       {invoice.paidStatus !== "paid" ? (
         <Alert>
           <AlertTitle className="text-3xl font-bold tracking-tight">
