@@ -14,7 +14,7 @@ import LanguageSelect from "~/components/LanguageSelect";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { useWallet } from "~/context/useWalletContext";
-import { createWalletFromScratch } from "~/lib/xmr";
+import { buildIdentifierHash, createWalletFromScratch } from "~/lib/xmr";
 
 const FullWalletCreation = () => {
   const router = useRouter();
@@ -41,7 +41,13 @@ const FullWalletCreation = () => {
         },
       });
 
+      const truncatedHashId = buildIdentifierHash(
+        privateViewKey,
+        primaryAddress,
+      );
+
       walletContext.wallet = wallet;
+      walletContext.truncatedHashId = truncatedHashId;
       setSeed("no seed");
       setPrimaryAddress(primaryAddress);
       setPrivateViewKey(privateViewKey);
@@ -51,13 +57,17 @@ const FullWalletCreation = () => {
       const wallet = await createWalletFromScratch(seedLang);
       const seed = await wallet.getSeed();
       const address = await wallet.getPrimaryAddress();
+      const privateViewKey = await wallet.getPrivateViewKey();
 
       const key = await wallet.getPrivateViewKey();
 
       localStorage.setItem("address", address);
       localStorage.setItem("key", key);
 
+      const truncatedHashId = buildIdentifierHash(privateViewKey, address);
+
       walletContext.wallet = wallet;
+      walletContext.truncatedHashId = truncatedHashId;
       setSeed(seed);
       setPrimaryAddress(address);
       setPrivateViewKey(key);

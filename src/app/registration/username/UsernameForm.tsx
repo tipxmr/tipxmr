@@ -15,10 +15,9 @@ import { z } from "zod";
 import { api } from "~/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { truncatedHashIdAtom } from "~/lib/store";
-import { useAtomValue } from "jotai";
 import { signIn } from "next-auth/react";
 import { generateUsername } from "unique-username-generator";
+import { useWallet } from "~/context/useWalletContext";
 
 const FormSchema = z.object({
   name: z
@@ -33,7 +32,8 @@ const FormSchema = z.object({
 });
 
 const UsernameForm = () => {
-  const truncatedHashId = useAtomValue(truncatedHashIdAtom);
+  const walletContext = useWallet();
+  const { truncatedHashId } = walletContext;
   const randomUsername = generateUsername();
 
   const { mutate, isLoading, error } = api.streamer.create.useMutation({

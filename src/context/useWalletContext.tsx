@@ -16,6 +16,8 @@ import {
 interface WalletContextType {
   wallet: MoneroWalletKeys | null;
   isSyncing: boolean;
+  truncatedHashId: string | null;
+  setTruncatedHashId?: React.Dispatch<React.SetStateAction<string | null>>;
   setDoRefetch?: React.Dispatch<React.SetStateAction<boolean>>;
   doRefetch?: boolean;
   percentage?: number;
@@ -26,6 +28,7 @@ interface WalletContextType {
 const WalletContext = createContext<WalletContextType>({
   wallet: null,
   isSyncing: false,
+  truncatedHashId: null,
 });
 
 const server: Partial<MoneroRpcConnection> = {
@@ -34,6 +37,7 @@ const server: Partial<MoneroRpcConnection> = {
 
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [wallet, setWallet] = useState<MoneroWalletKeys | null>(null);
+  const [truncatedHashId, setTruncatedHashId] = useState<string | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
   const [currentBlock, setCurrentBlock] = useState(0);
   const [percentage, setPercentage] = useState(0);
@@ -88,6 +92,8 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       value={{
         wallet,
         isSyncing,
+        truncatedHashId,
+        setTruncatedHashId,
         setDoRefetch,
         doRefetch,
         endHeight,
