@@ -1,7 +1,7 @@
 "use client";
 
 import { BlocksIcon, PercentIcon } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 import MoneroSubaddress from "~/components/MoneroSubaddress";
 import { Button } from "~/components/ui/button";
 import {
@@ -19,7 +19,7 @@ const TinyWallet = () => {
     currentBlock,
     endHeight,
     percentage,
-    syncState,
+    isSyncing,
     setDoRefetch,
     doRefetch,
   } = useWallet();
@@ -35,7 +35,7 @@ const TinyWallet = () => {
   };
   return (
     <>
-      {syncState ? "connected!" : "not connected"}
+      {isSyncing ? "connected!" : "not connected"}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <MetricCard
           metric={endHeight}

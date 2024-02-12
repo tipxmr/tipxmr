@@ -1,54 +1,52 @@
 "use client";
 
-import { useAtom, type PrimitiveAtom } from "jotai";
 import {
   LockKeyholeIcon,
   PencilIcon,
   RocketIcon,
   ShellIcon,
 } from "lucide-react";
-import type { MoneroWalletFull } from "monero-ts";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import LanguageSelect from "~/components/LanguageSelect";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
-import { walletAtom } from "~/lib/store";
+import { useWallet } from "~/context/useWalletContext";
 import { createWalletFromScratch } from "~/lib/xmr";
 
 const FullWalletCreation = () => {
   const router = useRouter();
   const [seedLang, setSeedLang] = useState<string>("English");
-  const [wallet, setWallet] = useAtom<MoneroWalletFull>(
-    walletAtom as PrimitiveAtom<MoneroWalletFull>,
-  );
   const [seed, setSeed] = useState<string | null>(null);
   const [primaryAddress, setPrimaryAddress] = useState<string | null>(null);
   const [privateViewKey, setPrivateViewKey] = useState<string | null>(null);
 
-  useEffect(() => {
-    createWalletFromScratch(seedLang).then(setWallet).catch(console.error);
-  }, [seedLang, setWallet]);
+  const walletContext = useWallet();
 
   useEffect(() => {
-    wallet?.getSeed().then(setSeed).catch(console.error);
-    wallet
-      ?.getPrimaryAddress()
-      .then((address) => {
-        localStorage.setItem("primaryAddress", address);
-        setPrimaryAddress(address);
-      })
-      .catch(console.error);
+    createWalletFromScratch(seedLang)
+      .then((wallet) => {
+        walletContext.wallet = wallet;
+        wallet.getSeed().then(setSeed).catch(console.error);
+        wallet
+          .getPrimaryAddress()
+          .then((address) => {
+            localStorage.setItem("primaryAddress", address);
+            setPrimaryAddress(address);
+          })
+          .catch(console.error);
 
-    wallet
-      ?.getPrivateViewKey()
-      .then((key) => {
-        localStorage.setItem("privateViewKey", key);
-        setPrivateViewKey(key);
+        wallet
+          .getPrivateViewKey()
+          .then((key) => {
+            localStorage.setItem("privateViewKey", key);
+            setPrivateViewKey(key);
+          })
+          .catch(console.error);
       })
       .catch(console.error);
-  }, [wallet]);
+  }, [seedLang, walletContext]);
 
   const handleSetSeedLang = (language: string) => {
     setSeed(null);
@@ -88,7 +86,7 @@ const FullWalletCreation = () => {
           <CredentialBox text={primaryAddress} label="Primary Address" />
         </div>
       ) : (
-        <ShellIcon className="mx-auto my-12 h-12 w-12 w-full animate-spin" />
+        <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
       )}
 
       <div className="mt-4 flex flex-col items-center">

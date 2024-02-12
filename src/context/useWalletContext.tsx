@@ -1,22 +1,21 @@
 import {
   MoneroNetworkType,
-  MoneroWalletKeys,
+  type MoneroWalletKeys,
   MoneroWalletListener,
   createWalletFull,
-  createWalletKeys,
+  type MoneroRpcConnection,
 } from "monero-ts";
 import {
-  ReactNode,
+  type ReactNode,
   createContext,
   useContext,
   useEffect,
   useState,
 } from "react";
-import { env } from "~/env";
 
-interface IWalletContext {
+interface WalletContextType {
   wallet: MoneroWalletKeys | null;
-  syncState: boolean;
+  isSyncing: boolean;
   setDoRefetch?: React.Dispatch<React.SetStateAction<boolean>>;
   doRefetch?: boolean;
   percentage?: number;
@@ -24,18 +23,18 @@ interface IWalletContext {
   endHeight?: number;
 }
 
-const WalletContext = createContext<IWalletContext>({
+const WalletContext = createContext<WalletContextType>({
   wallet: null,
-  syncState: false,
+  isSyncing: false,
 });
 
-const server = {
+const server: Partial<MoneroRpcConnection> = {
   uri: "stagenet.community.rino.io:38081",
 };
 
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [wallet, setWallet] = useState<MoneroWalletKeys | null>(null);
-  const [syncState, setSyncState] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [currentBlock, setCurrentBlock] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [endHeight, setEndHeight] = useState(0);
@@ -77,7 +76,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       await openedWallet.startSyncing();
 
       const isConnected = await openedWallet.isViewOnly();
-      setSyncState(isConnected);
+      setIsSyncing(isConnected);
       setWallet(openedWallet);
     };
 
@@ -88,7 +87,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     <WalletContext.Provider
       value={{
         wallet,
-        syncState,
+        isSyncing,
         setDoRefetch,
         doRefetch,
         endHeight,
