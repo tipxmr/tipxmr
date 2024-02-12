@@ -5,14 +5,11 @@ import {
   type MoneroWalletConfig,
   type MoneroWalletFull,
 } from "monero-ts";
-import { env } from "~/env";
 
 export const stagenetNode: Partial<MoneroWalletConfig> = {
   networkType: "stagenet",
   server: {
-    uri: env.NEXT_PUBLIC_MONERO_DAEMON_URL,
-    username: env.NEXT_PUBLIC_MONERO_DAEMON_USER,
-    password: env.NEXT_PUBLIC_MONERO_DAEMON_PASSWORD,
+    uri: "stagenet.community.rino.io:38081",
   },
 };
 
@@ -32,6 +29,7 @@ export const createWalletFromScratch = async (lang = "English") => {
     password: "pass123",
     ...stagenetNode,
   });
+
   return walletFull;
 };
 
