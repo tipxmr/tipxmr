@@ -26,8 +26,8 @@ const FullWalletCreation = () => {
   const walletContext = useWallet();
 
   useEffect(() => {
-    const primaryAddress = localStorage.getItem("primaryAddress");
-    const privateViewKey = localStorage.getItem("privateViewKey");
+    const primaryAddress = localStorage.getItem("address");
+    const privateViewKey = localStorage.getItem("key");
 
     const signIntoExistingWallet = async () => {
       if (!primaryAddress || !privateViewKey) return;
