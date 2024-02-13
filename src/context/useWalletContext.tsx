@@ -44,8 +44,8 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [endHeight, setEndHeight] = useState(0);
   const [doRefetch, setDoRefetch] = useState(false);
 
-  const primaryAddress = localStorage.getItem("primaryAddress");
-  const privateViewKey = localStorage.getItem("privateViewKey");
+  const primaryAddress = localStorage.getItem("address");
+  const privateViewKey = localStorage.getItem("key");
 
   useEffect(() => {
     const handleOpenWallet = async () => {
