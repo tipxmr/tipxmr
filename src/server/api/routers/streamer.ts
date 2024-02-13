@@ -67,6 +67,9 @@ export const streamerRouter = createTRPCRouter({
             create: {},
           },
           donationSetting: { create: {} },
+          wallet: {
+            create: {},
+          },
         },
         include: { stream: true },
       });

@@ -3,7 +3,8 @@ import { streamerRouter } from "~/server/api/routers/streamer";
 import { donationRouter } from "~/server/api/routers/donation";
 import { dontationSettingRouter } from "~/server/api/routers/donationSetting";
 import { invoiceRouter } from "~/server/api/routers/invoice";
-import { streamRouter } from "./routers/stream";
+import { streamRouter } from "~/server/api/routers/stream";
+import { walletRouter } from "~/server/api/routers/wallet";
 
 /**
  * This is the primary router for your server.
@@ -16,8 +17,8 @@ export const appRouter = createTRPCRouter({
   donation: donationRouter,
   donationSetting: dontationSettingRouter,
   invoice: invoiceRouter,
+  wallet: walletRouter,
   // TODO impolement these routers if applicable
-  // wallet: walletRouter,
   // donate: donateRouter,
 });
 
