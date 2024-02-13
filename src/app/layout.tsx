@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     default: APP_DEFAULT_TITLE,
     template: APP_TITLE_TEMPLATE,
   },
-  icons: [{ rel: "icon", url: "/img/icon-192x192.png" }],
+  //icons: [{ rel: "icon", url: "/img/icon-192x192.png" }],
   description: APP_DESCRIPTION,
   /* TODO make it PWA */
   /* manifest: "/manifest.json", */

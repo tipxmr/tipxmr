@@ -7,7 +7,7 @@ import {
   ShellIcon,
 } from "lucide-react";
 import { MoneroNetworkType, createWalletFull } from "monero-ts";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import LanguageSelect from "~/components/LanguageSelect";
@@ -17,7 +17,6 @@ import { useWallet } from "~/context/useWalletContext";
 import { buildIdentifierHash, createWalletFromScratch } from "~/lib/xmr";
 
 const FullWalletCreation = () => {
-  const router = useRouter();
   const [seedLang, setSeedLang] = useState<string>("English");
   const [seed, setSeed] = useState<string | null>(null);
   const [primaryAddress, setPrimaryAddress] = useState<string | null>(null);
@@ -147,12 +146,9 @@ const FullWalletCreation = () => {
         </ul>
       </div>
       <div className="flex justify-center">
-        <Button
-          disabled={!seed}
-          onClick={() => router.push("/registration/username")}
-        >
-          Next step
-        </Button>
+        <Link href="/registration/username">
+          <Button disabled={!seed}>Next step</Button>
+        </Link>
       </div>
       <Separator className="my-4" />
     </div>
