@@ -53,7 +53,7 @@ const TinyWallet = () => {
           icon={<BlocksIcon />}
         />
         <MetricCard
-          metric={(percentage ?? 0) * 100}
+          metric={percentage}
           metricSuffix="%"
           label="Sync Percentage"
           icon={<PercentIcon />}

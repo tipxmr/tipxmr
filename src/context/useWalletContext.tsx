@@ -70,7 +70,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
             percentDone: number,
             message: string,
           ) {
-            const percentage = Math.floor(percentDone);
+            const percentage = Math.floor(percentDone * 100);
             setPercentage(percentage);
             setEndHeight(endHeight);
             setCurrentBlock(height);
