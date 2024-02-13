@@ -21,7 +21,7 @@ interface CopyableStringProps {
 }
 
 const formatString = ({ input, stringType }: CopyableStringProps) => {
-  if (!input) return "";
+  if (!input || typeof window === "undefined") return "";
 
   switch (stringType) {
     case FormattedStringConstants.ACCOUNT_NUMBER:
@@ -29,7 +29,7 @@ const formatString = ({ input, stringType }: CopyableStringProps) => {
     case FormattedStringConstants.SUBADDRESS:
       return shortenMoneroSubaddress(
         input,
-        window?.screen?.availWidth < 700 ? 4 : 10,
+        window.screen.availWidth < 700 ? 4 : 10,
       );
   }
 };

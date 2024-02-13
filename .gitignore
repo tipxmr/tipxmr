@@ -44,5 +44,4 @@ yarn-error.log*
 monero/server-wallet/*
 !monero/server-wallet/.gitkeep
 
-.vscode/
 /monero/*log*

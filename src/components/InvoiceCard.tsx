@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Invoice } from "@prisma/client";
+import { type Invoice } from "@prisma/client";
 import { toast } from "sonner";
 
 const basicBenefits = [
@@ -88,18 +88,18 @@ const InvoiceCard = ({ invoice }: { invoice?: Invoice }) => {
           <CardHeader>
             <CardDescription className="text-left">
               {isPickComplete ? (
-                <p>
+                <>
                   <span className="font-semibold">
                     You chose the {chosenPlanType} plan
                   </span>
                   . We are currently waiting for payment to confirm in a
                   block...
-                </p>
+                </>
               ) : (
-                <p>
+                <>
                   Select the account type that you want to use, and then confirm
                   your payment
-                </p>
+                </>
               )}
             </CardDescription>
             <TabsList className="h-16 justify-around">
