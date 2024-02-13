@@ -2,6 +2,7 @@
 
 import { BlocksIcon, PercentIcon } from "lucide-react";
 import { type ReactNode, useState } from "react";
+import { toast } from "sonner";
 import MoneroSubaddress from "~/components/MoneroSubaddress";
 import { Button } from "~/components/ui/button";
 import {
@@ -26,6 +27,7 @@ const TinyWallet = () => {
   const [subaddress, setSubaddress] = useState<string | undefined>("");
 
   const createSubaddress = () => {
+    toast("generating subaddress!");
     wallet
       ?.createSubaddress(0)
       .then((addr) => {
