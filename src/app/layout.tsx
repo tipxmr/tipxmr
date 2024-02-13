@@ -3,12 +3,10 @@ import { Inter } from "next/font/google";
 
 import Provider from "~/app/provider";
 import { Navbar } from "~/components/Navbar";
-import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "~/components/ui/sonner";
 import { env } from "~/env";
 import { cn } from "~/lib/utils";
 import "~/styles/globals.css";
-import { TRPCReactProvider } from "~/trpc/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -103,20 +101,11 @@ export default function RootLayout({
     >
       <body className={`bg-background p-4 text-foreground`}>
         <Provider>
-          <TRPCReactProvider>
-            <ThemeProvider
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-              attribute="class"
-            >
-              <main className="relative flex min-h-screen flex-col">
-                <Navbar />
-                <div className="flex-1 flex-grow">{children}</div>
-              </main>
-              <Toaster position="top-left" />
-            </ThemeProvider>
-          </TRPCReactProvider>
+          <main className="relative flex min-h-screen flex-col">
+            <Navbar />
+            <div className="flex-1 flex-grow">{children}</div>
+          </main>
+          <Toaster position="top-left" />
         </Provider>
       </body>
     </html>
