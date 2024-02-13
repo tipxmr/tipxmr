@@ -11,8 +11,8 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
 } from "react";
-import { api } from "~/trpc/react";
 
 interface WalletContextType {
   wallet: MoneroWalletKeys | null;
@@ -45,14 +45,12 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [endHeight, setEndHeight] = useState(0);
   const [doRefetch, setDoRefetch] = useState(false);
 
-  const primaryAddress = localStorage.getItem("address");
-  const privateViewKey = localStorage.getItem("key");
-  const lastSyncHeight = parseInt(localStorage.getItem("height") ?? "1");
-
   useEffect(() => {
-    const handleOpenWallet = async () => {
-      if (!primaryAddress || !privateViewKey) return null;
+    const primaryAddress = localStorage.getItem("address") ?? undefined;
+    const privateViewKey = localStorage.getItem("key") ?? undefined;
+    const lastSyncHeight = parseInt(localStorage.getItem("height") ?? "1");
 
+    const handleOpenWallet = async () => {
       // TODO does this even open?
       const openedWallet = await createWalletFull({
         primaryAddress,
@@ -89,22 +87,35 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setWallet(openedWallet);
     };
 
-    handleOpenWallet().catch(console.error);
-  }, [primaryAddress, privateViewKey, doRefetch]);
+    if (primaryAddress && privateViewKey) {
+      handleOpenWallet().catch(console.error);
+    }
+  }, []);
 
   return (
     <WalletContext.Provider
-      value={{
-        wallet,
-        isSyncing,
-        truncatedHashId,
-        setTruncatedHashId,
-        setDoRefetch,
-        doRefetch,
-        endHeight,
-        percentage,
-        currentBlock,
-      }}
+      value={useMemo(
+        () => ({
+          wallet,
+          isSyncing,
+          truncatedHashId,
+          setTruncatedHashId,
+          setDoRefetch,
+          doRefetch,
+          endHeight,
+          percentage,
+          currentBlock,
+        }),
+        [
+          currentBlock,
+          doRefetch,
+          endHeight,
+          isSyncing,
+          percentage,
+          truncatedHashId,
+          wallet,
+        ],
+      )}
     >
       {children}
     </WalletContext.Provider>

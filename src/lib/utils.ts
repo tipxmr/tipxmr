@@ -34,3 +34,9 @@ export function shortenMoneroSubaddress(
     truncateLength,
   )}...${inputString?.substring(inputString.length - truncateLength)}`;
 }
+
+export function clearWalletLocalStorage() {
+  localStorage.removeItem("address");
+  localStorage.removeItem("key");
+  localStorage.removeItem("height");
+}

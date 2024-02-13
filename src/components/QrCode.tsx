@@ -11,7 +11,7 @@ interface Props {
 }
 
 const QrCode = ({ moneroUri }: Props) => {
-  const [generatedQR, setGeneratedQR] = useState<string>("");
+  const [generatedQR, setGeneratedQR] = useState<string>();
 
   useEffect(() => {
     const generateQRCode = async () => {
@@ -24,6 +24,8 @@ const QrCode = ({ moneroUri }: Props) => {
     };
     generateQRCode().catch(console.error);
   }, [moneroUri]);
+
+  if (!generatedQR) return null;
 
   return (
     <div className="mx-auto w-[200px] lg:w-[300px]">

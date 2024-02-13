@@ -4,7 +4,14 @@ export const SHOW_STATE = {
   LOGGED_OUT: "loggedOut",
 } as const;
 
-export const MENU_ITEMS = [
+interface MenuItem {
+  href: string;
+  title: string;
+  description: string;
+  showState: (typeof SHOW_STATE)[keyof typeof SHOW_STATE];
+}
+
+export const MENU_ITEMS: MenuItem[] = [
   {
     href: "/login",
     title: "Login",
@@ -31,4 +38,4 @@ export const MENU_ITEMS = [
     description: "Go to the central point of control for your TipXMR account",
     showState: SHOW_STATE.LOGGED_IN,
   },
-];
+] as const;
