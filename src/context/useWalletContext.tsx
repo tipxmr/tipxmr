@@ -13,6 +13,7 @@ import {
   useState,
   useMemo,
 } from "react";
+import { api } from "~/trpc/react";
 
 interface WalletContextType {
   wallet: MoneroWalletKeys | null;
@@ -44,6 +45,9 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [percentage, setPercentage] = useState(0);
   const [endHeight, setEndHeight] = useState(0);
   const [doRefetch, setDoRefetch] = useState(false);
+
+  const { data: currentHeight } =
+    api.serverWallet.getCurrentBlockHeight.useQuery();
 
   useEffect(() => {
     const primaryAddress = localStorage.getItem("address") ?? undefined;
@@ -79,7 +83,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
         })(),
       );
 
-      await openedWallet.setRestoreHeight(lastSyncHeight ?? 0);
+      await openedWallet.setRestoreHeight(currentHeight ?? 1562060);
       await openedWallet.startSyncing();
 
       const isConnected = await openedWallet.isViewOnly();

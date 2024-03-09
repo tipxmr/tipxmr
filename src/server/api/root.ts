@@ -5,6 +5,7 @@ import { dontationSettingRouter } from "~/server/api/routers/donationSetting";
 import { invoiceRouter } from "~/server/api/routers/invoice";
 import { streamRouter } from "~/server/api/routers/stream";
 import { walletRouter } from "~/server/api/routers/wallet";
+import { serverWalletRouter } from "~/server/api/routers/serverWallet";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   donationSetting: dontationSettingRouter,
   invoice: invoiceRouter,
   wallet: walletRouter,
+  serverWallet: serverWalletRouter,
   // TODO impolement these routers if applicable
   // donate: donateRouter,
 });
