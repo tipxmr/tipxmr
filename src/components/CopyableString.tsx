@@ -16,7 +16,7 @@ export type FormattedStringType =
   (typeof FormattedStringConstants)[keyof typeof FormattedStringConstants];
 
 interface CopyableStringProps {
-  input?: string;
+  input: string;
   stringType: FormattedStringType;
 }
 
@@ -38,8 +38,6 @@ export default function CopyableString({
   input,
   stringType,
 }: CopyableStringProps) {
-  if (!input) return <div>Loading...</div>;
-
   const formattedString = formatString({ input, stringType });
 
   return (

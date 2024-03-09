@@ -3,6 +3,7 @@
 import { BlocksIcon, PercentIcon } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { toast } from "sonner";
+import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import MoneroSubaddress from "~/components/MoneroSubaddress";
 import { Button } from "~/components/ui/button";
 import {
@@ -13,17 +14,11 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { useWallet } from "~/context/useWalletContext";
+import { cn } from "~/lib/utils";
 
 const TinyWallet = () => {
-  const {
-    wallet,
-    currentBlock,
-    endHeight,
-    percentage,
-    isSyncing,
-    setDoRefetch,
-    doRefetch,
-  } = useWallet();
+  const { wallet, currentBlock, endHeight, percentage, isSyncing } =
+    useWallet();
   const [subaddress, setSubaddress] = useState<string | undefined>("");
 
   const createSubaddress = () => {
@@ -36,8 +31,11 @@ const TinyWallet = () => {
       .catch(console.error);
   };
   return (
-    <>
-      {isSyncing ? "connected!" : "not connected"}
+    <div
+      className={cn("space-y-8 rounded-md border-2 p-4", {
+        "border-8 border-dotted border-green-400": isSyncing,
+      })}
+    >
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <MetricCard
           metric={endHeight}
@@ -60,16 +58,11 @@ const TinyWallet = () => {
         />
       </div>
 
-      {subaddress ? (
+      <MaxWidthWrapper className="flex flex-1 flex-col  justify-center gap-4">
         <MoneroSubaddress subaddress={subaddress} />
-      ) : (
-        "no subaddress"
-      )}
-      <Button onClick={createSubaddress}>Subaddress</Button>
-      <Button onClick={() => (setDoRefetch ? setDoRefetch(!doRefetch) : null)}>
-        Refetch
-      </Button>
-    </>
+        <Button onClick={createSubaddress}>Subaddress</Button>
+      </MaxWidthWrapper>
+    </div>
   );
 };
 
