@@ -45,3 +45,4 @@ monero/server-wallet/*
 !monero/server-wallet/.gitkeep
 
 /monero/*log*
+/monero/*

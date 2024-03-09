@@ -118,3 +118,14 @@ export function calculateDeltaToGoal(amount = 0, goal: number | null) {
     ),
   );
 }
+
+export class WalletSingleton {
+  static wallet: moneroTs.MoneroWalletRpc;
+
+  static async getInstance() {
+    if (!WalletSingleton.wallet) {
+      WalletSingleton.wallet = await initWallet();
+    }
+    return WalletSingleton.wallet;
+  }
+}

@@ -8,14 +8,12 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
-import { connectToWalletRpc } from "monero-ts";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { env } from "~/env";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
-import { initWallet } from "~/server/xmrWallet";
+import { WalletSingleton } from "~/server/xmrWallet";
 
 /**
  * 1. CONTEXT
@@ -36,28 +34,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
   // The wallet is only an RPC (service runs externally)
   // and informs us about new payments
   // as well as provides us with new subaddresses for invoices
-  const serverWallet = await initWallet();
-  // try {
-  // } catch (err) {
-  //   console.error(err);
-
-  //   // create a new wallet if ther is none
-  //   const walletRpc = await connectToWalletRpc({
-  //     uri: env.MONERO_RPC_URI,
-  //     rejectUnauthorized: false,
-  //   });
-
-  //   serverWallet = await walletRpc.createWallet({
-  //     path: env.MONERO_WALLET_PATH,
-  //     password: env.MONERO_WALLET_PW,
-  //     seed: env.MONERO_WALLET_SEED,
-  //   });
-
-  //   const seed = await serverWallet.getSeed();
-
-  //   console.log("Created new server-wallet: ", serverWallet);
-  //   console.log({ seed });
-  // }
+  const serverWallet = await WalletSingleton.getInstance();
 
   return {
     db,
