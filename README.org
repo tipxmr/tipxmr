@@ -1,6 +1,6 @@
 #+TITLE: TipXMR.live
 
-[[src/img/logo.png]]
+[[public/logo.png]]
 
 ** Donations
 
