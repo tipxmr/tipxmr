@@ -32,9 +32,12 @@ const TinyWallet = () => {
   };
   return (
     <div
-      className={cn("space-y-8 rounded-md border-2 p-4", {
-        "border-8 border-dotted border-green-400": isSyncing,
-      })}
+      className={cn(
+        "space-y-8 rounded-md border-2 border-8 border-dotted border-red-400 p-4",
+        {
+          "border-green-400": isSyncing,
+        },
+      )}
     >
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <MetricCard
