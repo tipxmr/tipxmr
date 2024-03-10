@@ -26,17 +26,18 @@ import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { useWallet } from "~/context/useWalletContext";
 import { buildIdentifierHash, createWalletFromScratch } from "~/lib/xmr";
+import { clearWalletLocalStorage } from "~/lib/utils";
 
 interface ConfirmWalletOverwriteDialogProps {
   open: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
+  onCreateNewWallet: () => void;
+  onSingInWithExistingWallet: () => void;
 }
 
 const ConfirmWalletOverwriteDialog = ({
   open,
-  onCancel,
-  onConfirm,
+  onSingInWithExistingWallet,
+  onCreateNewWallet,
 }: ConfirmWalletOverwriteDialogProps) => {
   return (
     <AlertDialog open={open}>
@@ -49,8 +50,12 @@ const ConfirmWalletOverwriteDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
+          <AlertDialogCancel onClick={onSingInWithExistingWallet}>
+            Use existing wallet
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={onCreateNewWallet}>
+            Create new wallet
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -147,13 +152,14 @@ const FullWalletCreation = () => {
     <div className="my-4 flex flex-col gap-2">
       <ConfirmWalletOverwriteDialog
         open={showOverwriteDialog}
-        onCancel={() => {
-          setShowOverwriteDialog(false);
-          createNewWallet().catch(console.error);
-        }}
-        onConfirm={() => {
+        onSingInWithExistingWallet={() => {
           setShowOverwriteDialog(false);
           signIntoExistingWallet().catch(console.error);
+        }}
+        onCreateNewWallet={() => {
+          setShowOverwriteDialog(false);
+          clearWalletLocalStorage();
+          createNewWallet().catch(console.error);
         }}
       />
       {seed ? (
