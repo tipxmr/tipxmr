@@ -6,9 +6,20 @@ import {
   RocketIcon,
   ShellIcon,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "~/components/ui/alert-dialog";
+
 import { MoneroNetworkType, createWalletFull } from "monero-ts";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import LanguageSelect from "~/components/LanguageSelect";
 import { Button } from "~/components/ui/button";
@@ -16,68 +27,96 @@ import { Separator } from "~/components/ui/separator";
 import { useWallet } from "~/context/useWalletContext";
 import { buildIdentifierHash, createWalletFromScratch } from "~/lib/xmr";
 
+interface ConfirmWalletOverwriteDialogProps {
+  open: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+const ConfirmWalletOverwriteDialog = ({
+  open,
+  onCancel,
+  onConfirm,
+}: ConfirmWalletOverwriteDialogProps) => {
+  return (
+    <AlertDialog open={open}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Overwrite existing Wallet?</AlertDialogTitle>
+          <AlertDialogDescription>
+            TipXMR detected, you already have a wallet. Do you want to overwrite
+            it and create a new one?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
 const FullWalletCreation = () => {
   const [seedLang, setSeedLang] = useState<string>("English");
   const [seed, setSeed] = useState<string | null>(null);
   const [primaryAddress, setPrimaryAddress] = useState<string | null>(null);
   const [privateViewKey, setPrivateViewKey] = useState<string | null>(null);
+  const [showOverwriteDialog, setShowOverwriteDialog] = useState(false);
 
   const walletContext = useWallet();
+
+  const signIntoExistingWallet = async () => {
+    if (!primaryAddress || !privateViewKey) return;
+
+    const wallet = await createWalletFull({
+      primaryAddress,
+      privateViewKey,
+      networkType: MoneroNetworkType.STAGENET,
+      server: {
+        uri: "stagenet.community.rino.io:38081",
+      },
+    });
+
+    const truncatedHashId = buildIdentifierHash(privateViewKey, primaryAddress);
+
+    walletContext.wallet = wallet;
+    walletContext.truncatedHashId = truncatedHashId;
+    setSeed("no seed");
+    setPrimaryAddress(primaryAddress);
+    setPrivateViewKey(privateViewKey);
+  };
+
+  const createNewWallet = useCallback(async () => {
+    const wallet = await createWalletFromScratch(seedLang);
+    const seed = await wallet.getSeed();
+    const address = await wallet.getPrimaryAddress();
+    const privateViewKey = await wallet.getPrivateViewKey();
+
+    const key = await wallet.getPrivateViewKey();
+
+    localStorage.setItem("address", address);
+    localStorage.setItem("key", key);
+
+    const truncatedHashId = buildIdentifierHash(privateViewKey, address);
+
+    walletContext.wallet = wallet;
+    walletContext.truncatedHashId = truncatedHashId;
+    setSeed(seed);
+    setPrimaryAddress(address);
+    setPrivateViewKey(key);
+  }, [seedLang, walletContext]);
 
   useEffect(() => {
     const primaryAddress = localStorage.getItem("address");
     const privateViewKey = localStorage.getItem("key");
 
-    const signIntoExistingWallet = async () => {
-      if (!primaryAddress || !privateViewKey) return;
-
-      const wallet = await createWalletFull({
-        primaryAddress,
-        privateViewKey,
-        networkType: MoneroNetworkType.STAGENET,
-        server: {
-          uri: "stagenet.community.rino.io:38081",
-        },
-      });
-
-      const truncatedHashId = buildIdentifierHash(
-        privateViewKey,
-        primaryAddress,
-      );
-
-      walletContext.wallet = wallet;
-      walletContext.truncatedHashId = truncatedHashId;
-      setSeed("no seed");
-      setPrimaryAddress(primaryAddress);
-      setPrivateViewKey(privateViewKey);
-    };
-
-    const createNewWallet = async () => {
-      const wallet = await createWalletFromScratch(seedLang);
-      const seed = await wallet.getSeed();
-      const address = await wallet.getPrimaryAddress();
-      const privateViewKey = await wallet.getPrivateViewKey();
-
-      const key = await wallet.getPrivateViewKey();
-
-      localStorage.setItem("address", address);
-      localStorage.setItem("key", key);
-
-      const truncatedHashId = buildIdentifierHash(privateViewKey, address);
-
-      walletContext.wallet = wallet;
-      walletContext.truncatedHashId = truncatedHashId;
-      setSeed(seed);
-      setPrimaryAddress(address);
-      setPrivateViewKey(key);
-    };
-
     if (primaryAddress && privateViewKey) {
-      signIntoExistingWallet().catch(console.error);
+      setShowOverwriteDialog(true);
     } else {
       createNewWallet().catch(console.error);
     }
-  }, [seedLang, walletContext]);
+  }, [createNewWallet, seedLang, walletContext]);
 
   const handleSetSeedLang = (language: string) => {
     setSeed(null);
@@ -106,6 +145,17 @@ const FullWalletCreation = () => {
 
   return (
     <div className="my-4 flex flex-col gap-2">
+      <ConfirmWalletOverwriteDialog
+        open={showOverwriteDialog}
+        onCancel={() => {
+          setShowOverwriteDialog(false);
+          createNewWallet().catch(console.error);
+        }}
+        onConfirm={() => {
+          setShowOverwriteDialog(false);
+          signIntoExistingWallet().catch(console.error);
+        }}
+      />
       {seed ? (
         <div className="grid grid-flow-row grid-cols-1 items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="md:col-span-2 lg:col-span-1">
