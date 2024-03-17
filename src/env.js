@@ -50,7 +50,7 @@ export const env = createEnv({
     NEXT_PUBLIC_MONERO_DAEMON_URL: z.string().default("http://localhost:38081"),
     NEXT_PUBLIC_MONERO_DAEMON_USER: z.string().default("tipxmr"),
     NEXT_PUBLIC_MONERO_DAEMON_PASSWORD: z.string().default("tipxmr"),
-    NEXT_PUBLIC_WS_URL: z.string().default("http://localhost:3000/api/ws")
+    NEXT_PUBLIC_WS_URL: z.string().default("ws://localhost:3000/api/ws")
   },
 
   /**
