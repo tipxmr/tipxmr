@@ -11,7 +11,7 @@ const CreateStreamerSubaddress = ({
 }: {
   streamerName: string;
 }) => {
-  const socket = io();
+  const socket = io("http://localhost:3001");
   const [subaddress, setSubaddress] = useState<string>(
     "no subaddress recieved",
   );
