@@ -29,7 +29,7 @@ export const env = createEnv({
       process.env.VERCEL ? z.string() : z.string().url(),
     ),
     DOMAIN: z.string(),
-    WEBSOCKET_PORT: z.number().default(3001),
+    WEBSOCKET_PORT: z.coerce.number().default(3001),
     CORS_ORIGIN: z.string(),
     MONERO_RPC_URI: z.string(),
     MONERO_WALLET_PATH: z.string(),
