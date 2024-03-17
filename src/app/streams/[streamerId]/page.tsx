@@ -1,3 +1,4 @@
+import CreateStreamerSubaddress from "~/components/CreateStreamerSubaddress";
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import { api } from "~/trpc/server";
 
@@ -11,5 +12,10 @@ export default async function StreamerDetailPage({ params }: Props) {
   const streamerDetail = await api.streamer.getById.query({
     id: params.streamerId,
   });
-  return <MaxWidthWrapper>{streamerDetail.alias}</MaxWidthWrapper>;
+  return (
+    <MaxWidthWrapper>
+      <>{streamerDetail.alias}</>
+      <CreateStreamerSubaddress streamerName={streamerDetail.alias} />
+    </MaxWidthWrapper>
+  );
 }

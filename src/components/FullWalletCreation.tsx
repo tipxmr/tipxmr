@@ -27,6 +27,7 @@ import { Separator } from "~/components/ui/separator";
 import { useWallet } from "~/context/useWalletContext";
 import { buildIdentifierHash, createWalletFromScratch } from "~/lib/xmr";
 import { clearWalletLocalStorage } from "~/lib/utils";
+import { CredentialBox } from "./CredentialBox";
 
 interface ConfirmWalletOverwriteDialogProps {
   open: boolean;
@@ -64,9 +65,9 @@ const ConfirmWalletOverwriteDialog = ({
 
 const FullWalletCreation = () => {
   const [seedLang, setSeedLang] = useState<string>("English");
-  const [seed, setSeed] = useState<string | null>(null);
-  const [primaryAddress, setPrimaryAddress] = useState<string | null>(null);
-  const [privateViewKey, setPrivateViewKey] = useState<string | null>(null);
+  const [seed, setSeed] = useState<string>();
+  const [primaryAddress, setPrimaryAddress] = useState<string>();
+  const [privateViewKey, setPrivateViewKey] = useState<string>();
   const [showOverwriteDialog, setShowOverwriteDialog] = useState(false);
 
   const walletContext = useWallet();
@@ -124,9 +125,9 @@ const FullWalletCreation = () => {
   }, [createNewWallet, seedLang, walletContext]);
 
   const handleSetSeedLang = (language: string) => {
-    setSeed(null);
-    setPrimaryAddress(null);
-    setPrivateViewKey(null);
+    setSeed(undefined);
+    setPrimaryAddress(undefined);
+    setPrivateViewKey(undefined);
     setSeedLang(language);
   };
 
@@ -165,12 +166,12 @@ const FullWalletCreation = () => {
       {seed ? (
         <div className="grid grid-flow-row grid-cols-1 items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="md:col-span-2 lg:col-span-1">
-            <CredentialBox text={seed} label="Seed phrase" />
+            <CredentialBox text={seed} label="Your Seed Phrase" />
           </div>
 
-          <CredentialBox text={privateViewKey} label="Private ViewKey" />
+          <CredentialBox text={privateViewKey} label="Your Private ViewKey" />
 
-          <CredentialBox text={primaryAddress} label="Primary Address" />
+          <CredentialBox text={primaryAddress} label="Your Primary Address" />
         </div>
       ) : (
         <ShellIcon className="mx-auto my-12 h-12 w-12 animate-spin" />
@@ -210,23 +211,5 @@ const FullWalletCreation = () => {
     </div>
   );
 };
-
-function CredentialBox({
-  text,
-  label,
-}: {
-  text: string | null;
-  label: string;
-}) {
-  if (!text) return null;
-  return (
-    <div className="flex h-full flex-col space-y-4 break-words rounded-md border border-border p-8 font-mono">
-      <p className="text-right lowercase tracking-tight text-muted-foreground">
-        your {label}
-      </p>
-      <p>{text}</p>
-    </div>
-  );
-}
 
 export default FullWalletCreation;
