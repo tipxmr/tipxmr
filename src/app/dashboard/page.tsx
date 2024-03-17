@@ -9,6 +9,7 @@ import StreamForm from "./StreamForm";
 import { PartyPopperIcon } from "lucide-react";
 import { Suspense } from "react";
 import TinyWallet from "./TinyWallet";
+import CreateStreamerSubaddress from "~/components/CreateStreamerSubaddress";
 
 export default async function DashboardPage() {
   const session = await getServerAuthSession();
@@ -45,6 +46,7 @@ export default async function DashboardPage() {
         {dashboardInfo?.donationSetting ? <DonationSettingForm /> : null}
       </div>
       <Separator />
+      <CreateStreamerSubaddress streamerName={session.user.alias} />
     </MaxWidthWrapper>
   );
 }
