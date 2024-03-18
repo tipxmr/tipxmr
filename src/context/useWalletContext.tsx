@@ -44,6 +44,9 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [currentBlock, setCurrentBlock] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [endHeight, setEndHeight] = useState(0);
+  const [walletState, setWalletState] = useState<
+    "offline" | "connected" | "syncing" | "synced"
+  >("offline");
   const [doRefetch, setDoRefetch] = useState(false);
 
   const { data: currentHeight } =
@@ -62,6 +65,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
         networkType: MoneroNetworkType.STAGENET,
         server,
       });
+      setWalletState("connected");
 
       await openedWallet.addListener(
         new (class extends MoneroWalletListener {
@@ -72,12 +76,18 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
             percentDone: number,
             message: string,
           ) {
+            if (walletState !== "syncing") {
+              setWalletState("syncing");
+            }
             const percentage = Math.floor(percentDone * 100);
             setPercentage(percentage);
             setEndHeight(endHeight);
             setCurrentBlock(height);
             if (height % 10000 === 0) {
               localStorage.setItem("height", height.toString());
+            }
+            if (percentDone === 1) {
+              setWalletState("synced");
             }
           }
         })(),
@@ -100,15 +110,16 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     <WalletContext.Provider
       value={useMemo(
         () => ({
-          wallet,
-          isSyncing,
-          truncatedHashId,
-          setTruncatedHashId,
-          setDoRefetch,
+          currentBlock,
           doRefetch,
           endHeight,
+          isSyncing,
           percentage,
-          currentBlock,
+          setDoRefetch,
+          setTruncatedHashId,
+          truncatedHashId,
+          wallet,
+          walletState,
         }),
         [
           currentBlock,
@@ -118,6 +129,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
           percentage,
           truncatedHashId,
           wallet,
+          walletState,
         ],
       )}
     >

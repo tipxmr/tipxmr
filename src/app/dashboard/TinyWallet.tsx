@@ -17,8 +17,14 @@ import { useWallet } from "~/context/useWalletContext";
 import { cn } from "~/lib/utils";
 
 const TinyWallet = () => {
-  const { wallet, currentBlock, endHeight, percentage, isSyncing } =
-    useWallet();
+  const {
+    wallet,
+    walletState,
+    currentBlock,
+    endHeight,
+    percentage,
+    isSyncing,
+  } = useWallet();
   const [subaddress, setSubaddress] = useState<string | undefined>("");
 
   const createSubaddress = () => {
@@ -39,6 +45,9 @@ const TinyWallet = () => {
         },
       )}
     >
+      <div className="w-full text-right text-sm text-muted text-muted">
+        {walletState}
+      </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <MetricCard
           metric={endHeight}
@@ -50,13 +59,13 @@ const TinyWallet = () => {
         <MetricCard
           metric={currentBlock}
           metricSuffix="blocks"
-          label="Current Block"
+          label="Current Height"
           icon={<BlocksIcon />}
         />
         <MetricCard
           metric={percentage}
           metricSuffix="%"
-          label="Sync Percentage"
+          label="Sync"
           icon={<PercentIcon />}
         />
       </div>
@@ -83,16 +92,19 @@ function MetricCard({ metric, metricSuffix, label, icon }: MetricCardProps) {
     <Card>
       <CardHeader>
         <div className="flex w-full flex-1 justify-between">
-          <CardTitle>{label}</CardTitle>
+          <CardTitle className="text-xl">{label}</CardTitle>
           {icon}
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-2xl font-bold tracking-tight">
-          {metric?.toString()}
+        <p>
+          <span className="text-2xl font-bold tracking-tight">
+            {metric?.toString()}
+          </span>{" "}
+          <span className="text-muted-foreground">{metricSuffix}</span>
         </p>
       </CardContent>
-      <CardFooter className="text-muted-foreground">{metricSuffix}</CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }
