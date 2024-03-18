@@ -1,9 +1,9 @@
 import { Streamer } from "@prisma/client";
-import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
 import { queryClient } from "~/app/provider";
+import { useWallet } from "~/context/useWalletContext";
 import { DonationSocket, StreamerSocket } from "~/server/socket/namespace";
 // import { transactionAddressAtom, walletAtom } from "~/store";
 
@@ -15,10 +15,10 @@ const streamerKeys = {
 
 export default streamerKeys;
 export const useStreamerSocket = () => {
-  const [wallet] = useAtom(walletAtom);
+  const { wallet } = useWallet();
 
   useEffect(() => {
-    const socket: StreamerSocket = io("http://localhost:3000/streamer", {
+    const socket: StreamerSocket = io("http://localhost:3001/streamer", {
       path: "/api/socket",
     });
 
@@ -27,7 +27,7 @@ export const useStreamerSocket = () => {
     });
 
     socket.on("connect", () => {
-      socket.emit("online", socket.id);
+      socket.emit("online", socket.id ?? "");
       queryClient.invalidateQueries(streamerKeys.online());
     });
 
@@ -42,7 +42,7 @@ export const useStreamerSocket = () => {
       // We could push the socketIds into the state to know where the
       // new address belongs to
       const subaddress = await wallet?.createSubaddress(0, "test");
-      const address = await subaddress?.getAddress();
+      const address = subaddress?.getAddress();
 
       if (address) {
         socket.emit("fetched", {
@@ -66,7 +66,7 @@ export const useStreamerSocket = () => {
 };
 
 export function useDonationSocket(streamerId: Streamer["id"]) {
-  const setTransactionAddress = useSetAtom(transactionAddressAtom);
+  // const setTransactionAddress = useSetAtom(transactionAddressAtom);
 
   useEffect(() => {
     console.log({ streamerId });
@@ -75,7 +75,7 @@ export function useDonationSocket(streamerId: Streamer["id"]) {
       return;
     }
 
-    const socket: DonationSocket = io("http://localhost:3000/donation", {
+    const socket: DonationSocket = io("http://localhost:3001/donation", {
       path: "/api/socket",
     });
 
@@ -90,5 +90,8 @@ export function useDonationSocket(streamerId: Streamer["id"]) {
     return () => {
       socket.disconnect();
     };
-  }, [setTransactionAddress, streamerId]);
+  }, [
+    // setTransactionAddress,
+    streamerId,
+  ]);
 }

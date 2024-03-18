@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSetAtom } from "jotai";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,7 +18,6 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { walletAtom } from "~/lib/store";
 import { buildIdentifierHash, createViewOnlyWallet } from "~/lib/xmr";
 
 const FormSchema = z.object({
@@ -28,7 +26,6 @@ const FormSchema = z.object({
 });
 
 const ViewWalletInput = () => {
-  const setWallet = useSetAtom(walletAtom);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -46,7 +43,6 @@ const ViewWalletInput = () => {
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    setWallet(wallet);
     await signIn(id);
 
     setIsLoading(false);

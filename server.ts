@@ -6,7 +6,7 @@ import { env } from "~/env";
 const httpServer = createServer();
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
-const PORT = env.WEBSOCKET_PORT ?? 3000;
+const PORT = env.WEBSOCKET_PORT ?? 3001;
 const io = new Server(httpServer, {});
 const handle = app.getRequestHandler();
 

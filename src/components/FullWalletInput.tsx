@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSetAtom } from "jotai";
 import { LightbulbIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -9,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { walletAtom } from "~/lib/store";
 import { buildIdentifierHash, open } from "~/lib/xmr";
 import { Button } from "~/components/ui/button";
 import {
@@ -28,7 +26,6 @@ const FormSchema = z.object({
 });
 
 const FullWalletInput = () => {
-  const setWallet = useSetAtom(walletAtom);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -43,7 +40,6 @@ const FullWalletInput = () => {
     const privateViewKey = await wallet.getPrivateViewKey();
     const primaryAddress = await wallet.getPrimaryAddress();
     const id = buildIdentifierHash(privateViewKey, primaryAddress);
-    setWallet(wallet);
 
     await signIn("credentials", { identifierHash: id });
     setIsLoading(false);
